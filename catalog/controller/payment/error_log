@@ -1,0 +1,1 @@
+[25-Nov-2019 05:36:14 UTC] PHP Fatal error:  Class 'Controller' not found in /home/willowba/public_html/catalog/controller/payment/authorizenet_aim.php on line 2

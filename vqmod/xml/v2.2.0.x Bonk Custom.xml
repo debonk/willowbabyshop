@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+        <id>Bonk Customization for OpenCart v2.2.0.x</id>
+        <version>1.0.0</version>
+        <vqmver>2.6.2</vqmver>
+        <author>Bonk</author>
+
+//=======================================================================================================================
+// 20160905 - Custom Success Checkout Text
+//=======================================================================================================================
+
+	<file name="catalog\language\en-gb\checkout\success.php">
+		<operation>
+		   <search position="replace" error="skip" index="1"><![CDATA[to the <a href="%s">store owner</a>.]]></search>
+			<add><![CDATA[at the <a href="%s">contact page</a>.]]></add>
+		</operation>
+	</file>
+
+//=======================================================================================================================
+// 20161028 - Google Re-captcha Layout
+//=======================================================================================================================
+
+	<file name="catalog\language\en-gb\captcha\google_captcha.php">
+		<operation> 
+		   <search position="replace" error="skip" offset="4"><![CDATA[$_['text_captcha'] = 'Captcha';]]></search>
+			<add><![CDATA[$_['text_captcha'] = 'Please complete the captcha validation below';
+
+// Entry
+$_['entry_captcha'] = 'Captcha';]]>
+			</add>
+		</operation>
+	</file>
+	<file name="catalog\view\theme\default\template\captcha\google_captcha.tpl">
+		<operation> 
+		   <search position="replace" error="skip"><![CDATA[<label class="col-sm-2 control-label">]]></search>
+			<add><![CDATA[<label class="col-sm-3 control-label">]]></add>
+		</operation>
+		<operation>
+		   <search position="replace" error="skip"><![CDATA[<div class="col-sm-10">]]></search>
+			<add><![CDATA[<div class="col-sm-9">]]></add>
+		</operation>
+	</file>
+
+</modification>

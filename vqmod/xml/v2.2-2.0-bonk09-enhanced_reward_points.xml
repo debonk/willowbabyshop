@@ -1,0 +1,301 @@
+<modification>
+	<id>Bonk09: Enhanced Reward Points</id>
+	<version>v2.2-2.0</version>
+	<vqmver>2.5.1</vqmver>
+	<author>Bonk: kumumufashion@gmail.com</author>
+
+	<file name="catalog/model/total/reward.php">
+		<operation>
+            <search position="after"><![CDATA[
+            $points = min($points, $points_total);
+            ]]></search>
+            <add><![CDATA[
+				//Bonk
+				if ($this->config->get('reward_sub_calc')) {
+					$discount_total = $this->session->data['reward'];
+				} else {
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="before"><![CDATA[
+            $total['totals'][] = array(
+            ]]></search>
+            <add><![CDATA[
+				}
+            ]]></add>
+        </operation>
+	</file>
+	<file name="catalog/controller/total/reward.php">
+		<operation>
+            <search position="before" index="1,2"><![CDATA[
+            foreach ($this->cart->getProducts() as $product) {
+            ]]></search>
+            <add><![CDATA[
+		//Bonk
+		if ($this->config->get('reward_sub_calc')) {
+			$points_total = $this->cart->getSubTotal();
+		} else {
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="before"><![CDATA[
+            if ($points && $points_total && $this->config->get('reward_status')) {
+            ]]></search>
+            <add><![CDATA[
+		}
+		
+		//Bonk
+		$interval = $this->config->get('reward_interval');
+		$i = min(ceil($points_total * $this->config->get('reward_max_subtotal') / (100 * $interval)),floor($points/$interval));
+		$points_total = $i * $interval;
+		
+		$data['set_rewards'] = array ();
+			for ($x = 0; $x <= $i; $x++) {
+			$data['set_rewards'][$x] = $x * $interval;
+		}
+		
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="replace"><![CDATA[
+            if (empty($this->request->post['reward'])) {
+            ]]></search>
+            <add><![CDATA[
+		}
+
+		//Bonk
+		$interval = $this->config->get('reward_interval');
+		$i = min(ceil($points_total * $this->config->get('reward_max_subtotal') / (100 * $interval)),floor($points/$interval));
+		$points_total = $i * $interval;
+
+/*		if (empty($this->request->post['reward'])) {
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="before"><![CDATA[
+            if ($this->request->post['reward'] > $points) {
+            ]]></search>
+            <add><![CDATA[
+*/
+            ]]></add>
+        </operation>
+	</file>
+
+	<file name="catalog/view/theme/default/template/total/reward.tpl">
+        <operation>
+            <search position="replace"><![CDATA[
+            <div class="input-group">
+            ]]></search>
+            <add><![CDATA[
+	  <!--Bonk-->	  
+      <div class="col-sm-10 form-group">
+			]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[
+            <input type="text" name="reward" value="<?php echo $reward; ?>" placeholder="<?php echo $entry_reward; ?>" id="input-reward" class="form-control" />
+            ]]></search>
+            <add><![CDATA[
+		<select name="reward" id="input-reward" class="form-control">
+        <?php foreach ($set_rewards as $set_reward) { ?>
+                <?php if ($set_reward == $reward) { ?>
+                  <option value="<?php echo $set_reward; ?>" selected="selected"><?php echo $set_reward; ?></option>
+                <?php } else { ?>
+                  <option value="<?php echo $set_reward; ?>"><?php echo $set_reward; ?></option> 
+                <?php } ?>
+		<?php } ?>
+		</select>
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[
+            <span class="input-group-btn">
+            ]]></search>
+            <add><![CDATA[
+		</div>
+     <div>   
+			]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[
+            </span></div>
+            ]]></search>
+            <add><![CDATA[
+		</div>
+			]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[
+            data: 'reward=' + encodeURIComponent($('input[name=\'reward\']').val()),
+            ]]></search>
+            <add><![CDATA[
+		data: 'reward=' + encodeURIComponent($('select[name=\'reward\']').val()),/*Bonk*/
+			]]></add>
+        </operation>
+	</file>
+	
+	<file name="willowmgr12/controller/total/reward.php">
+        <operation>
+            <search position="before"><![CDATA[
+            $data['entry_status'] = $this->language->get('entry_status');
+            ]]></search>
+            <add><![CDATA[		//Bonk09-C1
+		$data['help_percent_gain'] = $this->language->get('help_percent_gain');
+		$data['help_max_subtotal'] = $this->language->get('help_max_subtotal');
+		$data['help_interval'] = $this->language->get('help_interval');
+		$data['help_sub_calc'] = $this->language->get('help_sub_calc');
+
+		$data['entry_percent_gain'] = $this->language->get('entry_percent_gain');
+		$data['entry_max_subtotal'] = $this->language->get('entry_max_subtotal');
+		$data['entry_interval'] = $this->language->get('entry_interval');
+		$data['entry_sub_calc'] = $this->language->get('entry_sub_calc');
+		//Bonk09-C1E]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[
+            if (isset($this->request->post['reward_status'])) {
+            ]]></search>
+            <add><![CDATA[		//Bonk09-C2
+		if (isset($this->request->post['reward_percent_gain'])) {
+			$data['reward_percent_gain'] = $this->request->post['reward_percent_gain'];
+		} else {
+			$data['reward_percent_gain'] = $this->config->get('reward_percent_gain');
+		}
+
+		if (isset($this->request->post['reward_sub_calc'])) {
+			$data['reward_sub_calc'] = $this->request->post['reward_sub_calc'];
+		} else {
+			$data['reward_sub_calc'] = $this->config->get('reward_sub_calc');
+		}
+
+		if (isset($this->request->post['reward_max_subtotal'])) {
+			$data['reward_max_subtotal'] = $this->request->post['reward_max_subtotal'];
+		} else {
+			$data['reward_max_subtotal'] = $this->config->get('reward_max_subtotal');
+		}
+
+		if (isset($this->request->post['reward_interval'])) {
+			$data['reward_interval'] = $this->request->post['reward_interval'];
+		} else {
+			$data['reward_interval'] = $this->config->get('reward_interval');
+		}
+		//Bonk09-C2E
+		]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[
+            return !$this->error;
+            ]]></search>
+            <add><![CDATA[		//Bonk09-C3
+		if (($this->request->post['reward_percent_gain'] < 0) or ($this->request->post['reward_percent_gain'] > 100)) {
+			$this->error['warning'] = $this->language->get('error_percent_gain');
+		}
+
+		if (($this->request->post['reward_max_subtotal'] < 0) or ($this->request->post['reward_max_subtotal'] > 100)) {
+			$this->error['warning'] = $this->language->get('error_max_subtotal');
+		}
+
+		if ($this->request->post['reward_interval'] <= 0) {
+			$this->error['warning'] = $this->language->get('error_interval');
+		}
+		//Bonk09-C3E
+            ]]></add>
+        </operation>
+	</file>
+
+	<file name="willowmgr12/language/en-gb/total/reward.php">
+        <operation>
+            <search position="after"><![CDATA[
+            $_['entry_sort_order'] = 'Sort Order';
+            ]]></search>
+            <add><![CDATA[//Bonk09-L1
+$_['entry_percent_gain'] = 'Amount Reward Gain (%)';
+$_['entry_sub_calc']	= 'Use Subtotal for Use';
+$_['entry_max_subtotal'] = 'Max Payment by Points (%)';
+$_['entry_interval']	= 'Interval Point';
+//Bonk09-L1E]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[
+            $_['error_permission'] = 'Warning: You do not have permission to modify reward points total!';
+            ]]></search>
+            <add><![CDATA[//Bonk09-L2
+$_['error_percent_gain']	= 'Amount Reward Gain must be between 0 to 100%';
+$_['error_max_subtotal']	= 'Max Payment by Points must be between 0 to 100%';
+$_['error_interval']	= 'Interval Point must be greater than 0';
+
+//Help
+$_['help_percent_gain'] = 'Amount points gain by percentage of subtotal. Leave blank by sum of product reward.';
+$_['help_max_subtotal'] = 'Percentage of subtotal that maximum points can be applied';
+$_['help_interval'] = 'Set an interval for applying points';
+$_['help_sub_calc'] = 'Use subtotal for using point calculation instead of product points';
+//Bonk09-L2E]]></add>
+        </operation>
+	</file>
+	
+	<file name="willowmgr12/view/template/total/reward.tpl">
+		<operation>
+            <search position="after"><![CDATA[
+            <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-reward" class="form-horizontal">
+            ]]></search>
+            <add><![CDATA[		  <!--Bonk09-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-percent-gain"><span data-toggle="tooltip" title="<?php echo $help_percent_gain; ?>"><?php echo $entry_percent_gain; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_percent_gain" value="<?php echo $reward_percent_gain; ?>" placeholder="<?php echo $entry_percent_gain; ?>" id="input-percent-gain" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_sub_calc; ?>"><?php echo $entry_sub_calc; ?></span></label>
+            <div class="col-sm-10">
+				<?php if ($reward_sub_calc) { ?>
+				   <input type="checkbox" name="reward_sub_calc"  checked="checked" class="form-control" />
+				<?php } else { ?>
+				   <input type="checkbox" name="reward_sub_calc"  class="form-control" />
+				<?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-max-subtotal"><span data-toggle="tooltip" title="<?php echo $help_max_subtotal; ?>"><?php echo $entry_max_subtotal; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_max_subtotal" value="<?php echo $reward_max_subtotal; ?>" placeholder="<?php echo $entry_max_subtotal; ?>" id="input-max-subtotal" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-interval"><span data-toggle="tooltip" title="<?php echo $help_interval; ?>"><?php echo $entry_interval; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_interval" value="<?php echo $reward_interval; ?>" placeholder="<?php echo $entry_interval; ?>" id="input-interval" class="form-control" />
+            </div>
+          </div>
+            ]]></add>
+        </operation>
+	</file>
+
+	<file name="willowmgr12/model/sale/order.php">
+        <operation>
+            <search position="before"><![CDATA[
+            $order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+            ]]></search>
+            <add><![CDATA[			//Bonk09-M1
+			if ($this->config->get('reward_percent_gain') > 0) {
+				$order_totals = $this->getOrderTotals((int)$order_id);
+
+				foreach ($order_totals as $order_total) {
+					if ($order_total['code'] == 'sub_total') {
+						$reward = ceil($order_total['value'] * $this->config->get('reward_percent_gain') / 100);
+					}
+				}
+			} else {
+			//Bonk09-M1E]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[
+            if ($order_query->row['affiliate_id']) {
+            ]]></search>
+            <add><![CDATA[			//Bonk09-M2
+			}
+			//Bonk09-M2E]]></add>
+        </operation>
+	</file>
+	
+</modification>

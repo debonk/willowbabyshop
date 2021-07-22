@@ -1,0 +1,20 @@
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 88
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 108
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_MODIFICATION - assumed 'DIR_MODIFICATION' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 71
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_APPLICATION - assumed 'DIR_APPLICATION' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 71
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 76
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 76
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_MODIFICATION - assumed 'DIR_MODIFICATION' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 77
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' (this will throw an Error in a future version of PHP) in /home/willowba/public_html/system/startup.php on line 77
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Warning:  require_once(DIR_SYSTEMengine/action.php): failed to open stream: No such file or directory in /home/willowba/public_html/system/startup.php on line 108
+[25-Nov-2019 12:36:16 Asia/Jakarta] PHP Fatal error:  require_once(): Failed opening required 'DIR_SYSTEMengine/action.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/willowba/public_html/system/startup.php on line 108
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home2/willowba/public_html/system/startup.php on line 88
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home2/willowba/public_html/system/startup.php on line 108
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_MODIFICATION - assumed 'DIR_MODIFICATION' in /home2/willowba/public_html/system/startup.php on line 71
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_APPLICATION - assumed 'DIR_APPLICATION' in /home2/willowba/public_html/system/startup.php on line 71
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home2/willowba/public_html/system/startup.php on line 76
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home2/willowba/public_html/system/startup.php on line 76
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_MODIFICATION - assumed 'DIR_MODIFICATION' in /home2/willowba/public_html/system/startup.php on line 77
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home2/willowba/public_html/system/startup.php on line 77
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Warning:  require_once(DIR_SYSTEMengine/action.php): failed to open stream: No such file or directory in /home2/willowba/public_html/system/startup.php on line 108
+[19-Jul-2020 06:16:59 Asia/Jakarta] PHP Fatal error:  require_once(): Failed opening required 'DIR_SYSTEMengine/action.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home2/willowba/public_html/system/startup.php on line 108

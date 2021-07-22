@@ -1,0 +1,54 @@
+<modification>
+	<name>FAQ for OpenCart 2.2.0.x</name>
+	<code>FX-FAQ2k2</code>
+	<version>2.0</version>
+	<author>Fido-X</author>
+	<link>http://www.fido-x.net</link>
+
+	<!-- SEO URLs -->
+	<file path="catalog/controller/startup/seo_url.php">
+		<operation>
+			<search limit="1"><![CDATA[if ($url[0] == 'manufacturer_id') {]]></search>
+			<add position="before"><![CDATA[					if ($url[0] == 'faq_id') {
+						if (!isset($this->request->get['topic'])) {
+							$this->request->get['topic'] = $url[1];
+						} else {
+							$this->request->get['topic'] .= '_' . $url[1];
+						}
+					}	
+]]></add>
+		</operation>
+
+		<operation>
+			<search limit="1"><![CDATA[&& $url[0] != 'category_id']]></search>
+			<add position="replace"><![CDATA[&& $url[0] != 'category_id' && $url[0] != 'faq_id']]></add>
+		</operation>
+
+		<operation>
+			<search limit="1"><![CDATA[} elseif (isset($this->request->get['manufacturer_id'])) {]]></search>
+			<add position="before"><![CDATA[				} elseif (isset($this->request->get['topic'])) {
+					$this->request->get['route'] = 'information/faq';]]></add>
+		</operation>
+
+		<operation>
+			<search limit="1"><![CDATA[} elseif ($key == 'path') {]]></search>
+			<add position="before"><![CDATA[				} elseif ($key == 'topic') {
+					$faqs = explode('_', $value);
+
+					foreach ($faqs as $faq) {
+						$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = 'faq_id=" . (int)$faq . "'");
+
+						if ($query->num_rows && $query->row['keyword']) {
+							$url .= '/' . $query->row['keyword'];
+						} else {
+							$url = '';
+
+							break;
+						}
+					}
+
+					unset($data[$key]);]]></add>
+		</operation>
+	</file>
+	<!-- end SEO URLs -->
+</modification>

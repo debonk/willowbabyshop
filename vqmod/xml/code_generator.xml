@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Coupon-Voucher Code Generator</name>
+    <version>1.0</version>
+	<code>coupon_voucher_generator</code>
+    <author>aatwa86@gmail.com</author>
+    <link></link>
+    <file path="admin/view/template/marketing/coupon_form.tpl">
+        <operation>
+ 			<search><![CDATA[<input type="text" name="code" value="<?php echo $code; ?>" placeholder="<?php echo $entry_code; ?>" id="input-code" class="form-control" />]]>
+			</search>
+			<add position="replace">
+				<![CDATA[
+                  <input type="text" name="code" value="<?php echo $code; ?>" placeholder="<?php echo $entry_code; ?>" id="input-code" class="form-control"  style="position:absolute; width:90%" />
+				  <input type="button" onclick="genCode()" value="Generate" class="btn btn-danger pull-right" style="position:relative;" />]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<?php echo $footer; ?>]]>
+			</search>
+			<add position="after"><![CDATA[
+			<script type="text/javascript"><!--
+			function genCode(){
+	var t = new Array();
+	t[0] = "0123456789";
+	var rndStr = '';
+	var type = 0;
+	for( var i = 0; i < 10; i++ ){
+		rndStr += t[type][Math.floor(Math.random() * t[type].length)];
+	}
+   document.getElementById("input-code").value =  rndStr;
+}
+//--></script>]]>	
+		</add>
+       </operation>
+    </file>  
+	
+	<!--- Vouchers -->
+	<file path="admin/view/template/sale/voucher_form.tpl">
+        <operation>
+ 			<search><![CDATA[<input type="text" name="code" value="<?php echo $code; ?>" placeholder="<?php echo $entry_code; ?>" id="input-code" class="form-control" />]]>
+			</search>
+			<add position="replace">
+				<![CDATA[<input type="text" name="code" value="<?php echo $code; ?>" placeholder="<?php echo $entry_code; ?>" id="input-code" class="form-control"  style="position:absolute; width:90%" />
+					<input type="button" onclick="genCode()" value="Generate" class="btn btn-danger pull-right" style="position:relative;" />]]>
+		</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<?php echo $footer; ?>]]>
+			</search>
+			<add position="before"><![CDATA[
+	<script type="text/javascript"><!--
+	function genCode(){
+	var t = new Array();
+	t[0] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcedfghijklmnopqrstuvwxyz";
+	var rndStr = "";
+	var type = 0;
+	for( var i = 0; i < 10; i++ ){
+		rndStr += t[type][Math.floor(Math.random() * t[type].length)];
+	}
+   document.getElementById("input-code").value =  rndStr;
+}
+//--></script>]]>	
+		</add>
+       </operation>
+    </file>
+</modification>
