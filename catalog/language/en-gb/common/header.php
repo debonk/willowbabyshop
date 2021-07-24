@@ -13,7 +13,6 @@ $_['text_download']      = 'Downloads';
 $_['text_logout']        = 'Logout';
 $_['text_checkout']      = 'Checkout';
 $_['text_search']        = 'Search';
-$_['text_shopee']        = 'Integrate with Shopee';
 /*$_['text_greeting'] 	 = 'Welcome, Guest';
 $_['text_logged']   	 = 'Welcome back, %s';
 $_['text_reward'] 	 = '<br />You have %d <a href="index.php?route=account/reward">Reward Points</a>';

@@ -12284,7 +12284,7 @@ div.required .control-label:before {
 	float: none;
 }
 .u-cart-input {
-//  padding: 13px 5px;
+  /* padding: 13px 5px; */
   text-align: center;
   min-width: 55px;
 }
@@ -12337,16 +12337,3 @@ header .right-panel {
   margin-top: 50px;
   background-size: 100%;
 }
-
-.btn-shopee {
-	color: rgb(255, 255, 255);
-	background-color: rgb(238, 77, 45);
-	border-color: #d41830;
-	border-radius: 15px;
-  }
-  .btn-shopee:hover {
-	color: #fff;
-	background-color: #d41830;
-	border-color: #d41830;
-  }
-  

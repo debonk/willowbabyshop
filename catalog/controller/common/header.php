@@ -171,28 +171,6 @@ class ControllerCommonHeader extends Controller
 			}
 		}
 
-		# Shopee Widget
-		$customer_logged = $this->customer->isLogged();
-
-		if ($customer_logged) {
-			$timestamp = time();
-
-			$the_code = "44989940d07b6988b18e16cc08abcc9d";
-			$partner_id = "1001839";
-			$partner_key = "f00c1e2c5608fcb0c0c499ac7bd6a9508842c8a683e1aecc29f8acc9d603b79b";
-			$api_path = "/api/v2/shop/auth_partner";
-			$shop_id = "15797";
-
-
-			$stringToSign = $partner_id . $api_path . $timestamp;
-
-			$data['timestamp'] = $timestamp;
-			$data['auth_signature'] = hash_hmac('sha256', $stringToSign, $partner_key, false);
-		}
-
-		$data['customer_logged'] = $customer_logged ? $customer_logged : '';
-		# Shopee Widget End
-
 		$data['language'] = $this->load->controller('common/language');
 		$data['currency'] = $this->load->controller('common/currency');
 		$data['search'] = $this->load->controller('common/search');

@@ -31,85 +31,76 @@
 						<?php } ?>
 					</div>
 					<div class="col-sm-4 col-sm-push-4 col-xs-3 right-panel">
-						<div>
-							<div id="cart-top" class="col-xs-1 pull-right">
-								<?php echo $cart; ?>
+						<div id="cart-top" class="col-xs-1 pull-right">
+							<?php echo $cart; ?>
+						</div>
+						<div id="setting" class="dropdown col-xs-1 pull-right">
+							<div class="dropdown-toggle text-center" data-toggle="dropdown">
+								<i class="fa fa-cog fa-lg"></i>
 							</div>
-							<div id="setting" class="dropdown col-xs-1 pull-right">
-								<div class="dropdown-toggle text-center" data-toggle="dropdown">
-									<i class="fa fa-cog fa-lg"></i>
-								</div>
-								<ul class="dropdown-menu box-setting">
-									<li>
-										<h5>ACCOUNT</h5>
-									</li>
-									<li class="language">
-										<?php echo $language; ?>
-									</li>
-									<li class="currency">
-										<?php echo $currency; ?>
-									</li>
-									<li class="account">
-										<ul>
-											<?php if ($logged) { ?>
-											<li><a href="<?php echo $account; ?>"><i class="fa fa-user"></i>
-													<?php echo $text_account; ?>
-												</a></li>
-											<li><a id="wishlist-total" href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i>
-													<?php echo $text_wishlist; ?>
-												</a></li>
-											<li><a href="<?php echo $shopping_cart; ?>"><i class="fa fa-shopping-cart"></i>
-													<?php echo $text_shopping_cart; ?>
-												</a></li>
-											<li><a href="<?php echo $checkout; ?>"><i class="fa fa-check"></i>
-													<?php echo $text_checkout; ?>
-												</a></li>
-											<li class="logout"><a href="<?php echo $logout; ?>"><i class="fa fa-sign-out"></i>
-													<?php echo $text_logout; ?>
-												</a></li>
-											<?php }
+							<ul class="dropdown-menu box-setting">
+								<li>
+									<h5>ACCOUNT</h5>
+								</li>
+								<li class="language">
+									<?php echo $language; ?>
+								</li>
+								<li class="currency">
+									<?php echo $currency; ?>
+								</li>
+								<li class="account">
+									<ul>
+										<?php if ($logged) { ?>
+										<li><a href="<?php echo $account; ?>"><i class="fa fa-user"></i>
+												<?php echo $text_account; ?>
+											</a></li>
+										<li><a id="wishlist-total" href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i>
+												<?php echo $text_wishlist; ?>
+											</a></li>
+										<li><a href="<?php echo $shopping_cart; ?>"><i class="fa fa-shopping-cart"></i>
+												<?php echo $text_shopping_cart; ?>
+											</a></li>
+										<li><a href="<?php echo $checkout; ?>"><i class="fa fa-check"></i>
+												<?php echo $text_checkout; ?>
+											</a></li>
+										<li class="logout"><a href="<?php echo $logout; ?>"><i class="fa fa-sign-out"></i>
+												<?php echo $text_logout; ?>
+											</a></li>
+										<?php }
 									else { ?>
-											<li><a href="<?php echo $account; ?>"><i class="fa fa-user"></i>
-													<?php echo $text_account; ?>
-												</a></li>
-											<li><a href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i> <span id="wishlist-total">
-														<?php echo $text_wishlist; ?>
-													</span></a></li>
-											<li><a href="<?php echo $shopping_cart; ?>"><i class="zmdi zmdi-shopping-basket"></i>
-													<?php echo $text_shopping_cart; ?>
-												</a></li>
-											<li><a href="<?php echo $checkout; ?>"><i class="fa fa-check"></i>
-													<?php echo $text_checkout; ?>
-												</a></li>
-											<li class="logout"><a href="<?php echo $login; ?>"><i class="fa fa-key"></i>
-													<?php echo $text_login; ?>
-												</a></li>
-											<li><a href="<?php echo $register; ?>"><i class="fa fa-pencil"></i>
-													<?php echo $text_register; ?>
-												</a></li>
-											<?php } ?>
-										</ul>
-									</li>
-								</ul>
-							</div>
-							<div id="search" class="search col-md-9 hidden-sm hidden-xs pull-right">
-								<?php echo $search; ?>
-							</div>
+										<li><a href="<?php echo $account; ?>"><i class="fa fa-user"></i>
+												<?php echo $text_account; ?>
+											</a></li>
+										<li><a href="<?php echo $wishlist; ?>"><i class="fa fa-heart"></i> <span id="wishlist-total">
+													<?php echo $text_wishlist; ?>
+												</span></a></li>
+										<li><a href="<?php echo $shopping_cart; ?>"><i class="zmdi zmdi-shopping-basket"></i>
+												<?php echo $text_shopping_cart; ?>
+											</a></li>
+										<li><a href="<?php echo $checkout; ?>"><i class="fa fa-check"></i>
+												<?php echo $text_checkout; ?>
+											</a></li>
+										<li class="logout"><a href="<?php echo $login; ?>"><i class="fa fa-key"></i>
+												<?php echo $text_login; ?>
+											</a></li>
+										<li><a href="<?php echo $register; ?>"><i class="fa fa-pencil"></i>
+												<?php echo $text_register; ?>
+											</a></li>
+										<?php } ?>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div id="search" class="search col-md-9 hidden-sm hidden-xs pull-right">
+							<?php echo $search; ?>
+						</div>
 
-							<!-- Bonk: Blog n Contact Button -->
-							<!--					<div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
+						<!-- Bonk: Blog n Contact Button -->
+						<!--					<div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
 						<a href="index.php?route=pavblog/blogs" class="userbutton"><i class="fa fa-pencil-square-o fa-lg"></i>  Blog</a>
 						<a href="index.php?route=information/contact" class="userbutton userbutton2"> <i class="fa fa-envelope fa-lg"></i>  Contact Us!</a>
 					</div>
 -->
-						</div>
-						<div>
-							<?php if ($customer_logged) { ?>
-							<button type="button" class="btn btn-shopee btn-sm pull-right" id="button-shopee">
-								<?php echo $text_shopee; ?>
-							</button>
-							<?php } ?>
-						</div>
 					</div>
 					<div class="col-sm-4 col-sm-pull-8 col-xs-12">
 						<!-- Bonk: hidden-xs -->
