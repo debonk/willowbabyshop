@@ -187,7 +187,7 @@ class ControllerCommonHeader extends Controller
 			} elseif (isset($this->request->get['information_id'])) {
 				$class = '-' . $this->request->get['information_id'];
 			} else {
-				$class = '';
+				$class = ''; 
 			}
 
 			$data['class'] = str_replace('/', '-', $this->request->get['route']) . $class;
