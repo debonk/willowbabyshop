@@ -538,4 +538,65 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
+
+	public function editProduct($product_id, $data) {
+		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+
+		if (isset($data['quantity'])) {
+			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
+		}
+
+		if (isset($data['price'])) {
+			$sql .= ", price = '" . (float)$data['price'] . "'";
+		}
+
+		if (isset($data['status'])) {
+			$sql .= ", status = '" . (int)$data['status'] . "'";
+		}
+
+		$sql .= " WHERE product_id = '" . (int)$product_id . "'";
+
+		$this->db->query($sql);
+
+		$this->cache->delete('product');
+	}
+
+	public function getProductByModel($model) {
+		$query = $this->db->query("SELECT DISTINCT p.*, pd.name AS name FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE model = '" . $this->db->escape($model) . "'");
+
+		if ($query->num_rows) {
+			return array(
+				'product_id'       => $query->row['product_id'],
+				'name'             => $query->row['name'],
+				'model'            => $query->row['model'],
+				'quantity'         => $query->row['quantity'],
+				'price'            => $query->row['price'],
+				'status'           => $query->row['status']
+			);
+		} else {
+			return false;
+		}
+	}
+
+	public function editProductByModel($model, $data) {
+		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+
+		if (isset($data['quantity'])) {
+			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
+		}
+
+		if (isset($data['price'])) {
+			$sql .= ", price = '" . (float)$data['price'] . "'";
+		}
+
+		if (isset($data['status'])) {
+			$sql .= ", status = '" . (int)$data['status'] . "'";
+		}
+
+		$sql .= " WHERE model = '" . $this->db->escape($model) . "'";
+
+		$this->db->query($sql);
+
+		$this->cache->delete('product');
+	}
 }
