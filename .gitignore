@@ -18,9 +18,10 @@ catalog/view/theme/*/image/
 willowmgr12/view/image/
 
 ### OpenCart ###
-vqmod/install/
-vqmod/logs/
-vqmod/vqcache/
+vqmod/
+# vqmod/install/
+# vqmod/logs/
+# vqmod/vqcache/
 
 ### Composer ###
 system/composer.*

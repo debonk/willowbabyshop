@@ -230,3 +230,6 @@ willowmgr12\controller\catalog\option.php
 willowmgr12\language\en-gb\catalog\option.php
 system\library\image.php
 willowmgr12\model\catalog\url_alias.php
+willowmgr12\controller\user\user.php
+willowmgr12\language\en-gb\user\user.php
+willowmgr12\view\template\user\user_list.tpl

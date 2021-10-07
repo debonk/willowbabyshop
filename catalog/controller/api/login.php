@@ -1,45 +1,52 @@
 <?php
-class ControllerApiLogin extends Controller {
-	public function index() {
+class ControllerApiLogin extends Controller
+{
+	public function index()
+	{
 		$this->load->language('api/login');
 
 		$json = array();
 
-		$this->load->model('account/api');
+		if (isset($this->request->post['key'])) {
 
-		// Login with API Key
-		$api_info = $this->model_account_api->getApiByKey($this->request->post['key']);
+			$this->load->model('account/api');
 
-		if ($api_info) {
-			// Check if IP is allowed
-			$ip_data = array();
-	
-			$results = $this->model_account_api->getApiIps($api_info['api_id']);
-	
-			foreach ($results as $result) {
-				$ip_data[] = trim($result['ip']);
+			// Login with API Key
+			$api_info = $this->model_account_api->getApiByKey($this->request->post['key']);
+
+			if ($api_info) {
+				// Check if IP is allowed
+				$ip_data = array();
+
+				$results = $this->model_account_api->getApiIps($api_info['api_id']);
+
+				foreach ($results as $result) {
+					$ip_data[] = trim($result['ip']);
+				}
+
+				if (!in_array($this->request->server['REMOTE_ADDR'], $ip_data)) {
+					$json['error']['ip'] = sprintf($this->language->get('error_ip'), $this->request->server['REMOTE_ADDR']);
+				}
+
+				if (!$json) {
+					$json['success'] = $this->language->get('text_success');
+
+					$session_name = 'temp_session_' . uniqid();
+
+					$session = new Session();
+					$session->start($this->session->getId(), $session_name);
+
+					// Set API ID
+					$session->data['api_id'] = $api_info['api_id'];
+
+					// Create Token
+					$json['token'] = $this->model_account_api->addApiSession($api_info['api_id'], $session_name, $session->getId(), $this->request->server['REMOTE_ADDR']);
+				} else {
+					$json['error']['key'] = $this->language->get('error_key');
+				}
 			}
-	
-			if (!in_array($this->request->server['REMOTE_ADDR'], $ip_data)) {
-				$json['error']['ip'] = sprintf($this->language->get('error_ip'), $this->request->server['REMOTE_ADDR']);
-			}				
-				
-			if (!$json) {	
-				$json['success'] = $this->language->get('text_success');
-
-				$session_name = 'temp_session_' . uniqid();
-
-				$session = new Session();
-				$session->start($this->session->getId(), $session_name);
-
-				// Set API ID
-				$session->data['api_id'] = $api_info['api_id'];
-
-				// Create Token
-				$json['token'] = $this->model_account_api->addApiSession($api_info['api_id'], $session_name, $session->getId(), $this->request->server['REMOTE_ADDR']);
-			} else {
-				$json['error']['key'] = $this->language->get('error_key');
-			}
+		} else {
+			$json['error']['key'] = $this->language->get('error_key');
 		}
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {

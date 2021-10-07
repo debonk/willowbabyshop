@@ -561,6 +561,22 @@ class ModelCatalogProduct extends Model {
 		$this->cache->delete('product');
 	}
 
+	public function getProductsModel($status) {
+		if ($status == 'all') {
+			$query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product");
+		} else {
+			$query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product WHERE status = '" . (int)$status . "'");
+		}
+		
+		if ($query->num_rows) {
+			$product_data = array_column($query->rows, 'model');
+			
+			return $product_data;
+		} else {
+			return false;
+		}
+	}
+
 	public function getProductByModel($model) {
 		$query = $this->db->query("SELECT DISTINCT p.*, pd.name AS name FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE model = '" . $this->db->escape($model) . "'");
 

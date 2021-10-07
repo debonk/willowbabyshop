@@ -255,4 +255,35 @@ class ControllerApiProduct extends Controller
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function list()
+	{
+		$this->load->language('api/product');
+
+		$json = array();
+
+		if (!isset($this->session->data['api_id'])) {
+			$json['error']['warning'] = $this->language->get('error_permission');
+		} else {
+			$status = isset($this->request->get['status']) && !is_null($this->request->get['status']) ? $this->request->get['status'] : 1;
+
+			$this->load->model('catalog/product');
+
+			$products = $this->model_catalog_product->getProductsModel($status);
+
+			$json['products'] = $products;
+
+			$json['success'] = sprintf($this->language->get('text_success_info'), count($products));
+		}
+
+		if (isset($this->request->server['HTTP_ORIGIN'])) {
+			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
+			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+			$this->response->addHeader('Access-Control-Max-Age: 1000');
+			$this->response->addHeader('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
 }
