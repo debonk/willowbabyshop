@@ -1,6 +1,9 @@
 # willowbabyshop software
 
 ADMIN
+2.2.0.5	3/11/2021
+Modul: Welcome greeting
+
 2.2.0.4	23/10/2021
 Bug Fixed: Handling error API key (Catalog Side)
 

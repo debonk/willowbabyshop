@@ -1,6 +1,6 @@
 <?php
 // Text
-$_['text_greeting'] 	 = 'Welcome, Guest';
+$_['text_greeting'] 	 = 'Welcome, Mom/Dad!';
 $_['text_logged']   	 = 'Welcome back, %s';
 $_['text_reward'] 	 	 = 'Reward Points';
 $_['text_balance'] 	 	 = 'Store Credits';

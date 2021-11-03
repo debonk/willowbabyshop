@@ -1,30 +1,41 @@
 <?php
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class ModelCatalogTool extends Model {
-	public function getSheetData($filename) {
+class ModelCatalogTool extends Model
+{
+	public function getSheetData($filename)
+	{
 		$spreadsheet = IOFactory::load($filename);
 		$sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
 		return $sheetData;
 	}
 
-	public function upload($sql) {
-		set_time_limit(100);//Bonk10
+	public function getImage($url_source, $new_image)
+	{
+		$url_source = filter_var($url_source, FILTER_SANITIZE_URL);
 		
-		// foreach (explode(";\n", $sql) as $sql) {
-		// 	$sql = trim($sql);
+		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
+			$url_destination = DIR_IMAGE . 'catalog/product/' . $new_image;
 
-		// 	if ($sql) {
-		// 		$this->db->query($sql);
-		// 	}
-		// }
+			$ch = curl_init($url_source);
+			$fp = fopen($url_destination, 'wb');
+			curl_setopt($ch, CURLOPT_FILE, $fp);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			curl_close($ch);
+			fclose($fp);
 
-		// $this->cache->delete('*');
+			return 'catalog/product/' . $new_image;
+		} else {
+			return;
+		}
 	}
 
 	//// Belum digunakan hingga akhir file
-	public function getTables() {
+	public function getTables()
+	{
 		$table_data = array();
 
 		$query = $this->db->query("SHOW TABLES FROM `" . DB_DATABASE . "`");
@@ -40,7 +51,8 @@ class ModelCatalogTool extends Model {
 		return $table_data;
 	}
 
-	public function backup($tables) {
+	public function backup($tables)
+	{
 		$output = '';
 
 		foreach ($tables as $table) {
@@ -91,7 +103,8 @@ class ModelCatalogTool extends Model {
 	}
 
 	//Bonk
-	public function csv($tables) {
+	public function csv($tables)
+	{
 		$output = '';
 
 		foreach ($tables as $table) {
@@ -110,18 +123,18 @@ class ModelCatalogTool extends Model {
 
 				$query = $this->db->query("SELECT * FROM `" . $table . "`");
 
-					$fields = '';
-					$values = '';
+				$fields = '';
+				$values = '';
 
-					foreach (array_keys($query->row) as $value) {
-						$fields .= $value . '|';
-					}
+				foreach (array_keys($query->row) as $value) {
+					$fields .= $value . '|';
+				}
 
-					$output .= $fields . "\n";
-//					$output .= preg_replace('/|$/', '', $fields) . "\n";
-					
+				$output .= $fields . "\n";
+				//					$output .= preg_replace('/|$/', '', $fields) . "\n";
+
 				foreach ($query->rows as $result) {
-/*					$fields = '';
+					/*					$fields = '';
 
 					foreach (array_keys($result) as $value) {
 						$fields .= $value . ',';
@@ -129,7 +142,8 @@ class ModelCatalogTool extends Model {
 
 					$output .= preg_replace('/,$/', '', $fields) . "\n";
 					
-*/					$values = '';
+*/
+					$values = '';
 
 					foreach (array_values($result) as $value) {
 						$value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
@@ -144,8 +158,8 @@ class ModelCatalogTool extends Model {
 					}
 
 					$output .= $values . "\n";
-//					$output .= preg_replace('/|$/', '', $values) . "\n";
-//					$output .= 'INSERT INTO `' . $table . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
+					//					$output .= preg_replace('/|$/', '', $values) . "\n";
+					//					$output .= 'INSERT INTO `' . $table . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
 				}
 
 				$output .= "\n\n";

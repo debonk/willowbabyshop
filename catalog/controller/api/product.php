@@ -200,13 +200,8 @@ class ControllerApiProduct extends Controller
 					'status'
 				];
 
-				// $column_data = array_intersect($products_data[0], $column_list);
-				// $data_key = array_keys($column_data);
-
 				if ($column_data != $products_data[0]) {
 					$json['error']['invalid'] = $this->language->get('error_invalid');
-					// }elseif ($products_data[0][0] != 'model') {
-					// 	$json['error']['model'] = $this->language->get('error_model');
 				} else {
 					$field_count = count($column_data);
 

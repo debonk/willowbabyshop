@@ -12,5 +12,5 @@ $_['entry_new_product']= 'New Products';
 $_['entry_export']     = 'Export';
 
 // Error
-$_['error_permission'] = 'Warning: You do not have permission to modify Backup &amp; Restore!';
+$_['error_permission'] = 'Warning: You do not have permission to modify Catalog Tools!';
 $_['error_empty']      = 'Warning: The file you uploaded was empty!';
