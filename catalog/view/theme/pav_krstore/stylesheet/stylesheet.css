@@ -12337,3 +12337,7 @@ header .right-panel {
   margin-top: 50px;
   background-size: 100%;
 }
+
+#bs-megamenu > .navbar-nav.megamenu {
+	text-align: left;
+}

@@ -170,12 +170,3 @@
 		$ospans = array(1=>12, 2=>12);
 		require( ThemeControlHelper::getLayoutPath( 'common/block-cols.tpl' ) );
 	?>
-		<div class="maincols clearfix">
-			<script type="text/javascript">
-				$('#button-shopee').on('click', function (e) {
-					var url = 'https://partner.test-stable.shopeemobile.com/api/v2/shop/auth_partner?partner_id=1001839&redirect=www.willowbabyshop.com&sign=<?php echo $auth_signature ?>&timestamp=<?php echo $timestamp ?>';
-
-					open(url);
-				});
-
-			</script>
