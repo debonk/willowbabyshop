@@ -1,6 +1,9 @@
 # willowbabyshop software
 
 ADMIN
+2.2.0.7	6/11/2021
+Bug Fixed: Nav bar at smaller screen keep visible
+
 2.2.0.6	5/11/2021
 Modul: Megamenu > Align Left
 

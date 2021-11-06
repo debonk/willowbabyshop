@@ -170,3 +170,4 @@
 		$ospans = array(1=>12, 2=>12);
 		require( ThemeControlHelper::getLayoutPath( 'common/block-cols.tpl' ) );
 	?>
+	<div class="maincols clearfix">
