@@ -1,6 +1,9 @@
 # willowbabyshop software
 
 ADMIN
+2.3.0	9/11/2021
+Modul: Mass new product upload by excel.
+
 2.2.0.7	6/11/2021
 Bug Fixed: Nav bar at smaller screen keep visible
 

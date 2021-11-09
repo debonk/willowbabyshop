@@ -47,7 +47,7 @@
 						<label class="col-sm-2 control-label" for="input-new-product">
 							<?= $entry_new_product; ?>
 						</label>
-						<div class="col-sm-10">
+						<div class="col-sm-10 checkbox">
 							<input type="file" name="new_product" id="input-new-product" />
 						</div>
 					</div>
@@ -58,7 +58,7 @@
 						<label class="col-sm-2 control-label">
 							<?= $entry_export; ?>
 						</label>
-						<div class="col-sm-10">
+						<div class="col-sm-10 checkbox">
 							<label for="export1"><input type="checkbox" name="export1" value="export1" id="export1"
 									checked="checked" />
 								<?= $text_export1; ?>

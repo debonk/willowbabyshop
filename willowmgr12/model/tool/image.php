@@ -40,4 +40,25 @@ class ModelToolImage extends Model {
 			return HTTP_CATALOG . 'image/' . $new_image;
 		}
 	}
+
+	public function getImage($url_source, $new_image)
+	{
+		$url_source = filter_var($url_source, FILTER_SANITIZE_URL);
+
+		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
+			$url_destination = DIR_IMAGE . $new_image;
+
+			$ch = curl_init($url_source);
+			$fp = fopen($url_destination, 'wb');
+			curl_setopt($ch, CURLOPT_FILE, $fp);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			curl_close($ch);
+			fclose($fp);
+
+			return $new_image;
+		} else {
+			return;
+		}
+	}
 }

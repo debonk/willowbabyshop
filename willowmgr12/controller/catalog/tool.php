@@ -9,42 +9,11 @@ class ControllerCatalogTool extends Controller
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		// $this->load->model('catalog/tool');
-
-
-
-		// if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'catalog/tool')) {
-		// 	if (is_uploaded_file($this->request->files['new_product']['tmp_name'])) {
-		// 		$content = $this->model_catalog_tool->getSheetData($this->request->files['new_product']['tmp_name']);
-		// 	} else {
-		// 		$content = false;
-		// 	}
-
-		// 	if ($content) {
-
-
-
-		// 		// $this->model_catalog_tool->upload($content);
-		// 		var_dump($content);
-		// 		die('---breakpoint---');
-
-		// 		$this->session->data['success'] = $this->language->get('text_success');
-
-		// 		$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
-		// 	} else {
-		// 		$this->error['warning'] = $this->language->get('error_empty');
-		// 	}
-		// }
-
 		$data['heading_title'] = $this->language->get('heading_title');
-
-		// $data['text_select_all'] = $this->language->get('text_select_all');
-		// $data['text_unselect_all'] = $this->language->get('text_unselect_all');
 		$data['text_export1'] = $this->language->get('text_export1');
 
 		$data['entry_new_product'] = $this->language->get('entry_new_product');
 		$data['entry_export'] = $this->language->get('entry_export');
-		// $data['help_csv'] = $this->language->get('help_csv'); //Bonk
 
 		$data['button_export'] = $this->language->get('button_export');
 		$data['button_import'] = $this->language->get('button_import');
@@ -95,10 +64,10 @@ class ControllerCatalogTool extends Controller
 		$this->load->language('catalog/tool');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'catalog/tool')) {
-			$this->load->model('catalog/tool');
+			$this->load->model('tool/spreadsheet');
 
 			if (is_uploaded_file($this->request->files['new_product']['tmp_name'])) {
-				$sheet_data = $this->model_catalog_tool->getSheetData($this->request->files['new_product']['tmp_name']);
+				$sheet_data = $this->model_tool_spreadsheet->getSheetData($this->request->files['new_product']['tmp_name']);
 			} else {
 				$sheet_data = false;
 			}
@@ -139,6 +108,7 @@ class ControllerCatalogTool extends Controller
 				];
 
 				$this->load->model('catalog/product');
+				$this->load->model('tool/image');
 
 				$field_data = [];
 
@@ -159,7 +129,7 @@ class ControllerCatalogTool extends Controller
 						'mpn'				=> '',
 						'location'			=> '',
 						'quantity' 			=> 0,
-						'minimum' 			=> 0,
+						'minimum' 			=> 1,
 						'subtract' 			=> 1,
 						'stock_status_id' 	=> 5,
 						'date_available' 	=> date('Y-m-d'),
@@ -214,7 +184,6 @@ class ControllerCatalogTool extends Controller
 					$product_data['length'] = $sheet_data[$i][$field_data['length']];
 					$product_data['width'] = $sheet_data[$i][$field_data['width']];
 					$product_data['height'] = $sheet_data[$i][$field_data['height']];
-					// $product_data['image'] = $sheet_data[$i][$field_data['main_image']];
 
 					$product_data['product_description'][$this->config->get('config_language_id')] = [
 						'name' 				=> $sheet_data[$i][$field_data['name']],
@@ -236,7 +205,13 @@ class ControllerCatalogTool extends Controller
 
 					$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
 
-					$product_data['image'] = $this->model_catalog_tool->getImage($url_source, $new_image . '.' . $extension);
+					$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+
+					if (!is_dir(DIR_IMAGE . $path_destination)) {
+						@mkdir(DIR_IMAGE . $path_destination, 0777);
+					}
+	
+					$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
 
 					for ($j = 2; $j < 6; $j++) {
 						if (isset($sheet_data[$i][$field_data['image_' . $j]])) {
@@ -244,7 +219,7 @@ class ControllerCatalogTool extends Controller
 
 							if (in_array(strtolower($extension), $image_types)) {
 								$product_data['product_image'][] = [
-									'image'			=> $this->model_catalog_tool->getImage($sheet_data[$i][$field_data['image_' . $j]], $new_image . '_' . $j . '.' . $extension),
+									'image'			=> $this->model_tool_image->getImage($sheet_data[$i][$field_data['image_' . $j]], $path_destination . '/' . $new_image . '_' . $j . '.' . $extension),
 									'sort_order'	=> $j
 								];
 							}
@@ -261,7 +236,7 @@ class ControllerCatalogTool extends Controller
 
 					$this->model_catalog_product->addProduct($product_data);
 				}
-
+				
 				$this->session->data['success'] = $this->language->get('text_success');
 
 				$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
