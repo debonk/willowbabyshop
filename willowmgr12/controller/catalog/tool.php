@@ -166,7 +166,7 @@ class ControllerCatalogTool extends Controller
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']] || !$sheet_data[$i][$field_data['main_image']]) {
 						continue;
 					}
-
+			
 					$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
 
 					if ($product_info) {
@@ -184,6 +184,7 @@ class ControllerCatalogTool extends Controller
 					$product_data['length'] = $sheet_data[$i][$field_data['length']];
 					$product_data['width'] = $sheet_data[$i][$field_data['width']];
 					$product_data['height'] = $sheet_data[$i][$field_data['height']];
+					$product_data['keyword'] = preg_replace(['/[\'\"*?]/','/\s+/'], ['','-'], utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
 					$product_data['product_description'][$this->config->get('config_language_id')] = [
 						'name' 				=> $sheet_data[$i][$field_data['name']],
@@ -191,7 +192,7 @@ class ControllerCatalogTool extends Controller
 						'meta_title'		=> $sheet_data[$i][$field_data['meta_title']] ? $sheet_data[$i][$field_data['meta_title']] : sprintf($this->language->get('text_meta_title'), $sheet_data[$i][$field_data['name']]),
 						'meta_description'	=> $sheet_data[$i][$field_data['meta_description']],
 						'meta_keyword'		=> '',
-						'tag'				=> $sheet_data[$i][$field_data['tag']]
+						'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 					];
 
 					$url_source = $sheet_data[$i][$field_data['main_image']];

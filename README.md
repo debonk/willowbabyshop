@@ -1,6 +1,11 @@
 # willowbabyshop software
 
 ADMIN
+
+2.3.1	13/11/2021
+Modul: Mass new product > Auto generate SEO URL | Product > Model & SKU Validation
+Bug Fixed: Product > Product List Table
+
 2.3.0	9/11/2021
 Modul: Mass new product upload by excel.
 

@@ -340,6 +340,12 @@ class ModelCatalogProduct extends Model {
 		return $query->row;
 	}
 
+	public function getProductBySku($sku) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product WHERE sku = '" . $this->db->escape($sku) . "'");
+
+		return $query->row;
+	}
+
 	public function getProductByModel($model) {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product WHERE model = '" . $this->db->escape($model) . "'");
 

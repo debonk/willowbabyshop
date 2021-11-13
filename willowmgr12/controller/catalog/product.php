@@ -660,6 +660,12 @@ class ControllerCatalogProduct extends Controller {
 			$data['error_model'] = '';
 		}
 
+		if (isset($this->error['sku'])) {
+			$data['error_sku'] = $this->error['sku'];
+		} else {
+			$data['error_sku'] = '';
+		}
+
 		if (isset($this->error['keyword'])) {
 			$data['error_keyword'] = $this->error['keyword'];
 		} else {
@@ -1321,6 +1327,29 @@ class ControllerCatalogProduct extends Controller {
 			$this->error['model'] = $this->language->get('error_model');
 		}
 
+		if (isset($this->request->get['product_id'])) {
+			$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+		} else {
+			$product_info = [];
+		}
+
+		# Fitur unique model akan dihapus setelah SKU difungsikan.
+		if (!isset($this->request->get['product_id']) || ($product_info && $product_info['model'] != $this->request->post['model'])) {
+			$product_check = $this->model_catalog_product->getProductByModel($this->request->post['model']);
+
+			if ($product_check) {
+				$this->error['model'] = $this->language->get('error_model_used');
+			}
+		}
+
+		if (!isset($this->request->get['product_id']) || ($product_info && $product_info['sku'] != $this->request->post['sku'])) {
+			$product_check = $this->model_catalog_product->getProductBySku($this->request->post['sku']);
+
+			if ($product_check) {
+				$this->error['sku'] = $this->language->get('error_sku_used');
+			}
+		}
+		
 		if (utf8_strlen($this->request->post['keyword']) > 0) {
 			$this->load->model('catalog/url_alias');
 
