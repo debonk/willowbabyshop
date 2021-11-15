@@ -1,6 +1,10 @@
 # willowbabyshop software
 
 ADMIN
+15/11/2021
+2.3.2
+Bug Fixed: Mass new product > repair product description convertion
+Layout Fixed: Catalog > Product Detail
 
 2.3.1	13/11/2021
 Modul: Mass new product > Auto generate SEO URL | Product > Model & SKU Validation

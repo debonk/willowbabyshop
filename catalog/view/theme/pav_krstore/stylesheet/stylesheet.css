@@ -11517,7 +11517,7 @@ ul.menu li {
 }
 @-moz-document url-prefix() {
   .detail-container #product .form-control {
-    padding: 15px;
+    padding: 13px;
   }
 }
 .detail-container #product .input-group-btn {

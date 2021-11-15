@@ -177,7 +177,7 @@ class ControllerCatalogTool extends Controller
 					$product_data['model'] = $sheet_data[$i][$field_data['model']];
 					$product_data['sku'] = $sheet_data[$i][$field_data['model']];
 					$product_data['quantity'] = $sheet_data[$i][$field_data['quantity']];
-					$product_data['minimum'] = $sheet_data[$i][$field_data['minimum']];
+					$product_data['minimum'] = max(1, $sheet_data[$i][$field_data['minimum']]);
 					$product_data['manufacturer_id'] = $sheet_data[$i][$field_data['manufacturer_id']];
 					$product_data['price'] = $sheet_data[$i][$field_data['price']];
 					$product_data['weight'] = $sheet_data[$i][$field_data['weight']];
@@ -188,13 +188,22 @@ class ControllerCatalogTool extends Controller
 
 					$product_data['product_description'][$this->config->get('config_language_id')] = [
 						'name' 				=> $sheet_data[$i][$field_data['name']],
-						'description'		=> $sheet_data[$i][$field_data['description']],
+						// 'description'		=> $sheet_data[$i][$field_data['description']],
+						'description'		=> nl2br($sheet_data[$i][$field_data['description']]),
 						'meta_title'		=> $sheet_data[$i][$field_data['meta_title']] ? $sheet_data[$i][$field_data['meta_title']] : sprintf($this->language->get('text_meta_title'), $sheet_data[$i][$field_data['name']]),
 						'meta_description'	=> $sheet_data[$i][$field_data['meta_description']],
 						'meta_keyword'		=> '',
 						'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 					];
 
+					// $a = $sheet_data[$i][$field_data['description']];
+					// $a = nl2br($a);
+					// $a = htmlspecialchars($a);
+					// $a = htmlspecialchars_decode($a);
+					// $a = $this->db->escape($a);
+					// var_dump($a);
+					// die('---breakpoint---');
+					
 					$url_source = $sheet_data[$i][$field_data['main_image']];
 
 					$extension = pathinfo($url_source, PATHINFO_EXTENSION);
