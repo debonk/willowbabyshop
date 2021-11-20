@@ -1,6 +1,10 @@
 # willowbabyshop software
 
 ADMIN
+20/11/2021
+2.3.3
+Setting: By pass IP Check for auto update API
+
 15/11/2021
 2.3.2
 Bug Fixed: Mass new product > repair product description convertion

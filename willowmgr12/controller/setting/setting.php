@@ -107,6 +107,7 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_fraud_status'] = $this->language->get('entry_fraud_status');
 		$data['entry_order_mail'] = $this->language->get('entry_order_mail');
 		$data['entry_api'] = $this->language->get('entry_api');
+		$data['entry_api_product'] = $this->language->get('entry_api_product');
 		$data['entry_stock_display'] = $this->language->get('entry_stock_display');
 		$data['entry_stock_warning'] = $this->language->get('entry_stock_warning');
 		$data['entry_stock_checkout'] = $this->language->get('entry_stock_checkout');
@@ -183,6 +184,7 @@ class ControllerSettingSetting extends Controller {
 		$data['help_fraud_status'] = $this->language->get('help_fraud_status');
 		$data['help_order_mail'] = $this->language->get('help_order_mail');
 		$data['help_api'] = $this->language->get('help_api');
+		$data['help_api_product'] = $this->language->get('help_api_product');
 		$data['help_stock_display'] = $this->language->get('help_stock_display');
 		$data['help_stock_warning'] = $this->language->get('help_stock_warning');
 		$data['help_stock_checkout'] = $this->language->get('help_stock_checkout');
@@ -796,6 +798,12 @@ class ControllerSettingSetting extends Controller {
 			$data['config_api_id'] = $this->request->post['config_api_id'];
 		} else {
 			$data['config_api_id'] = $this->config->get('config_api_id');
+		}
+
+		if (isset($this->request->post['config_api_product_id'])) {
+			$data['config_api_product_id'] = $this->request->post['config_api_product_id'];
+		} else {
+			$data['config_api_product_id'] = $this->config->get('config_api_product_id');
 		}
 
 		$this->load->model('user/api');

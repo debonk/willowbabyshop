@@ -135,8 +135,8 @@ $(document).ready(function(){
 
   //search
   $('#search input[name=\'search\']').parent().find('button').on('click', function() {
-//    url = $('base').attr('href') + 'index.php?route=product/search'; //Bonk: search seo url
-    url = $('base').attr('href') + 'search';
+   url = $('base').attr('href') + 'index.php?route=product/search'; //Bonk: search seo url
+    // url = $('base').attr('href') + 'search';
     var value = $('#search input[name=\'search\']').val();
     if (value) {
       url += '&search=' + encodeURIComponent(value);
@@ -150,8 +150,8 @@ $(document).ready(function(){
   });
 
   $('#search2 input[name=\'search\']').parent().find('button').on('click', function() {
-//    url = $('base').attr('href') + 'index.php?route=product/search'; //Bonk: search seo url
-    url = $('base').attr('href') + 'search';
+   url = $('base').attr('href') + 'index.php?route=product/search'; //Bonk: search seo url
+    // url = $('base').attr('href') + 'search';
     var value = $('#search2 input[name=\'search\']').val();
     if (value) {
       url += '&search=' + encodeURIComponent(value);

@@ -11,11 +11,11 @@ class ControllerApiLogin extends Controller
 
 			$this->load->model('account/api');
 
-			// Login with API Key
+			# Login with API Key
 			$api_info = $this->model_account_api->getApiByKey($this->request->post['key']);
 
 			if ($api_info) {
-				// Check if IP is allowed
+				# Check if IP is allowed
 				$ip_data = array();
 
 				$results = $this->model_account_api->getApiIps($api_info['api_id']);
@@ -25,7 +25,12 @@ class ControllerApiLogin extends Controller
 				}
 
 				if (!in_array($this->request->server['REMOTE_ADDR'], $ip_data)) {
-					$json['error']['ip'] = sprintf($this->language->get('error_ip'), $this->request->server['REMOTE_ADDR']);
+					# Check if IP is bypassed in setting
+					if ($this->config->get('config_api_product_id') == $api_info['api_id']) {
+						$this->model_account_api->addApiIp($api_info['api_id'], $this->request->server['REMOTE_ADDR']);
+					} else {
+						$json['error']['ip'] = sprintf($this->language->get('error_ip'), $this->request->server['REMOTE_ADDR']);
+					}
 				}
 
 				if (!$json) {

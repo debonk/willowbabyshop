@@ -166,7 +166,7 @@ class ControllerCatalogTool extends Controller
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']] || !$sheet_data[$i][$field_data['main_image']]) {
 						continue;
 					}
-			
+
 					$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
 
 					if ($product_info) {
@@ -184,11 +184,10 @@ class ControllerCatalogTool extends Controller
 					$product_data['length'] = $sheet_data[$i][$field_data['length']];
 					$product_data['width'] = $sheet_data[$i][$field_data['width']];
 					$product_data['height'] = $sheet_data[$i][$field_data['height']];
-					$product_data['keyword'] = preg_replace(['/[\'\"*?]/','/\s+/'], ['','-'], utf8_strtolower(($sheet_data[$i][$field_data['name']])));
+					$product_data['keyword'] = preg_replace(['/[\'\"*?]/', '/\s+/'], ['', '-'], utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
 					$product_data['product_description'][$this->config->get('config_language_id')] = [
-						'name' 				=> $sheet_data[$i][$field_data['name']],
-						// 'description'		=> $sheet_data[$i][$field_data['description']],
+						'name' 				=> utf8_strtoupper($sheet_data[$i][$field_data['name']]),
 						'description'		=> nl2br($sheet_data[$i][$field_data['description']]),
 						'meta_title'		=> $sheet_data[$i][$field_data['meta_title']] ? $sheet_data[$i][$field_data['meta_title']] : sprintf($this->language->get('text_meta_title'), $sheet_data[$i][$field_data['name']]),
 						'meta_description'	=> $sheet_data[$i][$field_data['meta_description']],
@@ -196,17 +195,13 @@ class ControllerCatalogTool extends Controller
 						'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 					];
 
-					// $a = $sheet_data[$i][$field_data['description']];
-					// $a = nl2br($a);
-					// $a = htmlspecialchars($a);
-					// $a = htmlspecialchars_decode($a);
-					// $a = $this->db->escape($a);
-					// var_dump($a);
-					// die('---breakpoint---');
-					
 					$url_source = $sheet_data[$i][$field_data['main_image']];
 
 					$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+
+					if ($extension == '') {
+						$extension = 'jpg';
+					}
 
 					if (!in_array(strtolower($extension), $image_types)) {
 						# Imagetype tidak sesuai
@@ -220,7 +215,7 @@ class ControllerCatalogTool extends Controller
 					if (!is_dir(DIR_IMAGE . $path_destination)) {
 						@mkdir(DIR_IMAGE . $path_destination, 0777);
 					}
-	
+
 					$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
 
 					for ($j = 2; $j < 6; $j++) {
@@ -246,7 +241,7 @@ class ControllerCatalogTool extends Controller
 
 					$this->model_catalog_product->addProduct($product_data);
 				}
-				
+
 				$this->session->data['success'] = $this->language->get('text_success');
 
 				$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
