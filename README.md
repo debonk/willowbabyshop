@@ -1,6 +1,11 @@
 # willowbabyshop software
 
 ADMIN
+22/11/2021
+2.4.0
+New Modul: Information > Info Page
+Vqmod: Permanently applied some vqmod xml
+
 20/11/2021
 2.3.3
 Setting: By pass IP Check for auto update API

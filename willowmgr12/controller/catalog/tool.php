@@ -200,7 +200,7 @@ class ControllerCatalogTool extends Controller
 					$extension = pathinfo($url_source, PATHINFO_EXTENSION);
 
 					if ($extension == '') {
-						$extension = 'jpg';
+						$extension = 'png';
 					}
 
 					if (!in_array(strtolower($extension), $image_types)) {
