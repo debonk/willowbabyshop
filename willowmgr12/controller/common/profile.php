@@ -1,6 +1,8 @@
 <?php
-class ControllerCommonProfile extends Controller {
-	public function index() {
+class ControllerCommonProfile extends Controller
+{
+	public function index()
+	{
 		$this->load->language('common/menu');
 
 		$this->load->model('user/user');
@@ -14,12 +16,12 @@ class ControllerCommonProfile extends Controller {
 			$data['lastname'] = $user_info['lastname'];
 			$data['username'] = $user_info['username'];
 
-			$data['user_group'] = $user_info['user_group'] ;
+			$data['user_group'] = $user_info['user_group'];
 
-			if (is_file(DIR_IMAGE . $user_info['image'])) {
+			if ($user_info['image']) {
 				$data['image'] = $this->model_tool_image->resize($user_info['image'], 45, 45);
 			} else {
-				$data['image'] = '';
+				$data['image'] = $this->model_tool_image->resize('placeholder.png', 45, 45);
 			}
 		} else {
 			$data['username'] = '';

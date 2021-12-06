@@ -2,7 +2,11 @@
 class ModelToolImage extends Model {
 	public function resize($filename, $width, $height) {
 		if (!is_file(DIR_IMAGE . $filename)) {
-			return;
+			if (is_file(DIR_IMAGE . 'no_image.png')) {
+				$filename = 'no_image.png';
+			} else {
+				return;
+			}
 		}
 
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -50,8 +54,10 @@ class ModelToolImage extends Model {
 
 			$ch = curl_init($url_source);
 			$fp = fopen($url_destination, 'wb');
+			curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 			curl_setopt($ch, CURLOPT_FILE, $fp);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_exec($ch);
 			curl_close($ch);
 			fclose($fp);

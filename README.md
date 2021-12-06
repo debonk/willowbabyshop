@@ -1,25 +1,36 @@
 # willowbabyshop software
 
-ADMIN
+06/12/2021
+2.2.3.0
+New Modul: Login by Google
+Checkout: Handling jika customer belum ada no HP
+Checkout > Confirm Order: Penataan layout Order Confirmation
+
+2.2.2.1
+Mass New Product: Modify Model getImage
+Footer:	Marketplace list
+Bug Fixed: Welcome > Reward Point
+Bug Fixed: Repair image placeholder
+
 22/11/2021
-2.4.0
-New Modul: Information > Info Page
+2.2.2.0
+New Modul: Information > Info Page (Marketplace List)
 Vqmod: Permanently applied some vqmod xml
 
 20/11/2021
-2.3.3
+2.2.1.3
 Setting: By pass IP Check for auto update API
 
 15/11/2021
-2.3.2
-Bug Fixed: Mass new product > repair product description convertion
+2.2.1.2
+Bug Fixed: Mass new product > repair product description conversion
 Layout Fixed: Catalog > Product Detail
 
-2.3.1	13/11/2021
+2.2.1.1	13/11/2021
 Modul: Mass new product > Auto generate SEO URL | Product > Model & SKU Validation
 Bug Fixed: Product > Product List Table
 
-2.3.0	9/11/2021
+2.2.1.0	9/11/2021
 Modul: Mass new product upload by excel.
 
 2.2.0.7	6/11/2021

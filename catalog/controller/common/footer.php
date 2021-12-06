@@ -37,11 +37,27 @@ class ControllerCommonFooter extends Controller {
 		$data['text_wishlist'] = $this->language->get('text_wishlist');
 		$data['text_newsletter'] = $this->language->get('text_newsletter');
 		$data['text_blogs'] = $this->language->get('text_blogs');//Bonk
-		$data['text_career'] = $this->language->get('text_career');//Bonk
-		$data['link_instagram'] = $this->language->get('link_instagram');
-		$data['link_facebook'] = $this->language->get('link_facebook');
-		$data['link_twitter'] = $this->language->get('link_twitter');
-		$data['link_gplus'] = $this->language->get('link_gplus');
+		// $data['text_career'] = $this->language->get('text_career');//Bonk
+
+		$media_list = ['instagram', 'tokopedia', 'shopee', 'blibli', 'jdid'];
+
+		if ($this->request->server['HTTPS']) {
+			$server = $this->config->get('config_ssl');
+		} else {
+			$server = $this->config->get('config_url');
+		}
+
+		$data['media_list'] = [];
+
+		foreach ($media_list as $media) {
+			if (is_file(DIR_IMAGE . 'icon/' . $media . '.png')) {
+				$data['media_list'][] = [
+					'image'	=> $server . 'image/icon/' . $media . '.png',
+					'link'	=> $this->language->get('link_' . $media),
+					'alt'	=> 'icon_' . $media
+				];
+			}
+		}	
 
 		$this->load->model('catalog/information');
 
@@ -68,7 +84,7 @@ class ControllerCommonFooter extends Controller {
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['newsletter'] = $this->url->link('account/newsletter', '', true);
 		$data['blogs'] = $this->url->link('pavblog/blogs');//Bonk
-		$data['career'] = $this->url->link('information/career');//Bonk
+		// $data['career'] = $this->url->link('information/career');//Bonk
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 

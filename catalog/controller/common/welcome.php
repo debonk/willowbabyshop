@@ -26,7 +26,7 @@ class ControllerCommonWelcome extends Controller {
 			if ($data['reward_status']) {
 				$data['reward'] = $this->url->link('account/reward');
 				$data['text_reward'] = $this->language->get('text_reward');
-				$data['poin_reward'] = $this->customer->getRewardPoints();
+				$data['poin_reward'] = (int)$this->customer->getRewardPoints();
 			}
 
 			if ($data['balance_status']) {

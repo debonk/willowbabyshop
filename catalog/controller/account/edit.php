@@ -20,6 +20,7 @@ class ControllerAccountEdit extends Controller {
 		$this->load->model('account/customer');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			$this->request->post['email'] = $this->customer->getEmail();
 			$this->model_account_customer->editCustomer($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -71,7 +72,11 @@ class ControllerAccountEdit extends Controller {
 		$data['button_back'] = $this->language->get('button_back');
 		$data['button_upload'] = $this->language->get('button_upload');
 
-		if (isset($this->error['warning'])) {
+		if (isset($this->session->data['warning'])) {
+			$data['error_warning'] = $this->session->data['warning'];
+
+			unset($this->session->data['warning']);
+		} elseif (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
@@ -87,12 +92,6 @@ class ControllerAccountEdit extends Controller {
 			$data['error_lastname'] = $this->error['lastname'];
 		} else {
 			$data['error_lastname'] = '';
-		}
-
-		if (isset($this->error['email'])) {
-			$data['error_email'] = $this->error['email'];
-		} else {
-			$data['error_email'] = '';
 		}
 
 		if (isset($this->error['telephone'])) {
@@ -113,6 +112,8 @@ class ControllerAccountEdit extends Controller {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		}
 
+		$data['email'] = $customer_info['email'];
+		
 		if (isset($this->request->post['firstname'])) {
 			$data['firstname'] = $this->request->post['firstname'];
 		} elseif (!empty($customer_info)) {
@@ -127,14 +128,6 @@ class ControllerAccountEdit extends Controller {
 			$data['lastname'] = $customer_info['lastname'];
 		} else {
 			$data['lastname'] = '';
-		}
-
-		if (isset($this->request->post['email'])) {
-			$data['email'] = $this->request->post['email'];
-		} elseif (!empty($customer_info)) {
-			$data['email'] = $customer_info['email'];
-		} else {
-			$data['email'] = '';
 		}
 
 		if (isset($this->request->post['telephone'])) {
@@ -185,14 +178,6 @@ class ControllerAccountEdit extends Controller {
 
 		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
 			$this->error['lastname'] = $this->language->get('error_lastname');
-		}
-
-		if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
-			$this->error['email'] = $this->language->get('error_email');
-		}
-
-		if (($this->customer->getEmail() != $this->request->post['email']) && $this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
-			$this->error['warning'] = $this->language->get('error_exists');
 		}
 
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {

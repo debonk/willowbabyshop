@@ -6,6 +6,7 @@ class ControllerPaymentBankBca extends Controller {
 		$data['text_instruction'] = $this->language->get('text_instruction');
 		$data['text_description'] = $this->language->get('text_description');
 		$data['text_payment'] = $this->language->get('text_payment');
+		$data['text_confirm'] = $this->language->get('text_confirm');
 
 		$data['button_confirm'] = $this->language->get('button_confirm');
 

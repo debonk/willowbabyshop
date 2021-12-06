@@ -34,6 +34,10 @@ class ControllerAccountSuccess extends Controller {
 			$data['text_message'] = sprintf($this->language->get('text_approval'), $this->config->get('config_name'), $this->url->link('information/contact'));
 		}
 
+		if (!$this->customer->getTelephone()) {
+			$data['text_account_info'] = sprintf($this->language->get('text_account_info'), $this->url->link('account/edit', '', true));
+		}
+
 		$data['button_continue'] = $this->language->get('button_continue');
 
 		if ($this->cart->hasProducts()) {

@@ -3,10 +3,12 @@
 <div class="well well-sm">
   <p><?php echo $bank; ?></p>
   <p><?php echo $text_payment; ?></p>
+  <p>&nbsp;</p>
+  <p><?php echo $text_confirm; ?></p>
 </div>
 <div class="buttons">
   <div class="pull-right">
-    <input type="button" value="<?php echo $button_confirm; ?>" id="button-confirm" class="btn btn-primary" />
+    <input type="button" value="<?php echo $button_confirm; ?>" id="button-confirm" class="btn btn-success" />
   </div>
 </div>
 <script type="text/javascript"><!--

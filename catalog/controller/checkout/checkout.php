@@ -25,6 +25,13 @@ class ControllerCheckoutCheckout extends Controller {
 
 		$this->load->language('checkout/checkout');
 
+		# Validate customer has telephone if logged
+		if ($this->customer->isLogged() && !$this->customer->getTelephone()) {
+			$this->session->data['warning'] = $this->language->get('error_no_telephone');
+
+			$this->response->redirect($this->url->link('account/edit'));
+		}
+
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');

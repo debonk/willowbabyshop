@@ -294,7 +294,7 @@ class ControllerProductProduct extends Controller {
 
 			//Bonk
 			if (!is_file(DIR_IMAGE . $product_info['image'])) {
-				$product_info['image'] = 'no_image.png';
+				$product_info['image'] = 'placeholder.png';
 			}
 
 			$this->load->model('tool/image');

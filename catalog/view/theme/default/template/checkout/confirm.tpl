@@ -50,7 +50,7 @@
 </div>
 <?php echo $payment; ?>
 <?php } else { ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 location = '<?php echo $redirect; ?>';
-//--></script>
+</script>
 <?php } ?>

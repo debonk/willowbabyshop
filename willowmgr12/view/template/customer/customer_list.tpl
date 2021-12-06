@@ -199,7 +199,13 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
+$(document).keypress(function(e) {
+	if(e.which == 13) {
+		$("#button-filter").click();
+	}
+});
+
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=customer/customer&token=<?php echo $token; ?>';
 	
@@ -247,8 +253,8 @@ $('#button-filter').on('click', function() {
 	
 	location = url;
 });
-//--></script> 
-  <script type="text/javascript"><!--
+</script> 
+  <script type="text/javascript">
 $('input[name=\'filter_name\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
@@ -288,10 +294,10 @@ $('input[name=\'filter_email\']').autocomplete({
 		$('input[name=\'filter_email\']').val(item['label']);
 	}	
 });
-//--></script> 
-  <script type="text/javascript"><!--
+</script> 
+  <script type="text/javascript">
 $('.date').datetimepicker({
 	pickTime: false
 });
-//--></script></div>
+</script></div>
 <?php echo $footer; ?> 
