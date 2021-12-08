@@ -76,16 +76,18 @@
 							<input type="hidden" name="redirect" value="<?= $redirect; ?>" />
 							<?php } ?>
 						</form>
+						<?php if ($google_login) { ?>
 						<br>
-						<div>
-							<p class="text-center"><strong>
-								<?= $text_or; ?>
-							</strong></p>
+						<div class="text-center">
+							<p><strong>
+									<?= $text_or; ?>
+								</strong></p>
 							<br>
-						<a href="<?= $login; ?>" class="btn">
-							<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive"></i>
-						</a>
-					</div>
+							<a href="<?= $login; ?>" class="btn">
+								<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive"></i>
+							</a>
+						</div>
+						<?php } ?>
 					</div>
 				</div>
 			</div>

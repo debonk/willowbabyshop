@@ -1,6 +1,12 @@
 # willowbabyshop software
 
-06/12/2021
+08/12/2021
+2.2.3.1
+Checkout: Login & Register by Google
+Extension > Module: Pengaturan Login dan Credential
+Checkout > Login: Penerapan Google OAuth
+Checkout > Register: Penerapan Google OAuth
+
 2.2.3.0
 New Modul: Login by Google
 Checkout: Handling jika customer belum ada no HP

@@ -37,5 +37,17 @@
       <input type="password" name="password" value="" placeholder="<?php echo $entry_password; ?>" id="input-password" class="form-control" />
       <a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten; ?></a></div>
     <input type="button" value="<?php echo $button_login; ?>" id="button-login" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary" />
-  </div>
+		<?php if ($google_login) { ?>
+			<br>
+			<div class="text-center">
+				<p><strong>
+						<?= $text_or; ?>
+					</strong></p>
+				<br>
+				<a href="<?= $login; ?>" class="btn">
+					<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive"></i>
+				</a>
+			</div>
+			<?php } ?>
+</div>
 </div>

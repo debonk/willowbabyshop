@@ -53,74 +53,91 @@ class ControllerAccountLogin extends Controller
 
 		$validated = false;
 
-		# Login by Google
-		//Make object of Google API Client for call Google API
-		$google_client = new  Google_Client();
-		//Set the OAuth 2.0 Client ID
-		$google_client->setClientId('239326699932-7caq983lnj38rl0ntd3783lpk18eru30.apps.googleusercontent.com');
-		//Set the OAuth 2.0 Client Secret key
-		$google_client->setClientSecret('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');
-		//Set the OAuth 2.0 Redirect URI
-		$google_client->setRedirectUri($this->url->link('account/login'));
+		$data['google_login'] = $this->config->get('google_login_status');
 
-		$google_client->addScope('email');
-		$google_client->addScope('profile');
-
-		$data['login'] = $google_client->createAuthUrl();
-
-		if (isset($this->request->get['code'])) {
-			$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
-
-			if (!isset($token['error'])) {
-				$google_client->setAccessToken($token['access_token']);
-				$google_service = new Google_Service_Oauth2($google_client);
-				$client_data = $google_service->userinfo->get();
-
-				$google_client->revokeToken();
-			}
-		}
-
-		if (isset($client_data)) {
-			$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
-
-			if ($customer_info) {
-				$this->request->post['email'] = $client_data['email'];
-				$this->request->post['google_login'] = true;
-
-				if ($this->validate()) {
-					$validated = true;
-				}
+		if ($data['google_login']) {
+			if ($this->request->server['HTTPS']) {
+				$server = $this->config->get('config_ssl');
 			} else {
-				$customer_data = [
-					'firstname'	=> $client_data['givenName'],
-					'lastname'	=> $client_data['familyName'],
-					'email' => $client_data['email'],
-					'telephone' => '',
-					'fax' => '',
-					'password' => token(20),
-					'newsletter' => '1'
-				];
+				$server = $this->config->get('config_url');
+			}
 
-				$customer_id = $this->model_account_customer->addCustomer($customer_data);
+			if (is_file(DIR_IMAGE . $this->config->get('google_login_button_image'))) {
+				$data['google_button'] = $server . 'image/' . $this->config->get('google_login_button_image');
+			} else {
+				$data['google_button'] = '';
+			}
+	
+			# Login by Google
+			//Make object of Google API Client for call Google API
+			$google_client = new Google_Client();
+			//Set the OAuth 2.0 Client ID
+			$google_client->setClientId($this->config->get('google_login_client_id'));
+			// $google_client->setClientId('239326699932-7caq983lnj38rl0ntd3783lpk18eru30.apps.googleusercontent.com');
+			//Set the OAuth 2.0 Client Secret key
+			$google_client->setClientSecret($this->config->get('google_login_secret'));
+			//Set the OAuth 2.0 Redirect URI
+			$google_client->setRedirectUri($this->config->get('google_login_redirect_uri'));
 
-				// Clear any previous login attempts for unregistered accounts.
-				$this->model_account_customer->deleteLoginAttempts($client_data['email']);
-	
-				$this->customer->login($client_data['email'], '', true);
-	
-				unset($this->session->data['guest']);
-	
-				// Add to activity log
-				$this->load->model('account/activity');
-	
-				$activity_data = array(
-					'customer_id' => $customer_id,
-					'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
-				);
-	
-				$this->model_account_activity->addActivity('register', $activity_data);
+			$google_client->addScope('email');
+			$google_client->addScope('profile');
 
-				$this->response->redirect($this->url->link('account/success'));
+			$data['login'] = $google_client->createAuthUrl();
+
+			if (isset($this->request->get['code'])) {
+				$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
+
+				if (!isset($token['error'])) {
+					$google_client->setAccessToken($token['access_token']);
+					$google_service = new Google_Service_Oauth2($google_client);
+					$client_data = $google_service->userinfo->get();
+
+					$google_client->revokeToken();
+				}
+			}
+
+			if (isset($client_data)) {
+				$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
+
+				if ($customer_info) {
+					$this->request->post['email'] = $client_data['email'];
+					$this->request->post['google_login'] = true;
+
+					if ($this->validate()) {
+						$validated = true;
+					}
+				} else {
+					$customer_data = [
+						'firstname'	=> $client_data['givenName'],
+						'lastname'	=> $client_data['familyName'],
+						'email' => $client_data['email'],
+						'telephone' => '',
+						'fax' => '',
+						'password' => token(20),
+						'newsletter' => '1'
+					];
+
+					$customer_id = $this->model_account_customer->addCustomer($customer_data);
+
+					// Clear any previous login attempts for unregistered accounts.
+					$this->model_account_customer->deleteLoginAttempts($client_data['email']);
+
+					$this->customer->login($client_data['email'], '', true);
+
+					unset($this->session->data['guest']);
+
+					// Add to activity log
+					$this->load->model('account/activity');
+
+					$activity_data = array(
+						'customer_id' => $customer_id,
+						'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
+					);
+
+					$this->model_account_activity->addActivity('register', $activity_data);
+
+					$this->response->redirect($this->url->link('account/success'));
+				}
 			}
 		}
 
@@ -218,18 +235,6 @@ class ControllerAccountLogin extends Controller
 		$data['action'] = $this->url->link('account/login', '', true);
 		$data['register'] = $this->url->link('account/register', '', true);
 		$data['forgotten'] = $this->url->link('account/forgotten', '', true);
-		
-		if ($this->request->server['HTTPS']) {
-			$server = $this->config->get('config_ssl');
-		} else {
-			$server = $this->config->get('config_url');
-		}
-
-		if (is_file(DIR_IMAGE . 'google_button.png')) {
-			$data['google_button'] = $server . 'image/' . 'google_button.png';
-		} else {
-			$data['google_button'] = '';
-		}
 
 		// Added strpos check to pass McAfee PCI compliance test (http://forum.opencart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
 		if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {

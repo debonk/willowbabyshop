@@ -3,6 +3,94 @@ class ControllerCheckoutLogin extends Controller {
 	public function index() {
 		$this->load->language('checkout/checkout');
 
+		$data['google_login'] = $this->config->get('google_login_status');
+
+		if ($data['google_login']) {
+			if ($this->request->server['HTTPS']) {
+				$server = $this->config->get('config_ssl');
+			} else {
+				$server = $this->config->get('config_url');
+			}
+
+			if (is_file(DIR_IMAGE . $this->config->get('google_login_button_image'))) {
+				$data['google_button'] = $server . 'image/' . $this->config->get('google_login_button_image');
+			} else {
+				$data['google_button'] = '';
+			}
+	
+			# Login by Google
+			//Make object of Google API Client for call Google API
+			$google_client = new Google_Client();
+			//Set the OAuth 2.0 Client ID
+			$google_client->setClientId($this->config->get('google_login_client_id'));
+			// $google_client->setClientId('239326699932-7caq983lnj38rl0ntd3783lpk18eru30.apps.googleusercontent.com');
+			//Set the OAuth 2.0 Client Secret key
+			$google_client->setClientSecret($this->config->get('google_login_secret'));
+			//Set the OAuth 2.0 Redirect URI
+			$google_client->setRedirectUri($this->config->get('google_login_redirect_uri'));
+
+			$google_client->addScope('email');
+			$google_client->addScope('profile');
+
+			$data['login'] = $google_client->createAuthUrl();
+
+			// if (isset($this->request->get['code'])) {
+			// 	$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
+
+			// 	if (!isset($token['error'])) {
+			// 		$google_client->setAccessToken($token['access_token']);
+			// 		$google_service = new Google_Service_Oauth2($google_client);
+			// 		$client_data = $google_service->userinfo->get();
+
+			// 		$google_client->revokeToken();
+			// 	}
+			// }
+
+			// if (isset($client_data)) {
+			// 	$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
+
+			// 	if ($customer_info) {
+			// 		$this->request->post['email'] = $client_data['email'];
+			// 		$this->request->post['google_login'] = true;
+
+			// 		if ($this->validate()) {
+			// 			$validated = true;
+			// 		}
+			// 	} else {
+			// 		$customer_data = [
+			// 			'firstname'	=> $client_data['givenName'],
+			// 			'lastname'	=> $client_data['familyName'],
+			// 			'email' => $client_data['email'],
+			// 			'telephone' => '',
+			// 			'fax' => '',
+			// 			'password' => token(20),
+			// 			'newsletter' => '1'
+			// 		];
+
+			// 		$customer_id = $this->model_account_customer->addCustomer($customer_data);
+
+			// 		// Clear any previous login attempts for unregistered accounts.
+			// 		$this->model_account_customer->deleteLoginAttempts($client_data['email']);
+
+			// 		$this->customer->login($client_data['email'], '', true);
+
+			// 		unset($this->session->data['guest']);
+
+			// 		// Add to activity log
+			// 		$this->load->model('account/activity');
+
+			// 		$activity_data = array(
+			// 			'customer_id' => $customer_id,
+			// 			'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
+			// 		);
+
+			// 		$this->model_account_activity->addActivity('register', $activity_data);
+
+			// 		$this->response->redirect($this->url->link('account/success'));
+			// 	}
+			// }
+		}
+
 		$data['text_checkout_account'] = $this->language->get('text_checkout_account');
 		$data['text_checkout_payment_address'] = $this->language->get('text_checkout_payment_address');
 		$data['text_new_customer'] = $this->language->get('text_new_customer');
@@ -14,6 +102,7 @@ class ControllerCheckoutLogin extends Controller {
 		$data['text_register_account'] = $this->language->get('text_register_account');
 		$data['text_forgotten'] = $this->language->get('text_forgotten');
 		$data['text_loading'] = $this->language->get('text_loading');
+		$data['text_or'] = $this->language->get('text_or');
 
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_password'] = $this->language->get('entry_password');
