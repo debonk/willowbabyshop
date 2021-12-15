@@ -24,6 +24,13 @@ class DB {
 		return $this->adaptor->countAffected();
 	}
 
+	public function getServerInfo() {
+		return $this->adaptor->getServerInfo();
+	}
+	public function getHostInfo() {
+		return $this->adaptor->getHostInfo();
+	}
+
 	public function getLastId() {
 		return $this->adaptor->getLastId();
 	}

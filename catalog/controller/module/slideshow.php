@@ -8,7 +8,8 @@ class ControllerModuleSlideshow extends Controller {
 
 //		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.carousel.css'); //Bonk: uploaded on head.tpl
 //		$this->document->addScript('catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js'); //Bonk: uploaded on head.tpl
-
+		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.transitions.css');
+		
 		$data['banners'] = array();
 
 		$results = $this->model_design_banner->getBanner($setting['banner_id']);

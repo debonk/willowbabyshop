@@ -19,24 +19,29 @@ class ModelTotalReward extends Model {
 
 				$points = min($points, $points_total);
 
-				foreach ($this->cart->getProducts() as $product) {
-					$discount = 0;
+				//Bonk
+				if ($this->config->get('reward_sub_calc')) {
+					$discount_total = $this->session->data['reward'];
+				} else {
+					foreach ($this->cart->getProducts() as $product) {
+						$discount = 0;
 
-					if ($product['points']) {
-						$discount = $product['total'] * ($this->session->data['reward'] / $points_total);
+						if ($product['points']) {
+							$discount = $product['total'] * ($this->session->data['reward'] / $points_total);
 
-						if ($product['tax_class_id']) {
-							$tax_rates = $this->tax->getRates($product['total'] - ($product['total'] - $discount), $product['tax_class_id']);
+							if ($product['tax_class_id']) {
+								$tax_rates = $this->tax->getRates($product['total'] - ($product['total'] - $discount), $product['tax_class_id']);
 
-							foreach ($tax_rates as $tax_rate) {
-								if ($tax_rate['type'] == 'P') {
-									$total['taxes'][$tax_rate['tax_rate_id']] -= $tax_rate['amount'];
+								foreach ($tax_rates as $tax_rate) {
+									if ($tax_rate['type'] == 'P') {
+										$total['taxes'][$tax_rate['tax_rate_id']] -= $tax_rate['amount'];
+									}
 								}
 							}
 						}
-					}
 
-					$discount_total += $discount;
+						$discount_total += $discount;
+					}
 				}
 
 				$total['totals'][] = array(

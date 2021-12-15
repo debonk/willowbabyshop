@@ -11,7 +11,7 @@
     <?php } elseif ($column_left || $column_right) { ?>
     <?php $class = 'col-sm-9'; ?>
     <?php } else { ?>
-    <?php $class = 'col-sm-12'; ?>
+		<?php $class = 'col-sm-10 u-center-block'; ?>
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
 	  <div class="panel-heading"><h1 class="panel-title panel-v2 space-20"><?php echo $heading_title; ?></h1></div>

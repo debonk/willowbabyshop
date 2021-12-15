@@ -9,7 +9,7 @@ class ControllerCommonColumnRight extends Controller {
 			$route = 'common/home';
 		}
 
-		$layout_id = 0;
+		$layout_id = null;
 
 		if ($route == 'product/category' && isset($this->request->get['path'])) {
 			$this->load->model('catalog/category');
@@ -32,6 +32,10 @@ class ControllerCommonColumnRight extends Controller {
 		}
 
 		if (!$layout_id) {
+			if ($route == 'common/home') {
+				$layout_id = $this->config->get('config_layout_id');
+			}
+
 			$layout_id = $this->model_design_layout->getLayout($route);
 		}
 

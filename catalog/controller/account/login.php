@@ -73,7 +73,6 @@ class ControllerAccountLogin extends Controller
 			$google_client = new Google_Client();
 			//Set the OAuth 2.0 Client ID
 			$google_client->setClientId($this->config->get('google_login_client_id'));
-			// $google_client->setClientId('239326699932-7caq983lnj38rl0ntd3783lpk18eru30.apps.googleusercontent.com');
 			//Set the OAuth 2.0 Client Secret key
 			$google_client->setClientSecret($this->config->get('google_login_secret'));
 			//Set the OAuth 2.0 Redirect URI
@@ -134,7 +133,7 @@ class ControllerAccountLogin extends Controller
 						'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
 					);
 
-					$this->model_account_activity->addActivity('register', $activity_data);
+					$this->model_account_activity->addActivity('google_register', $activity_data);
 
 					$this->response->redirect($this->url->link('account/success'));
 				}
@@ -179,7 +178,7 @@ class ControllerAccountLogin extends Controller
 				'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
 			);
 
-			$this->model_account_activity->addActivity('login', $activity_data);
+			$this->model_account_activity->addActivity('google_login', $activity_data);
 
 			// Added strpos check to pass McAfee PCI compliance test (http://forum.opencart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
 			if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {
@@ -266,8 +265,6 @@ class ControllerAccountLogin extends Controller
 		} else {
 			$data['password'] = '';
 		}
-
-
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

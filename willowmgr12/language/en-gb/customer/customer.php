@@ -74,3 +74,4 @@ $_['error_country']                = 'Please select a province!';
 $_['error_zone']                   = 'Please select a city!';
 $_['error_custom_field']           = '%s required!';
 $_['error_custom_field_validate']  = '%s invalid!';
+$_['error_customer']  			   = 'Warning: This action is not permitted!';

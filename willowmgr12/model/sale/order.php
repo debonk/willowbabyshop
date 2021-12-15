@@ -60,10 +60,20 @@ class ModelSaleOrder extends Model {
 
 			$reward = 0;
 
-			$order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+			if ($this->config->get('reward_percent_gain') > 0) {
+				$order_totals = $this->getOrderTotals((int)$order_id);
 
-			foreach ($order_product_query->rows as $product) {
-				$reward += $product['reward'];
+				foreach ($order_totals as $order_total) {
+					if ($order_total['code'] == 'sub_total') {
+						$reward = ceil($order_total['value'] * $this->config->get('reward_percent_gain') / 100);
+					}
+				}
+			} else {
+				$order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+
+				foreach ($order_product_query->rows as $product) {
+					$reward += $product['reward'];
+				}
 			}
 			
 			if ($order_query->row['affiliate_id']) {

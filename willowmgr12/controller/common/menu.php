@@ -1,6 +1,122 @@
 <?php
 class ControllerCommonMenu extends Controller {
-	public function index() {
+	public function index()
+	{
+		$this->load->language('common/menu');
+
+		$data['text_dashboard'] = $this->language->get('text_dashboard');
+		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
+
+		$data['menu_groups'] = [];
+		$data['child_groups'] = [];
+		$data['menu_title'] = [];
+
+		$fa_icon_class = ['fa-tags', 'fa-puzzle-piece', 'fa-television', 'fa-shopping-cart', 'fa-user', 'fa-share-alt', 'fa-rocket', 'fa-globe', 'fa-cog', 'fa-bar-chart-o', 'fa-info', '', ''];
+
+		$menu_groups = [
+			'catalog'		=> [
+				'catalog/category',
+				'catalog/product',
+				'catalog/recurring',
+				'catalog/filter',
+				'attribute'		=> ['catalog/attribute', 'catalog/attribute_group'],
+				'catalog/option',
+				'catalog/manufacturer',
+				'catalog/download',
+				'catalog/review',
+				'catalog/information',
+				'catalog/tool'
+			],
+			'extension'		=> ['extension/installer', 'extension/modification', 'extension/theme', 'extension/analytics', 'extension/captcha', 'extension/feed', 'module/vqmod_manager', 'extension/fraud', 'extension/module', 'extension/payment', 'extension/shipping', 'extension/total'],
+			'design'		=> ['design/layout', 'design/banner'],
+			'sale'		=> [
+				'sale/order',
+				'sale/recurring',
+				'sale/return',
+				'voucher'		=> ['sale/voucher', 'sale/voucher_theme'],
+				'paypal'		=> ['payment/pp_express']
+			],
+			'customer'		=> ['customer/customer', 'customer/customer_group', 'customer/custom_field'],
+			'marketing'		=> ['marketing/marketing', 'marketing/affiliate', 'marketing/coupon', 'marketing/contact'],
+			'themecontrol'	=> ['module/themecontrol', 'module/pavmegamenu', 'module/pavblog', 'module/pavnewsletter'],
+			'localisation'	=> [
+				'localisation/language',
+				'localisation/currency',
+				'localisation/stock_status',
+				'localisation/order_status',
+				'return' => ['localisation/return_status', 'localisation/return_action', 'localisation/return_reason'],
+				'localisation/country',
+				'localisation/zone',
+				'localisation/city',
+				'localisation/geozone',
+				'tax' => ['localisation/tax_class', 'localisation/tax_rate'],
+				'localisation/length_class',
+				'localisation/weight_class'
+			],
+			'system'		=> [
+				'setting/store',
+				'user'			=> ['user/user', 'user/user_permission', 'user/api'],
+				'tool'			=> ['tool/sysinfo', 'tool/upload', 'tool/backup', 'tool/error_log']
+			],
+			'report'		=> [
+				'sale'			=> ['report/sale_order', 'report/sale_tax', 'report/sale_shipping', 'report/sale_return', 'report/sale_coupon', 'report/sale_cashback'],
+				'product'		=> ['report/product_viewed', 'report/product_purchased', 'report/payroll_tax'],
+				'customer'		=> ['report/customer_online', 'report/customer_activity', 'report/customer_order', 'report/customer_reward', 'report/customer_credit'],
+				'marketing'		=> ['report/marketing', 'report/affiliate', 'report/affiliate_activity'],
+			]
+		];
+
+		$permissions = $this->user->getPermission();
+
+		foreach ($permissions as $authority => $permission) {
+			foreach ($permission as $value) {
+				$permission_data[$value] = [
+					'url'	=> $this->url->link($value, 'token=' . $this->session->data['token'], 'true'),
+					'text'	=> $this->language->get('text_' . explode('/', $value)[1]),
+					'class'	=> $authority
+				];
+			}
+		}
+
+		#custom menu if not default
+		$permission_data['sale/recurring']['text'] = $this->language->get('text_order_recurring');
+		$permission_data['payment/pp_express']['url'] = $this->url->link('payment/pp_express/search', 'token=' . $this->session->data['token'], 'true');
+		$permission_data['payment/pp_express']['text'] = $this->language->get('text_paypal_search');
+
+		$menu_titles = array_keys($menu_groups);
+		foreach ($menu_titles as $idx => $title) {
+			$data['menu_titles'][$title] = [
+				'text'	=> $this->language->get('text_' . $title),
+				'icon'	=> $fa_icon_class[$idx]
+			];
+		}
+
+		foreach ($menu_groups as $menu_group => $menu_items) {
+			foreach ($menu_items as $child_group => $menu_item) {
+				if (is_array($menu_item)) {
+					foreach ($menu_item as $child_item) {
+						if (array_key_exists($child_item, $permission_data)) {
+							$data['child_groups'][$menu_group][$child_group][] = $permission_data[$child_item];
+						}
+					}
+
+					if (!empty($data['child_groups'][$menu_group][$child_group])) {
+						$data['menu_groups'][$menu_group][$child_group] = [
+							'text'	=> $this->language->get('text_' . $child_group)
+						];
+					}
+				} else {
+					if (array_key_exists($menu_item, $permission_data)) {
+						$data['menu_groups'][$menu_group][$menu_item] = $permission_data[$menu_item];
+					}
+				}
+			}
+		}
+
+		return $this->load->view('common/menu', $data);
+	}
+
+	public function index2() {
 		$this->load->language('common/menu');
 		// pavo 2.2 edit
 		$data['pavo_link'] = $this->url->link('module/themecontrol', 'token=' . $this->session->data['token'], 'true');

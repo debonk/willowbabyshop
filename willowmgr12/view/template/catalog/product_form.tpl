@@ -709,6 +709,7 @@
                       <td class="text-left"><?= $entry_customer_group; ?></td>
                       <td class="text-right"><?= $entry_quantity; ?></td>
                       <td class="text-right"><?= $entry_priority; ?></td>
+											<td class="text-right"><?= $entry_percentage; ?></td>
                       <td class="text-right"><?= $entry_price; ?></td>
                       <td class="text-left"><?= $entry_date_start; ?></td>
                       <td class="text-left"><?= $entry_date_end; ?></td>
@@ -730,6 +731,7 @@
                         </select></td>
                       <td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][quantity]" value="<?= $product_discount['quantity']; ?>" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>
                       <td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][priority]" value="<?= $product_discount['priority']; ?>" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>
+											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][percentage]" value="<?=((1 - $product_discount['price'] * (1/$price)) * 100); ?>" size="2" placeholder="%" onkeyup="calcPrice('discount', <?= $discount_row; ?>)" class="form-control"/></td>
                       <td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][price]" value="<?= $product_discount['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control" /></td>
                       <td class="text-left" style="width: 20%;"><div class="input-group date">
                           <input type="text" name="product_discount[<?= $discount_row; ?>][date_start]" value="<?= $product_discount['date_start']; ?>" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" />
@@ -748,7 +750,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colspan="6"></td>
+                      <td colspan="7"></td>
                       <td class="text-left"><button type="button" onclick="addDiscount();" data-toggle="tooltip" title="<?= $button_discount_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                     </tr>
                   </tfoot>
@@ -762,6 +764,7 @@
                     <tr>
                       <td class="text-left"><?= $entry_customer_group; ?></td>
                       <td class="text-right"><?= $entry_priority; ?></td>
+											<td class="text-right"><?= $entry_percentage; ?></td>
                       <td class="text-right"><?= $entry_price; ?></td>
                       <td class="text-left"><?= $entry_date_start; ?></td>
                       <td class="text-left"><?= $entry_date_end; ?></td>
@@ -782,6 +785,7 @@
                           <?php } ?>
                         </select></td>
                       <td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][priority]" value="<?= $product_special['priority']; ?>" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>
+											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][percentage]" value="<?=((1 - $product_special['price'] * (1/$price)) * 100); ?>" size="2" placeholder="%" onkeyup="calcPrice('special', <?= $special_row; ?>)" class="form-control"/></td>
                       <td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][price]" value="<?= $product_special['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control" /></td>
                       <td class="text-left" style="width: 20%;"><div class="input-group date">
                           <input type="text" name="product_special[<?= $special_row; ?>][date_start]" value="<?= $product_special['date_start']; ?>" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" />
@@ -800,7 +804,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colspan="5"></td>
+                      <td colspan="6"></td>
                       <td class="text-left"><button type="button" onclick="addSpecial();" data-toggle="tooltip" title="<?= $button_special_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                     </tr>
                   </tfoot>
@@ -925,7 +929,20 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+			<script type="text/javascript">
+			
+			function calcPrice(name, row) {
+			
+				var perc = $('input[name=\'product_' + name + '[' + row + '][percentage]\']').val();
+				var price = $('input[name=\'price\']').val();
+				var discounted_price = price * (1-(perc/100));
+				var calculated_percentage = discounted_price * (1-(price/100));
+				
+				$('input[name=\'product_' + name + '[' + row + '][price]\']').val(discounted_price);
+				
+			}
+			</script> 
+  <script type="text/javascript">
 // Manufacturer
 $('input[name=\'manufacturer\']').autocomplete({
 	'source': function(request, response) {
@@ -1068,8 +1085,8 @@ $('input[name=\'related\']').autocomplete({
 $('#product-related').delegate('.fa-minus-circle', 'click', function() {
 	$(this).parent().remove();
 });
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var attribute_row = <?= $attribute_row; ?>;
 
 function addAttribute() {
@@ -1117,8 +1134,8 @@ function attributeautocomplete(attribute_row) {
 $('#attribute tbody tr').each(function(index, element) {
 	attributeautocomplete(index);
 });
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var option_row = <?= $option_row; ?>;
 
 $('input[name=\'option\']').autocomplete({
@@ -1258,8 +1275,8 @@ $('input[name=\'option\']').autocomplete({
 		option_row++;
 	}
 });
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var option_value_row = <?= $option_value_row; ?>;
 
 function addOptionValue(option_row) {
@@ -1295,8 +1312,8 @@ function addOptionValue(option_row) {
 
 	option_value_row++;
 }
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var discount_row = <?= $discount_row; ?>;
 
 function addDiscount() {
@@ -1308,6 +1325,7 @@ function addDiscount() {
     html += '  </select></td>';
     html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
     html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>';
+		html += '<td class="right"><input type="text" name="product_discount[' + discount_row + '][percentage]" value="" size="2" placeholder="%" onkeyup="calcPrice(\'discount\',' + discount_row +')" class="form-control"/></td>';
 	html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
     html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
@@ -1322,8 +1340,8 @@ function addDiscount() {
 
 	discount_row++;
 }
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var special_row = <?= $special_row; ?>;
 
 function addSpecial() {
@@ -1334,6 +1352,7 @@ function addSpecial() {
     <?php } ?>
     html += '  </select></td>';
     html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][priority]" value="" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>';
+		html += '    <td class="text-right"><input type="text" name="product_special[' + special_row + '][percentage]" value="" size="2" placeholder="%"  onkeyup="calcPrice(\'special\',' + special_row +')" class="form-control"/></td>';
 	html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
     html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
@@ -1348,8 +1367,8 @@ function addSpecial() {
 
 	special_row++;
 }
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var image_row = <?= $image_row; ?>;
 
 function addImage() {
@@ -1363,8 +1382,8 @@ function addImage() {
 
 	image_row++;
 }
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 var recurring_row = <?= $recurring_row; ?>;
 
 function addRecurring() {
@@ -1393,8 +1412,8 @@ function addRecurring() {
 
 	$('#tab-recurring table tbody').append(html);
 }
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 $('.date').datetimepicker({
 	pickTime: false
 });
@@ -1407,9 +1426,9 @@ $('.datetime').datetimepicker({
 	pickDate: true,
 	pickTime: true
 });
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 $('#language a:first').tab('show');
 $('#option a:first').tab('show');
-//--></script></div>
+</script></div>
 <?= $footer; ?>

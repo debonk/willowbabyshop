@@ -28,6 +28,7 @@ class ControllerAccountForgotten extends Controller {
 			$message .= sprintf($this->language->get('text_ip'), $this->request->server['REMOTE_ADDR']) . "\n\n";
 
 			$mail = new Mail();
+
 			$mail->protocol = $this->config->get('config_mail_protocol');
 			$mail->parameter = $this->config->get('config_mail_parameter');
 			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
@@ -41,9 +42,17 @@ class ControllerAccountForgotten extends Controller {
 			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject(html_entity_decode($subject, ENT_QUOTES, 'UTF-8'));
 			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-			$mail->send();
+			// $mail->send();
+			$error_status = $mail->send();
 
-			$this->session->data['success'] = $this->language->get('text_success');
+			if (!$error_status) {
+				$this->session->data['success'] = $this->language->get('text_success');
+			} else {
+				return strip_tags($error_status);
+				$this->session->data['success'] = strip_tags($error_status);
+			}
+			
+			// $this->session->data['success'] = $this->language->get('text_success');
 
 			// Add to activity log
 			$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);

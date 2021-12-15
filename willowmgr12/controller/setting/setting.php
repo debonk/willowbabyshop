@@ -46,6 +46,7 @@ class ControllerSettingSetting extends Controller {
 		$data['text_shipping'] = $this->language->get('text_shipping');
 		$data['text_payment'] = $this->language->get('text_payment');
 		$data['text_mail'] = $this->language->get('text_mail');
+		$data['text_phpmailer'] = $this->language->get('text_phpmailer');
 		$data['text_smtp'] = $this->language->get('text_smtp');
 		$data['text_mail_api'] = $this->language->get('text_mail_api');//Bonk16
 		$data['text_general'] = $this->language->get('text_general');
@@ -58,11 +59,10 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_address'] = $this->language->get('entry_address');
 		$data['entry_geocode'] = $this->language->get('entry_geocode');
 		$data['entry_email'] = $this->language->get('entry_email');
+		$data['entry_email_2'] = $this->language->get('entry_email_2');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
 		$data['entry_fax'] = $this->language->get('entry_fax');
 		$data['entry_wa'] = $this->language->get('entry_wa');// Bonk
-		$data['entry_bbm'] = $this->language->get('entry_bbm');// Bonk
-		$data['entry_line'] = $this->language->get('entry_line');// Bonk
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_open'] = $this->language->get('entry_open');
 		$data['entry_comment'] = $this->language->get('entry_comment');
@@ -256,6 +256,12 @@ class ControllerSettingSetting extends Controller {
 			$data['error_email'] = $this->error['email'];
 		} else {
 			$data['error_email'] = '';
+		}
+
+		if (isset($this->error['email_2'])) {
+			$data['error_email_2'] = $this->error['email_2'];
+		} else {
+			$data['error_email_2'] = '';
 		}
 
 		if (isset($this->error['telephone'])) {
@@ -476,6 +482,16 @@ class ControllerSettingSetting extends Controller {
 			$data['config_email'] = $this->config->get('config_email');
 		}
 
+		if (isset($this->request->post['config_email_2'])) {
+			$data['config_email_2'] = $this->request->post['config_email_2'];
+		} else {
+			$data['config_email_2'] = $this->config->get('config_email_2');
+		}
+
+		if ($data['config_email_2'] == "") {
+			$data['config_email_2'] = $data['config_email'];
+		}
+
 		if (isset($this->request->post['config_telephone'])) {
 			$data['config_telephone'] = $this->request->post['config_telephone'];
 		} else {
@@ -492,18 +508,6 @@ class ControllerSettingSetting extends Controller {
 			$data['config_wa'] = $this->request->post['config_wa'];
 		} else {
 			$data['config_wa'] = $this->config->get('config_wa');
-		}
-
-		if (isset($this->request->post['config_bbm'])) {
-			$data['config_bbm'] = $this->request->post['config_bbm'];
-		} else {
-			$data['config_bbm'] = $this->config->get('config_bbm');
-		}
-
-		if (isset($this->request->post['config_line'])) {
-			$data['config_line'] = $this->request->post['config_line'];
-		} else {
-			$data['config_line'] = $this->config->get('config_line');
 		}
 
 		if (isset($this->request->post['config_image'])) {
@@ -828,7 +832,7 @@ class ControllerSettingSetting extends Controller {
 			$data['config_stock_checkout'] = $this->config->get('config_stock_checkout');
 		}
 
-		if (isset($this->request->post['config_affiliate_auto'])) {
+		if (isset($this->request->post['config_affiliate_approval'])) {
 			$data['config_affiliate_approval'] = $this->request->post['config_affiliate_approval'];
 		} elseif ($this->config->has('config_affiliate_commission')) {
 			$data['config_affiliate_approval'] = $this->config->get('config_affiliate_approval');
@@ -1015,6 +1019,16 @@ class ControllerSettingSetting extends Controller {
 			$data['config_mail_protocol'] = $this->config->get('config_mail_protocol');
 		}
 
+		$data['mail_protocols'] = [];
+
+		$mail_protocols = ['mail', 'phpmailer', 'smtp', 'mail_api'];
+		foreach ($mail_protocols as $protocol) {
+			$data['mail_protocols'][] = [
+				'protocol'	=> $protocol,
+				'text' 		=> $this->language->get('text_' . $protocol)
+			];
+		}
+
 		if (isset($this->request->post['config_mail_parameter'])) {
 			$data['config_mail_parameter'] = $this->request->post['config_mail_parameter'];
 		} else {
@@ -1177,6 +1191,12 @@ class ControllerSettingSetting extends Controller {
 
 		if ((utf8_strlen($this->request->post['config_email']) > 96) || !filter_var($this->request->post['config_email'], FILTER_VALIDATE_EMAIL)) {
 			$this->error['email'] = $this->language->get('error_email');
+		}
+
+		if ($this->request->post['config_email_2'] != "") {
+			if ((utf8_strlen($this->request->post['config_email_2']) > 96) || !filter_var($this->request->post['config_email_2'], FILTER_VALIDATE_EMAIL)) {
+				$this->error['email_2'] = $this->language->get('error_email');
+			}
 		}
 
 		if ((utf8_strlen($this->request->post['config_telephone']) < 3) || (utf8_strlen($this->request->post['config_telephone']) > 32)) {

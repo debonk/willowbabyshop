@@ -10,7 +10,9 @@ $_['text_edit']              = 'Edit Category';
 $_['text_default']           = 'Default';
 
 // Column
+$_['column_id']     		 = 'ID';
 $_['column_name']            = 'Category Name';
+$_['column_product_total']   = 'Product Total';
 $_['column_sort_order']      = 'Sort Order';
 $_['column_action']          = 'Action';
 

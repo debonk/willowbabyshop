@@ -133,6 +133,15 @@
                   <input type="text" name="config_email" value="<?= $config_email; ?>" placeholder="<?= $entry_email; ?>" id="input-email" class="form-control" />
                   <?php if ($error_email) { ?>
                   <div class="text-danger"><?= $error_email; ?></div>
+									<?php } ?>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-email_2"><?= $entry_email_2; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_email_2" value="<?= $config_email_2; ?>" placeholder="<?= $entry_email_2; ?>" id="input-email_2" class="form-control" />
+                  <?php if ($error_email_2) { ?>
+                  <div class="text-danger"><?= $error_email_2; ?></div>			
                   <?php } ?>
                 </div>
               </div>
@@ -158,19 +167,6 @@
                   <input type="text" name="config_wa" value="<?= $config_wa; ?>" placeholder="<?= $entry_wa; ?>" id="input-wa" class="form-control" />
                 </div>
               </div>
-               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-bbm"><?= $entry_bbm; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="config_bbm" value="<?= $config_bbm; ?>" placeholder="<?= $entry_bbm; ?>" id="input-bbm" class="form-control" />
-                </div>
-              </div>
-               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-line"><?= $entry_line; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="config_line" value="<?= $config_line; ?>" placeholder="<?= $entry_line; ?>" id="input-line" class="form-control" />
-                </div>
-              </div>
-			  
              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-image"><?= $entry_image; ?></label>
                 <div class="col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="<?= $thumb; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a>
@@ -946,7 +942,7 @@
                   <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?= $help_affiliate_auto; ?>"><?= $entry_affiliate_auto; ?></span></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
-                      <?php if ($config_stock_checkout) { ?>
+                      <?php if ($config_affiliate_auto) { ?>
                       <input type="radio" name="config_affiliate_auto" value="1" checked="checked" />
                       <?= $text_yes; ?>
                       <?php } else { ?>
@@ -955,7 +951,7 @@
                       <?php } ?>
                     </label>
                     <label class="radio-inline">
-                      <?php if (!$config_stock_checkout) { ?>
+                      <?php if (!$config_affiliate_auto) { ?>
                       <input type="radio" name="config_affiliate_auto" value="0" checked="checked" />
                       <?= $text_no; ?>
                       <?php } else { ?>
@@ -1163,28 +1159,18 @@
               </div>
             </div>
             <div class="tab-pane" id="tab-mail">
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-mail-protocol"><span data-toggle="tooltip" title="<?= $help_mail_protocol; ?>"><?= $entry_mail_protocol; ?></span></label>
+							<div class="form-group">
+                <label class="col-sm-2 control-label" for="input-mail-protocol"><span data-toggle="tooltip" title="<?php echo $help_mail_protocol; ?>"><?php echo $entry_mail_protocol; ?></span></label>
                 <div class="col-sm-10">
                   <select name="config_mail_protocol" id="input-mail-protocol" class="form-control">
-                    <?php if ($config_mail_protocol == 'mail') { ?>
-                    <option value="mail" selected="selected"><?= $text_mail; ?></option>
-                    <?php } else { ?>
-                    <option value="mail"><?= $text_mail; ?></option>
-                    <?php } ?>
-                    <?php if ($config_mail_protocol == 'smtp') { ?>
-                    <option value="smtp" selected="selected"><?= $text_smtp; ?></option>
-                    <?php } else { ?>
-                    <option value="smtp"><?= $text_smtp; ?></option>
-                    <?php } ?>
-					<!-- Bonk16 -->
-                    <?php if ($config_mail_protocol == 'mail_api') { ?>
-                    <option value="mail_api" selected="selected"><?= $text_mail_api; ?></option>
-                    <?php } else { ?>
-                    <option value="mail_api"><?= $text_mail_api; ?></option>
-                    <?php } ?>
-					<!-- Bonk16 End -->
-                  </select>
+                    <?php foreach ($mail_protocols as $mail_protocol) { ?>
+											<?php if ($mail_protocol['protocol'] == $config_mail_protocol) { ?>
+											<option value="<?php echo $mail_protocol['protocol']; ?>" selected="selected"><?php echo $mail_protocol['text']; ?></option>
+											<?php } else { ?>
+											<option value="<?php echo $mail_protocol['protocol']; ?>"><?php echo $mail_protocol['text']; ?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
                 </div>
               </div>
               <div class="form-group">

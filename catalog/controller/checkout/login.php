@@ -23,7 +23,6 @@ class ControllerCheckoutLogin extends Controller {
 			$google_client = new Google_Client();
 			//Set the OAuth 2.0 Client ID
 			$google_client->setClientId($this->config->get('google_login_client_id'));
-			// $google_client->setClientId('239326699932-7caq983lnj38rl0ntd3783lpk18eru30.apps.googleusercontent.com');
 			//Set the OAuth 2.0 Client Secret key
 			$google_client->setClientSecret($this->config->get('google_login_secret'));
 			//Set the OAuth 2.0 Redirect URI
@@ -33,62 +32,6 @@ class ControllerCheckoutLogin extends Controller {
 			$google_client->addScope('profile');
 
 			$data['login'] = $google_client->createAuthUrl();
-
-			// if (isset($this->request->get['code'])) {
-			// 	$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
-
-			// 	if (!isset($token['error'])) {
-			// 		$google_client->setAccessToken($token['access_token']);
-			// 		$google_service = new Google_Service_Oauth2($google_client);
-			// 		$client_data = $google_service->userinfo->get();
-
-			// 		$google_client->revokeToken();
-			// 	}
-			// }
-
-			// if (isset($client_data)) {
-			// 	$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
-
-			// 	if ($customer_info) {
-			// 		$this->request->post['email'] = $client_data['email'];
-			// 		$this->request->post['google_login'] = true;
-
-			// 		if ($this->validate()) {
-			// 			$validated = true;
-			// 		}
-			// 	} else {
-			// 		$customer_data = [
-			// 			'firstname'	=> $client_data['givenName'],
-			// 			'lastname'	=> $client_data['familyName'],
-			// 			'email' => $client_data['email'],
-			// 			'telephone' => '',
-			// 			'fax' => '',
-			// 			'password' => token(20),
-			// 			'newsletter' => '1'
-			// 		];
-
-			// 		$customer_id = $this->model_account_customer->addCustomer($customer_data);
-
-			// 		// Clear any previous login attempts for unregistered accounts.
-			// 		$this->model_account_customer->deleteLoginAttempts($client_data['email']);
-
-			// 		$this->customer->login($client_data['email'], '', true);
-
-			// 		unset($this->session->data['guest']);
-
-			// 		// Add to activity log
-			// 		$this->load->model('account/activity');
-
-			// 		$activity_data = array(
-			// 			'customer_id' => $customer_id,
-			// 			'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
-			// 		);
-
-			// 		$this->model_account_activity->addActivity('register', $activity_data);
-
-			// 		$this->response->redirect($this->url->link('account/success'));
-			// 	}
-			// }
 		}
 
 		$data['text_checkout_account'] = $this->language->get('text_checkout_account');

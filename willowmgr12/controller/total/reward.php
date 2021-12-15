@@ -23,8 +23,17 @@ class ControllerTotalReward extends Controller {
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
 
+		$data['entry_percent_gain'] = $this->language->get('entry_percent_gain');
+		$data['entry_max_subtotal'] = $this->language->get('entry_max_subtotal');
+		$data['entry_interval'] = $this->language->get('entry_interval');
+		$data['entry_sub_calc'] = $this->language->get('entry_sub_calc');
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
+
+		$data['help_percent_gain'] = $this->language->get('help_percent_gain');
+		$data['help_max_subtotal'] = $this->language->get('help_max_subtotal');
+		$data['help_interval'] = $this->language->get('help_interval');
+		$data['help_sub_calc'] = $this->language->get('help_sub_calc');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -56,6 +65,30 @@ class ControllerTotalReward extends Controller {
 
 		$data['cancel'] = $this->url->link('extension/total', 'token=' . $this->session->data['token'], true);
 
+		if (isset($this->request->post['reward_percent_gain'])) {
+			$data['reward_percent_gain'] = $this->request->post['reward_percent_gain'];
+		} else {
+			$data['reward_percent_gain'] = $this->config->get('reward_percent_gain');
+		}
+
+		if (isset($this->request->post['reward_sub_calc'])) {
+			$data['reward_sub_calc'] = $this->request->post['reward_sub_calc'];
+		} else {
+			$data['reward_sub_calc'] = $this->config->get('reward_sub_calc');
+		}
+
+		if (isset($this->request->post['reward_max_subtotal'])) {
+			$data['reward_max_subtotal'] = $this->request->post['reward_max_subtotal'];
+		} else {
+			$data['reward_max_subtotal'] = $this->config->get('reward_max_subtotal');
+		}
+
+		if (isset($this->request->post['reward_interval'])) {
+			$data['reward_interval'] = $this->request->post['reward_interval'];
+		} else {
+			$data['reward_interval'] = $this->config->get('reward_interval');
+		}
+
 		if (isset($this->request->post['reward_status'])) {
 			$data['reward_status'] = $this->request->post['reward_status'];
 		} else {
@@ -78,6 +111,18 @@ class ControllerTotalReward extends Controller {
 	protected function validate() {
 		if (!$this->user->hasPermission('modify', 'total/reward')) {
 			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		if (($this->request->post['reward_percent_gain'] < 0) or ($this->request->post['reward_percent_gain'] > 100)) {
+			$this->error['warning'] = $this->language->get('error_percent_gain');
+		}
+
+		if (($this->request->post['reward_max_subtotal'] < 0) or ($this->request->post['reward_max_subtotal'] > 100)) {
+			$this->error['warning'] = $this->language->get('error_max_subtotal');
+		}
+
+		if ($this->request->post['reward_interval'] <= 0) {
+			$this->error['warning'] = $this->language->get('error_interval');
 		}
 
 		return !$this->error;

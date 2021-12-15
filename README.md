@@ -1,5 +1,19 @@
 # willowbabyshop software
 
+15/12/2021
+2.2.3.2
+Library: Add PHPMailer library
+Bug Fixed: Reset password not working
+Customer Activity: Handle activity about google login and register
+Product List: Add field date modified, apply permanently extended product list
+Product > Delete: Termasuk menghapus file gambar dan cache.
+Menu: Dynamic Menu.
+Modification: VQMod to Permanent Mod
+Contact: Remove BBM and LINE
+Bug fixed: Search, Special, Highlight, and Manufacturer Info Layout
+Total > Reward: Enhance reward point
+Category, Manufacturer: Add Id and Product Total Field
+
 08/12/2021
 2.2.3.1
 Checkout: Login & Register by Google

@@ -20,8 +20,13 @@ $_['column_name']            = 'Product Name';
 $_['column_model']           = 'Model';
 $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
+$_['column_product_id']    	 = 'ID';
+$_['column_manufacturer']    = 'Brand';
+$_['column_category']        = 'Category';
+$_['column_tag']             = 'Tags';
 $_['column_quantity']        = 'Quantity';
 $_['column_weight']          = 'Weight';
+$_['column_date_modified']   = 'Date Modified';
 $_['column_status']          = 'Status';
 $_['column_action']          = 'Action';
 
@@ -81,6 +86,9 @@ $_['entry_tag']          	 = 'Product Tags';
 $_['entry_reward']           = 'Reward Points';
 $_['entry_layout']           = 'Layout Override';
 $_['entry_recurring']        = 'Recurring Profile';
+$_['entry_all_manufacturer'] = '--- All Brands ---';
+$_['entry_all_category']     = '--- All Categories ---';
+$_['entry_percentage']       = 'Discount %:';
 
 // Help
 $_['help_keyword']           = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';

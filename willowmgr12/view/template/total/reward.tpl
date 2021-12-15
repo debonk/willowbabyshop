@@ -26,6 +26,34 @@
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-reward" class="form-horizontal">
           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-percent-gain"><span data-toggle="tooltip" title="<?php echo $help_percent_gain; ?>"><?php echo $entry_percent_gain; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_percent_gain" value="<?php echo $reward_percent_gain; ?>" placeholder="<?php echo $entry_percent_gain; ?>" id="input-percent-gain" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_sub_calc; ?>"><?php echo $entry_sub_calc; ?></span></label>
+            <div class="col-sm-10">
+				<?php if ($reward_sub_calc) { ?>
+				   <input type="checkbox" name="reward_sub_calc"  checked="checked" class="form-control" />
+				<?php } else { ?>
+				   <input type="checkbox" name="reward_sub_calc"  class="form-control" />
+				<?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-max-subtotal"><span data-toggle="tooltip" title="<?php echo $help_max_subtotal; ?>"><?php echo $entry_max_subtotal; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_max_subtotal" value="<?php echo $reward_max_subtotal; ?>" placeholder="<?php echo $entry_max_subtotal; ?>" id="input-max-subtotal" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-interval"><span data-toggle="tooltip" title="<?php echo $help_interval; ?>"><?php echo $entry_interval; ?></span></label>
+            <div class="col-sm-10">
+              <input type="text" name="reward_interval" value="<?php echo $reward_interval; ?>" placeholder="<?php echo $entry_interval; ?>" id="input-interval" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
               <select name="reward_status" id="input-status" class="form-control">

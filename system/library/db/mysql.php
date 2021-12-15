@@ -72,6 +72,17 @@ final class MySQL {
 		}
 	}
 
+	public function getServerInfo() {
+		if ($this->link) {
+			return mysql_get_server_info();
+		}
+	}
+	public function getHostInfo() {
+		if ($this->link) {
+			return mysql_get_host_info();
+		}
+	}
+
 	public function getLastId() {
 		if ($this->connection) {
 			return mysql_insert_id($this->connection);

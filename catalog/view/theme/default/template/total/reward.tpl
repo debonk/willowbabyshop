@@ -5,17 +5,28 @@
   <div id="collapse-reward" class="panel-collapse collapse">
     <div class="panel-body">
       <label class="col-sm-2 control-label" for="input-reward"><?php echo $entry_reward; ?></label>
-      <div class="input-group">
-        <input type="text" name="reward" value="<?php echo $reward; ?>" placeholder="<?php echo $entry_reward; ?>" id="input-reward" class="form-control" />
-        <span class="input-group-btn">
-        <input type="submit" value="<?php echo $button_reward; ?>" id="button-reward" data-loading-text="<?php echo $text_loading; ?>"  class="btn btn-primary" />
-        </span></div>
-      <script type="text/javascript"><!--
+			<!--Bonk-->	  
+			<div class="col-sm-10 form-group">
+				<select name="reward" id="input-reward" class="form-control">
+					<?php foreach ($set_rewards as $set_reward) { ?>
+									<?php if ($set_reward == $reward) { ?>
+										<option value="<?php echo $set_reward; ?>" selected="selected"><?php echo $set_reward; ?></option>
+									<?php } else { ?>
+										<option value="<?php echo $set_reward; ?>"><?php echo $set_reward; ?></option> 
+									<?php } ?>
+			<?php } ?>
+			</select>
+
+		</div>
+		<div>   
+			 <input type="submit" value="<?php echo $button_reward; ?>" id="button-reward" data-loading-text="<?php echo $text_loading; ?>"  class="btn btn-primary" />
+			</div>
+      <script type="text/javascript">
 $('#button-reward').on('click', function() {
 	$.ajax({
 		url: 'index.php?route=total/reward/reward',
 		type: 'post',
-		data: 'reward=' + encodeURIComponent($('input[name=\'reward\']').val()),
+		data: 'reward=' + encodeURIComponent($('select[name=\'reward\']').val()),
 		dataType: 'json',
 		beforeSend: function() {
 			$('#button-reward').button('loading');
@@ -38,7 +49,7 @@ $('#button-reward').on('click', function() {
 		}
 	});
 });
-//--></script>
+</script>
     </div>
   </div>
 </div>

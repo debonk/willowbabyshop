@@ -12,9 +12,11 @@ $_['text_percent']       = 'Percentage';
 $_['text_amount']        = 'Fixed Amount';
 
 // Column
-$_['column_name']        = 'Manufacturer Name';
-$_['column_sort_order']  = 'Sort Order';
-$_['column_action']      = 'Action';
+$_['column_id']        		= 'ID';
+$_['column_name']        	= 'Manufacturer Name';
+$_['column_sort_order']  	= 'Sort Order';
+$_['column_product_total']	= 'Product Total';
+$_['column_action']			= 'Action';
 
 // Entry
 $_['entry_name']         = 'Manufacturer Name';

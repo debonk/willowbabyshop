@@ -170,20 +170,6 @@
                                             <?php echo $wa; ?>
                                       </div>
                                     </div>
-                                    <div class="media">
-                                      <div class="media-icon pull-left"><?php echo $logo_bbm; ?></div>
-                                      <div class="media-body">
-                                        <h4 class="media-heading"><?php echo $text_bbm; ?></h4>
-                                            <?php echo $bbm; ?>
-                                      </div>
-                                    </div>
-                                    <div class="media">
-                                      <div class="media-icon pull-left"><?php echo $logo_line; ?></div>
-                                      <div class="media-body">
-                                        <h4 class="media-heading"><?php echo $text_line; ?></h4>
-                                            <?php echo $line; ?>
-                                      </div>
-                                    </div>
 
 									<?php if ($comment) { ?>
                                     <div class="media">
@@ -218,58 +204,4 @@
 	</aside>
 <?php endif; ?></div>
 </div>
-
- <?php // Jquery googlemap api v3?>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=en"></script>
-    <script type="text/javascript" src="catalog/view/javascript/gmap/gmap3.min.js"></script>
-    <script type="text/javascript" src="catalog/view/javascript/gmap/gmap3.infobox.js"></script>
-    <script type="text/javascript">
-        var mapDiv, map, infobox;
-        var lat = <?php echo isset($themeConfig['location_latitude'])?$themeConfig['location_latitude']:'40.705423'; ?>;
-        var lon = <?php echo isset($themeConfig['location_longitude'])?$themeConfig['location_longitude']:'-74.008616'; ?>;
-        jQuery(document).ready(function($) {
-            mapDiv = $("#contact-map");
-            mapDiv.height(400).gmap3({
-                map:{
-                    options:{
-                        center:[lat,lon],
-						scrollwheel: false,
-                        zoom: 15
-                    }
-                },
-                marker:{
-                    values:[
-                        {latLng:[lat, lon], data:"<?php echo isset($themeConfig['location_address'])?$themeConfig['location_address']:'79-99 Beaver Street, New York, NY 10005, USA'; ?>"},
-                    ],
-                    options:{
-                        draggable: false
-                    },
-                    events:{
-                          mouseover: function(marker, event, context){
-                            var map = $(this).gmap3("get"),
-                                infowindow = $(this).gmap3({get:{name:"infowindow"}});
-                            if (infowindow){
-                                infowindow.open(map, marker);
-                                infowindow.setContent(context.data);
-                            } else {
-                                $(this).gmap3({
-                                infowindow:{
-                                    anchor:marker, 
-                                    options:{content: context.data}
-                                }
-                              });
-                            }
-                        },
-                        mouseout: function(){
-                            var infowindow = $(this).gmap3({get:{name:"infowindow"}});
-                            if (infowindow){
-                                infowindow.close();
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-    <?php //end contact map ?>
 <?php echo $footer; ?>

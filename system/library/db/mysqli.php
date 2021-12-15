@@ -52,6 +52,14 @@ final class MySQLi {
 		return $this->connection->affected_rows;
 	}
 
+	public function getServerInfo() {
+		return $this->connection->server_info;
+	}
+	
+	public function getHostInfo() {
+		return $this->connection->host_info;
+	}
+
 	public function getLastId() {
 		return $this->connection->insert_id;
 	}

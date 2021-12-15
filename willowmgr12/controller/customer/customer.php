@@ -1126,6 +1126,8 @@ class ControllerCustomerCustomer extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
+		$this->error['warning'] = $this->language->get('error_customer');
+
 		return !$this->error;
 	}
 
