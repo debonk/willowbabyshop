@@ -79,6 +79,7 @@ class ControllerCommonMenu extends Controller {
 		}
 
 		#custom menu if not default
+		$permission_data['setting/store']['text'] = $this->language->get('text_setting');
 		$permission_data['sale/recurring']['text'] = $this->language->get('text_order_recurring');
 		$permission_data['payment/pp_express']['url'] = $this->url->link('payment/pp_express/search', 'token=' . $this->session->data['token'], 'true');
 		$permission_data['payment/pp_express']['text'] = $this->language->get('text_paypal_search');

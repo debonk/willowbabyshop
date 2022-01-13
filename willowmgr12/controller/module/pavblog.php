@@ -426,6 +426,7 @@ class ControllerModulePavblog extends Controller {
 		$this->load->model('user/user');
 		// save to database
 		$issubmitfalse = false; 
+
 		if (isset($this->request->post) && isset($this->request->post['pavblog_blog']) ) {
 			if( $this->validateBlog() ) {
 				$id = $this->model_pavblog_blog->saveData( $this->request->post );
@@ -549,28 +550,24 @@ class ControllerModulePavblog extends Controller {
 			$page = 1;
 		}
 
-		$url = '';
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-
-
 		$data = array(
-			'start' => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit' => $this->config->get('config_admin_limit')
+			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit' => $this->config->get('config_limit_admin')
 		);
+
 		$this->mdata['blogs'] = $this->model_pavblog_blog->getList( $data, $filter );
 		$total =  $this->model_pavblog_blog->getTotal( $data, $filter );
 		$pagination = new Pagination();
 		$pagination->total = $total;
 		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_admin_limit');
+		$pagination->limit = $this->config->get('config_limit_admin');
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'] . '&page={page}', true);
 
 		$this->mdata['pagination'] = $pagination->render();
+
+		$this->mdata['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($total - $this->config->get('config_limit_admin'))) ? $total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $total, ceil($total / $this->config->get('config_limit_admin')));
+
 		$this->setBreadcrumb();
 		$this->setTemplate("blogs");
 	}

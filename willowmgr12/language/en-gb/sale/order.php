@@ -61,6 +61,7 @@ $_['text_commission_removed']    = 'Success: Commission removed!';
 $_['text_restock']               = 'Success: Products have been restocked!';
 $_['text_upload']                = 'Your file was successfully uploaded!';
 $_['text_picklist']              = 'Dispatch Note';
+$_['text_invoice_set']           = 'Success: Invoice set!';
 
 // Column
 $_['column_order_id']            = 'Order ID';
@@ -136,6 +137,7 @@ $_['help_override']              = 'If the customers order is being blocked from
 $_['error_warning']              = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']           = 'Warning: You do not have permission to modify orders!';
 $_['error_action']               = 'Warning: Could not complete this action!';
+$_['error_invoice']              = 'Warning: Invoice No has been registered to other order!';
 $_['error_filetype']			 = 'Invalid file type!';
 $_['error_cashback']			 = 'Re-check!';//Bonk05
 

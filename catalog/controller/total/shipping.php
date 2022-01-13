@@ -1,6 +1,8 @@
 <?php
-class ControllerTotalShipping extends Controller {
-	public function index() {
+class ControllerTotalShipping extends Controller
+{
+	public function index()
+	{
 		if ($this->config->get('shipping_status') && $this->config->get('shipping_estimator') && $this->cart->hasShipping()) {
 			$this->load->language('total/shipping');
 
@@ -14,8 +16,8 @@ class ControllerTotalShipping extends Controller {
 
 			$data['entry_country'] = $this->language->get('entry_country');
 			$data['entry_zone'] = $this->language->get('entry_zone');
-			$data['entry_city'] = $this->language->get('entry_city');//Bonk
-//			$data['entry_postcode'] = $this->language->get('entry_postcode');
+			$data['entry_city'] = $this->language->get('entry_city'); //Bonk
+			//			$data['entry_postcode'] = $this->language->get('entry_postcode');
 
 			$data['button_quote'] = $this->language->get('button_quote');
 			$data['button_shipping'] = $this->language->get('button_shipping');
@@ -24,7 +26,7 @@ class ControllerTotalShipping extends Controller {
 			if (isset($this->session->data['shipping_address']['country_id'])) {
 				$data['country_id'] = $this->session->data['shipping_address']['country_id'];
 			} else {
-				$data['country_id'] = '';//$this->config->get('config_country_id');
+				$data['country_id'] = ''; //$this->config->get('config_country_id');
 			}
 
 			$this->load->model('localisation/country');
@@ -38,9 +40,9 @@ class ControllerTotalShipping extends Controller {
 			}
 
 			//Bonk
-//			$this->load->model('localisation/zone');
+			//			$this->load->model('localisation/zone');
 
-	//		$data['zones'] = $this->model_localisation_zone->getZonesByCountryId($this->data['country_id']);
+			//		$data['zones'] = $this->model_localisation_zone->getZonesByCountryId($this->data['country_id']);
 
 			if (isset($this->session->data['shipping_address']['city'])) {
 				$data['city'] = $this->session->data['shipping_address']['city'];
@@ -48,7 +50,7 @@ class ControllerTotalShipping extends Controller {
 				$data['city'] = '';
 			}
 
-/*			if (isset($this->session->data['shipping_address']['postcode'])) {
+			/*			if (isset($this->session->data['shipping_address']['postcode'])) {
 				$data['postcode'] = $this->session->data['shipping_address']['postcode'];
 			} else {
 				$data['postcode'] = '';
@@ -64,7 +66,8 @@ class ControllerTotalShipping extends Controller {
 		}
 	}
 
-	public function quote() {
+	public function quote()
+	{
 		$this->load->language('total/shipping');
 
 		$json = array();
@@ -139,7 +142,8 @@ class ControllerTotalShipping extends Controller {
 				'company'        => '',
 				'address_1'      => '',
 				'address_2'      => '',
-				'postcode'       => $this->request->post['postcode'],
+				// 'postcode'       => $this->request->post['postcode'],
+				'postcode'       => '',
 				'city'           => $this->request->post['city'],
 				'city_name'      => $city_name,
 				'zone_id'        => $this->request->post['zone_id'],
@@ -165,16 +169,27 @@ class ControllerTotalShipping extends Controller {
 					$quote = $this->{'model_shipping_' . $result['code']}->getQuote($this->session->data['shipping_address']);
 
 					if ($quote) {
-						//Bonk: add logo
-						if (isset($quote['logo'])) {
-							$quote['title'] = $quote['logo'];
+						if (isset($quote['multi_shipping'])) {
+							foreach ($quote['multi_shipping'] as $subquote) {
+								$quote_data[$subquote['code']] = array(
+									'title'			=> $subquote['title'],
+									'logo'			=> $subquote['logo'],
+									'quote'			=> $subquote['quote'],
+									'sort_order'	=> $subquote['sort_order'],
+									'error'			=> $subquote['error']
+								);
+							}
+						} else {
+							if (isset($quote['logo'])) {
+								$quote['title'] = $quote['logo'];
+							}
+							$quote_data[$result['code']] = array(
+								'title'      => $quote['title'],
+								'quote'      => $quote['quote'],
+								'sort_order' => $quote['sort_order'],
+								'error'      => $quote['error']
+							);
 						}
-						$quote_data[$result['code']] = array(
-							'title'      => $quote['title'],
-							'quote'      => $quote['quote'],
-							'sort_order' => $quote['sort_order'],
-							'error'      => $quote['error']
-						);
 					}
 				}
 			}
@@ -200,14 +215,15 @@ class ControllerTotalShipping extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function shipping() {
+	public function shipping()
+	{
 		$this->load->language('total/shipping');
 
 		$json = array();
 
 		if (!empty($this->request->post['shipping_method'])) {
 			$shipping = explode('.', $this->request->post['shipping_method']);
-
+	
 			if (!isset($shipping[0]) || !isset($shipping[1]) || !isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {
 				$json['warning'] = $this->language->get('error_shipping');
 			}
@@ -229,7 +245,8 @@ class ControllerTotalShipping extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function country() {
+	public function country()
+	{
 		$json = array();
 
 		$this->load->model('localisation/country');
@@ -255,7 +272,8 @@ class ControllerTotalShipping extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 	// Bonk
-		public function zone() {
+	public function zone()
+	{
 		$json = array();
 
 		$this->load->model('localisation/zone');

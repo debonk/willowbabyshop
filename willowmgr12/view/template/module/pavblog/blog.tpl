@@ -89,7 +89,7 @@
 									<tr>
 										<td class="col-sm-2"><?php echo $objlang->get('entry_hits');?></td>
 										<td class="col-sm-10">
-											<input class="form-control" type="text" name="pavblog_blog[hits]" value="<?php echo $blog['hits'];?>">
+											<input class="form-control" type="text" name="pavblog_blog[hits]" value="<?php echo $blog['hits'];?>" disabled>
 										</td>
 									</tr>
 									<tr>
@@ -162,14 +162,14 @@
 										<tr>
 											<td><?php echo $objlang->get('entry_description');?></td>
 											<td>
-												<textarea id="pavblog_blog_description_title_lang<?php echo $language["language_id"];?>" class="form-control" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][description]"  rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['description'];?></textarea>
+												<textarea id="pavblog_blog_description_title_lang<?php echo $language['language_id'];?>" class="form-control summernote" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][description]" rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['description'];?></textarea>
 											</td>
 										</tr>
 										</tr>
 										<tr>
 											<td><?php echo $objlang->get('entry_content');?></td>
 											<td>
-												<textarea id="pavblog_blog_description_des_lang<?php echo $language["language_id"];?>" class="form-control" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][content]"  rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['content'];?></textarea>
+												<textarea id="pavblog_blog_description_des_lang<?php echo $language['language_id'];?>" class="form-control summernote" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][content]" rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['content'];?></textarea>
 											</td>
 										</tr>
 									</table>
@@ -235,10 +235,10 @@
 		return confirm( "<?php echo $objlang->get("text_confirm_delete");?>" );
 	});
 
-	<?php foreach ($languages as $language) { ?>
-	$('#pavblog_blog_description_title_lang<?php echo $language["language_id"];?>').summernote({ height: 150 });
-	$('#pavblog_blog_description_des_lang<?php echo $language["language_id"]; ?>').summernote({ height: 150 });
-	<?php } ?>
+	// <?php foreach ($languages as $language) { ?>
+	// $('#pavblog_blog_description_title_lang<?php echo $language["language_id"];?>').summernote({ height: 150 });
+	// $('#pavblog_blog_description_des_lang<?php echo $language["language_id"]; ?>').summernote({ height: 150 });
+	// <?php } ?>
 	
 </script>
 <?php echo $footer; ?>

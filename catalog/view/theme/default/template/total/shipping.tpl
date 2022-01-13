@@ -89,7 +89,11 @@ $('#button-quote').on('click', function() {
 				html += '      <div class="modal-body">';
 
 				for (i in json['shipping_method']) {
-					html += '<p><strong>' + json['shipping_method'][i]['title'] + '</strong></p>';
+					if (json['shipping_method'][i]['logo']) {
+						html += '<img src="' + json['shipping_method'][i]['logo'] + '" alt="" class="pt-2" />';
+					} else {
+						html += '<p><strong>' + json['shipping_method'][i]['title'] + '</strong></p>';
+					}
 
 					if (!json['shipping_method'][i]['error']) {
 						for (j in json['shipping_method'][i]['quote']) {

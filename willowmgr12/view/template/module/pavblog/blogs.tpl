@@ -94,8 +94,13 @@
 							</tbody>
 						</table>
 					</form>
-					<div class="pagination">
-						<?php echo $pagination;?>
+					<div class="row">
+						<div class="col-sm-6 text-left">
+							<?= $pagination; ?>
+						</div>
+						<div class="col-sm-6 text-right">
+							<?= $results; ?>
+						</div>
 					</div>
 				</div>
 

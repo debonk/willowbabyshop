@@ -1,5 +1,13 @@
 # willowbabyshop software
 
+2.2.4.0	13/01/2021
+Modul: Total > Shipping: Raja Ongkir
+Bug Fixed: Order Info > Set Invoice No
+Order Info > Update Order History: Validate Invoice No must be set before order complete.
+Bug Fixed: Manufacturer List.
+Bug Fixed: Pavblog > summernote insert image not manage by filemanager.
+Bug Fixed: Filemanager: common.js not catch newly created a.thumbnail element.
+
 15/12/2021
 2.2.3.2
 Library: Add PHPMailer library

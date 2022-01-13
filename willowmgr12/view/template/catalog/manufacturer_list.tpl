@@ -49,9 +49,9 @@
 									<td style="width: 1px;" class="text-center"><input type="checkbox"
 											onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" />
 											<br>
-											<?php if ($sort == 'cp.category_id') { ?>
+											<?php if ($sort == 'manufacturer_id') { ?>
 											<a href="<?= $sort_id; ?>" class="<?= strtolower($order); ?>">
-												<?= $column_category_id; ?>
+												<?= $column_id; ?>
 											</a>
 											<?php } else { ?>
 											<a href="<?= $sort_id; ?>">

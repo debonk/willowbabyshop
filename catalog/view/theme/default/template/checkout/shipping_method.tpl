@@ -4,7 +4,11 @@
 <?php if ($shipping_methods) { ?>
 <p><?php echo $text_shipping_method; ?></p>
 <?php foreach ($shipping_methods as $shipping_method) { ?>
+<?php if (!empty($shipping_method['logo'])) { ?>
+<img src="<?php echo $shipping_method['logo']; ?>" alt="" class="pt-2" />
+<?php } else { ?>
 <p><strong><?php echo $shipping_method['title']; ?></strong></p>
+<?php } ?>
 <?php if (!$shipping_method['error']) { ?>
 <?php foreach ($shipping_method['quote'] as $quote) { ?>
 <div class="radio">

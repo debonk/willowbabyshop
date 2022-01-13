@@ -57,7 +57,7 @@ class ModelShippingJnt extends Model {
 		if ($quote_data) {
       		$method_data = array(
         		'code'       => 'jnt',
-        		'logo'      => $this->language->get('text_logo'),
+        		'logo'       => $this->language->get('text_logo'),
         		'title'      => $this->language->get('text_title'),
         		'quote'      => $quote_data,
 				'sort_order' => $this->config->get('jnt_sort_order'),

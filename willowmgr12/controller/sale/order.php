@@ -1464,35 +1464,6 @@ class ControllerSaleOrder extends Controller {
 		}
 	}
 
-/*	public function createInvoiceNo() {
-		$this->load->language('sale/order');
-
-		$json = array();
-
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			if (isset($this->request->get['order_id'])) {
-				$order_id = $this->request->get['order_id'];
-			} else {
-				$order_id = 0;
-			}
-
-			$this->load->model('sale/order');
-
-			$invoice_no = $this->model_sale_order->createInvoiceNo($order_id);
-
-			if ($invoice_no) {
-				$json['invoice_no'] = $invoice_no;
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-*/
 	public function setInvoiceNo() {
 		$this->load->language('sale/order');
 
@@ -1507,21 +1478,25 @@ class ControllerSaleOrder extends Controller {
 				$order_id = 0;
 			}
 
-			//Bonk
-			if (isset($this->request->post['set_invoice_no'])) {
-				$set_invoice_no = $this->request->post['set_invoice_no'];
-			} else {
-				$set_invoice_no = 0;
-			}
-
 			$this->load->model('sale/order');
 
-			$invoice_no = $this->model_sale_order->setInvoiceNo($order_id, $set_invoice_no);
+			$order_info = $this->model_sale_order->getOrder($order_id);
 
-			if ($invoice_no) {
-				$json['invoice_no'] = $invoice_no;
+			if ($this->request->post['set_invoice_no'] && $this->request->post['set_invoice_no'] != $order_info['invoice_no']) {
+				$order_invoice_info = $this->model_sale_order->getOrderByInvoice($this->request->post['set_invoice_no']);
+
+				if ($order_invoice_info) {
+					$json['error'] = $this->language->get('error_invoice');
+				} else {
+					$invoice_no = $this->model_sale_order->setInvoiceNo($order_id, $this->request->post['set_invoice_no']);
+					$json['success'] = $this->language->get('text_invoice_set');
+				}
 			} else {
-				$json['error'] = $this->language->get('error_action');
+				$invoice_no = $order_info['invoice_no'];
+			}
+
+			if (isset($invoice_no)) {
+				$json['invoice_no'] = $this->config->get('config_invoice_prefix') . $invoice_no;
 			}
 		}
 

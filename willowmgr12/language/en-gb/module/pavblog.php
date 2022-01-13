@@ -12,7 +12,7 @@ $_['heading_title'] = 'Pav Blog Management';
 
 // Text
 $_['text_treemenu'] = 'Tree Category Management';
- $_['text_menu_assignment'] = 'Module Assignment';
+$_['text_menu_assignment'] = 'Module Assignment';
 $_['text_module']         = 'Modules';
 $_['text_success']        = 'Success: You have modified module Category!';
 $_['text_content_top']    = 'Content Top';
@@ -148,6 +148,7 @@ $_['text_general'] = "General";
 $_['text_gallery'] = "Images - Gallery"; 
 $_['text_meta']   = "Meta - SEO";
 $_['entry_category_id'] = 'Category';
+$_['entry_featured'] = 'Featured';
 $_['entry_hits'] = 'Hits';
 $_['entry_created'] = 'Created Date';
 $_['entry_creator'] = 'Creator';

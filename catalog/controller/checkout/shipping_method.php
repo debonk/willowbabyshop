@@ -18,16 +18,27 @@ class ControllerCheckoutShippingMethod extends Controller {
 					$quote = $this->{'model_shipping_' . $result['code']}->getQuote($this->session->data['shipping_address']);
 
 					if ($quote) {
-						//Bonk:add logo
-						if (isset($quote['logo'])) {
-							$quote['title'] = $quote['logo'];
+						if (isset($quote['multi_shipping'])) {
+							foreach ($quote['multi_shipping'] as $subquote) {
+								$method_data[$subquote['code']] = array(
+									'title'			=> $subquote['title'],
+									'logo'			=> $subquote['logo'],
+									'quote'			=> $subquote['quote'],
+									'sort_order'	=> $subquote['sort_order'],
+									'error'			=> $subquote['error']
+								);
+							}
+						} else {
+							if (isset($quote['logo'])) {
+								$quote['title'] = $quote['logo'];
+							}
+							$method_data[$result['code']] = array(
+								'title'      => $quote['title'],
+								'quote'      => $quote['quote'],
+								'sort_order' => $quote['sort_order'],
+								'error'      => $quote['error']
+							);
 						}
-						$method_data[$result['code']] = array(
-							'title'      => $quote['title'],
-							'quote'      => $quote['quote'],
-							'sort_order' => $quote['sort_order'],
-							'error'      => $quote['error']
-						);
 					}
 				}
 			}
