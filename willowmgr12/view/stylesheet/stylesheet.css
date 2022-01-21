@@ -634,3 +634,13 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
     visibility: unset;
 }
 /* Menu Fix For System -> Layout -> Banner */
+
+.pt-0 {
+	padding-top: 0;
+}
+.pt-2 {
+	padding-top: .5rem;
+}
+.pt-4 {
+	padding-top: 1rem;
+}

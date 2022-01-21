@@ -24,8 +24,7 @@
 		<?php } ?>
 
 		<?php if ($payment_method['terms']) { ?>
-		(
-		<?php echo $payment_method['terms']; ?>)
+		(<?php echo $payment_method['terms']; ?>)
 		<?php } ?>
 	</label>
 </div>

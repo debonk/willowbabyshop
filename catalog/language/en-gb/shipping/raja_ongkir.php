@@ -7,6 +7,3 @@ $_['text_pos']		= 'POS';
 $_['text_jne']		= 'JNE';
 $_['text_jnt']		= 'J&T';
 $_['text_sicepat']	= 'SiCepat';
-
-$_['text_logo_jne'] = '<img src="image/shipping/jne.png" alt="JNE" />';
-

@@ -12342,8 +12342,9 @@ header .right-panel {
 }
 .footer-image {
   height: 210px;
-  background: url("../image/footer_image_standard.png") no-repeat bottom;
-  margin-top: 50px;
+  background: no-repeat bottom;
+  /* background: url("../image/footer_image_standard.png") no-repeat bottom; */
+  /* margin-top: 50px; */
   background-size: 100%;
 }
 

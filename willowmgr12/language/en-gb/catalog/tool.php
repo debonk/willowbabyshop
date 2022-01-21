@@ -3,7 +3,7 @@
 $_['heading_title']    = 'Catalog Tools';
 
 // Text
-$_['text_success']     = 'Success: You have successfully imported your database!';
+$_['text_success']     = 'Success: You have successfully imported your products to database!';
 $_['text_meta_title']  = 'JUAL %s | Willowbabyshop';
 $_['text_export1']     = 'Reserved for template';//Bonk
 

@@ -37,7 +37,7 @@ class ControllerCommonMenu extends Controller {
 				'paypal'		=> ['payment/pp_express']
 			],
 			'customer'		=> ['customer/customer', 'customer/customer_group', 'customer/custom_field'],
-			'marketing'		=> ['marketing/marketing', 'marketing/affiliate', 'marketing/coupon', 'marketing/contact'],
+			'marketing'		=> ['marketing/marketing', 'marketing/affiliate', 'marketing/coupon', 'marketing/contact', 'marketing/collection'],
 			'themecontrol'	=> ['module/themecontrol', 'module/pavmegamenu', 'module/pavblog', 'module/pavnewsletter'],
 			'localisation'	=> [
 				'localisation/language',

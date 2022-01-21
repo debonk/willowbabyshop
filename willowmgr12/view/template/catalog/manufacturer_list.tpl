@@ -126,7 +126,7 @@
 								<?php } ?>
 								<?php } else { ?>
 								<tr>
-									<td class="text-center" colspan="4">
+									<td class="text-center" colspan="5">
 										<?= $text_no_results; ?>
 									</td>
 								</tr>

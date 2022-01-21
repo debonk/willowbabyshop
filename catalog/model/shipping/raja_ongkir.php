@@ -92,6 +92,9 @@ class ModelShippingRajaOngkir extends Model
 					'weight'			=> $weight,
 					'courier'			=> $courier
 				];
+
+				$results = $this->getCost($cost_data);
+
 			} else {
 				$origin = $this->config->get('raja_ongkir_city_id');
 

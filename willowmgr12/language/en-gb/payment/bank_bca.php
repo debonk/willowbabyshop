@@ -6,7 +6,7 @@ $_['heading_title']      = 'Bank Transfer via BCA';
 $_['text_payment']       = 'Payment';
 $_['text_success']       = 'Success You have modified bank bca details!';
 $_['text_edit']          = 'Edit Bank Transfer via BCA';
-$_['text_bank_bca'] = '<a onclick="window.open(\'http://bca.com\');"><img src="view/image/payment/bca_logo.png" alt="Bank BCA" title="Bank BCA" /></a>';
+$_['text_bank_bca'] 	= '<img src="view/image/payment/bca_logo.png" alt="Bank BCA" title="Bank BCA" /></a>';
 
 // Entry
 $_['entry_bank']         = 'Bank Transfer via BCA Instructions';

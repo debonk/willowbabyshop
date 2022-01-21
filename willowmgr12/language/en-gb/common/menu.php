@@ -32,6 +32,7 @@ $_['text_language']                    = 'Languages';
 $_['text_layout']                      = 'Layouts';
 $_['text_localisation']                = 'Localisation';
 $_['text_location']                    = 'Store Location';
+$_['text_collection']                  = 'HUT BCA 65';
 $_['text_contact']                     = 'Mail';
 $_['text_marketing']                   = 'Marketing';
 $_['text_modification']                = 'Modifications';

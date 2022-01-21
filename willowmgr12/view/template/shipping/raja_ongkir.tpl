@@ -240,7 +240,7 @@
 								<div id="courier" class="well well-sm" style="height: 150px; overflow: auto;">
 									<?php foreach ($couriers as $courier) { ?>
 									<div class="col-sm-6 col-md-4 col-lg-3">
-										<div class="checkbox">
+										<div class="pt-4">
 											<?= $courier['text']; ?>
 											<?php foreach ($courier['services'] as $service) { ?>
 											<div class="checkbox">

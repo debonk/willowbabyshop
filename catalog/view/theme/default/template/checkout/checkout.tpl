@@ -23,7 +23,7 @@
       <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_option; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_option; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-checkout-option">
             <div class="panel-body"></div>
@@ -32,7 +32,7 @@
         <?php if (!$logged && $account != 'guest') { ?>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_account; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_account; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-payment-address">
             <div class="panel-body"></div>
@@ -41,7 +41,7 @@
         <?php } else { ?>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_payment_address; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_payment_address; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-payment-address">
             <div class="panel-body"></div>
@@ -51,7 +51,7 @@
         <?php if ($shipping_required) { ?>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_shipping_address; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_shipping_address; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-shipping-address">
             <div class="panel-body"></div>
@@ -59,7 +59,7 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_shipping_method; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_shipping_method; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-shipping-method">
             <div class="panel-body"></div>
@@ -68,7 +68,7 @@
         <?php } ?>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_payment_method; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_payment_method; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-payment-method">
             <div class="panel-body"></div>
@@ -76,7 +76,7 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div class="panel-title text-center text-uppercase"><?php echo $text_checkout_confirm; ?></div>
+            <div class="panel-title text-uppercase"><?php echo $text_checkout_confirm; ?></div>
           </div>
           <div class="panel-collapse collapse" id="collapse-checkout-confirm">
             <div class="panel-body"></div>

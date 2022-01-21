@@ -945,6 +945,11 @@ class ControllerSettingSetting extends Controller {
 			'value' => 'contact'
 		);
 
+		$data['captcha_pages'][] = array(
+			'text'  => $this->language->get('text_collection'),
+			'value' => 'collection'
+		);
+
 		if (isset($this->request->post['config_logo'])) {
 			$data['config_logo'] = $this->request->post['config_logo'];
 		} else {

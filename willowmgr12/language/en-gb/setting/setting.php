@@ -19,6 +19,7 @@ $_['text_register']                   = 'Register';
 $_['text_guest']                      = 'Guest Checkout';
 $_['text_return']                     = 'Returns';
 $_['text_contact']                    = 'Contact';
+$_['text_collection']                 = 'Data Collection';
 $_['text_shipping']                   = 'Shipping Address';
 $_['text_payment']                    = 'Payment Address';
 $_['text_mail']                       = 'Mail';

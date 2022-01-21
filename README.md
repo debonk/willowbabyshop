@@ -1,11 +1,38 @@
 # willowbabyshop software
 
+2.2.5.0 21/01/2021
+Modul: Marketing > Data Collection: Promo BCA 65.
+	Table =================
+	CREATE TABLE `oc_collection` (
+	`collection_id` int(11) NOT NULL,
+	`invoice` varchar(16) NOT NULL,
+	`total` int(12) NOT NULL,
+	`customer_id` varchar(12) NOT NULL,
+	`name` varchar(32) NOT NULL,
+	`account` varchar(16) NOT NULL,
+	`date_added` datetime NOT NULL
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+	ALTER TABLE `oc_collection`
+	ADD PRIMARY KEY (`collection_id`);
+
+
+	ALTER TABLE `oc_collection`
+	MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT;
+	================
+
+Modul: Payment > Payment Link
+Bug Fixed: Manufacturer List: Manufacturer with 0 product not shown.
+Bug Fixed: Product List: Layout tabel jika produk kosong.
+Layout: Step by step Checkout ditata rata kiri.
+
 2.2.4.0	13/01/2021
-Modul: Total > Shipping: Raja Ongkir
+Modul: Total > Shipping: Raja Ongkir (Starter)
 Bug Fixed: Order Info > Set Invoice No
 Order Info > Update Order History: Validate Invoice No must be set before order complete.
 Bug Fixed: Manufacturer List.
-Bug Fixed: Pavblog > summernote insert image not manage by filemanager.
+Bug Fixed: Pavblog > summernote insert image does not manage by filemanager.
 Bug Fixed: Filemanager: common.js not catch newly created a.thumbnail element.
 
 15/12/2021
