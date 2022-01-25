@@ -121,6 +121,7 @@ class ControllerpavblogBlog extends Controller {
 			}
 
 			if ($blog) {
+				$blog['hits'] += 10;
 			
 				$category_id = $blog['category_id'];
 				$title = $blog['meta_title'] ? $blog['meta_title']:$blog['title']; 

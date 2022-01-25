@@ -1,27 +1,32 @@
 # willowbabyshop software
 
+2.2.5.1	25/01/2022
+Bug Fixed: htaccess: Force using https error
+==========================
+	# Force using https
+	RewriteCond %{HTTPS} off
+	RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+	# SEO URL Settings
+	# If your opencart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/
+	RewriteBase /willowbabyshop/
+	RewriteRule ^sitemap.xml$ index.php?route=feed/google_sitemap [L]
+	RewriteRule ^googlebase.xml$ index.php?route=feed/google_base [L]
+	RewriteRule ^system/download/(.*) index.php?route=error/not_found [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+	RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
+==========================
+Bug Fixed: Blog: Description not well formatted.
+Bug Fixed: Menu: Custom menu appear without access.
+Modify: Blog: Meta title is generated from blog title + suffix ' | willowbabyshop'.
+Bug Fixed: Blog: Disabled user can be selected as creator.
+Bug Fixed: Blog: Pagination.
+Bug Fixed: Config SSL not set on store_id = 0.
+
 2.2.5.0 21/01/2021
 Modul: Marketing > Data Collection: Promo BCA 65.
-	Table =================
-	CREATE TABLE `oc_collection` (
-	`collection_id` int(11) NOT NULL,
-	`invoice` varchar(16) NOT NULL,
-	`total` int(12) NOT NULL,
-	`customer_id` varchar(12) NOT NULL,
-	`name` varchar(32) NOT NULL,
-	`account` varchar(16) NOT NULL,
-	`date_added` datetime NOT NULL
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-	ALTER TABLE `oc_collection`
-	ADD PRIMARY KEY (`collection_id`);
-
-
-	ALTER TABLE `oc_collection`
-	MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT;
-	================
-
 Modul: Payment > Payment Link
 Bug Fixed: Manufacturer List: Manufacturer with 0 product not shown.
 Bug Fixed: Product List: Layout tabel jika produk kosong.
@@ -35,8 +40,7 @@ Bug Fixed: Manufacturer List.
 Bug Fixed: Pavblog > summernote insert image does not manage by filemanager.
 Bug Fixed: Filemanager: common.js not catch newly created a.thumbnail element.
 
-15/12/2021
-2.2.3.2
+2.2.3.2	15/12/2021
 Library: Add PHPMailer library
 Bug Fixed: Reset password not working
 Customer Activity: Handle activity about google login and register
@@ -49,8 +53,7 @@ Bug fixed: Search, Special, Highlight, and Manufacturer Info Layout
 Total > Reward: Enhance reward point
 Category, Manufacturer: Add Id and Product Total Field
 
-08/12/2021
-2.2.3.1
+2.2.3.1	08/12/2021
 Checkout: Login & Register by Google
 Extension > Module: Pengaturan Login dan Credential
 Checkout > Login: Penerapan Google OAuth
@@ -67,17 +70,14 @@ Footer:	Marketplace list
 Bug Fixed: Welcome > Reward Point
 Bug Fixed: Repair image placeholder
 
-22/11/2021
-2.2.2.0
+2.2.2.0	22/11/2021
 New Modul: Information > Info Page (Marketplace List)
 Vqmod: Permanently applied some vqmod xml
 
-20/11/2021
-2.2.1.3
+2.2.1.3	20/11/2021
 Setting: By pass IP Check for auto update API
 
-15/11/2021
-2.2.1.2
+2.2.1.2	15/11/2021
 Bug Fixed: Mass new product > repair product description conversion
 Layout Fixed: Catalog > Product Detail
 

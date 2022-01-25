@@ -86,25 +86,11 @@ class ControllerCommonHeader extends Controller
 
 			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), $this->model_account_wishlist->getTotalWishlist());
 
-			/*			$data['text_greeting'] = sprintf($this->language->get('text_logged'), $this->customer->getFirstName()); //Bonk
-			if ($reward_status) {
-				$data['text_reward'] = sprintf($this->language->get('text_reward'), $this->customer->getRewardPoints());
-			} else {
-				$data['text_reward'] = '';
-			}
-
-			if ($balance_status) {
-				$data['text_balance'] = sprintf($this->language->get('text_balance'), $this->currency->format($this->customer->getBalance(), $this->session->data['currency']));
-			} else {
-				$data['text_balance'] = '';
-			}
-*/
 		} else {
 			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 		}
 
 		$data['text_shopping_cart'] = $this->language->get('text_shopping_cart');
-		//		$data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', true), $this->customer->getFirstName(), $this->url->link('account/logout', '', true));
 
 		$data['text_account'] = $this->language->get('text_account');
 		$data['text_register'] = $this->language->get('text_register');
@@ -117,7 +103,7 @@ class ControllerCommonHeader extends Controller
 		$data['text_category'] = $this->language->get('text_category');
 		$data['text_all'] = $this->language->get('text_all');
 
-		$data['home'] = $this->url->link('common/home');
+		$data['home'] = $this->url->link('common/home', '', true);
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['logged'] = $this->customer->isLogged();
 		$data['account'] = $this->url->link('account/account', '', true);
@@ -129,7 +115,7 @@ class ControllerCommonHeader extends Controller
 		$data['logout'] = $this->url->link('account/logout', '', true);
 		$data['shopping_cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
-		$data['contact'] = $this->url->link('information/contact');
+		$data['contact'] = $this->url->link('information/contact', '', true);
 		$data['telephone'] = $this->config->get('config_telephone');
 
 		// Menu
@@ -156,7 +142,7 @@ class ControllerCommonHeader extends Controller
 
 					$children_data[] = array(
 						'name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
-						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
+						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'], true)
 					);
 				}
 
@@ -165,7 +151,7 @@ class ControllerCommonHeader extends Controller
 					'name'     => $category['name'],
 					'children' => $children_data,
 					'column'   => $category['column'] ? $category['column'] : 1,
-					'href'     => $this->url->link('product/category', 'path=' . $category['category_id'])
+					'href'     => $this->url->link('product/category', 'path=' . $category['category_id'], true)
 				);
 			}
 		}

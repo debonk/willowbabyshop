@@ -42,15 +42,15 @@ class ControllerModulePavblog extends Controller {
 			$this->mdata['error_dimension'] = array();
 		}
 
-		$this->mdata['manage_category_link'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['add_category_link'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['manage_blog_link'] = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['add_blog_link'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['manage_comment_link'] = $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['modules_setting_link'] = $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['frontend_modules_link'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['dashboard_link'] = $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['information'] = $this->url->link('module/pavblog/information', 'token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['manage_category_link'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], true);
+		$this->mdata['add_category_link'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], true);
+		$this->mdata['manage_blog_link'] = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], true);
+		$this->mdata['add_blog_link'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], true);
+		$this->mdata['manage_comment_link'] = $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], true);
+		$this->mdata['modules_setting_link'] = $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], true);
+		$this->mdata['frontend_modules_link'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true);
+		$this->mdata['dashboard_link'] = $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], true);
+		$this->mdata['information'] = $this->url->link('module/pavblog/information', 'token=' . $this->session->data['token'], true);
 
 		$this->mdata['token'] = $this->session->data['token'];
 
@@ -73,25 +73,25 @@ class ControllerModulePavblog extends Controller {
 
    		$this->mdata['breadcrumbs'][] = array(
        		'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], true),
       		'separator' => false
    		);
 
    		$this->mdata['breadcrumbs'][] = array(
        		'text'      => $this->language->get('text_module'),
-			'href'      => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('extension/module', 'token=' . $this->session->data['token'], true),
       		'separator' => ' :: '
    		);
 
    		$this->mdata['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], true),
       		'separator' => ' :: '
    		);
 	}
 
 	/**
-	 * Dardboard Page
+	 * Dashboard Page
 	 */
 	public function index(){
 
@@ -154,11 +154,11 @@ class ControllerModulePavblog extends Controller {
 				$id = $this->model_pavblog_menu->editData(  $this->request->post );
 				$this->session->data['success'] = $this->language->get('text_success');
 				if( $this->request->post['save_mode']=='save-edit'){
-					$this->response->redirect($this->url->link('module/pavblog/category', 'id='.$id.'&token=' . $this->session->data['token'], 'SSL'));
+					$this->response->redirect($this->url->link('module/pavblog/category', 'id='.$id.'&token=' . $this->session->data['token'], true));
 				}	else {
-					$this->response->redirect($this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], 'SSL'));
+					$this->response->redirect($this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], true));
 				}
-				$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+				$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], true));
 			}
 		}
 
@@ -176,12 +176,12 @@ class ControllerModulePavblog extends Controller {
 			$this->mdata['error_dimension'] = array();
 		}
 
-		$this->mdata['action'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['actionGetTree'] = $this->url->link('module/pavblog/gettree', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['actionDel'] = $this->url->link('module/pavblog/delete', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['actionGetInfo'] = $this->url->link('module/pavblog/info', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['updateTree'] = $this->url->link('module/pavblog/update', 'root=1&token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['cancel'] = $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['action'] = $this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], true);
+		$this->mdata['actionGetTree'] = $this->url->link('module/pavblog/gettree', 'token=' . $this->session->data['token'], true);
+		$this->mdata['actionDel'] = $this->url->link('module/pavblog/delete', 'token=' . $this->session->data['token'], true);
+		$this->mdata['actionGetInfo'] = $this->url->link('module/pavblog/info', 'token=' . $this->session->data['token'], true);
+		$this->mdata['updateTree'] = $this->url->link('module/pavblog/update', 'root=1&token=' . $this->session->data['token'], true);
+		$this->mdata['cancel'] = $this->url->link('module/pavblog', 'token=' . $this->session->data['token'], true);
 
 		$this->mdata['modules'] = array();
 
@@ -205,7 +205,7 @@ class ControllerModulePavblog extends Controller {
 			$this->model_pavblog_menu->delete( (int)$this->request->get['id'] );
 
 		}
-		$this->response->redirect($this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], 'SSL'));
+		$this->response->redirect($this->url->link('module/pavblog/category', 'token=' . $this->session->data['token'], true));
 	}
 
 	/**
@@ -427,21 +427,32 @@ class ControllerModulePavblog extends Controller {
 		// save to database
 		$issubmitfalse = false; 
 
+		$url = '';
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		$this->mdata['cancel'] = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'] . $url, true);
+
 		if (isset($this->request->post) && isset($this->request->post['pavblog_blog']) ) {
 			if( $this->validateBlog() ) {
+				$this->request->post['pavblog_blog']['meta_title'] = $this->request->post['pavblog_blog_description'][$this->config->get('config_language_id')]['title'] . ' | willowbabyshop';
+				
 				$id = $this->model_pavblog_blog->saveData( $this->request->post );
 				$action = $this->request->post['action_mode'];
 				if( $action == 'save-edit' ){
-					$this->response->redirect($this->url->link('module/pavblog/blog', 'id='.$id.'&token=' . $this->session->data['token'], 'SSL'));
+					$this->response->redirect($this->url->link('module/pavblog/blog', 'id='.$id.'&token=' . $this->session->data['token'] . $url, true));
 				}elseif( $action == 'save-new' ){
-					$this->response->redirect($this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], 'SSL'));
+					$this->response->redirect($this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'] . $url, true));
 				}else {
-					$this->response->redirect($this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], 'SSL'));
+					$this->response->redirect($this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'] . $url, true));
 				}
 			} else {
 				$issubmitfalse = true;
 			}
 		}
+		
 		$this->mdata['text_image_manager'] = $this->language->get('text_image_manager');
  		$this->mdata['text_browse'] = $this->language->get('text_browse');
 		$this->mdata['text_clear'] = $this->language->get('text_clear');
@@ -456,7 +467,7 @@ class ControllerModulePavblog extends Controller {
 			'image'=>'',
 			'thumb' => '',
 			'video_code'=>'',
-			'user_id'=>'',
+			'user_id'=>$this->user->getId(),
 			'tags' => '',
 			'hits'=>'0',
 			'created'=>date("Y-m-d"),
@@ -466,7 +477,6 @@ class ControllerModulePavblog extends Controller {
 			'meta_title'=>'',
 			'keyword' => ''
 		);
-
 
 		$blog['thumb'] = $this->mdata['no_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 		$this->load->model('localisation/language');
@@ -481,8 +491,10 @@ class ControllerModulePavblog extends Controller {
 		}
 		$blog_descriptions = array();
 
-		$this->mdata['users'] = $this->model_user_user->getUsers();
+		$filter_data = [];
+		$filter_data['filter_status'] = 1;
 
+		$this->mdata['users'] = $this->model_user_user->getUsers($filter_data);
 
 		foreach( $this->mdata['languages'] as $k => $language ){
 			if( isset($data['blog_description']) && isset($data['blog_description'][$language['language_id']]) ){
@@ -492,8 +504,8 @@ class ControllerModulePavblog extends Controller {
 			}
 		}
 
-		$this->mdata['action'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['action_delete'] = $this->url->link('module/pavblog/deleteblog', 'id='.$blog['blog_id'].'&token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['action'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'] . $url, true);
+		$this->mdata['action_delete'] = $this->url->link('module/pavblog/deleteblog', 'id='.$blog['blog_id'].'&token=' . $this->session->data['token'] . $url, true);
 		$this->mdata['menus'] = $this->model_pavblog_menu->getDropdown(null, $blog['category_id'], 'pavblog_blog[category_id]' );
 		$this->mdata['yesno'] = array( 0 => $this->language->get('no'), 1=>$this->language->get('yes') );
 
@@ -536,16 +548,18 @@ class ControllerModulePavblog extends Controller {
 		$this->mdata['menus'] = $this->model_pavblog_menu->getDropdown(null, $filter['category_id'], 'filter[category_id]' );
 
 		$this->mdata['filter'] = $filter;
-		$this->mdata['create_blog_link'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['edit_link'] = $this->url->link('module/pavblog/blog', 'id=%s&token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['create_blog_link'] = $this->url->link('module/pavblog/blog', 'token=' . $this->session->data['token'], true);
+		$this->mdata['edit_link'] = $this->url->link('module/pavblog/blog', 'id=%s&token=' . $this->session->data['token'], true);
 		$this->document->setTitle( $this->language->get('blogs_page_heading_title') );
 		$this->mdata['heading_title'] =  $this->language->get('blogs_page_heading_title');
-		$this->mdata['action'] = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], 'SSL');
-		$this->mdata['action_reset'] = $this->url->link('module/pavblog/blogs', 'reset=true&token=' . $this->session->data['token'], 'SSL');
-
+		$this->mdata['action'] = $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], true);
+		$this->mdata['action_reset'] = $this->url->link('module/pavblog/blogs', 'reset=true&token=' . $this->session->data['token'], true);
+		
+		$url = '';
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
+			$url .= '&page=' . $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -555,7 +569,23 @@ class ControllerModulePavblog extends Controller {
 			'limit' => $this->config->get('config_limit_admin')
 		);
 
-		$this->mdata['blogs'] = $this->model_pavblog_blog->getList( $data, $filter );
+		$this->mdata['blogs'] = [];
+
+		// $this->mdata['blogs'] = $this->model_pavblog_blog->getList( $data, $filter );
+		$results = $this->model_pavblog_blog->getList( $data, $filter );
+
+		foreach ($results as $result) {
+			$this->mdata['blogs'][] = [
+				'blog_id'	=> $result['blog_id'],
+				'title'		=> $result['title'],
+				'position'	=> $result['position'],
+				'status'	=> $result['status'],
+				'created'	=> $result['created'],
+				'hits'		=> $result['hits'],
+				'edit'		=> $this->url->link('module/pavblog/blog', 'id=' . $result['blog_id'] . '&token=' . $this->session->data['token'] . $url, 'true')
+			];
+		}
+
 		$total =  $this->model_pavblog_blog->getTotal( $data, $filter );
 		$pagination = new Pagination();
 		$pagination->total = $total;
@@ -580,7 +610,7 @@ class ControllerModulePavblog extends Controller {
 			$this->loadModel( 'blog' );
 			$this->model_pavblog_blog->delete( $id );
 		}
-		$this->response->redirect( $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], 'SSL') );
+		$this->response->redirect( $this->url->link('module/pavblog/blogs', 'token=' . $this->session->data['token'], true) );
 	}
 
 	public function getModel( $model ){
@@ -627,7 +657,7 @@ class ControllerModulePavblog extends Controller {
 		$this->document->setTitle( $this->language->get('comments_page_heading_title') );
 		$this->mdata['heading_title'] =  $this->language->get('comments_page_heading_title');
 		$this->mdata['comments'] =  $this->getModel('comment')->getList();
-		$this->mdata['action'] = $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['action'] = $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], true);
 
 		$this->setTemplate("comments");
 
@@ -644,16 +674,16 @@ class ControllerModulePavblog extends Controller {
 			if( isset($this->request->post['action_mode']) && isset($this->request->post['pavblog_comment']) ){
 				$this->getModel('comment')->saveComment( $this->request->post['pavblog_comment'] );
 				if( $this->request->post['action_mode']=='save-edit' ){
-					$this->response->redirect( $this->url->link('module/pavblog/comment', 'id='.$id.'&token=' . $this->session->data['token'], 'SSL' ) );
+					$this->response->redirect( $this->url->link('module/pavblog/comment', 'id='.$id.'&token=' . $this->session->data['token'], true ) );
 				}else {
-					$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], 'SSL' ) );
+					$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], true ) );
 				}
 			}
 			$this->setBreadcrumb();
 			$this->document->setTitle( $this->language->get('blogs_page_heading_title') );
 			$this->mdata['heading_title'] =  $this->language->get('blogs_page_heading_title');
-			$this->mdata['action'] = $this->url->link('module/pavblog/comment', 'id='.$id.'&token=' . $this->session->data['token'], 'SSL');
-			$this->mdata['action_delete'] = $this->url->link('module/pavblog/deletecomment', 'id='.$id.'&token=' . $this->session->data['token'], 'SSL');
+			$this->mdata['action'] = $this->url->link('module/pavblog/comment', 'id='.$id.'&token=' . $this->session->data['token'], true);
+			$this->mdata['action_delete'] = $this->url->link('module/pavblog/deletecomment', 'id='.$id.'&token=' . $this->session->data['token'], true);
 
 			$this->mdata['yesno'] = array( 0 => $this->language->get('no'), 1=>$this->language->get('yes') );
 			$comment = array(
@@ -675,7 +705,7 @@ class ControllerModulePavblog extends Controller {
 			$this->mdata['comment'] = $comment ;
 			$this->setTemplate("comment");
 		}else {
-			$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], 'SSL') );
+			$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], true) );
 		}
 	}
 
@@ -695,7 +725,7 @@ class ControllerModulePavblog extends Controller {
 				$this->getModel('comment')->delete( (int)$id );
 			}
 		}
-		$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], 'SSL') );
+		$this->response->redirect( $this->url->link('module/pavblog/comments', 'token=' . $this->session->data['token'], true) );
 	}
 
 	private function getModuleSetting(){
@@ -770,7 +800,7 @@ class ControllerModulePavblog extends Controller {
 			$data['pavblog'] = $this->request->post['pavblog'];
 			$this->model_setting_setting->editSetting('pavblog', $data );
 
-			$this->response->redirect( $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], 'SSL') );
+			$this->response->redirect( $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], true) );
 
 		}
 
@@ -787,7 +817,7 @@ class ControllerModulePavblog extends Controller {
 		$this->mdata['image_types'] = array( 'l' => $this->language->get('text_large_image'),'s'=> $this->language->get('text_small_image') );
 		$this->mdata['token'] = $this->session->data['token'];
 		$this->mdata['languages'] = $this->model_localisation_language->getLanguages();
-		$this->mdata['action'] = $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], 'SSL');
+		$this->mdata['action'] = $this->url->link('module/pavblog/modules', 'token=' . $this->session->data['token'], true);
 
 
 
@@ -879,17 +909,17 @@ class ControllerModulePavblog extends Controller {
 			$module_data[] = array(
 				'module_id' => $module['module_id'],
 				'name'      => $module['name'],
-				'edit'      => $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . $mod . $module_id.'=' . $module['module_id'], 'SSL'),
-				'delete'    => $this->url->link('extension/module/delete', 'token=' . $this->session->data['token'] . $mod . $module_id.'=' . $module['module_id'], 'SSL')
+				'edit'      => $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . $mod . $module_id.'=' . $module['module_id'], true),
+				'delete'    => $this->url->link('extension/module/delete', 'token=' . $this->session->data['token'] . $mod . $module_id.'=' . $module['module_id'], true)
 			);
 		}
 		$ex[] = array(
 			'name'      => $this->language->get("create_module"),
 			'module'    => $module_data,
-			'install'   => $this->url->link('extension/module/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, 'SSL'),
-			'uninstall' => $this->url->link('extension/module/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, 'SSL'),
+			'install'   => $this->url->link('extension/module/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
+			'uninstall' => $this->url->link('extension/module/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
 			'installed' => in_array($extension, $extensions),
-			'edit'      => $this->url->link('module/' . $extension, 'token=' . $this->session->data['token'], 'SSL')
+			'edit'      => $this->url->link('module/' . $extension, 'token=' . $this->session->data['token'], true)
 		);
 
 		return $ex;
@@ -905,8 +935,8 @@ class ControllerModulePavblog extends Controller {
 			$urlcat = '';
 		}
 		$this->mdata['module_catid'] = $module_catid;
-		$this->mdata['action_cat'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavblogcategory' . $urlcat, 'SSL');
-		$this->mdata['delete_cat'] = $this->url->link('module/pavblog/catdelete', 'token=' . $this->session->data['token'].$urlcat, 'SSL');
+		$this->mdata['action_cat'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavblogcategory' . $urlcat, true);
+		$this->mdata['delete_cat'] = $this->url->link('module/pavblog/catdelete', 'token=' . $this->session->data['token'].$urlcat, true);
 						
 		// GET DATA SETTING
 		if (isset($this->request->get['module_catid']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
@@ -974,8 +1004,8 @@ class ControllerModulePavblog extends Controller {
 		}
 		$this->mdata['module_comid'] = $module_comid;
 
-		$this->mdata['action_com'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavblogcomment' . $urlcom, 'SSL');
-		$this->mdata['delete_com'] = $this->url->link('module/pavblog/comdelete', 'token=' . $this->session->data['token'].$urlcom, 'SSL');
+		$this->mdata['action_com'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavblogcomment' . $urlcom, true);
+		$this->mdata['delete_com'] = $this->url->link('module/pavblog/comdelete', 'token=' . $this->session->data['token'].$urlcom, true);
 
 		// GET DATA SETTING
 		if (isset($this->request->get['module_comid']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
@@ -1022,9 +1052,9 @@ class ControllerModulePavblog extends Controller {
 		}
 		$this->mdata['module_latid'] = $module_latid;
 		
-		$this->mdata['action_lat'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavbloglatest' . $urllat, 'SSL');
+		$this->mdata['action_lat'] = $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'] . '&mod=pavbloglatest' . $urllat, true);
 		// action delete
-		$this->mdata['delete_lat'] = $this->url->link('module/pavblog/latdelete', 'token=' . $this->session->data['token'].$urllat, 'SSL');
+		$this->mdata['delete_lat'] = $this->url->link('module/pavblog/latdelete', 'token=' . $this->session->data['token'].$urllat, true);
 
 		// GET DATA SETTING
 		if (isset($this->request->get['module_latid']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
@@ -1129,7 +1159,7 @@ class ControllerModulePavblog extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true));
 		}
 	}
 	public function comdelete(){
@@ -1140,7 +1170,7 @@ class ControllerModulePavblog extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true));
 		}
 	}
 	public function latdelete(){
@@ -1152,7 +1182,7 @@ class ControllerModulePavblog extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true));
 		}
 	}
 
@@ -1204,30 +1234,30 @@ class ControllerModulePavblog extends Controller {
 			if( isset($this->request->post['pavblogcategory_module']) ) { 
 				if (!isset($this->request->get['module_catid'])) {
 					$this->model_extension_module->addModule('pavblogcategory', $this->request->post['pavblogcategory_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true) );
 				} else {
 					$this->model_extension_module->editModule($this->request->get['module_catid'], $this->request->post['pavblogcategory_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavblogcategory'.'&module_catid='.$this->request->get['module_catid'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavblogcategory'.'&module_catid='.$this->request->get['module_catid'], true) );
 				}
 			} 
 
 			if( isset($this->request->post['pavblogcomment_module']) ) {
 				if (!isset($this->request->get['module_comid'])) {
 					$this->model_extension_module->addModule('pavblogcomment', $this->request->post['pavblogcomment_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true) );
 				} else {
 					$this->model_extension_module->editModule($this->request->get['module_comid'], $this->request->post['pavblogcomment_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavblogcomment'.'&module_comid='.$this->request->get['module_comid'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavblogcomment'.'&module_comid='.$this->request->get['module_comid'], true) );
 				}
 			}
 
 			if( isset($this->request->post['pavbloglatest_module']) ) {
 				if (!isset($this->request->get['module_latid'])) {
 					$this->model_extension_module->addModule('pavbloglatest', $this->request->post['pavbloglatest_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'], true) );
 				} else {
 					$this->model_extension_module->editModule($this->request->get['module_latid'], $this->request->post['pavbloglatest_module']);
-					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavbloglatest'.'&module_latid='.$this->request->get['module_latid'], 'SSL') );
+					$this->response->redirect( $this->url->link('module/pavblog/frontmodules', 'token=' . $this->session->data['token'].'&mod=pavbloglatest'.'&module_latid='.$this->request->get['module_latid'], true) );
 				}
 			}
 		}

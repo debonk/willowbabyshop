@@ -88,7 +88,7 @@
 									<td class="right"><?php echo ($blog['status']?$objlang->get('text_enable'):$objlang->get('text_disable'));?></td>
 									<td class="right"><?php echo $blog['created'];?></td>
 									<td class="right"><?php echo $blog['hits'];?></td>
-									<td class="right"><a href="<?php echo sprintf($edit_link, $blog['blog_id']) ?>"><?php echo $objlang->get('text_edit');?></a></td>
+									<td class="right"><a href="<?php echo $blog['edit'];?>"><?php echo $objlang->get('text_edit');?></a></td>
 								</tr>
 								<?php } ?>
 							</tbody>

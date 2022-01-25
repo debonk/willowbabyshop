@@ -13,6 +13,7 @@
 				<?php if( $blog['blog_id'] ) { ?>
 				<a class="btn btn-danger" href="<?php echo $action_delete;?>"><?php echo $objlang->get("button_delete"); ?></a>	
 				<?php } ?>
+				<a class="btn btn-info" href="<?php echo $cancel;?>"><?php echo $objlang->get("button_cancel"); ?></a>	
 			</div>
 			<h1><?php echo $heading_title; ?></h1>
 			<ul class="breadcrumb">
@@ -162,7 +163,7 @@
 										<tr>
 											<td><?php echo $objlang->get('entry_description');?></td>
 											<td>
-												<textarea id="pavblog_blog_description_title_lang<?php echo $language['language_id'];?>" class="form-control summernote" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][description]" rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['description'];?></textarea>
+												<textarea id="pavblog_blog_description_title_lang<?php echo $language['language_id'];?>" class="form-control" type="text" name="pavblog_blog_description[<?php echo $language['language_id'];?>][description]" rows="6" cols="10"><?php echo $pavblog_blog_descriptions[$language['language_id']]['description'];?></textarea>
 											</td>
 										</tr>
 										</tr>

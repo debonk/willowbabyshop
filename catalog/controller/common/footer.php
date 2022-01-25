@@ -72,18 +72,18 @@ class ControllerCommonFooter extends Controller {
 			}
 		}
 
-		$data['contact'] = $this->url->link('information/contact');
+		$data['contact'] = $this->url->link('information/contact', '', true);
 		$data['return'] = $this->url->link('account/return/add', '', true);
-		$data['sitemap'] = $this->url->link('information/sitemap');
-		$data['manufacturer'] = $this->url->link('product/manufacturer');
+		$data['sitemap'] = $this->url->link('information/sitemap', '', true);
+		$data['manufacturer'] = $this->url->link('product/manufacturer', '', true);
 		$data['voucher'] = $this->url->link('account/voucher', '', true);
 		$data['affiliate'] = $this->url->link('affiliate/account', '', true);
-		$data['special'] = $this->url->link('product/special');
+		$data['special'] = $this->url->link('product/special', '', true);
 		$data['account'] = $this->url->link('account/account', '', true);
 		$data['order'] = $this->url->link('account/order', '', true);
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['newsletter'] = $this->url->link('account/newsletter', '', true);
-		$data['blogs'] = $this->url->link('pavblog/blogs');//Bonk
+		$data['blogs'] = $this->url->link('pavblog/blogs', '', true);//Bonk
 		// $data['career'] = $this->url->link('information/career');//Bonk
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));

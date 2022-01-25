@@ -47,6 +47,10 @@ class ModelUserUser extends Model {
 	public function getUsers($data = array()) {
 		$sql = "SELECT * FROM `" . DB_PREFIX . "user`";
 
+		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+			$sql .= " WHERE status = '" . (int)$data['filter_status'] . "'";
+		}
+
 		$sort_data = array(
 			'username',
 			'status',

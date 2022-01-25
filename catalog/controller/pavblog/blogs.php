@@ -230,7 +230,9 @@ class ControllerPavblogBlogs extends Controller {
 				
 	
 				foreach( $blogs as $key => $blog ){
-					if( $blogs[$key]['image'] ){	
+						$blogs[$key]['hits'] += 10;
+
+						if( $blogs[$key]['image'] ){	
 						$blogs[$key]['thumb_large'] = $this->model_tool_image->resize($blog['image'], $this->mparams->get('general_lwidth'), $this->mparams->get('general_lheight'),'w');
 						$blogs[$key]['thumb_small'] = $this->model_tool_image->resize($blog['image'], $this->mparams->get('general_swidth'), $this->mparams->get('general_sheight') ,'w');
 						$blogs[$key]['thumb_xsmall'] = $this->model_tool_image->resize($blog['image'],$this->mparams->get('general_xwidth'), $this->mparams->get('general_xheight'),'w' );
