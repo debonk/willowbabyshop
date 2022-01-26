@@ -644,3 +644,6 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 .pt-4 {
 	padding-top: 1rem;
 }
+.pt-6 {
+	padding-top: 1.5rem;
+}

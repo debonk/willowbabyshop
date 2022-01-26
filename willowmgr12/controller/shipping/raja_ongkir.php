@@ -182,11 +182,30 @@ class ControllerShippingRajaOngkir extends Controller
 		$data['couriers'] = [];
 
 		$couriers = [
+			'dse'		=> ['--- All Services ---', 'ECO', 'ONS', 'SDS'],
+			'anteraja'	=> ['--- All Services ---', 'REG', 'ND'],
+			'ide'		=> ['--- All Services ---', 'STD'],
+			'indah'		=> ['--- All Services ---', 'DARAT', 'UDARA'],
+			'idl'		=> ['--- All Services ---'],
+			'jnt'		=> ['--- All Services ---', 'EZ'],
+			'jet'		=> ['--- All Services ---', 'CRG', 'REG', 'XPS'],
 			'jne'		=> ['--- All Services ---', 'CTC', 'CTCYES', 'OKE', 'REG', 'YES', 'SPS'],
-			'tiki'		=> ['--- All Services ---', 'ECO', 'REG', 'ONS'],
+			'lion'		=> ['--- All Services ---', 'REGPACK', 'JAGOPACK', 'ONEPACK', 'BIGPACK'],
+			'ninja'		=> ['--- All Services ---', 'STANDARD'],
+			'ncs'		=> ['--- All Services ---', 'NRS', 'ONS', 'NFO', 'NFS', 'DRT'],
+			'pahala'	=> ['--- All Services ---'],
+			'pandu'		=> ['--- All Services ---'],
 			'pos'		=> ['--- All Services ---', 'Paket Kilat Khusus', 'Pos Instan Barang', 'Express Next Day Barang'],
-			'jnt'		=> ['--- All Services ---', 'service'],
-			'sicepat'	=> ['--- All Services ---', 'service']
+			'rex'		=> ['--- All Services ---', 'EXP', 'REG', 'REX-10', 'REX-1'],
+			'rpx'		=> ['--- All Services ---', 'NDP', 'RGP', 'SDP', 'MDP'],
+			'sap'		=> ['--- All Services ---', 'REG', 'ODS', 'SDS', 'CARGO DARAT'],
+			'sentral'	=> ['--- All Services ---', 'DARAT ELEKTRONIK', 'DARAT NON ELEKTRONIK', 'UDARA ELEKTRONIK', 'UDARA NON ELEKTRONIK'],
+			'sicepat'	=> ['--- All Services ---', 'BEST', 'REG', 'SIUNT', 'GOKIL'],
+			'slis'		=> ['--- All Services ---'],
+			'star'		=> ['--- All Services ---'],
+			'first'		=> ['--- All Services ---'],
+			'tiki'		=> ['--- All Services ---', 'ECO', 'REG', 'ONS'],
+			'wahana'	=> ['--- All Services ---', 'Normal']
 		];
 		foreach ($couriers as $courier => $services) {
 			$service_data = [];
@@ -361,7 +380,7 @@ class ControllerShippingRajaOngkir extends Controller
 							$html .= ' selected="selected"';
 						}
 
-						$html .= '>' . $subdistrict['type'] . ' ' . $subdistrict['city_name'] . '</option>';
+						$html .= '>' . $subdistrict['subdistrict_name'] . '</option>';
 					}
 				} else {
 					$html = '<option value="0">' . $this->language->get('text_none') . '</option>';

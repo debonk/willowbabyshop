@@ -210,7 +210,7 @@
 							<div class="col-sm-10">
 								<div id="courier" class="well well-sm" style="height: 150px; overflow: auto;">
 									<?php foreach ($couriers as $courier) { ?>
-									<div class="checkbox">
+									<div class="checkbox col-sm-6 col-md-4 col-lg-3">
 										<label>
 											<?php if (in_array($courier['code'], $raja_ongkir_courier)) { ?>
 											<input type="checkbox" name="raja_ongkir_courier[]" value="<?= $courier['code']; ?>"
@@ -237,11 +237,11 @@
 									<?= $entry_service; ?>
 								</span></label>
 							<div class="col-sm-10">
-								<div id="courier" class="well well-sm" style="height: 150px; overflow: auto;">
+								<div id="courier" class="well well-sm" style="height: 350px; overflow: auto;">
 									<?php foreach ($couriers as $courier) { ?>
 									<div class="col-sm-6 col-md-4 col-lg-3">
-										<div class="pt-4">
-											<?= $courier['text']; ?>
+										<div class="pt-6">
+											<strong><?= $courier['text']; ?></strong>
 											<?php foreach ($courier['services'] as $service) { ?>
 											<div class="checkbox">
 												<label>
@@ -460,7 +460,7 @@
 						$('.fa-spin').remove();
 					},
 					success: function (json) {
-						$('.alert').remove();
+						$('.alert:not(.alert-info)').remove();
 
 						if (json['error']) {
 							$('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div></div>');

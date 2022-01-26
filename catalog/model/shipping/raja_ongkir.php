@@ -95,6 +95,58 @@ class ModelShippingRajaOngkir extends Model
 
 				$results = $this->getCost($cost_data);
 
+				# sample data agar tidak call API ke server raja ongkir
+				// $results = '{"rajaongkir":{"query":{"origin":"6145","originType":"subdistrict","destination":"6138","destinationType":"subdistrict","weight":50000,"courier":"jne:tiki:pos"},"status":{"code":200,"description":"OK"},"origin_details":{"subdistrict_id":"6145","province_id":"11","province":"Jawa Timur","city_id":"444","city":"Surabaya","type":"Kota","subdistrict_name":"Mulyorejo"},"destination_details":{"subdistrict_id":"6138","province_id":"11","province":"Jawa Timur","city_id":"444","city":"Surabaya","type":"Kota","subdistrict_name":"Gubeng"},"results":[{"code":"jne","name":"Jalur Nugraha Ekakurir (JNE)","costs":[{"service":"CTC","description":"JNE City Courier","cost":[{"value":350000,"etd":"2-3","note":""}]},{"service":"CTCYES","description":"JNE City Courier","cost":[{"value":500000,"etd":"1-1","note":""}]}]},{"code":"tiki","name":"Citra Van Titipan Kilat (TIKI)","costs":[{"service":"ECO","description":"Economy Service","cost":[{"value":200000,"etd":"2","note":""}]},{"service":"REG","description":"Regular Service","cost":[{"value":350000,"etd":"2","note":""}]},{"service":"ONS","description":"Over Night Service","cost":[{"value":450000,"etd":"1","note":""}]}]},{"code":"pos","name":"POS Indonesia (POS)","costs":[{"service":"Paket Kilat Khusus","description":"Paket Kilat Khusus","cost":[{"value":350000,"etd":"2 HARI","note":""}]}]}]}}';
+
+				// $results = json_decode($results, true)['rajaongkir'];
+
+				// if ($results['status']['code'] == 200) {
+				// 	$results = $results['results'];
+				// }
+				# End of sample data
+
+				foreach ($results as $result) {
+					$error = '';
+					$quote_data = [];
+					
+					foreach ($result['costs'] as $costs) {
+						$code = $result['code'] . '.' . $costs['service'];
+						$cost = $costs['cost'][0]['value'];
+
+						# Check service yg aktif
+						if ((!in_array($result['code'] . '.--- All Services ---', $services) && !in_array($code, $services)) || !$cost) {
+							continue;
+						}
+
+						$quote_data[$costs['service']] = [
+							'code'         => 'raja_ongkir_' . $code,
+							'title'        => $this->language->get('text_' . $result['code']) . ' (' . $costs['service'] . ')',
+							'cost'         => $cost,
+							'tax_class_id' => $this->config->get('raja_ongkir_tax_class_id'),
+							'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('raja_ongkir_tax_class_id'), $this->config->get('config_tax')), $this->session->data['currency'])
+						];
+					}
+
+					$title = $result['name'];
+
+					if (is_file(DIR_IMAGE . 'shipping/' . $result['code'] . '.png')) {
+						$logo = $server . 'image/' . 'shipping/' . $result['code'] . '.png';
+					} else {
+						$logo = '';
+					}
+
+					if ($quote_data || $error) {
+						$method_data['multi_shipping'][$result['code']] = array(
+							'code'       => 'raja_ongkir_' . $result['code'],
+							'logo'       => $logo,
+							'title'      => $title,
+							'quote'      => $quote_data,
+							'sort_order' => $this->config->get('raja_ongkir_sort_order'),
+							'error'      => $error
+						);
+					}
+				}
+
 			} else {
 				$origin = $this->config->get('raja_ongkir_city_id');
 

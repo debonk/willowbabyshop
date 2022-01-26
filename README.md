@@ -1,5 +1,8 @@
 # willowbabyshop software
 
+2.2.5.2	26/01/2022
+Modul: Total > Shipping: Raja Ongkir (Pro)
+
 2.2.5.1	25/01/2022
 Bug Fixed: htaccess: Force using https error
 ==========================
