@@ -33,7 +33,12 @@
                 <textarea class="form-control" name="bonkfree_multizone" rows="5"><?php echo $bonkfree_multizone; ?></textarea>
             </div>
           </div>
-
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-limit"><span data-toggle="tooltip" title="<?php echo $help_limit; ?>"><?php echo $entry_limit; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="bonkfree_limit" value="<?php echo $bonkfree_limit; ?>" placeholder="<?php echo $entry_limit; ?>" id="input-limit" class="form-control" />
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">

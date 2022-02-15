@@ -63,11 +63,13 @@ class ModelCatalogManufacturer extends Model {
 	}
 
 	public function getManufacturers($data = array()) {
-		$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id) GROUP BY m.manufacturer_id";
+		$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id)";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
+		
+		$sql .= " GROUP BY m.manufacturer_id";
 
 		$sort_data = array(
 			'manufacturer_id',

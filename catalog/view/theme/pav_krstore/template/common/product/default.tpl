@@ -6,7 +6,7 @@
 			<?php } ?>
 			<div class="product-img img">
 				<a class="img" title="<?php echo $product['name']; ?>" href="<?php echo $product['href']; ?>">
-					<img class="img-responsive" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>" />
+					<img class="img-responsive center-block" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>" />
 				</a>
 <!--				<div class="zoom hidden-xs hidden-sm">
 					<?php // if( isset($categoryPzoom) && $categoryPzoom ) { $zimage = str_replace( "cache/","", preg_replace("#-\d+x\d+#", "",  $product['thumb'] ));  ?>

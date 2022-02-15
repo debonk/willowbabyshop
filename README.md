@@ -1,5 +1,17 @@
 # willowbabyshop software
 
+2.2.5.3	15/02/2022
+Layout: Modify product name trim
+Layout: Modify product_tab_widget
+Layout: Modify product_block on special, bestseller
+Layout: Modify product_block on category, manufacturer, search
+
+Modify: Shipping > Extended Free Shipping: Add Free Shipping limit
+Layout: Blog
+Bug Fixed: Catalog > Tool: Regex for url_alias 
+Bug Fixed: Total > Free Shipping 
+Bug Fixed: Manufacturer Auto Complete
+
 2.2.5.2	26/01/2022
 Modul: Total > Shipping: Raja Ongkir (Pro)
 

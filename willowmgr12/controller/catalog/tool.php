@@ -184,7 +184,7 @@ class ControllerCatalogTool extends Controller
 					$product_data['length'] = $sheet_data[$i][$field_data['length']];
 					$product_data['width'] = $sheet_data[$i][$field_data['width']];
 					$product_data['height'] = $sheet_data[$i][$field_data['height']];
-					$product_data['keyword'] = preg_replace(['/[\'\"*?]/', '/\s+/'], ['', '-'], utf8_strtolower(($sheet_data[$i][$field_data['name']])));
+					$product_data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
 					$product_data['product_description'][$this->config->get('config_language_id')] = [
 						'name' 				=> utf8_strtoupper($sheet_data[$i][$field_data['name']]),

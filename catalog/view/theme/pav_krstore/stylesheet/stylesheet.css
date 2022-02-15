@@ -5100,6 +5100,7 @@ button.list-group-item-danger.active:focus {
 .panel-default > .panel-heading {
   color: #222222;
   position: relative;
+  margin-top: 10px;
   /* background-color: $heading-bg-color; */
   /* border-color: $heading-border; */
 }
@@ -8320,7 +8321,8 @@ footer ul li a:hover {
   width: 100%;
   display: block;
   color: #222222;
-  height: 31px;
+  height: 60px;
+  /* height: 31px; */
   overflow: hidden;
 }
 .product-block .name a:hover {
@@ -12341,7 +12343,7 @@ header .right-panel {
 	margin: 0 0px;
 }
 .footer-image {
-  height: 210px;
+  height: 250px;
   background: no-repeat bottom;
   /* background: url("../image/footer_image_standard.png") no-repeat bottom; */
   /* margin-top: 50px; */

@@ -69,7 +69,7 @@
 									<?php if( $i%$cols == 1 ) { ?>
 										<div class="row products-row">
 									<?php } ?>
-									<div class="col-lg-<?php echo $span;?> col-sm-<?php echo $span;?> col-xs-12 product-col">
+									<div class="col-lg-<?php echo $span;?> col-sm-<?php echo $span;?> col-xs-6 product-col">
 										<?php require( $productLayout );  ?>
 									</div>
 									<?php if( $i%$cols == 0 || $i==count($tproducts) ) { ?>

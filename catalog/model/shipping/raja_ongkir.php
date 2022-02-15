@@ -120,7 +120,7 @@ class ModelShippingRajaOngkir extends Model
 
 						$quote_data[$costs['service']] = [
 							'code'         => 'raja_ongkir_' . $code,
-							'title'        => $this->language->get('text_' . $result['code']) . ' (' . $costs['service'] . ')',
+							'title'        => $this->language->get('text_' . $result['code']) . ' (' . $costs['description'] . ')',
 							'cost'         => $cost,
 							'tax_class_id' => $this->config->get('raja_ongkir_tax_class_id'),
 							'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('raja_ongkir_tax_class_id'), $this->config->get('config_tax')), $this->session->data['currency'])

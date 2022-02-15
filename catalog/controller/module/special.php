@@ -10,8 +10,18 @@ class ControllerModuleSpecial extends Controller {
 		$config = $this->registry->get("config");
 		$data['sconfig'] = $config;
 		$data['themename'] = $config->get("theme_default_directory");
+
+		$data['load'] = $this->registry->get('load');
+		$data['customcols'] = 6;
+
+		$this->load->language('module/themecontrol');
+		$data['text_sale'] = $this->language->get('text_sale');
+		$data['quick_view'] = $this->language->get('quick_view');
 		// end edit
-		
+
+		// var_dump($data['text_sale']);
+		// die('---breakpoint---');
+				
 		$this->load->language('module/special');
 
 		$data['heading_title'] = $this->language->get('heading_title');

@@ -6,7 +6,8 @@ class ModelShippingBonkFree extends Model {
 		$status = false;
 		$reshop	= 0;
 		$freezones = explode(',', $this->config->get('bonkfree_multizone'));
-				
+		$limit	= $this->config->get('bonkfree_limit');
+
 		foreach ($freezones as $freezone) {
 			$submin = explode(':', $freezone);
 			
@@ -30,11 +31,16 @@ class ModelShippingBonkFree extends Model {
 			$text 	= $this->language->get('text_geozone_warning');
 		} elseif ($reshop > 0) {
 //			$code 	.= '" disabled="disabled';
-			$text 	= sprintf ($this->language->get('text_more_shop'),$this->currency->format($reshop, $this->session->data['currency']));
+			if (empty($limit)) {
+				$text 	= sprintf ($this->language->get('text_more_shop'), $this->currency->format($reshop, $this->session->data['currency']));
+			} else {
+				$text 	= sprintf ($this->language->get('text_more_shop_limit'), $this->currency->format($limit, $this->session->data['currency']), $this->currency->format($reshop, $this->session->data['currency']));
+			}
+			
 			$logo	= $this->language->get('text_logo_disabled');
 		} else {
 			$title  = $this->language->get('text_description_active');
-			$text 	= sprintf ($this->language->get('text_max'),$this->currency->format(100000, $this->session->data['currency']));
+			$text 	= !empty($limit) ? sprintf ($this->language->get('text_max'),$this->currency->format($limit, $this->session->data['currency'])) : '';
 		}
 
 		$code 	.= '" disabled="disabled" style="display:none;';

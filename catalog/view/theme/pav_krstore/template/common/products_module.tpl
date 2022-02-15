@@ -35,13 +35,13 @@
 <div class="panel-heading">
 	<h4 class="panel-title panel-v2"><?php echo $heading_title; ?></h4>
 </div>
-<div class="box-content">
+<div id="products" class="box-content">
 	<div class="products-block">
 		<?php foreach ($products as $i => $product) { $i=$i+1; ?>
 		<?php if( $i%$cols == 1 && $cols > 1 ) { ?>
 		<div class="row products-row">
 			<?php } ?>
-			<div class="col-lg-<?php echo $span;?> col-md-<?php echo $span;?> col-sm-6 col-xs-12 product-col">
+			<div class="col-lg-<?php echo $span;?> col-md-<?php echo $span;?> col-sm-6 col-xs-6 product-col product-layout">
 				<?php require( $productLayout );  ?>
 			</div>
 			<?php if( ($i%$cols == 0 || $i==count($products) ) && $cols > 1 ) { ?>

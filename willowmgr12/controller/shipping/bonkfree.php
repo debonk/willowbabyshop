@@ -27,12 +27,14 @@ class ControllerShippingBonkFree extends Controller {
 
 		$data['entry_total'] = $this->language->get('entry_total');
 		$data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
-		$data['entry_multizone'] = $this->language->get('entry_multizone');//Bonk
+		$data['entry_multizone'] = $this->language->get('entry_multizone');
+		$data['entry_limit'] = $this->language->get('entry_limit');
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 
 		$data['help_total'] = $this->language->get('help_total');
-		$data['help_multizone'] = $this->language->get('help_multizone');//Bonk
+		$data['help_multizone'] = $this->language->get('help_multizone');
+		$data['help_limit'] = $this->language->get('help_limit');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -70,6 +72,12 @@ class ControllerShippingBonkFree extends Controller {
 			$data['bonkfree_multizone'] = $this->config->get('bonkfree_multizone');
 		}
 
+		if (isset($this->request->post['bonkfree_limit'])) {
+			$data['bonkfree_limit'] = $this->request->post['bonkfree_limit'];
+		} else {
+			$data['bonkfree_limit'] = $this->config->get('bonkfree_limit');
+		}
+
 		if (isset($this->request->post['bonkfree_status'])) {
 			$data['bonkfree_status'] = $this->request->post['bonkfree_status'];
 		} else {
@@ -93,6 +101,8 @@ class ControllerShippingBonkFree extends Controller {
 		if (!$this->user->hasPermission('modify', 'shipping/bonkfree')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
+
+		$this->request->post['bonkfree_limit'] = abs($this->request->post['bonkfree_limit']);
 
 		return !$this->error;
 	}

@@ -4,8 +4,8 @@ $_['heading_title']    = 'Free Shipping';
 
 // Text
 $_['text_total']       = 'Order Totals';
-$_['text_success']     = 'Success: You have modified Unique Number total!';
-$_['text_edit']        = 'Edit Unique Number Total';
+$_['text_success']     = 'Success: You have modified Free Shipping total!';
+$_['text_edit']        = 'Edit Free Shipping Total';
 
 // Entry
 $_['entry_multizone']  = 'Multi-zone Subtotal';

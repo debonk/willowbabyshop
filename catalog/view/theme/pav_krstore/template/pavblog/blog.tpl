@@ -50,7 +50,7 @@
 						</ul>
 					</div>
 					<div class="blog-content">
-						<div class="description"><?php echo $description;?></div>
+						<div class="description"><h5><?php echo $description;?></h5></div><br>
 						<div class="content-wrap">
 							<?php echo $content;?>
 						</div>
