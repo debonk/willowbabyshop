@@ -76,8 +76,21 @@ class ControllerReportProductPurchased extends Controller {
 		$results = $this->model_report_product->getPurchased($filter_data);
 
 		foreach ($results as $result) {
+			$option_data = array();
+				
+			$options = $this->model_report_product->getPurchasedOptions($result['order_product_id']);
+			
+			foreach ($options as $option) {
+				$option_data[] = $option['name'] . ': ' . $option['value'];
+				// $option_data[] = array(
+				// 	'name'  => $option['name'],
+				// 	'value' => $option['value']
+				// );
+			}
+
 			$data['products'][] = array(
 				'name'       => $result['name'],
+				'option'     => implode(', ', $option_data),
 				'model'      => $result['model'],
 				'quantity'   => $result['quantity'],
 				'total'      => $this->currency->format($result['total'], $this->config->get('config_currency'))

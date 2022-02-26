@@ -727,6 +727,8 @@ class ControllerSaleOrder extends Controller {
 			$data['reward'] = '';
 		}
 
+		$data['url'] = $url;
+
 		// Stores
 		$this->load->model('setting/store');
 
@@ -2115,12 +2117,13 @@ class ControllerSaleOrder extends Controller {
 				$products = $this->model_sale_order->getOrderProducts($order_id);
 
 				foreach ($products as $product) {
-					$option_weight = '';
+					$option_weight = 0;
 
 					$product_info = $this->model_catalog_product->getProduct($product['product_id']);
 
 					if ($product_info) {
-						$option_data = array();
+						$option_data = [];
+						$option_model = [];
 
 						$options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
 
@@ -2141,9 +2144,13 @@ class ControllerSaleOrder extends Controller {
 								'name'  => $option['name'],
 								'value' => $value
 							);
-
+							
 							$product_option_value_info = $this->model_catalog_product->getProductOptionValue($product['product_id'], $option['product_option_value_id']);
 
+							if ($product_option_value_info['model']) {
+								$option_model[] = $product_option_value_info['model'];
+							}
+							
 							if ($product_option_value_info) {
 								if ($product_option_value_info['weight_prefix'] == '+') {
 									$option_weight += $product_option_value_info['weight'];
@@ -2155,11 +2162,12 @@ class ControllerSaleOrder extends Controller {
 
 						$product_data[] = array(
 							'name'     => $product_info['name'],
-							'model'    => $product_info['model'],
+							'model'    => $option_model ? implode(', ', $option_model) : $product_info['model'],
 							'option'   => $option_data,
 							'quantity' => $product['quantity'],
 							'location' => $product_info['location'],
-							'sku'      => $product_info['sku'],
+							// 'sku'      => $product_info['sku'], //disabled because model used as sku
+							'sku'      => '',
 							'upc'      => $product_info['upc'],
 							'ean'      => $product_info['ean'],
 							'jan'      => $product_info['jan'],
@@ -2193,4 +2201,3 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_shipping', $data));
 	}
 }
-

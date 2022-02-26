@@ -163,7 +163,7 @@
 				</div>
 				<form action="<?= $delete; ?>" method="post" enctype="multipart/form-data" id="form-product">
 					<div class="table-responsive">
-						<table class="table table-bordered table-hover">
+						<table class="table table-bordered table-hover text-left">
 							<thead>
 								<tr>
 									<td style="width: 1px;" class="text-center"><input type="checkbox"
@@ -181,7 +181,7 @@
 									<td class="text-center">
 										<?= $column_image; ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'pd.name') { ?>
 										<a href="<?= $sort_name; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_name; ?>
@@ -192,7 +192,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'p.model') { ?>
 										<a href="<?= $sort_model; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_model; ?>
@@ -203,7 +203,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'pd.tag') { ?>
 										<a href="<?= $sort_tag; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_tag; ?>
@@ -214,7 +214,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'manufacturer_name') { ?>
 										<a href="<?= $sort_manufacturer; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_manufacturer; ?>
@@ -225,7 +225,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'p2c.category_id') { ?>
 										<a href="<?= $sort_category; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_category; ?>
@@ -250,6 +250,9 @@
 									<td class="text-right">
 										<?= $column_weight; ?>
 									</td>
+									<td>
+										<?= $column_option; ?>
+									</td>
 									<td class="text-right">
 										<?php if ($sort == 'p.quantity') { ?>
 										<a href="<?= $sort_quantity; ?>" class="<?= strtolower($order); ?>">
@@ -261,7 +264,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'p.date_modified') { ?>
 										<a href="<?= $sort_date_modified; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_date_modified; ?>
@@ -272,7 +275,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php if ($sort == 'p.status') { ?>
 										<a href="<?= $sort_status; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_status; ?>
@@ -297,12 +300,9 @@
 										<input type="checkbox" name="selected[]" value="<?= $product['product_id']; ?>" checked="checked" />
 										<?php } else { ?>
 										<input type="checkbox" name="selected[]" value="<?= $product['product_id']; ?>" />
-										<!-- Bonk -->
 										<?php } ?><br>
 										<?= $product['product_id']; ?>
 									</td>
-									<!--					<?php // } ?></td>
--->
 									<td class="text-center">
 										<?php if ($product['image']) { ?>
 										<img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" class="img-thumbnail" />
@@ -310,19 +310,19 @@
 										<span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['name']; ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['model']; ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['tag']; ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['manufacturer'];?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?php foreach ($categories as $category) { ?>
 										<?php if (in_array($category['category_id'], $product['category'])) { ?>
 										<?= $category['name'];?><br>
@@ -344,6 +344,11 @@
 									<td class="text-right">
 										<?= $product['weight']; ?>
 									</td>
+									<td>
+										<?php foreach ($product['option'] as $option) { ?>
+										<?= $option; ?><br>
+										<?php } ?>
+									</td>
 									<td class="text-right">
 										<?php if ($product['quantity'] <= 0) { ?>
 										<span class="label label-warning">
@@ -359,10 +364,10 @@
 										</span>
 										<?php } ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['date_modified']; ?>
 									</td>
-									<td class="text-left">
+									<td>
 										<?= $product['status']; ?>
 									</td>
 									<td class="text-right"><a href="<?= $product['edit']; ?>" data-toggle="tooltip"
@@ -371,7 +376,7 @@
 								<?php } ?>
 								<?php } else { ?>
 								<tr>
-									<td class="text-center" colspan="13">
+									<td class="text-center" colspan="14">
 										<?= $text_no_results; ?>
 									</td>
 								</tr>

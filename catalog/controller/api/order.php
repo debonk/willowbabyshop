@@ -190,7 +190,8 @@ class ControllerApiOrder extends Controller {
 				$order_data['products'] = array();
 
 				foreach ($this->cart->getProducts() as $product) {
-					$option_data = array();
+					$option_data = [];
+					$option_model = [];
 
 					foreach ($product['option'] as $option) {
 						$option_data[] = array(
@@ -202,12 +203,16 @@ class ControllerApiOrder extends Controller {
 							'value'                   => $option['value'],
 							'type'                    => $option['type']
 						);
+
+						if ($option['model']) {
+							$option_model[] = $option['model'];
+						}	
 					}
 
 					$order_data['products'][] = array(
 						'product_id' => $product['product_id'],
 						'name'       => $product['name'],
-						'model'      => $product['model'],
+						'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
 						'option'     => $option_data,
 						'download'   => $product['download'],
 						'quantity'   => $product['quantity'],
@@ -469,8 +474,6 @@ class ControllerApiOrder extends Controller {
 				}
 
 				if (!$json) {
-					$json['success'] = $this->language->get('text_success');
-					
 					$order_data = array();
 
 					// Store Details
@@ -565,7 +568,8 @@ class ControllerApiOrder extends Controller {
 					$order_data['products'] = array();
 
 					foreach ($this->cart->getProducts() as $product) {
-						$option_data = array();
+						$option_data = [];
+						$option_model = [];
 
 						foreach ($product['option'] as $option) {
 							$option_data[] = array(
@@ -577,12 +581,16 @@ class ControllerApiOrder extends Controller {
 								'value'                   => $option['value'],
 								'type'                    => $option['type']
 							);
+
+							if ($option['model']) {
+								$option_model[] = $option['model'];
+							}
 						}
 
 						$order_data['products'][] = array(
 							'product_id' => $product['product_id'],
 							'name'       => $product['name'],
-							'model'      => $product['model'],
+							'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
 							'option'     => $option_data,
 							'download'   => $product['download'],
 							'quantity'   => $product['quantity'],
@@ -692,6 +700,9 @@ class ControllerApiOrder extends Controller {
 					}
 
 					$this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
+
+					$json['success'] = $this->language->get('text_success');
+					$json['order_id'] = $order_id;
 				}
 			} else {
 				$json['error'] = $this->language->get('error_not_found');

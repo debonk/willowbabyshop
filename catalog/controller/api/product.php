@@ -225,18 +225,80 @@ class ControllerApiProduct extends Controller
 				foreach ($products_data as $product_data) {
 					$update_data = [];
 
-					foreach ($column_data as $idx => $column) {
-						if ($idx) {
-							$update_data[$column] = $product_data[$idx];
-						} else {
-							$model = $product_data[$idx];
-						}
-					}
+					$product_data = array_combine($column_data, $product_data);
 
-					$this->model_catalog_product->editProductByModel($model, $update_data);
+					// foreach ($column_data as $idx => $column) {
+					// 	if ($idx) {
+					// 		$update_data[$column] = $product_data[$idx];
+					// 	} else {
+					// 		$model = $product_data[$idx];
+					// 	}
+					// }
+
+					$product_option_value_info = $this->model_catalog_product->getProductOptionValueByModel($product_data['model']);
+					// print_r($product_option_value_info);
+					// die('---breakpoint---');
+
+
+					if ($product_option_value_info) {
+						$option_update_data = [];
+
+						$product_info = $this->model_catalog_product->getProduct($product_option_value_info['product_id']);
+
+						if ($product_info['model'] == $product_data['model']) {
+							$option_update_data = [
+								'quantity'		=> $product_data['quantity'],
+								'price_prefix'	=> '+',
+								'price'			=> 0.00
+							];
+
+							$update_data = [
+								'quantity'		=> 888,
+								'price'			=> $product_data['price']
+							];
+
+							// $this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
+						} else {
+							$price = $product_data['price'] - $product_info['price'];
+
+							if ($price < 0) {
+								$price_prefix = '-';
+
+								$price = abs($price);
+							} else {
+								$price_prefix = '+';
+							}
+
+							$option_update_data = [
+								'quantity'		=> $product_data['quantity'],
+								'price_prefix'	=> $price_prefix,
+								'price'			=> $price
+							];
+
+							$update_data = [
+								'quantity'		=> 888
+							];
+
+							// $this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
+
+						}
+
+						$this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
+
+						$this->model_catalog_product->editProduct($product_option_value_info['product_id'], $update_data);
+					} else {
+						$update_data = [
+							'quantity'		=> $product_data['quantity'],
+							'price'			=> $product_data['price']
+						];
+
+						$this->model_catalog_product->editProductByModel($product_data['model'], $update_data);
+					}
 				}
 
 				$json['success'] = $this->language->get('text_success');
+
+				$this->cache->delete('product');
 			}
 		}
 

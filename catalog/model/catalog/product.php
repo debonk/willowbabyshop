@@ -557,8 +557,26 @@ class ModelCatalogProduct extends Model {
 		$sql .= " WHERE product_id = '" . (int)$product_id . "'";
 
 		$this->db->query($sql);
+	}
 
-		$this->cache->delete('product');
+	public function editProductByModel($model, $data) {
+		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+
+		if (isset($data['quantity'])) {
+			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
+		}
+
+		if (isset($data['price'])) {
+			$sql .= ", price = '" . (float)$data['price'] . "'";
+		}
+
+		if (isset($data['status'])) {
+			$sql .= ", status = '" . (int)$data['status'] . "'";
+		}
+
+		$sql .= " WHERE model = '" . $this->db->escape($model) . "'";
+
+		$this->db->query($sql);
 	}
 
 	public function getProductsModel($status) {
@@ -594,25 +612,35 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
-	public function editProductByModel($model, $data) {
-		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+	public function editProductOption($product_option_value_id, $data) {
+		$sql = "UPDATE " . DB_PREFIX . "product_option_value";
+
+		$implode = [];
 
 		if (isset($data['quantity'])) {
-			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
+			$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
+		}
+
+		if (isset($data['price_prefix'])) {
+			$implode[] = "price_prefix = '" . $this->db->escape($data['price_prefix']) . "'";
 		}
 
 		if (isset($data['price'])) {
-			$sql .= ", price = '" . (float)$data['price'] . "'";
+			$implode[] = "price = '" . (float)$data['price'] . "'";
 		}
 
-		if (isset($data['status'])) {
-			$sql .= ", status = '" . (int)$data['status'] . "'";
-		}
+		$sql .= " SET " . implode(", ", $implode);
 
-		$sql .= " WHERE model = '" . $this->db->escape($model) . "'";
+		$sql .= " WHERE product_option_value_id = '" . (int)$product_option_value_id . "'";
 
 		$this->db->query($sql);
+	}
 
-		$this->cache->delete('product');
+	public function getProductOptionValueByModel($model) {
+		$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "'";
+
+		$query = $this->db->query($sql);
+
+		return $query->row;
 	}
 }

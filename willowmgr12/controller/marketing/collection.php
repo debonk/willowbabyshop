@@ -222,10 +222,8 @@ class ControllerMarketingCollection extends Controller
 				$url .= '&filter_' . $field . '=' . urlencode(html_entity_decode($this->request->get['filter_' . $field], ENT_QUOTES, 'UTF-8'));
 			}
 		}
-		var_dump(($this->request->get));
-		die('---breakpoint---');
 		
-		if ($this->user->hasPermission('modify', 'marketing/collection')) {
+		if (!$this->user->hasPermission('modify', 'marketing/collection')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
 
 			$this->response->redirect($this->url->link('marketing/collection', 'token=' . $this->session->data['token'] . $url, true));

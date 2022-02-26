@@ -19,9 +19,6 @@ class ControllerModuleSpecial extends Controller {
 		$data['quick_view'] = $this->language->get('quick_view');
 		// end edit
 
-		// var_dump($data['text_sale']);
-		// die('---breakpoint---');
-				
 		$this->load->language('module/special');
 
 		$data['heading_title'] = $this->language->get('heading_title');

@@ -94,7 +94,8 @@ class ControllerCheckoutCart extends Controller {
 					$image = '';
 				}
 
-				$option_data = array();
+				$option_data = [];
+				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					if ($option['type'] != 'file') {
@@ -107,6 +108,10 @@ class ControllerCheckoutCart extends Controller {
 						} else {
 							$value = '';
 						}
+					}
+
+					if ($option['model']) {
+						$option_model[] = $option['model'];
 					}
 
 					$option_data[] = array(
@@ -150,12 +155,12 @@ class ControllerCheckoutCart extends Controller {
 						$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
 					}
 				}
-
+		
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
 					'name'      => $product['name'],
-					'model'     => $product['model'],
+					'model'     => $option_model ? implode(', ', $option_model) : $product['model'],
 					'option'    => $option_data,
 					'recurring' => $recurring,
 					'quantity'  => $product['quantity'],

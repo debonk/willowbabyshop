@@ -176,7 +176,8 @@ class ControllerApiCart extends Controller {
 					$json['error']['minimum'][] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
 				}
 
-				$option_data = array();
+				$option_data = [];
+				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					$option_data[] = array(
@@ -186,13 +187,17 @@ class ControllerApiCart extends Controller {
 						'value'                   => $option['value'],
 						'type'                    => $option['type']
 					);
+
+					if ($option['model']) {
+						$option_model[] = $option['model'];
+					}
 				}
 
 				$json['products'][] = array(
 					'cart_id'    => $product['cart_id'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
-					'model'      => $product['model'],
+					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
 					'option'     => $option_data,
 					'quantity'   => $product['quantity'],
 					'stock'      => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),

@@ -98,7 +98,6 @@ class ControllerApiShipping extends Controller {
 					}
 
 					$this->load->model('localisation/zone');
-
 					$zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
 
 					if ($zone_info) {
@@ -109,6 +108,11 @@ class ControllerApiShipping extends Controller {
 						$zone_code = '';
 					}
 
+					$this->load->model('localisation/city');
+					$city_info = $this->model_localisation_city->getCity($this->request->post['city']);
+
+					$city_name = $city_info ? $city_info['name'] : '';
+
 					$this->session->data['shipping_address'] = array(
 						'firstname'      => $this->request->post['firstname'],
 						'lastname'       => $this->request->post['lastname'],
@@ -117,6 +121,7 @@ class ControllerApiShipping extends Controller {
 						'address_2'      => $this->request->post['address_2'],
 						'postcode'       => $this->request->post['postcode'],
 						'city'           => $this->request->post['city'],
+						'city_name'      => $city_name,
 						'zone_id'        => $this->request->post['zone_id'],
 						'zone'           => $zone,
 						'zone_code'      => $zone_code,
@@ -178,12 +183,23 @@ class ControllerApiShipping extends Controller {
 						$quote = $this->{'model_shipping_' . $result['code']}->getQuote($this->session->data['shipping_address']);
 
 						if ($quote) {
-							$json['shipping_methods'][$result['code']] = array(
-								'title'      => $quote['title'],
-								'quote'      => $quote['quote'],
-								'sort_order' => $quote['sort_order'],
-								'error'      => $quote['error']
-							);
+							if (isset($quote['multi_shipping'])) {
+								foreach ($quote['multi_shipping'] as $subquote) {
+									$json['shipping_methods'][$subquote['code']] = array(
+										'title'			=> $subquote['title'],
+										'quote'			=> $subquote['quote'],
+										'sort_order'	=> $subquote['sort_order'],
+										'error'			=> $subquote['error']
+									);
+								}
+							} else {
+								$json['shipping_methods'][$result['code']] = array(
+									'title'      => $quote['title'],
+									'quote'      => $quote['quote'],
+									'sort_order' => $quote['sort_order'],
+									'error'      => $quote['error']
+								);
+							}
 						}
 					}
 				}

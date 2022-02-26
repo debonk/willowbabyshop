@@ -65,8 +65,8 @@
           <td><b><?php echo $column_location; ?></b></td>
           <td><b><?php echo $column_reference; ?></b></td>
           <td><b><?php echo $column_product; ?></b></td>
-          <td><b><?php echo $column_weight; ?></b></td>
           <td><b><?php echo $column_model; ?></b></td>
+          <td><b><?php echo $column_weight; ?></b></td>
           <td class="text-right"><b><?php echo $column_quantity; ?></b></td>
         </tr>
       </thead>
@@ -97,8 +97,8 @@
             <br />
             &nbsp;<small> - <?php echo $option['name']; ?>: <?php echo $option['value']; ?></small>
             <?php } ?></td>
-          <td><?php echo $product['weight']; ?></td>
-          <td><?php echo $product['model']; ?></td>
+						<td><?php echo $product['model']; ?></td>
+						<td><?php echo $product['weight']; ?></td>
           <td class="text-right"><?php echo $product['quantity']; ?></td>
         </tr>
         <?php } ?>

@@ -80,9 +80,6 @@
             <tbody>
               <tr>
                 <td><?= $text_invoice; ?></td>
-<!--Bonk11 -->
-<!--                <td id="invoice" class="text-right"><?php //echo $invoice_no; ?></td>
-    -->                
 				<td id="invoice" class="text-right">
                 <?php if ($invoice_no) { ?>
 				  <?= $invoice_prefix . $invoice_no; ?>

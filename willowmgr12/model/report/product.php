@@ -37,7 +37,7 @@ class ModelReportProduct extends Model {
 	}
 
 	public function getPurchased($data = array()) {
-		$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.price + (op.tax * op.quantity)) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";
+		$sql = "SELECT op.order_product_id, op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.price + (op.tax * op.quantity)) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";
 
 		if (!empty($data['filter_order_status_id'])) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
@@ -53,7 +53,7 @@ class ModelReportProduct extends Model {
 			$sql .= " AND DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		}
 
-		$sql .= " GROUP BY op.product_id ORDER BY total DESC";
+		$sql .= " GROUP BY op.model ORDER BY total DESC";
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
@@ -68,6 +68,12 @@ class ModelReportProduct extends Model {
 		}
 
 		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	public function getPurchasedOptions($order_product_id) {
+		$query = $this->db->query("SELECT name, value, type FROM " . DB_PREFIX . "order_option WHERE order_product_id = '" . (int)$order_product_id . "'");
 
 		return $query->rows;
 	}

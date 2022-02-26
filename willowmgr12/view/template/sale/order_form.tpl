@@ -2519,13 +2519,14 @@ $('#button-save').on('click', function() {
 			if (json['success']) {
 				$('#content > .container-fluid').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 
-                // Refresh products, vouchers and totals
-				$('#button-refresh').trigger('click');
-            }
+				location = 'index.php?route=sale/order/info&token=<?php echo $token; ?>&order_id=' + json['order_id'] + '<?php echo $url; ?>';
+               // Refresh products, vouchers and totals
+				// $('#button-refresh').trigger('click');
+        }
 
-			if (json['order_id']) {
-				$('input[name=\'order_id\']').val(json['order_id']);
-			}
+			// if (json['order_id']) {
+			// 	$('input[name=\'order_id\']').val(json['order_id']);
+			// }
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);

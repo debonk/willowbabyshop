@@ -68,7 +68,11 @@
               <?php if ($products) { ?>
               <?php foreach ($products as $product) { ?>
               <tr>
-                <td class="text-left"><?php echo $product['name']; ?></td>
+                <td class="text-left"><?php echo $product['name']; ?>
+									<?php if ($product['option']) { ?>
+										<small><?php echo ' - ' . $product['option']; ?></small>
+									<?php } ?>
+									</td>
                 <td class="text-left"><?php echo $product['model']; ?></td>
                 <td class="text-right"><?php echo $product['quantity']; ?></td>
                 <td class="text-right"><?php echo $product['total']; ?></td>

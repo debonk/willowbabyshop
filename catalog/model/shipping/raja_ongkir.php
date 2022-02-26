@@ -37,6 +37,9 @@ class ModelShippingRajaOngkir extends Model
 
 			$account_type = $this->config->get('raja_ongkir_account_type');
 
+			$destination_province_id = 0;
+			$destination = 0;
+
 			# Check Province
 			$provinces = $this->getProvinces();
 
@@ -63,7 +66,7 @@ class ModelShippingRajaOngkir extends Model
 			$services = $this->config->get('raja_ongkir_service');
 
 			$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
-	
+
 			if ($account_type == 'pro') {
 				$origin = !empty($this->config->get('raja_ongkir_subdistrict_id')) ? $this->config->get('raja_ongkir_subdistrict_id') : $this->config->get('raja_ongkir_city_id');
 				$origin_type = !empty($this->config->get('raja_ongkir_subdistrict_id')) ? 'subdistrict' : 'city';

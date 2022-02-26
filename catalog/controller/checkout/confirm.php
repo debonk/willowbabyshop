@@ -207,7 +207,8 @@ class ControllerCheckoutConfirm extends Controller {
 			$order_data['products'] = array();
 
 			foreach ($this->cart->getProducts() as $product) {
-				$option_data = array();
+				$option_data = [];
+				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					$option_data[] = array(
@@ -219,12 +220,16 @@ class ControllerCheckoutConfirm extends Controller {
 						'value'                   => $option['value'],
 						'type'                    => $option['type']
 					);
+
+					if ($option['model']) {
+						$option_model[] = $option['model'];
+					}
 				}
 
 				$order_data['products'][] = array(
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
-					'model'      => $product['model'],
+					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
 					'option'     => $option_data,
 					'download'   => $product['download'],
 					'quantity'   => $product['quantity'],
@@ -235,7 +240,7 @@ class ControllerCheckoutConfirm extends Controller {
 					'reward'     => $product['reward']
 				);
 			}
-
+			
 			// Gift Voucher
 			$order_data['vouchers'] = array();
 
@@ -337,7 +342,8 @@ class ControllerCheckoutConfirm extends Controller {
 			$data['products'] = array();
 
 			foreach ($this->cart->getProducts() as $product) {
-				$option_data = array();
+				$option_data = [];
+				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					if ($option['type'] != 'file') {
@@ -356,6 +362,10 @@ class ControllerCheckoutConfirm extends Controller {
 						'name'  => $option['name'],
 						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
 					);
+
+					if ($option['model']) {
+						$option_model[] = $option['model'];
+					}
 				}
 
 				$recurring = '';
@@ -384,7 +394,7 @@ class ControllerCheckoutConfirm extends Controller {
 					'cart_id'    => $product['cart_id'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
-					'model'      => $product['model'],
+					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
 					'option'     => $option_data,
 					'recurring'  => $recurring,
 					'quantity'   => $product['quantity'],

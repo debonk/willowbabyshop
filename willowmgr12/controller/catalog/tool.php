@@ -98,7 +98,10 @@ class ControllerCatalogTool extends Controller
 					'image_2',
 					'image_3',
 					'image_4',
-					'image_5'
+					'image_5',
+					'parent_model',
+					'option_id',
+					'option_value_id'
 				];
 
 				$image_types = [
@@ -119,127 +122,189 @@ class ControllerCatalogTool extends Controller
 				}
 
 				for ($i = 3; $i <= count($sheet_data); $i++) {
-					$product_data = [
-						'model'				=> '',
-						'sku'				=> '',
-						'upc'				=> '',
-						'ean'				=> '',
-						'jan'				=> '',
-						'isbn'				=> '',
-						'mpn'				=> '',
-						'location'			=> '',
-						'quantity' 			=> 0,
-						'minimum' 			=> 1,
-						'subtract' 			=> 1,
-						'stock_status_id' 	=> 5,
-						'date_available' 	=> date('Y-m-d'),
-						'manufacturer_id' 	=> 0,
-						'shipping' 			=> 1,
-						'price'				=> 0,
-						'points' 			=> 0,
-						'weight' 			=> 0,
-						'weight_class_id' 	=> 2,
-						'length' 			=> 0,
-						'width' 			=> 0,
-						'height'			=> 0,
-						'length_class_id' 	=> 1,
-						'status'			=> 0,
-						'tax_class_id' 		=> 0,
-						'sort_order' 		=> 0,
-						'image' 			=> '',
-						'product_description' => [
-							$this->config->get('config_language_id') => [
-								'name'				=> '',
-								'description'		=> '',
-								'tag'				=> '',
-								'meta_title'		=> '',
-								'meta_description'	=> '',
-								'meta_keyword'		=> ''
-							]
-						],
-						'product_store' 	=> [0],
-						'product_image' 	=> [],
-						'product_category' 	=> [],
-						'keyword' 			=> ''
-					];
+					$new_product = false;
+					$product_option_data = [];
+					// $product_option_value_data = [];
 
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']] || !$sheet_data[$i][$field_data['main_image']]) {
 						continue;
 					}
 
-					$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
+					if ($sheet_data[$i][$field_data['parent_model']]) {
+						if (!$sheet_data[$i][$field_data['option_value_id']] || !$sheet_data[$i][$field_data['option_id']]) {
+							continue;
+						}
 
-					if ($product_info) {
-						# Product sudah ada
-						continue;
+						$product_option_value_info = $this->model_catalog_product->getProductOptionValueByModel($sheet_data[$i][$field_data['model']]);
+
+						if ($product_option_value_info) {
+							# product option sudah ada
+							continue;
+						}
+
+						$parent_product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['parent_model']]);
+						
+						$product_id = $parent_product_info ? $parent_product_info['product_id'] : 0;
+
+						$product_option_info = $this->model_catalog_product->getProductOption($product_id, $sheet_data[$i][$field_data['option_id']]);
+						
+						if (!$product_option_info) {
+							$product_option_data['product_option'] = [
+								'type'			=> 'select',
+								'option_id'		=> $sheet_data[$i][$field_data['option_id']],
+								'required'		=> 1
+							];
+						}
+
+						$product_option_data['product_option_value'] = [
+							'product_option_id'	=> $product_option_info ? $product_option_info['product_option_id'] : 0,
+							'option_id'			=> $sheet_data[$i][$field_data['option_id']],
+							'option_value_id'	=> $sheet_data[$i][$field_data['option_value_id']],
+							'model'				=> $sheet_data[$i][$field_data['model']],
+							'quantity'			=> 0,
+							'subtract'			=> 1,
+							'price'				=> 0,
+							'price_prefix'		=> '+',
+							'points'			=> 0,
+							'points_prefix'		=> '+',
+							'weight'			=> 0,
+							'weight_prefix'		=> '+'
+						];
+
+						if ($parent_product_info) {
+							$this->model_catalog_product->addProductOption($parent_product_info['product_id'], $product_option_data);
+						} else {
+							$new_product = true;
+						}
+					} else {
+						$new_product = true;
 					}
 
-					$product_data['model'] = $sheet_data[$i][$field_data['model']];
-					$product_data['sku'] = $sheet_data[$i][$field_data['model']];
-					$product_data['quantity'] = $sheet_data[$i][$field_data['quantity']];
-					$product_data['minimum'] = max(1, $sheet_data[$i][$field_data['minimum']]);
-					$product_data['manufacturer_id'] = $sheet_data[$i][$field_data['manufacturer_id']];
-					$product_data['price'] = $sheet_data[$i][$field_data['price']];
-					$product_data['weight'] = $sheet_data[$i][$field_data['weight']];
-					$product_data['length'] = $sheet_data[$i][$field_data['length']];
-					$product_data['width'] = $sheet_data[$i][$field_data['width']];
-					$product_data['height'] = $sheet_data[$i][$field_data['height']];
-					$product_data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($sheet_data[$i][$field_data['name']])));
+					if ($new_product) {
+						$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
 
-					$product_data['product_description'][$this->config->get('config_language_id')] = [
-						'name' 				=> utf8_strtoupper($sheet_data[$i][$field_data['name']]),
-						'description'		=> nl2br($sheet_data[$i][$field_data['description']]),
-						'meta_title'		=> $sheet_data[$i][$field_data['meta_title']] ? $sheet_data[$i][$field_data['meta_title']] : sprintf($this->language->get('text_meta_title'), $sheet_data[$i][$field_data['name']]),
-						'meta_description'	=> $sheet_data[$i][$field_data['meta_description']],
-						'meta_keyword'		=> '',
-						'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
-					];
+						if ($product_info) {
+							# Product sudah ada
+							continue;
+						}
 
-					$url_source = $sheet_data[$i][$field_data['main_image']];
+						$product_data = [
+							'model'				=> '',
+							'sku'				=> '',
+							'upc'				=> '',
+							'ean'				=> '',
+							'jan'				=> '',
+							'isbn'				=> '',
+							'mpn'				=> '',
+							'location'			=> '',
+							'quantity' 			=> 0,
+							'minimum' 			=> 1,
+							'subtract' 			=> 1,
+							'stock_status_id' 	=> 5,
+							'date_available' 	=> date('Y-m-d'),
+							'manufacturer_id' 	=> 0,
+							'shipping' 			=> 1,
+							'price'				=> 0,
+							'points' 			=> 0,
+							'weight' 			=> 0,
+							'weight_class_id' 	=> 2,
+							'length' 			=> 0,
+							'width' 			=> 0,
+							'height'			=> 0,
+							'length_class_id' 	=> 1,
+							'status'			=> 1,
+							'tax_class_id' 		=> 0,
+							'sort_order' 		=> 0,
+							'image' 			=> '',
+							'product_description' => [
+								$this->config->get('config_language_id') => [
+									'name'				=> '',
+									'description'		=> '',
+									'tag'				=> '',
+									'meta_title'		=> '',
+									'meta_description'	=> '',
+									'meta_keyword'		=> ''
+								]
+							],
+							'product_store' 	=> [0],
+							'product_option' 	=> [],
+							'product_image' 	=> [],
+							'product_category' 	=> [],
+							'keyword' 			=> ''
+						];
 
-					$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+						$product_data['model'] = $sheet_data[$i][$field_data['model']];
+						$product_data['sku'] = $sheet_data[$i][$field_data['model']];
+						$product_data['quantity'] = $sheet_data[$i][$field_data['quantity']];
+						$product_data['minimum'] = max(1, $sheet_data[$i][$field_data['minimum']]);
+						$product_data['manufacturer_id'] = $sheet_data[$i][$field_data['manufacturer_id']];
+						$product_data['price'] = $sheet_data[$i][$field_data['price']];
+						$product_data['weight'] = $sheet_data[$i][$field_data['weight']];
+						$product_data['length'] = $sheet_data[$i][$field_data['length']];
+						$product_data['width'] = $sheet_data[$i][$field_data['width']];
+						$product_data['height'] = $sheet_data[$i][$field_data['height']];
+						$product_data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
-					if ($extension == '') {
-						$extension = 'png';
-					}
+						$product_data['product_description'][$this->config->get('config_language_id')] = [
+							'name' 				=> utf8_strtoupper($sheet_data[$i][$field_data['name']]),
+							'description'		=> nl2br($sheet_data[$i][$field_data['description']]),
+							'meta_title'		=> $sheet_data[$i][$field_data['meta_title']] ? $sheet_data[$i][$field_data['meta_title']] : sprintf($this->language->get('text_meta_title'), $sheet_data[$i][$field_data['name']]),
+							'meta_description'	=> $sheet_data[$i][$field_data['meta_description']],
+							'meta_keyword'		=> '',
+							'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
+						];
 
-					if (!in_array(strtolower($extension), $image_types)) {
-						# Imagetype tidak sesuai
-						continue;
-					}
+						if (isset($product_option_data)) {
+							$product_data['product_option'][0] = $product_option_data['product_option'];
+							$product_data['product_option'][0]['product_option_value'][0] = $product_option_data['product_option_value'];
+						}
 
-					$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+						$url_source = $sheet_data[$i][$field_data['main_image']];
 
-					$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+						$extension = pathinfo($url_source, PATHINFO_EXTENSION);
 
-					if (!is_dir(DIR_IMAGE . $path_destination)) {
-						@mkdir(DIR_IMAGE . $path_destination, 0777);
-					}
+						if ($extension == '') {
+							$extension = 'png';
+						}
 
-					$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
+						if (!in_array(strtolower($extension), $image_types)) {
+							# Imagetype tidak sesuai
+							continue;
+						}
 
-					for ($j = 2; $j < 6; $j++) {
-						if (isset($sheet_data[$i][$field_data['image_' . $j]])) {
-							$extension = pathinfo($sheet_data[$i][$field_data['image_' . $j]], PATHINFO_EXTENSION);
+						$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
 
-							if (in_array(strtolower($extension), $image_types)) {
-								$product_data['product_image'][] = [
-									'image'			=> $this->model_tool_image->getImage($sheet_data[$i][$field_data['image_' . $j]], $path_destination . '/' . $new_image . '_' . $j . '.' . $extension),
-									'sort_order'	=> $j
-								];
+						$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+
+						if (!is_dir(DIR_IMAGE . $path_destination)) {
+							@mkdir(DIR_IMAGE . $path_destination, 0777);
+						}
+
+						$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
+
+						for ($j = 2; $j < 6; $j++) {
+							if (isset($sheet_data[$i][$field_data['image_' . $j]])) {
+								$extension = pathinfo($sheet_data[$i][$field_data['image_' . $j]], PATHINFO_EXTENSION);
+
+								if (in_array(strtolower($extension), $image_types)) {
+									$product_data['product_image'][] = [
+										'image'			=> $this->model_tool_image->getImage($sheet_data[$i][$field_data['image_' . $j]], $path_destination . '/' . $new_image . '_' . $j . '.' . $extension),
+										'sort_order'	=> $j
+									];
+								}
 							}
 						}
-					}
 
-					if (isset($sheet_data[$i][$field_data['main_category_id']])) {
-						$product_data['product_category'][] = $sheet_data[$i][$field_data['main_category_id']];
-					}
+						if (isset($sheet_data[$i][$field_data['main_category_id']])) {
+							$product_data['product_category'][] = $sheet_data[$i][$field_data['main_category_id']];
+						}
 
-					if (isset($sheet_data[$i][$field_data['sub_category_id']])) {
-						$product_data['product_category'][] = $sheet_data[$i][$field_data['sub_category_id']];
+						if (isset($sheet_data[$i][$field_data['sub_category_id']])) {
+							$product_data['product_category'][] = $sheet_data[$i][$field_data['sub_category_id']];
+						}
+						
+						$this->model_catalog_product->addProduct($product_data);
 					}
-
-					$this->model_catalog_product->addProduct($product_data);
 				}
 
 				$this->session->data['success'] = $this->language->get('text_success');
@@ -253,41 +318,5 @@ class ControllerCatalogTool extends Controller
 		}
 
 		$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
-	}
-
-	// Belum digunakan.
-	public function backup()
-	{
-		$this->load->language('catalog/tool');
-
-		if (!isset($this->request->post['backup'])) {
-			$this->session->data['error'] = $this->language->get('error_export');
-
-			$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
-		} elseif ($this->user->hasPermission('modify', 'catalog/tool')) {
-			$this->response->addheader('Pragma: public');
-			$this->response->addheader('Expires: 0');
-			$this->response->addheader('Content-Description: File Transfer');
-			$this->response->addheader('Content-Type: application/octet-stream');
-			//			$this->response->addheader('Content-Disposition: attachment; filename=' . DB_DATABASE . '_' . date('Y-m-d_H-i-s', time()) . '_backup.sql');
-			$this->response->addheader('Content-Transfer-Encoding: binary');
-
-			$this->load->model('catalog/tool');
-
-			//Bonk
-			if (isset($this->request->post['csv'])) {
-				$this->response->addheader('Content-Disposition: attachment; filename=' . DB_DATABASE . '_' . date('Y-m-d_H-i-s', time()) . '_csv_export.sql');
-				$this->response->setOutput($this->model_catalog_tool->csv($this->request->post['backup']));
-			} else {
-				$this->response->addheader('Content-Disposition: attachment; filename=' . DB_DATABASE . '_' . date('Y-m-d_H-i-s', time()) . '_backup.sql');
-				$this->response->setOutput($this->model_catalog_tool->backup($this->request->post['backup']));
-			}
-
-			//			$this->response->setOutput($this->model_catalog_tool->backup($this->request->post['backup']));
-		} else {
-			$this->session->data['error'] = $this->language->get('error_permission');
-
-			$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
-		}
 	}
 }

@@ -1,8 +1,35 @@
 # willowbabyshop software
 
+2.2.6.0 26/02/2022
+Modul: Add model/sku on variant (option)
+========================
+	ALTER TABLE `oc_product_option_value` ADD `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `option_value_id`;
+
+	ALTER TABLE `oc_product` CHANGE `model` `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `weight` `weight` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `length` `length` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `width` `width` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `height` `height` DECIMAL(15,2) NOT NULL DEFAULT '0.00';
+
+	ALTER TABLE `oc_product_option_value` CHANGE `price` `price` DECIMAL(15,2) NOT NULL, CHANGE `weight` `weight` DECIMAL(15,2) NOT NULL;
+
+----------------------
+	Applied to admin > catalog > product
+	Applied to front > product
+	Applied to front > cart
+	Applied to front > checkout
+	Applied to front > order history
+	Applied to admin > sale > order > info
+	Applied to admin > sale > order > order invoice
+	Applied to admin > sale > order > order shipping
+	Applied to admin > sale > order > add/edit
+	Applied to admin > report > product purchased
+	Applied to api > product > mass product update
+	Applied to admin > product > mass new product upload
+========================
+Bug Fixed: Order > Dispatch Note: Error non numeric weight
+Modify: Product List: include product option in filter model
+Bug Fixed: Marketing > Collection: Export data tidak berfungsi
+
 2.2.5.3	15/02/2022
-Layout: Modify product name trim
 Layout: Modify product_tab_widget
+Layout: Modify product name trim
 Layout: Modify product_block on special, bestseller
 Layout: Modify product_block on category, manufacturer, search
 

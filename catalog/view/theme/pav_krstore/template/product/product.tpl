@@ -408,7 +408,7 @@
 	</div>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
 	$.ajax({
 		url: 'index.php?route=product/product/getRecurringDescription',
@@ -427,8 +427,8 @@ $('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
 		}
 	});
 });
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $('#button-cart').on('click', function() {
 	$.ajax({
 		url: 'index.php?route=checkout/cart/add',
@@ -482,8 +482,8 @@ $('#button-cart').on('click', function() {
 		}
 	});
 });
-//--></script> 
-<script type="text/javascript"><!--
+</script> 
+<script type="text/javascript">
 $('.date').datetimepicker({
 	pickTime: false
 });
@@ -548,8 +548,8 @@ $('button[id^=\'button-upload\']').on('click', function() {
 		}
 	}, 500);
 });
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $('#review').delegate('.pagination a', 'click', function(e) {
     e.preventDefault();
 
@@ -605,7 +605,7 @@ $(document).ready(function() {
 		}
 	);
 });
-//--></script>
+</script>
 <?php if( $productConfig['product_enablezoom'] ) { ?>
 <script type="text/javascript" src=" catalog/view/javascript/jquery/elevatezoom/elevatezoom-min.js"></script>
 <script type="text/javascript">
@@ -636,7 +636,6 @@ $(document).ready(function() {
 });
 </script>
 <?php } ?>
-<!--Bonk02-->
 <script type="application/ld+json"><?php echo $mark_up_breadcrumb;?></script>
 <script type="application/ld+json"><?php echo $mark_up_product;?></script>
 <?php echo $footer; ?>
