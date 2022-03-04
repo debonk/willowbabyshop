@@ -48,7 +48,7 @@ class ControllerCommonMenu extends Controller {
 				'localisation/country',
 				'localisation/zone',
 				'localisation/city',
-				'localisation/geozone',
+				'localisation/geo_zone',
 				'tax' => ['localisation/tax_class', 'localisation/tax_rate'],
 				'localisation/length_class',
 				'localisation/weight_class'

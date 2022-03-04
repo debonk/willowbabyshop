@@ -3,6 +3,7 @@ class ControllerApiProduct extends Controller
 {
 	public function index()
 	{
+		// In all function, option model (sku) only applied to updates function. If other function still used, check for this option model.
 		$this->load->language('api/product');
 
 		$json = array();
@@ -227,18 +228,7 @@ class ControllerApiProduct extends Controller
 
 					$product_data = array_combine($column_data, $product_data);
 
-					// foreach ($column_data as $idx => $column) {
-					// 	if ($idx) {
-					// 		$update_data[$column] = $product_data[$idx];
-					// 	} else {
-					// 		$model = $product_data[$idx];
-					// 	}
-					// }
-
 					$product_option_value_info = $this->model_catalog_product->getProductOptionValueByModel($product_data['model']);
-					// print_r($product_option_value_info);
-					// die('---breakpoint---');
-
 
 					if ($product_option_value_info) {
 						$option_update_data = [];
@@ -256,8 +246,6 @@ class ControllerApiProduct extends Controller
 								'quantity'		=> 888,
 								'price'			=> $product_data['price']
 							];
-
-							// $this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
 						} else {
 							$price = $product_data['price'] - $product_info['price'];
 
@@ -278,9 +266,6 @@ class ControllerApiProduct extends Controller
 							$update_data = [
 								'quantity'		=> 888
 							];
-
-							// $this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
-
 						}
 
 						$this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);

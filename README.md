@@ -1,14 +1,13 @@
 # willowbabyshop software
 
+2.2.6.1	04/03/2022
+Blog Latest Module: add feature to disabled image
+Modify Table: Reduce price decimal format to 15,2
+Bug fixed: Menu > Geo Zones unlisted in menu
+Layout: Header: Smaller logo
+
 2.2.6.0 26/02/2022
 Modul: Add model/sku on variant (option)
-========================
-	ALTER TABLE `oc_product_option_value` ADD `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `option_value_id`;
-
-	ALTER TABLE `oc_product` CHANGE `model` `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `weight` `weight` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `length` `length` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `width` `width` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `height` `height` DECIMAL(15,2) NOT NULL DEFAULT '0.00';
-
-	ALTER TABLE `oc_product_option_value` CHANGE `price` `price` DECIMAL(15,2) NOT NULL, CHANGE `weight` `weight` DECIMAL(15,2) NOT NULL;
-
 ----------------------
 	Applied to admin > catalog > product
 	Applied to front > product

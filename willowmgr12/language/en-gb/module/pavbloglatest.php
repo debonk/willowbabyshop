@@ -39,11 +39,8 @@ $_['text_bestseller']  = 'Best Seller';
 $_['text_special']  = 'Special'; 
 $_['button_blog_management'] = 'Blog Management';
 // Error
-$_['error_permission']    = 'Warning: You do not have permission to modify module slideshow!';
-$_['error_dimension']     = 'Width &amp; Height dimensions required!';
-$_['error_carousel']     = 'Width &amp;  Max Items - Max Columns - Limit Items In Carousel  required!';
+$_['error_permission']	= 'Warning: You do not have permission to modify module slideshow!';
+$_['error_dimension']	= 'Width &amp; Height dimensions required!';
+$_['error_carousel']	= 'Width &amp;  Max Items - Max Columns - Limit Items In Carousel  required!';
 
-$_['entry_prefixclass'] = "Additional Class";
-
-
-?>
+$_['entry_prefixclass']	= "Additional Class";

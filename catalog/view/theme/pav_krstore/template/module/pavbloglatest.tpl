@@ -13,7 +13,7 @@
 							<?php if( $blog['thumb']  )  { ?>
 								<div class="latest-posts-image effect-adv">
 										<a href="<?php echo $blog['link'];?>" class="blog-article">
-								<img src="<?php echo $blog['thumb'];?>" title="<?php echo $blog['title'];?>" alt="<?php echo $blog['title'];?>" class="img-responsive"/>
+								<img src="<?php echo $blog['thumb'];?>" title="<?php echo $blog['title'];?>" alt="<?php echo $blog['title'];?>" class="img-responsive center-block"/>
 										</a>								
 								</div>
 							<?php } ?>

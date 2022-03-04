@@ -63,9 +63,9 @@ class Controllermodulepavbloglatest extends Controller {
 		$users = $this->model_pavblog_category->getUsers();
 		
 		foreach( $blogs as $key => $blog ){
-			if( $blogs[$key]['image'] ){	
+			if( $blogs[$key]['image'] && ($setting['width'] && $setting['height'])){	
 				$blogs[$key]['thumb'] = $this->model_tool_image->resize($blog['image'], $setting['width'], $setting['height'] );
-			}else {
+			} else {
 				$blogs[$key]['thumb'] = '';
 			}					
 			

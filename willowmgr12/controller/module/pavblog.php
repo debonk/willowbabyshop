@@ -1218,6 +1218,8 @@ class ControllerModulePavblog extends Controller {
 		$this->mdata['tab_module'] = $this->language->get('tab_module');
 
 		$this->mdata['entry_tree'] = $this->language->get('entry_tree');
+
+		$this->mdata['help_dimension'] = $this->language->get('help_dimension');
 	}
 
 	public function frontmodules(){

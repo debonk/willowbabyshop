@@ -88,7 +88,7 @@
 							<tr>
 							<!-- //Dimension (W x H) and Resize Type: -->
 							<tr>
-								<td class="col-sm-2"><?php echo $entry_dimension; ?></td>
+								<td class="col-sm-2"><span data-toggle="tooltip" title="<?= $help_dimension; ?>"><?php echo $entry_dimension; ?></span></td>
 								<td class="col-sm-10">
 								<input style="width:20%" class="form-control" type="text" name="pavbloglatest_module[width]" value="<?php echo $width; ?>" size="3" />
 								x <input style="width:20%" class="form-control" type="text" name="pavbloglatest_module[height]" value="<?php echo $height; ?>" size="3" /></td>

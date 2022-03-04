@@ -174,82 +174,80 @@ $_['text_enable'] = 'Enable';
 
 
 /** GENERAL SETTING **/
-$_['entry_children_columns'] = 'Children Columns';
+$_['entry_children_columns'] 		= 'Children Columns';
 $_['entry_category_image_demension'] = 'Category Image Demension (Width x Height) ';
-$_['modules_page_heading_title'] = 'General & Modules Setting';
-$_['text_general_setting'] = 'General Setting';
-$_['entry_large_image_demension'] = 'Blog - Large Image Demension (Width x Height)';
-$_['entry_small_image_demension'] = 'Blog - Small Image Demension (Width x Height)';
-$_['entry_xsmall_image_demension'] = 'Blog - XSmall Image Demension (Width x Height)';
-$_['entry_rss_limit'] = 'Limit Blogs In RSS';
-$_['text_category_setting'] = 'Category Page Setting';
-$_['entry_limit_leading_blogs'] = 'Limit Leading Blogs';
-$_['entry_limit_secondary_blogs 	'] = 'Limit Secondary Blogs';
-$_['entry_leading_image_types'] = 'Image Types';
-$_['text_large_image'] = 'Large Image';
-$_['text_small_image'] = 'Small Image';
-$_['entry_limit_secondary_blogs'] = 'Limit Secondary Blogs';
-$_['entry_secondary_image_types'] = 'Secondary Image Types';
-$_['entry_show_title'] = 'Show Title';
-$_['entry_show_image'] = 'Show Image';
-$_['entry_show_author'] = 'Show Author';
-$_['entry_show_category'] = 'Show Category';
-$_['entry_show_created'] = 'Show Created Date';
-$_['entry_show_comment_counter'] = 'Show Comment Counter';
-$_['entry_show_description'] = 'Show Description' ;
-$_['entry_show_readmore'] = 'Show Readmore' ;
-$_['entry_show_hits'] = 'Show Hits' ;
-$_['text_blog_setting'] = 'Blog Setting';
-$_['entry_blog_image_types'] = 'Blog Image Type';
-$_['blog_secondary_image_types'] = 'Secondary Image Types';
-$_['blog_show_title'] = 'Show Title';
-$_['blog_show_image'] = 'Show Image';
-$_['blog_show_author'] = 'Show Author';
-$_['blog_show_category'] = 'Show Category';
-$_['blog_show_created'] = 'Show Created Date';
-$_['blog_show_comment_counter'] = 'Show Comment Counter';
-$_['entry_show_comment_form'] = 'Show Comment Form';
+$_['modules_page_heading_title'] 	= 'General & Modules Setting';
+$_['text_general_setting'] 			= 'General Setting';
+$_['entry_large_image_demension'] 	= 'Blog - Large Image Demension (Width x Height)';
+$_['entry_small_image_demension'] 	= 'Blog - Small Image Demension (Width x Height)';
+$_['entry_xsmall_image_demension'] 	= 'Blog - XSmall Image Demension (Width x Height)';
+$_['entry_rss_limit'] 				= 'Limit Blogs In RSS';
+$_['text_category_setting'] 		= 'Category Page Setting';
+$_['entry_limit_leading_blogs'] 	= 'Limit Leading Blogs';
+$_['entry_leading_image_types'] 	= 'Image Types';
+$_['text_large_image'] 				= 'Large Image';
+$_['text_small_image'] 				= 'Small Image';
+$_['entry_limit_secondary_blogs'] 	= 'Limit Secondary Blogs';
+$_['entry_secondary_image_types'] 	= 'Secondary Image Types';
+$_['entry_show_title'] 				= 'Show Title';
+$_['entry_show_image'] 				= 'Show Image';
+$_['entry_show_author'] 			= 'Show Author';
+$_['entry_show_category'] 			= 'Show Category';
+$_['entry_show_created'] 			= 'Show Created Date';
+$_['entry_show_comment_counter'] 	= 'Show Comment Counter';
+$_['entry_show_description'] 		= 'Show Description' ;
+$_['entry_show_readmore'] 			= 'Show Readmore' ;
+$_['entry_show_hits'] 				= 'Show Hits' ;
+$_['text_blog_setting'] 			= 'Blog Setting';
+$_['entry_blog_image_types'] 		= 'Blog Image Type';
+$_['blog_secondary_image_types']	= 'Secondary Image Types';
+$_['blog_show_title'] 				= 'Show Title';
+$_['blog_show_image'] 				= 'Show Image';
+$_['blog_show_author'] 				= 'Show Author';
+$_['blog_show_category'] 			= 'Show Category';
+$_['blog_show_created'] 			= 'Show Created Date';
+$_['blog_show_comment_counter'] 	= 'Show Comment Counter';
+$_['entry_show_comment_form'] 		= 'Show Comment Form';
 
-$_['text_modules_setting'] = 'Modules Setting';
+$_['text_modules_setting'] 			= 'Modules Setting';
 
-$_['text_categories_module'] = 'Categories Menu Modules';
-$_['text_latest_blog_module'] = 'Latest Blog Modules';
-$_['text_latest_comment_module'] = 'Latest Comment Modules';
+$_['text_categories_module'] 		= 'Categories Menu Modules';
+$_['text_latest_blog_module'] 		= 'Latest Blog Modules';
+$_['text_latest_comment_module'] 	= 'Latest Comment Modules';
 
 $_['entry_columns_secondary_blogs'] = 'Columns Secondary Blogs';
-$_['entry_columns_leading_blogs'] = 'Column Leading Blogs';
-$_['entry_columns_secondary_blogs 	'] = 'Column Secondary Blogs';
+$_['entry_columns_leading_blogs'] 	= 'Column Leading Blogs';
+$_['entry_columns_secondary_blogs']	= 'Column Secondary Blogs';
 
 
-$_['entry_comment_engine'] = 'Comment Engine';
-$_['entry_diquis_account'] = 'Diquis Screen Name';
-$_['text_signup_diquis'] = 'SignUp Disquis';
-$_['entry_facebook_appid'] = 'Facebook Application ID';
-$_['entry_comment_limit'] = 'Limit Comments';
-$_['entry_facebook_width'] = 'Facebook Width';
-$_['entry_auto_publish_comment'] = 'Auto Publish Comment';
+$_['entry_comment_engine'] 			= 'Comment Engine';
+$_['entry_diquis_account'] 			= 'Diquis Screen Name';
+$_['text_signup_diquis'] 			= 'SignUp Disquis';
+$_['entry_facebook_appid'] 			= 'Facebook Application ID';
+$_['entry_comment_limit'] 			= 'Limit Comments';
+$_['entry_facebook_width'] 			= 'Facebook Width';
+$_['entry_auto_publish_comment'] 	= 'Auto Publish Comment';
 
-$_['entry_enable_recaptcha'] = 'Enable ReCaptCha';
-$_['entry_recaptcha_public_key'] = 'Public ReCaptCha';
-$_['entry_recaptcha_private_key'] = 'Private Key';
-$_['text_register_recaptcha'] = 'Register Recaptcha'; 
-$_['tab_pavblogcategory'] = 'Category module Setting';
-$_['tab_pavblogcomment'] = 'Latest comment module Setting';
-$_['tab_pavbloglatest'] = 'Latest module Setting';
-$_['text_showcase']	= 'Showcase';
-$_['menu_frontend_module_setting'] = 'Frontend Modules';
+$_['entry_enable_recaptcha'] 		= 'Enable ReCaptCha';
+$_['entry_recaptcha_public_key'] 	= 'Public ReCaptCha';
+$_['entry_recaptcha_private_key'] 	= 'Private Key';
+$_['text_register_recaptcha'] 		= 'Register Recaptcha'; 
+$_['tab_pavblogcategory'] 			= 'Category module Setting';
+$_['tab_pavblogcomment'] 			= 'Latest comment module Setting';
+$_['tab_pavbloglatest'] 			= 'Latest module Setting';
+$_['text_showcase']					= 'Showcase';
+$_['menu_frontend_module_setting'] 	= 'Frontend Modules';
 
 $_['error_missing_description'] = 'Missing Blog Description';
-$_['error_missing_content'] = 'Missing Blog Content';
+$_['error_missing_content'] 	= 'Missing Blog Content';
 
+$_['text_save'] 				= 'save';
+$_['text_success_update_tree'] 	= 'Success: You have modified Tree-Items!';
+$_['text_edit'] 				= 'Edit';
 
-$_['text_save'] = 'save';
-$_['text_success_update_tree'] = 'Success: You have modified Tree-Items!';
-$_['text_edit'] = 'Edit';
-
-$_['entry_user'] = 'User';
-$_['entry_email'] = 'Email';
-$_['entry_comment'] = 'Comment';
+$_['entry_user'] 		= 'User';
+$_['entry_email'] 		= 'Email';
+$_['entry_comment'] 	= 'Comment';
 
 // Pavblogcategory
 $_['button_module_add'] = 'Add module';
@@ -259,16 +257,15 @@ $_['entry_carousel']    = 'Limit Items:';
 
 // PavBlogLatest
 $_['entry_prefixclass'] = 'Prefix Class';
-$_['entry_tabs'] = 'Type List Products';
+$_['entry_tabs'] 		= 'Type List Products';
 
-$_['text_latest'] = 'Latest';
-$_['text_featured'] = 'Featured';
-$_['text_mostviewed'] = 'Most View';
+$_['text_latest'] 		= 'Latest';
+$_['text_featured'] 	= 'Featured';
+$_['text_mostviewed'] 	= 'Most View';
 
-$_['create_module'] = 'Create Module';
+$_['create_module'] 	= 'Create Module';
 $_['entry_module_name'] = 'Module Name';
 
-$_['entry_tree'] = 'Type';
+$_['entry_tree'] 		= 'Type';
 
-
-?>
+$_['help_dimension'] 	= 'Set 0 to hide image';
