@@ -1,4 +1,6 @@
 # willowbabyshop software
+2.2.6.2	05/03/2022
+Modify Modul: Header > Welcome: Add "login and sign in with google" if not logged in.
 
 2.2.6.1	04/03/2022
 Blog Latest Module: add feature to disabled image

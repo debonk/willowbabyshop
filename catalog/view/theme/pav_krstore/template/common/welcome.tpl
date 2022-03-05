@@ -1,4 +1,4 @@
-<?php echo $text_greeting;?>
+<h5><?php echo $text_greeting;?></h5>
 <?php if ($user_point_status) { ?>
 	<div class="user-point">
 		<table>
@@ -13,4 +13,13 @@
 			<?php } ?>
 		</table>
 	</div>
-<?php } ?>
+<?php } else { ?>
+	<?php if ($google_login) { ?>
+		<div class="pl-10">
+			<a href="<?= $login; ?>">
+				<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive btn-image w-70">
+			</a>
+			<small><?php echo $text_sign_in;?></small>
+		</div>
+		<?php } ?>
+	<?php } ?>

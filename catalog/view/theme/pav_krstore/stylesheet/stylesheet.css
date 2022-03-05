@@ -12353,3 +12353,20 @@ header .right-panel {
 #bs-megamenu > .navbar-nav.megamenu {
 	text-align: left;
 }
+
+.btn-image {
+	opacity: 0.8;
+	transition: 0.3s;
+}
+.btn-image:hover, .btn-image:focus {
+	opacity: 1;
+}
+.w-80 {
+	width: 80%;
+}
+.w-70 {
+	width: 70%;
+}
+.pl-10 {
+	padding-left: 10%;
+}

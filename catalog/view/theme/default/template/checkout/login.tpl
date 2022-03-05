@@ -45,9 +45,9 @@
 					</strong></p>
 				<br>
 				<a href="<?= $login; ?>" class="btn">
-					<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive"></i>
+					<img src="<?= $google_button; ?>" alt="google_button" class="img-responsive btn-image">
 				</a>
 			</div>
-			<?php } ?>
+		<?php } ?>
 </div>
 </div>

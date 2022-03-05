@@ -111,7 +111,7 @@
 						}
 					?>
 						</div>
-						<div class="welcome col-lg-10 col-xs-12">
+						<div class="col-lg-10 col-xs-12">
 							<?php echo $welcome;?>
 						</div>
 					</div>

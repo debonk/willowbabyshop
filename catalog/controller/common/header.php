@@ -69,14 +69,6 @@ class ControllerCommonHeader extends Controller
 
 		$data['text_home'] = $this->language->get('text_home');
 
-		// Welcome - Bonk
-		/*		$data['text_greeting'] = $this->language->get('text_greeting');
-		$data['text_reward'] = '';
-		$data['text_balance'] = '';
-			
-		$reward_status = $this->config->get('reward_status');
-		$balance_status = $this->config->get('credit_status');
-*/
 		//Bonk06
 		$data['welcome'] = $this->load->controller('common/welcome');
 
