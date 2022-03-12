@@ -1639,7 +1639,7 @@ class ControllerCatalogProduct extends Controller
 			if (isset($this->request->get['limit'])) {
 				$limit = $this->request->get['limit'];
 			} else {
-				$limit = 5;
+				$limit = '10';
 			}
 
 			$filter_data = array(

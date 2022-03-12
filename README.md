@@ -1,4 +1,12 @@
 # willowbabyshop software
+
+2.2.6.3	12/03/2022
+Modify Modul: FRONT > Product > Product: Set Out of Stock if product have option, but option total qty = 0;
+Modify Modul: Mass new product: Add product option image to parent product, check url availability.
+Bug Fixed: Sku on variant: mass new product upload.
+Bug Fixed: Product: Copy Product then Delete Product remove main product's image too.
+Bug Fixed: Free Shipping: Always applied even not in the list.
+
 2.2.6.2	05/03/2022
 Modify Modul: Header > Welcome: Add "login and sign in with google" if not logged in.
 

@@ -12295,9 +12295,9 @@ div.required .control-label:before {
 	float: none;
 }
 .u-cart-input {
-  /* padding: 13px 5px; */
   text-align: center;
   min-width: 55px;
+  height: 42px;
 }
 .special-percentage {
   font-size: 90%;

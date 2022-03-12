@@ -112,6 +112,11 @@ class ControllerCatalogTool extends Controller
 
 				$this->load->model('catalog/product');
 				$this->load->model('tool/image');
+				$this->load->model('localisation/weight_class');
+				$this->load->model('catalog/url_alias');
+
+				# Used for weight conversion on product options
+				$weight_class_id = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit('g')['weight_class_id'];
 
 				$field_data = [];
 
@@ -124,7 +129,6 @@ class ControllerCatalogTool extends Controller
 				for ($i = 3; $i <= count($sheet_data); $i++) {
 					$new_product = false;
 					$product_option_data = [];
-					// $product_option_value_data = [];
 
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']] || !$sheet_data[$i][$field_data['main_image']]) {
 						continue;
@@ -143,11 +147,11 @@ class ControllerCatalogTool extends Controller
 						}
 
 						$parent_product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['parent_model']]);
-						
+
 						$product_id = $parent_product_info ? $parent_product_info['product_id'] : 0;
 
 						$product_option_info = $this->model_catalog_product->getProductOption($product_id, $sheet_data[$i][$field_data['option_id']]);
-						
+
 						if (!$product_option_info) {
 							$product_option_data['product_option'] = [
 								'type'			=> 'select',
@@ -161,7 +165,7 @@ class ControllerCatalogTool extends Controller
 							'option_id'			=> $sheet_data[$i][$field_data['option_id']],
 							'option_value_id'	=> $sheet_data[$i][$field_data['option_value_id']],
 							'model'				=> $sheet_data[$i][$field_data['model']],
-							'quantity'			=> 0,
+							'quantity'			=> $sheet_data[$i][$field_data['quantity']],
 							'subtract'			=> 1,
 							'price'				=> 0,
 							'price_prefix'		=> '+',
@@ -172,7 +176,59 @@ class ControllerCatalogTool extends Controller
 						];
 
 						if ($parent_product_info) {
-							$this->model_catalog_product->addProductOption($parent_product_info['product_id'], $product_option_data);
+							$parent_product_data['quantity'] = 111;
+
+							$price = $sheet_data[$i][$field_data['price']] - $parent_product_info['price'];
+
+							if ($price < 0) {
+								$price_prefix = '-';
+
+								$price = abs($price);
+							} else {
+								$price_prefix = '+';
+							}
+
+							$product_option_data['product_option_value']['price'] = $price;
+							$product_option_data['product_option_value']['price_prefix'] = $price_prefix;
+
+							$product_option_weight = $this->weight->convert($sheet_data[$i][$field_data['weight']], $weight_class_id, $parent_product_info['weight_class_id']);
+
+							$weight = $product_option_weight - $parent_product_info['weight'];
+
+							if ($weight < 0) {
+								$weight_prefix = '-';
+
+								$weight = abs($weight);
+							} else {
+								$weight_prefix = '+';
+							}
+
+							$product_option_data['product_option_value']['weight'] = $weight;
+							$product_option_data['product_option_value']['weight_prefix'] = $weight_prefix;
+
+							$this->model_catalog_product->addProductOption($product_id, $product_option_data);
+
+							# Add option main image to product Image as additional image
+							$url_source = $sheet_data[$i][$field_data['main_image']];
+
+							$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+
+							if ($extension == '') {
+								$extension = 'png';
+							}
+
+							if (in_array(strtolower($extension), $image_types)) {
+								$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+
+								$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+
+								$parent_product_data['product_image'][] = [
+									'image'			=> $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension),
+									'sort_order'	=> 99
+								];
+							}
+
+							$this->model_catalog_product->editProductPartially($product_id, $parent_product_data);
 						} else {
 							$new_product = true;
 						}
@@ -245,6 +301,10 @@ class ControllerCatalogTool extends Controller
 						$product_data['height'] = $sheet_data[$i][$field_data['height']];
 						$product_data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
+						if ($this->model_catalog_url_alias->getUrlAlias($product_data['keyword'])) {
+							$product_data['keyword'] .= '-' . token(3);
+						}
+
 						$product_data['product_description'][$this->config->get('config_language_id')] = [
 							'name' 				=> utf8_strtoupper($sheet_data[$i][$field_data['name']]),
 							'description'		=> nl2br($sheet_data[$i][$field_data['description']]),
@@ -254,7 +314,7 @@ class ControllerCatalogTool extends Controller
 							'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 						];
 
-						if (isset($product_option_data)) {
+						if (!empty($product_option_data)) {
 							$product_data['product_option'][0] = $product_option_data['product_option'];
 							$product_data['product_option'][0]['product_option_value'][0] = $product_option_data['product_option_value'];
 						}
@@ -285,6 +345,10 @@ class ControllerCatalogTool extends Controller
 						for ($j = 2; $j < 6; $j++) {
 							if (isset($sheet_data[$i][$field_data['image_' . $j]])) {
 								$extension = pathinfo($sheet_data[$i][$field_data['image_' . $j]], PATHINFO_EXTENSION);
+
+								if ($extension == '') {
+									$extension = 'png';
+								}
 
 								if (in_array(strtolower($extension), $image_types)) {
 									$product_data['product_image'][] = [

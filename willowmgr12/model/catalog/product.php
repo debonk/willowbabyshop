@@ -281,6 +281,33 @@ class ModelCatalogProduct extends Model
 		$this->cache->delete('product');
 	}
 
+	public function editProductPartially($product_id, $data)
+	{
+		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+
+		$implode = [];
+
+		if (isset($data['quantity'])) {
+			$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
+		}
+
+		if (isset($data['price'])) {
+			$implode[] = "price = '" . (int)$data['price'] . "'";
+		}
+
+		$sql .= ", " . implode(', ', $implode);
+
+		$sql .= " WHERE product_id = " . (int)$product_id;
+
+		$this->db->query($sql);
+
+		if (isset($data['product_image'])) {
+			foreach ($data['product_image'] as $product_image) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "'");
+			}
+		}
+	}
+
 	public function copyProduct($product_id)
 	{
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p WHERE p.product_id = '" . (int)$product_id . "'");
@@ -288,20 +315,41 @@ class ModelCatalogProduct extends Model
 		if ($query->num_rows) {
 			$data = $query->row;
 
-			$data['model'] = '';
-			$data['sku'] = '';
+			$token = token(3);
+
+			$model = $data['model'] . '-' . $token;
+
+			$data['model'] = $model;
+			$data['sku'] = $model;
 			$data['upc'] = '';
 			$data['viewed'] = '0';
 			$data['keyword'] = '';
 			$data['status'] = '0';
+
+			$extension = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
+			$new_image = str_replace($extension, '-' . $token . $extension, $data['image']);
+
+			copy(DIR_IMAGE . $data['image'], DIR_IMAGE . $new_image);
+
+			$data['image'] = $new_image;
 
 			$data['product_attribute'] = $this->getProductAttributes($product_id);
 			$data['product_description'] = $this->getProductDescriptions($product_id);
 			$data['product_discount'] = $this->getProductDiscounts($product_id);
 			$data['product_filter'] = $this->getProductFilters($product_id);
 			$data['product_image'] = $this->getProductImages($product_id);
-			$data['product_option'] = $this->getProductOptions($product_id);
 
+			foreach ($data['product_image'] as $idx => $product_image) {
+				$extension = '.' . pathinfo($product_image['image'], PATHINFO_EXTENSION);
+				$new_image = str_replace($extension, '-' . $token . $extension, $product_image['image']);
+	
+				copy(DIR_IMAGE . $product_image['image'], DIR_IMAGE . $new_image);
+
+				$data['product_image'][$idx]['image'] = $new_image;
+			}
+
+			$data['product_option'] = $this->getProductOptions($product_id);
+			
 			if ($data['product_option']) {
 				for ($i = 0; $i < count($data['product_option']); $i++) {
 					if ($data['product_option'][$i]) {

@@ -19,7 +19,7 @@ class ModelShippingBonkFree extends Model {
 				break;
 			}
 		}
-								
+
 		$code 	= 'bonkfree.bonkfree';
 		$text 	= '';
 //		$text 	= $this->currency->format(0.00, $this->session->data['currency']);

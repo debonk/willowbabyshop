@@ -1,8 +1,10 @@
 <?php
-class ControllerProductProduct extends Controller {
+class ControllerProductProduct extends Controller
+{
 	private $error = array();
 
-	public function index() {
+	public function index()
+	{
 
 		// pavo version 2.2
 		$this->load->language('module/themecontrol');
@@ -281,16 +283,8 @@ class ControllerProductProduct extends Controller {
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
-			
-			$data['description'] .= '<br><br><p><a href="' . $this->url->link('common/home') . '">willowbabyshop</a><br></p>';//Bonk13
 
-			if ($product_info['quantity'] <= 0) {
-				$data['stock'] = $product_info['stock_status'];
-			} elseif ($this->config->get('config_stock_display')) {
-				$data['stock'] = $product_info['quantity'];
-			} else {
-				$data['stock'] = $this->language->get('text_instock');
-			}
+			$data['description'] .= '<br><br><p><a href="' . $this->url->link('common/home') . '">willowbabyshop</a><br></p>'; //Bonk13
 
 			//Bonk
 			if (!is_file(DIR_IMAGE . $product_info['image'])) {
@@ -298,12 +292,12 @@ class ControllerProductProduct extends Controller {
 			}
 
 			$this->load->model('tool/image');
-			
+
 			//Bonk14
 			$manufacturer_image = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
-			if($manufacturer_image){
+			if ($manufacturer_image) {
 				$data['manufacturers_img'] = $this->model_tool_image->resize($manufacturer_image['image'], 200, 100);
-			} else  {
+			} else {
 				$data['manufacturers_img'] = false;
 			}
 
@@ -339,7 +333,7 @@ class ControllerProductProduct extends Controller {
 			if ((float)$product_info['special']) {
 				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				//Bonk
-				$data['special_percentage'] = round(100/($product_info['price']/($product_info['price'] - $product_info['special'])), 2, PHP_ROUND_HALF_UP) . '% OFF';
+				$data['special_percentage'] = round(100 / ($product_info['price'] / ($product_info['price'] - $product_info['special'])), 2, PHP_ROUND_HALF_UP) . '% OFF';
 			} else {
 				$data['special'] = false;
 			}
@@ -357,8 +351,8 @@ class ControllerProductProduct extends Controller {
 			foreach ($discounts as $discount) {
 				$data['discounts'][] = array(
 					'quantity' => $discount['quantity'],
-//Bonk					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
-					'price'    => ' -' . round(100/($product_info['price']/($product_info['price'] - $discount['price'])), 2, PHP_ROUND_HALF_UP) . '%'
+					//Bonk					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
+					'price'    => ' -' . round(100 / ($product_info['price'] / ($product_info['price'] - $discount['price'])), 2, PHP_ROUND_HALF_UP) . '%'
 				);
 			}
 
@@ -366,6 +360,7 @@ class ControllerProductProduct extends Controller {
 
 			foreach ($this->model_catalog_product->getProductOptions($this->request->get['product_id']) as $option) {
 				$product_option_value_data = array();
+				$product_option_total = 0;
 
 				foreach ($option['product_option_value'] as $option_value) {
 					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
@@ -384,6 +379,8 @@ class ControllerProductProduct extends Controller {
 							'price_prefix'            => $option_value['price_prefix']
 						);
 					}
+
+					$product_option_total += $option_value['quantity'];
 				}
 
 				$data['options'][] = array(
@@ -395,7 +392,22 @@ class ControllerProductProduct extends Controller {
 					'value'                => $option['value'],
 					'required'             => $option['required']
 				);
+
+				$product_info['quantity'] = $product_option_total;
 			}
+
+			// var_dump($product_info);
+			// var_dump($product_option_total);
+			// die('---breakpoint---');
+
+			if ($product_info['quantity'] <= 0) {
+				$data['stock'] = $product_info['stock_status'];
+			} elseif ($this->config->get('config_stock_display')) {
+				$data['stock'] = $product_info['quantity'];
+			} else {
+				$data['stock'] = $this->language->get('text_instock');
+			}
+
 
 			if ($product_info['minimum']) {
 				$data['minimum'] = $product_info['minimum'];
@@ -513,11 +525,11 @@ class ControllerProductProduct extends Controller {
 				} else {
 					$mark_up_breadcrumb_text = $breadcrumb['text'];
 				}
-				
+
 				$mark_up_breadcrumb .= '
 				{
 					"@type": "ListItem",
-					"position": ' . $i .',
+					"position": ' . $i . ',
 					"item": {
 						"@id": "' . $breadcrumb['href'] . '",
 						"name": "' . htmlspecialchars_decode($mark_up_breadcrumb_text) . '"
@@ -530,7 +542,7 @@ class ControllerProductProduct extends Controller {
 				}
 				$i++;
 			}
-			
+
 			$data['mark_up_breadcrumb'] = $mark_up_breadcrumb;
 
 			//Bonk02:Markup Data - Product //should be: "price": "' . $mark_up_product_price . '",
@@ -539,7 +551,7 @@ class ControllerProductProduct extends Controller {
 			} else {
 				$mark_up_product_price = $product_info['price'];
 			}
-			
+
 			if ($this->request->server['HTTPS']) {
 				$server = $this->config->get('config_ssl');
 			} else {
@@ -548,7 +560,7 @@ class ControllerProductProduct extends Controller {
 
 			$mark_up_product = '{"@context": "http://schema.org", "@type": "Product",
 			"name": "' . $product_info['name'] . '",
-			"image": "'. $server . $product_info['image'] . '",
+			"image": "' . $server . $product_info['image'] . '",
 			"description": "' . $product_info['description'] . '",
 			"model": "' . $product_info['model'] . '",
 			"brand": {
@@ -568,20 +580,20 @@ class ControllerProductProduct extends Controller {
 				"price": "' . $mark_up_product_price . '",
 				"itemCondition": "http://schema.org/NewCondition",';
 			if ($product_info['quantity']) {
-					$mark_up_product .= '"availability": "http://schema.org/InStock",';
+				$mark_up_product .= '"availability": "http://schema.org/InStock",';
 			} else {
-					$mark_up_product .= '"availability": "http://schema.org/OutOfStock",';
+				$mark_up_product .= '"availability": "http://schema.org/OutOfStock",';
 			}
-				$mark_up_product .= '"seller": {
+			$mark_up_product .= '"seller": {
 					"@type": "Organization",
 					"name": "' . $this->config->get('config_name') . '"
 				}
 			}
 			}';
-			
-		$data['mark_up_product'] = $mark_up_product;
+
+			$data['mark_up_product'] = $mark_up_product;
 			//Bonk02:End
-			
+
 			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
 			$url = '';
@@ -662,7 +674,8 @@ class ControllerProductProduct extends Controller {
 		}
 	}
 
-	public function review() {
+	public function review()
+	{
 		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
@@ -703,7 +716,8 @@ class ControllerProductProduct extends Controller {
 		$this->response->setOutput($this->load->view('product/review', $data));
 	}
 
-	public function write() {
+	public function write()
+	{
 		$this->load->language('product/product');
 
 		$json = array();
@@ -743,7 +757,8 @@ class ControllerProductProduct extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function getRecurringDescription() {
+	public function getRecurringDescription()
+	{
 		$this->load->language('product/product');
 		$this->load->model('catalog/product');
 
