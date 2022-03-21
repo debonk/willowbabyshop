@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']          = 'OpenCart';
+$_['heading_title']          = 'Willow Baby & Kids';
 
 // Text
 $_['text_order']             = 'Orders';

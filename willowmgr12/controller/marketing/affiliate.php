@@ -318,7 +318,7 @@ class ControllerMarketingAffiliate extends Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}
@@ -1145,7 +1145,7 @@ class ControllerMarketingAffiliate extends Controller {
 		$data['column_amount'] = $this->language->get('column_amount');
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}

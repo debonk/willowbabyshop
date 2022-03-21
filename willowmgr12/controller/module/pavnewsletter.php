@@ -507,7 +507,7 @@ class ControllerModulePavnewsletter extends Controller {
       }
 
       if (isset($this->request->get['page'])) {
-          $page = $this->request->get['page'];
+          $page = intval($this->request->get['page']);
       } else {
           $page = 1;
       }
@@ -907,7 +907,7 @@ class ControllerModulePavnewsletter extends Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}
@@ -1183,7 +1183,7 @@ class ControllerModulePavnewsletter extends Controller {
 				}
 				// PAGE 
 				if (isset($this->request->get['page'])) {
-					$page = $this->request->get['page'];
+					$page = intval($this->request->get['page']);
 				} else {
 					$page = 1;
 				}

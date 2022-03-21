@@ -1,6 +1,8 @@
 # willowbabyshop software
+2.2.6.4	21/03/2022
+Bug Fixed: PHP Notice:  A non well formed numeric value encountered in (part 2)
 
-2.2.6.4
+2.2.6.4	21/03/2022
 Modul: Connect with Google Analytic
 Bug Fixed: Google Analytic feed not saved properly
 Modify Modul: Header: Simplified Notification

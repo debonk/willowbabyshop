@@ -368,7 +368,7 @@ class ControllerPaymentLaybuy extends Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}
