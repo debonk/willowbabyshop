@@ -16,7 +16,7 @@ class Pagination {
 		if ($this->page < 1) {
 			$page = 1;
 		} else {
-			$page = $this->page;
+			$page = (int)$this->page;
 		}
 
 		if (!(int)$this->limit) {
@@ -38,6 +38,7 @@ class Pagination {
 		if ($page > 1) {
 			$output .= '<li><a href="' . $page_def . '">' . $this->text_first . '</a></li>'; //Bonk
 //			$output .= '<li><a href="' . str_replace('&amp;page={page}', '', $this->url) . '">' . $this->text_first . '</a></li>';
+
 			if($page - 1 == 1){
 				$output .= '<li><a href="' . $page_def . '">' . $this->text_prev . '</a></li>';
 			} else {

@@ -341,7 +341,7 @@ class ControllerCatalogProduct extends Controller
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}
@@ -401,7 +401,7 @@ class ControllerCatalogProduct extends Controller
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . $url, true)
+			'href' => $this->url->link('catalog/product', 'token=' . $this->session->data['token'], true)
 		);
 
 		$data['add'] = $this->url->link('catalog/product/add', 'token=' . $this->session->data['token'] . $url, true);
@@ -1620,7 +1620,7 @@ class ControllerCatalogProduct extends Controller
 	{
 		$json = array();
 
-		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_model'])) {
+		if ((isset($this->request->get['filter_name']) && strlen($this->request->get['filter_name']) > 1) || (isset($this->request->get['filter_model']) && strlen($this->request->get['filter_model']) > 1)) {
 			$this->load->model('catalog/product');
 			$this->load->model('catalog/option');
 

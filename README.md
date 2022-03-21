@@ -1,5 +1,13 @@
 # willowbabyshop software
 
+2.2.6.4
+Modul: Connect with Google Analytic
+Bug Fixed: Google Analytic feed not saved properly
+Modify Modul: Header: Simplified Notification
+Modify Layout: FRONT > Product > Product: hide text if no reviews, option button on different screen;
+Bug Fixed: Product images set multiple times
+Bug Fixed: PHP Notice:  A non well formed numeric value encountered in (part 1)
+
 2.2.6.3	12/03/2022
 Modify Modul: FRONT > Product > Product: Set Out of Stock if product have option, but option total qty = 0;
 Modify Modul: Mass new product: Add product option image to parent product, check url availability.

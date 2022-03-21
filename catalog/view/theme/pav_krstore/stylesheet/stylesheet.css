@@ -11511,7 +11511,7 @@ ul.menu li {
   display: block;
 }
 .detail-container #product .form-control {
-  width: 50%;
+  /* width: 70%; */
   background: #43505b;
   color: #FFFFFF;
   border: none;

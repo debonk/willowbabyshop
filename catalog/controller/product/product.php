@@ -429,7 +429,7 @@ class ControllerProductProduct extends Controller
 				$data['customer_name'] = '';
 			}
 
-			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
+			$data['reviews'] = $product_info['reviews'] ? sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']) : '';
 			$data['rating'] = (int)$product_info['rating'];
 
 			// Captcha
@@ -683,7 +683,7 @@ class ControllerProductProduct extends Controller
 		$data['text_no_reviews'] = $this->language->get('text_no_reviews');
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = intval($this->request->get['page']);
 		} else {
 			$page = 1;
 		}

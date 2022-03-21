@@ -245,7 +245,7 @@ class ControllerpavblogBlog extends Controller {
 				$this->mdata['link'] =  $this->url->link( 'pavblog/blog','blog_id='.$blog['blog_id'] );
 				
 				if (isset($this->request->get['page'])) {
-					$page = $this->request->get['page'];
+					$page = intval($this->request->get['page']);
 				} else { 
 					$page = 1;
 				}	

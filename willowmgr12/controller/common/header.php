@@ -55,8 +55,12 @@ class ControllerCommonHeader extends Controller {
 			$this->load->model('sale/order');
 
 			// Processing Orders
-			$data['processing_status_total'] = $this->model_sale_order->getTotalOrders(array('filter_order_status' => implode(',', $this->config->get('config_processing_status'))));
-			$data['processing_status'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_order_status=' . implode(',', $this->config->get('config_processing_status')), true);
+			$processing_status = array_diff($this->config->get('config_processing_status'), $this->config->get('config_complete_status'));
+
+			$processing_status_total = $this->model_sale_order->getTotalOrders(array('filter_order_status' => implode(',', $processing_status)));
+			$data['processing_status'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_order_status=' . implode(',', $processing_status), true);
+
+			$data['processing_status_total'] = $processing_status_total;
 
 			// Complete Orders
 			$data['complete_status_total'] = $this->model_sale_order->getTotalOrders(array('filter_order_status' => implode(',', $this->config->get('config_complete_status'))));
@@ -111,7 +115,7 @@ class ControllerCommonHeader extends Controller {
 			$data['affiliate_total'] = $affiliate_total;
 			$data['affiliate_approval'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'] . '&filter_approved=1', true);
 
-			$data['alerts'] = $customer_total + $product_total + $review_total + $return_total + $affiliate_total;
+			$data['alerts'] = $processing_status_total + $customer_total + $review_total + $return_total + $affiliate_total;
 
 			// Online Stores
 			$data['stores'] = array();

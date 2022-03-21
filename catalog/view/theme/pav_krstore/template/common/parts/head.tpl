@@ -111,7 +111,7 @@ $logoType = $helper->getConfig('logo_type','logo-theme'); ?>
       #module-container {font-family: <?php echo $themeConfig['normal_fonts3']; ?>; font-size: <?php echo $themeConfig['fontsize3']; ?>}
 
       <?php 
-        if( trim($themeConfig['body_selector4']) && trim($themeConfig['normal_fonts4']) ){
+        if (trim($themeConfig['body_selector4']) && trim($themeConfig['normal_fonts4'])) {
           $css[]= trim($themeConfig['body_selector4'])." {font-family:".str_replace("'",'"',htmlspecialchars_decode(trim($themeConfig['normal_fonts4'])))."}\r\n" ;
         }
          echo implode("\r\n",$css);
@@ -119,10 +119,11 @@ $logoType = $helper->getConfig('logo_type','logo-theme'); ?>
     </style>
     <?php } ?>
     <!-- FONT -->
-    <?php if( isset($google_analytics) ){ ?>
-    <?php echo $google_analytics; ?>
-    <?php } ?>
 
+		<?php foreach ($analytics as $analytic) { ?>
+		<?php echo $analytic; ?>
+		<?php } ?>
+			
     <?php if( isset($themeConfig['theme_width']) && $themeConfig['theme_width'] &&  $themeConfig['theme_width'] != 'auto' ) { ?>
     <style>.container{max-width:<?php echo $themeConfig['theme_width'];?>; width:auto;} </style>
     <?php } ?>

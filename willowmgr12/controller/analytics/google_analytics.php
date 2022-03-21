@@ -8,7 +8,7 @@ class ControllerAnalyticsGoogleAnalytics extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('setting/setting');
-		
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('google_analytics', $this->request->post, $this->request->get['store_id']);
 
@@ -59,22 +59,26 @@ class ControllerAnalyticsGoogleAnalytics extends Controller {
 			'href' => $this->url->link('analytics/google_analytics', 'token=' . $this->session->data['token'], true)
 		);
 
-		$data['action'] = $this->url->link('analytics/google_analytics', 'token=' . $this->session->data['token'], true);
+		$data['action'] = $this->url->link('analytics/google_analytics', 'token=' . $this->session->data['token'] . '&store_id=' . $this->request->get['store_id'], true);
 
 		$data['cancel'] = $this->url->link('extension/analytics', 'token=' . $this->session->data['token'], true);
 		
 		$data['token'] = $this->session->data['token'];
-				
+
+		if (isset($this->request->get['store_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$setting_info = $this->model_setting_setting->getSetting('google_analytics', $this->request->get['store_id']);
+		}
+
 		if (isset($this->request->post['google_analytics_code'])) {
 			$data['google_analytics_code'] = $this->request->post['google_analytics_code'];
 		} else {
-			$data['google_analytics_code'] = $this->config->get('google_analytics_code');
+			$data['google_analytics_code'] = $setting_info['google_analytics_code'];
 		}
 		
 		if (isset($this->request->post['google_analytics_status'])) {
 			$data['google_analytics_status'] = $this->request->post['google_analytics_status'];
 		} else {
-			$data['google_analytics_status'] = $this->config->get('google_analytics_status');
+			$data['google_analytics_status'] = $setting_info['google_analytics_status'];
 		}
 		
 		$data['header'] = $this->load->controller('common/header');

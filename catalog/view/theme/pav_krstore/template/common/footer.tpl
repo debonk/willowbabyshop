@@ -59,9 +59,8 @@ function downloadJSAtOnload() {
 	document.body.appendChild(element);
 
 //  Live Chat
-//	var livechat = document.createElement("script");
-//	livechat.src = "https://mylivechat.com/chatinline.aspx?hccid=13000511";
-//	document.body.appendChild(livechat);
+function add_chatinline(){var hccid=13000511;var nt=document.createElement("script");nt.async=true;nt.src="https://mylivechat.com/chatinline.aspx?hccid="+hccid;var ct=document.getElementsByTagName("script")[0];ct.parentNode.insertBefore(nt,ct);}
+add_chatinline();
 }
 if (window.addEventListener)
 window.addEventListener("load", downloadJSAtOnload, false);

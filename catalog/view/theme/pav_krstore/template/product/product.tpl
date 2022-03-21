@@ -73,8 +73,10 @@
 									<?php } ?>
 								<?php } ?> 
 							</p>
-<!--							<a href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><?php echo $reviews; ?></a> - <a href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><?php echo $text_write; ?></a>
--->								<a href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><?php echo $reviews; ?></a> - <a href="" onclick="$('a[href=\'#review-form\']').trigger('click'); return false;"><?php echo $text_write; ?></a>
+							<?php if ($reviews) { ?>
+							<a href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><?php echo $reviews; ?></a> - 
+							<?php } ?>
+							<a href="" onclick="$('a[href=\'#review-form\']').trigger('click'); return false;"><?php echo $text_write; ?></a>
 					</div>
 					<?php } ?>
 					<?php if ($price) { ?>
@@ -104,7 +106,7 @@
 					<ul class="list-unstyled">
 						<?php if ($manufacturer) { ?>
 						<!--Bonk14-->
-							<?php if($manufacturers_img) { ?>
+							<?php if ($manufacturers_img) { ?>
 								<li class="text-center"><a href="<?php echo $manufacturers; ?>"><?php echo ($manufacturers_img) ? '<img src="'.$manufacturers_img.'" title="'.$manufacturer.'" />' : '' ;?></a></li>
 							<?php } else { ?>
 								<li><span class="type"><?php echo $text_manufacturer; ?></span> <a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a></li>
@@ -122,7 +124,7 @@
 							<h3><?php echo $text_option; ?></h3>
 							<?php foreach ($options as $option) { ?>
 								<?php if ($option['type'] == 'select') { ?>
-									<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
+									<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?> col-lg-8">
 										<label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?></label>
 										<select name="option[<?php echo $option['product_option_id']; ?>]" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control">
 											<option value=""><?php echo $text_select; ?></option>
@@ -240,7 +242,7 @@
 						<?php } ?>
 						<?php if ($recurrings) { ?>
 							<h3><?php echo $text_payment_recurring ?></h3>
-							<div class="form-group required">
+							<div class="form-group required col-lg-8">
 								<select name="recurring_id" class="form-control">
 									<option value=""><?php echo $text_select; ?></option>
 									<?php foreach ($recurrings as $recurring) { ?>
@@ -250,7 +252,7 @@
 								<div class="help-block" id="recurring-description"></div>
 							</div>
 						<?php } ?>
-						<div class="product-buttons-wrap clearfix">
+						<div class="product-buttons-wrap clearfix col-xs-12">
 							<label class="control-label qty"><?php echo $entry_qty; ?>:</label>
 							<div class="product-qyt-action clearfix">
 								<div class="quantity-adder  pull-left">
@@ -346,7 +348,7 @@
                 <div class="tab-pane" id="tab-review">
 
                     <div id="review" class="space-20"></div>
-                    <p> <a href="#review-form"  class="popup-with-form btn btn-v2" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;" ><?php echo $text_write; ?></a></p>
+                    <p> <a href="#review-form" class="popup-with-form btn btn-v2" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;" ><?php echo $text_write; ?></a></p>
 
                    <div class="hide"> <div id="review-form" class="panel review-form-width"><div class="panel-body">
                     <form class="form-horizontal" id="form-review">

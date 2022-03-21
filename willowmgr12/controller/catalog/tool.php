@@ -73,6 +73,8 @@ class ControllerCatalogTool extends Controller
 			}
 
 			if ($sheet_data) {
+				$error_import = [];
+
 				if (!is_dir(DIR_IMAGE . 'catalog/product')) {
 					@mkdir(DIR_IMAGE . 'catalog/product', 0777);
 				}
@@ -129,13 +131,31 @@ class ControllerCatalogTool extends Controller
 				for ($i = 3; $i <= count($sheet_data); $i++) {
 					$new_product = false;
 					$product_option_data = [];
+					// var_dump($sheet_data[$i]);
+					// die('---breakpoint---');
+					
+					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']]) {
+						# Model dan name harus ada
+						$error_import[] = sprintf($this->language->get('error_model_name'), $i);
 
-					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']] || !$sheet_data[$i][$field_data['main_image']]) {
 						continue;
+					}
+
+					if ($sheet_data[$i][$field_data['model']] != $sheet_data[$i][$field_data['parent_model']]) {
+						$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
+
+						if ($product_info) {
+							# Product sudah ada
+							$error_import[] = sprintf($this->language->get('error_registered'), $sheet_data[$i][$field_data['model']]);
+
+							continue;
+						}
 					}
 
 					if ($sheet_data[$i][$field_data['parent_model']]) {
 						if (!$sheet_data[$i][$field_data['option_value_id']] || !$sheet_data[$i][$field_data['option_id']]) {
+							$error_import[] = sprintf($this->language->get('error_option'), $sheet_data[$i][$field_data['model']]);
+
 							continue;
 						}
 
@@ -143,6 +163,8 @@ class ControllerCatalogTool extends Controller
 
 						if ($product_option_value_info) {
 							# product option sudah ada
+							$error_import[] = sprintf($this->language->get('error_registered'), $sheet_data[$i][$field_data['model']]);
+
 							continue;
 						}
 
@@ -176,6 +198,7 @@ class ControllerCatalogTool extends Controller
 						];
 
 						if ($parent_product_info) {
+							$parent_product_data = [];
 							$parent_product_data['quantity'] = 111;
 
 							$price = $sheet_data[$i][$field_data['price']] - $parent_product_info['price'];
@@ -211,21 +234,25 @@ class ControllerCatalogTool extends Controller
 							# Add option main image to product Image as additional image
 							$url_source = $sheet_data[$i][$field_data['main_image']];
 
-							$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+							if ($url_source) {
+								$extension = pathinfo($url_source, PATHINFO_EXTENSION);
 
-							if ($extension == '') {
-								$extension = 'png';
-							}
+								if ($extension == '') {
+									$extension = 'png';
+								}
 
-							if (in_array(strtolower($extension), $image_types)) {
-								$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+								if (in_array(strtolower($extension), $image_types)) {
+									$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
 
-								$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+									$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
 
-								$parent_product_data['product_image'][] = [
-									'image'			=> $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension),
-									'sort_order'	=> 99
-								];
+									$parent_product_data['product_image'][] = [
+										'image'			=> $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension),
+										'sort_order'	=> 99
+									];
+								} else {
+									$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
+								}
 							}
 
 							$this->model_catalog_product->editProductPartially($product_id, $parent_product_data);
@@ -237,10 +264,10 @@ class ControllerCatalogTool extends Controller
 					}
 
 					if ($new_product) {
-						$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
+						if (!$sheet_data[$i][$field_data['main_image']]) {
+							# Jika New Product, Main image harus ada
+							$error_import[] = sprintf($this->language->get('error_image'), $sheet_data[$i][$field_data['model']]);
 
-						if ($product_info) {
-							# Product sudah ada
 							continue;
 						}
 
@@ -329,6 +356,8 @@ class ControllerCatalogTool extends Controller
 
 						if (!in_array(strtolower($extension), $image_types)) {
 							# Imagetype tidak sesuai
+							$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
+
 							continue;
 						}
 
@@ -343,7 +372,7 @@ class ControllerCatalogTool extends Controller
 						$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
 
 						for ($j = 2; $j < 6; $j++) {
-							if (isset($sheet_data[$i][$field_data['image_' . $j]])) {
+							if ($sheet_data[$i][$field_data['image_' . $j]]) {
 								$extension = pathinfo($sheet_data[$i][$field_data['image_' . $j]], PATHINFO_EXTENSION);
 
 								if ($extension == '') {
@@ -355,6 +384,8 @@ class ControllerCatalogTool extends Controller
 										'image'			=> $this->model_tool_image->getImage($sheet_data[$i][$field_data['image_' . $j]], $path_destination . '/' . $new_image . '_' . $j . '.' . $extension),
 										'sort_order'	=> $j
 									];
+								} else {
+									$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
 								}
 							}
 						}
@@ -366,12 +397,13 @@ class ControllerCatalogTool extends Controller
 						if (isset($sheet_data[$i][$field_data['sub_category_id']])) {
 							$product_data['product_category'][] = $sheet_data[$i][$field_data['sub_category_id']];
 						}
-						
+
 						$this->model_catalog_product->addProduct($product_data);
 					}
 				}
 
 				$this->session->data['success'] = $this->language->get('text_success');
+				$this->session->data['error'] = implode('<br>', $error_import);
 
 				$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
 			} else {
