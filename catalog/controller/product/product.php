@@ -396,10 +396,6 @@ class ControllerProductProduct extends Controller
 				$product_info['quantity'] = $product_option_total;
 			}
 
-			// var_dump($product_info);
-			// var_dump($product_option_total);
-			// die('---breakpoint---');
-
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
 			} elseif ($this->config->get('config_stock_display')) {
@@ -724,15 +720,15 @@ class ControllerProductProduct extends Controller
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 			if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
-				$json['error'] = $this->language->get('error_name');
+				$json['error']['name'] = $this->language->get('error_name');
 			}
 
 			if ((utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
-				$json['error'] = $this->language->get('error_text');
+				$json['error']['review'] = $this->language->get('error_text');
 			}
 
 			if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
-				$json['error'] = $this->language->get('error_rating');
+				$json['error']['rating'] = $this->language->get('error_rating');
 			}
 
 			// Captcha

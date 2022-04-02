@@ -26,16 +26,18 @@ class ControllerCommonHeader extends Controller
 		// Analytics
 		$this->load->model('extension/extension');
 
-		$data['analytics'] = array();
+		$data['analytics'] = [];
 
 		$analytics = $this->model_extension_extension->getExtensions('analytics');
 
 		foreach ($analytics as $analytic) {
 			if ($this->config->get($analytic['code'] . '_status')) {
-				$data['analytics'][] = $this->load->controller('analytics/' . $analytic['code'], $this->config->get($analytic['code'] . '_status'));
+				if ($this->config->get($analytic['code'] . '_position') != 'footer') {
+					$data['analytics'][] = $this->load->controller('analytics/' . $analytic['code'], $this->config->get($analytic['code'] . '_status'));
+				}
 			}
 		}
-
+		
 		if ($this->request->server['HTTPS']) {
 			$server = $this->config->get('config_ssl');
 		} else {

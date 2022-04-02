@@ -371,6 +371,7 @@
                         <div class="form-group required" style="font-family: arial;">
                             <div class="col-sm-12">
                                 <label class="control-label"><?php echo $entry_rating; ?></label>
+																<div id="input-rating">
                                 &nbsp;&nbsp;&nbsp; <?php echo $entry_bad; ?>&nbsp;
                                 <input type="radio" name="rating" value="1" />
                                 &nbsp;
@@ -382,6 +383,7 @@
                                 &nbsp;
                                 <input type="radio" name="rating" value="5" />
                                 &nbsp;<?php echo $entry_good; ?></div>
+															</div>
                         </div>
                          <?php echo $captcha; ?>
                         <div class="buttons">
@@ -577,18 +579,27 @@ $('#button-review').on('click', function() {
 			$('#button-review').button('reset');
 		},
 		success: function(json) {
-			$('.alert-success, .alert-danger').remove();
+			$('.alert-success, .text-danger').remove();
 
 			if (json['error']) {
-				$('#review').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+				for (i in json['error']) {
+					let element = $('#form-review #input-' + i);
+
+					$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
 			}
 
 			if (json['success']) {
-				$('#review').after('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+				$('#notification').html('<div class="alert alert-success">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 
 				$('input[name=\'name\']').val('');
 				$('textarea[name=\'text\']').val('');
 				$('input[name=\'rating\']:checked').prop('checked', false);
+
+				$('.mfp-close').trigger('click');
 			}
 		}
 	});

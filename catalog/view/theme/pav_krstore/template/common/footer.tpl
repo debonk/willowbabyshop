@@ -51,17 +51,22 @@
       echo $helper->renderAddon( 'offcanvas-category');
   }
 ?>
+<?php foreach ($scripts as $script) { ?>
+	<script src="<?php echo $script; ?>" type="text/javascript"></script>
+<?php } ?>
+
+<?php foreach ($analytics as $analytic) { ?>
+	<?php echo $analytic; ?>
+<?php } ?>
+
 <div id="liveChatDefer"></div>
 <script type="text/javascript">
 function downloadJSAtOnload() {
 	var element = document.createElement("script");
-	element.src = "catalog/view/javascript/willow_js.min.js";
+	element.src = "catalog/view/javascript/willow_js.min.js?v=0329";
 	document.body.appendChild(element);
-
-//  Live Chat
-function add_chatinline(){var hccid=13000511;var nt=document.createElement("script");nt.async=true;nt.src="https://mylivechat.com/chatinline.aspx?hccid="+hccid;var ct=document.getElementsByTagName("script")[0];ct.parentNode.insertBefore(nt,ct);}
-add_chatinline();
 }
+
 if (window.addEventListener)
 window.addEventListener("load", downloadJSAtOnload, false);
 else if (window.attachEvent)

@@ -1,10 +1,11 @@
 <?php
-    $config 		= $sconfig;
-    $theme  		= $themename;
+  $config 		= $sconfig;
+  $theme  		= $themename;
 	$cols 			= isset($customcols)? $customcols : 3;
 	$span 			= 12/$cols;
-	$id = md5(rand()+time()+$heading_title);
-    $themeConfig = (array)$config->get('themecontrol');
+	$id = md5(rand()+time() . $heading_title);
+
+	$themeConfig = (array)$config->get('themecontrol');
     $listingConfig = array(
         'category_pzoom'        => 1,
         'show_swap_image'       => 0,
@@ -12,6 +13,7 @@
         'product_layout'        => 'default',
         'catalog_mode'          => '',
     );
+
     $listingConfig              = array_merge($listingConfig, $themeConfig );
     $categoryPzoom              = $listingConfig['category_pzoom'];
     $quickview                  = $listingConfig['quickview'];
@@ -22,9 +24,11 @@
         $listingConfig['product_layout'] = trim($_COOKIE[$theme.'_productlayout']);
     }
     $productLayout = DIR_TEMPLATE.$theme.'/template/common/product/'.$listingConfig['product_layout'].'.tpl';
+
     if( !is_file($productLayout) ){
         $listingConfig['product_layout'] = 'default';
     }
+		
     $productLayout = DIR_TEMPLATE.$theme.'/template/common/product/'.$listingConfig['product_layout'].'.tpl'; 
 ?>
 <div class="panel-heading space-20">

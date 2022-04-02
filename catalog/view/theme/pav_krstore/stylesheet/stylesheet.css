@@ -5932,7 +5932,7 @@ button.close {
   float: left !important;
 }
 
-.hide {
+.hide, .hidden {
   display: none !important;
 }
 
@@ -5950,10 +5950,6 @@ button.close {
   text-shadow: none;
   background-color: transparent;
   border: 0;
-}
-
-.hidden {
-  display: none !important;
 }
 
 .affix {

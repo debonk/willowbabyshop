@@ -1,4 +1,11 @@
 # willowbabyshop software
+2.2.6.5 02/04/2022
+Modul: My Live Chat
+Modul: Google Recaptcha v3
+	Applied to Contact, Register, Product/product
+Bug Fixed: HP Warning:  A non-numeric value encountered in 'product_carousel'
+Bug Fixed: Google Analytics
+
 2.2.6.4	21/03/2022
 Bug Fixed: PHP Notice:  A non well formed numeric value encountered in (part 2)
 

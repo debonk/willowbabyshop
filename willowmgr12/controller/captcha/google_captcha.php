@@ -26,6 +26,7 @@ class ControllerCaptchaGoogleCaptcha extends Controller {
 
 		$data['entry_key'] = $this->language->get('entry_key');
 		$data['entry_secret'] = $this->language->get('entry_secret');
+		$data['entry_score'] = $this->language->get('entry_score');
 		$data['entry_status'] = $this->language->get('entry_status');
 
 		$data['button_save'] = $this->language->get('button_save');
@@ -80,6 +81,14 @@ class ControllerCaptchaGoogleCaptcha extends Controller {
 			$data['google_captcha_secret'] = $this->request->post['google_captcha_secret'];
 		} else {
 			$data['google_captcha_secret'] = $this->config->get('google_captcha_secret');
+		}
+
+		if (isset($this->request->post['google_captcha_score'])) {
+			$data['google_captcha_score'] = $this->request->post['google_captcha_score'];
+		} elseif ($this->config->has('google_captcha_score')) {
+			$data['google_captcha_score'] = $this->config->get('google_captcha_score');
+		} else {
+			$data['google_captcha_score'] = 0.5;
 		}
 
 		if (isset($this->request->post['google_captcha_status'])) {

@@ -29,11 +29,9 @@ class ControllerInformationContact extends Controller {
 			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
 
 			$mail->setTo($this->config->get('config_email'));
-//			$mail->setFrom($this->request->post['email']);
-//Bonk edit
 			$mail->setFrom($this->config->get('config_email'));
 			$mail->setReplyTo($this->request->post['email']);
-//Bonk end
+
 			$mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
 			$mail->setText($this->request->post['enquiry']);
@@ -63,10 +61,6 @@ class ControllerInformationContact extends Controller {
 		$data['text_telephone'] = $this->language->get('text_telephone');
 		$data['text_fax'] = $this->language->get('text_fax');
 		$data['text_wa'] = $this->language->get('text_wa');
-		$data['logo_bbm'] = $this->language->get('logo_bbm');
-		$data['text_bbm'] = $this->language->get('text_bbm');
-		$data['logo_line'] = $this->language->get('logo_line');
-		$data['text_line'] = $this->language->get('text_line');
 		$data['text_open'] = $this->language->get('text_open');
 		$data['text_comment'] = $this->language->get('text_comment');
 
@@ -195,11 +189,13 @@ class ControllerInformationContact extends Controller {
 		}
 
 		// Captcha
-		if ($this->config->get($this->config->get('config_captcha') . '_status') && in_array('contact', (array)$this->config->get('config_captcha_page'))) {
-			$captcha = $this->load->controller('captcha/' . $this->config->get('config_captcha') . '/validate');
+		if (!$this->error) {
+			if ($this->config->get($this->config->get('config_captcha') . '_status') && in_array('contact', (array)$this->config->get('config_captcha_page'))) {
+				$captcha = $this->load->controller('captcha/' . $this->config->get('config_captcha') . '/validate');
 
-			if ($captcha) {
-				$this->error['captcha'] = $captcha;
+				if ($captcha) {
+					$this->error['captcha'] = $captcha;
+				}
 			}
 		}
 

@@ -22,6 +22,21 @@ class ControllerCommonFooter extends Controller {
 
 		$data['scripts'] = $this->document->getScripts('footer');
 
+		// Analytics
+		$this->load->model('extension/extension');
+
+		$data['analytics'] = [];
+
+		$analytics = $this->model_extension_extension->getExtensions('analytics');
+
+		foreach ($analytics as $analytic) {
+			if ($this->config->get($analytic['code'] . '_status')) {
+				if ($this->config->get($analytic['code'] . '_position') == 'footer') {
+					$data['analytics'][] = $this->load->controller('analytics/' . $analytic['code'], $this->config->get($analytic['code'] . '_status'));
+				}
+			}
+		}
+
 		$data['text_information'] = $this->language->get('text_information');
 		$data['text_service'] = $this->language->get('text_service');
 		$data['text_extra'] = $this->language->get('text_extra');

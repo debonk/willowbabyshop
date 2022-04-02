@@ -40,6 +40,12 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-score"><?php echo $entry_score; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="google_captcha_score" value="<?php echo $google_captcha_score; ?>" placeholder="<?php echo $entry_score; ?>" id="input-score" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
               <select name="google_captcha_status" id="input-status" class="form-control">

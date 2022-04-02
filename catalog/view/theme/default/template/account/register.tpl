@@ -301,9 +301,7 @@
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
             <div class="col-sm-10">
-<!--              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
-    -->		<!-- Bonk -->
-			<select name="city" id="input-city" class="form-control">
+							<select name="city" id="input-city" class="form-control">
               </select>
               <?php if ($error_city) { ?>
               <div class="text-danger"><?php echo $error_city; ?></div>
@@ -532,7 +530,7 @@
       <?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 // Sort the custom fields
 $('#account .form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#account .form-group').length) {
@@ -597,8 +595,8 @@ $('input[name=\'customer_group_id\']').on('change', function() {
 });
 
 $('input[name=\'customer_group_id\']:checked').trigger('change');
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $('button[id^=\'button-custom-field\']').on('click', function() {
 	var node = this;
 
@@ -650,8 +648,8 @@ $('button[id^=\'button-custom-field\']').on('click', function() {
 		}
 	}, 500);
 });
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $('.date').datetimepicker({
 	pickTime: false
 });
@@ -664,8 +662,8 @@ $('.datetime').datetimepicker({
 	pickDate: true,
 	pickTime: true
 });
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $('select[name=\'country_id\']').on('change', function() {
 	$.ajax({
 		url: 'index.php?route=account/account/country&country_id=' + this.value,
@@ -709,8 +707,8 @@ $('select[name=\'country_id\']').on('change', function() {
 });
 
 $('select[name=\'country_id\']').trigger('change');
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 
 /* Bonk */
 $('select[name=\'zone_id\']').on('change', function() {
@@ -750,5 +748,5 @@ $('select[name=\'zone_id\']').on('change', function() {
 });
 
 $('select[name=\'zone_id\']').trigger('change');
-//--></script>
+</script>
 <?php echo $footer; ?>

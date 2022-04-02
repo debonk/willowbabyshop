@@ -68,7 +68,7 @@
 						<?php } ?>
 					</div>
 				<?php } ?>
-      <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal space-50 content-contact">
+      <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal space-50 content-contact" id="form-contact">
         <div class="row">
               <?php 
                 $html = html_entity_decode($themeConfig['contact_customhtml'][$config->get('config_language_id')]);
@@ -110,7 +110,9 @@
 <?php echo $captcha; ?>
                  <div class="buttons">
                   <div class="pull-right">
-                    <input class="btn btn-v1" type="submit" value="<?php echo $button_submit; ?>" />
+                    <input class="btn btn-v1" type="submit" value="<?php echo $button_submit; ?>" id="button-contact" />
+										<!-- <button class="g-recaptcha btn btn-v1" data-sitekey="6LeF4gIfAAAAAByA227JIy95iATZ_pgALw4TN9dA" data-callback='onSubmit' data-action='submit'>Submit</button> -->
+
                   </div>
                 </div>
               </fieldset>
@@ -204,4 +206,10 @@
 	</aside>
 <?php endif; ?></div>
 </div>
+<!-- <script>
+	function onSubmit(token) {
+		document.getElementById('form-contact').submit();
+	}
+</script>
+  -->
 <?php echo $footer; ?>

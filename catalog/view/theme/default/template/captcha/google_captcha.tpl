@@ -1,21 +1,49 @@
-<script src="//www.google.com/recaptcha/api.js" type="text/javascript"></script>
-<fieldset>
-  <legend><?php echo $text_captcha; ?></legend>
-  <div class="form-group required">
-    <?php if (substr($route, 0, 9) == 'checkout/') { ?>
-    <label class="control-label" for="input-payment-captcha"><?php echo $entry_captcha; ?></label>
-    <div id="input-payment-captcha" class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
-    <?php if ($error_captcha) { ?>
-    <div class="text-danger"><?php echo $error_captcha; ?></div>
-    <?php } ?>
-    <?php } else { ?>
-    <label class="col-sm-3 control-label"><?php echo $entry_captcha; ?></label>
-    <div class="col-sm-9">
-      <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
-      <?php if ($error_captcha) { ?>
-      <div class="text-danger"><?php echo $error_captcha; ?></div>
-      <?php } ?>
-    </div>
-    <?php } ?>
-  </div>
-</fieldset>
+<style>
+	.grecaptcha-badge {
+		visibility: hidden;
+	}
+</style>
+<input type="hidden" name="g-recaptcha-response" value="" id="grecaptcha">
+<div><small><i>
+			<?= $text_grecaptcha; ?>
+		</i></small></div>
+<?php if ($error_captcha) { ?>
+<div class="text-danger">
+	<?= $error_captcha; ?>
+</div>
+<?php } ?>
+<script>
+	let form = $('form');
+	let button_id
+
+	if (typeof $(form).attr('action') === 'undefined') {
+		$(document).ready(function () {
+			button_id = $(form).attr('id').replace('form', 'button');
+
+			html = '<button type="button" id="button-grecaptcha" class="btn btn-v1"><?= $button_continue; ?></button>';
+
+			$('#grecaptcha').after(html);
+
+			$('button[id="' + button_id + '"').hide();
+		})
+	}
+
+	grecaptcha.ready(function () {
+		if (button_id) {
+			$('#button-grecaptcha').on('click', function () {
+				grecaptcha.execute('<?= $site_key; ?>', { action: 'form' }).then(function (token) {
+
+					$('input[name=\'g-recaptcha-response\']').val(token);
+
+					$('button[id="' + button_id + '"').trigger('click');
+				});
+			});
+		} else {
+			grecaptcha.execute('<?= $site_key; ?>', { action: 'form' }).then(function (token) {
+				$(form).submit(function () {
+					$('input[name=\'g-recaptcha-response\']').val(token);
+				});
+			});
+		}
+	});
+</script>

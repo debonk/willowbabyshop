@@ -71,14 +71,18 @@ class ControllerAnalyticsGoogleAnalytics extends Controller {
 
 		if (isset($this->request->post['google_analytics_code'])) {
 			$data['google_analytics_code'] = $this->request->post['google_analytics_code'];
-		} else {
+		} elseif(isset($setting_info['google_analytics_code'])) {
 			$data['google_analytics_code'] = $setting_info['google_analytics_code'];
+		} else {
+			$data['google_analytics_code'] = '';
 		}
 		
 		if (isset($this->request->post['google_analytics_status'])) {
 			$data['google_analytics_status'] = $this->request->post['google_analytics_status'];
-		} else {
+		} elseif(isset($setting_info['google_analytics_status'])) {
 			$data['google_analytics_status'] = $setting_info['google_analytics_status'];
+		} else {
+			$data['google_analytics_status'] = 0;
 		}
 		
 		$data['header'] = $this->load->controller('common/header');
