@@ -1,4 +1,8 @@
 # willowbabyshop software
+
+2.2.6.6
+Bug Fixed: Mylivechat setting not show correct value
+
 2.2.6.5 02/04/2022
 Modul: My Live Chat
 Modul: Google Recaptcha v3

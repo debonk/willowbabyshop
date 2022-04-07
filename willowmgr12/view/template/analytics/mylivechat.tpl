@@ -41,7 +41,7 @@
             <label class="col-sm-2 control-label" for="input-position"><?= $entry_position; ?></label>
             <div class="col-sm-10">
               <select name="mylivechat_position" id="input-position" class="form-control">
-                <?php if ($mylivechat_position) { ?>
+                <?php if ($mylivechat_position !== 'footer') { ?>
                 <option value="header" selected="selected"><?= $text_header; ?></option>
                 <option value="footer"><?= $text_footer; ?></option>
                 <?php } else { ?>

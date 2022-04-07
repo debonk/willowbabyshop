@@ -4,9 +4,11 @@ class ControllerCaptchaGoogleCaptcha extends Controller
 	public function index($error = array())
 	{
 		# Google Recaptcha V3
-		$this->document->addScript('https://www.google.com/recaptcha/api.js?render=' . $this->config->get('google_captcha_key'), 'header');
+		// $this->document->addScript('https://www.google.com/recaptcha/api.js?render=' . $this->config->get('google_captcha_key'), 'header');
 
 		$this->load->language('captcha/google_captcha');
+
+		$data['grecaptcha_url'] = 'https://www.google.com/recaptcha/api.js?render=' . $this->config->get('google_captcha_key');
 
 		$data['site_key'] = $this->config->get('google_captcha_key');
 		$data['text_grecaptcha'] = $this->language->get('text_grecaptcha');
