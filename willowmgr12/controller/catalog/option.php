@@ -551,6 +551,10 @@ class ControllerCatalogOption extends Controller
 					$type = $this->language->get('text_choose');
 				}
 
+				if ($option['type'] == 'double' || $option['type'] == 'triple') {
+					$type = $this->language->get('text_multiple');
+				}
+
 				if ($option['type'] == 'text' || $option['type'] == 'textarea') {
 					$type = $this->language->get('text_input');
 				}
