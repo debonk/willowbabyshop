@@ -50,6 +50,9 @@
 						<li><a href="#tab-attribute" data-toggle="tab">
 								<?= $tab_attribute; ?>
 							</a></li>
+						<li><a href="#tab-multiple" data-toggle="tab">
+								<?= $tab_multiple; ?>
+							</a></li>
 						<li><a href="#tab-option" data-toggle="tab">
 								<?= $tab_option; ?>
 							</a></li>
@@ -832,178 +835,22 @@
 												</div>
 											</div>
 											<?php } ?>
-											<?php if ($product_option['type'] == 'select' || $product_option['type'] == 'radio' || $product_option['type'] == 'checkbox' || $product_option['type'] == 'image') { ?>
-											<div class="table-responsive">
-												<table id="option-value<?= $option_row; ?>"
-													class="table table-striped table-bordered table-hover">
-													<thead>
-														<tr>
-															<td class="text-left">
-																<?= $entry_option_value; ?>
-															</td>
-															<td class="text-left required">
-																<?= $entry_model; ?>
-															</td>
-															<td class="text-right">
-																<?= $entry_quantity; ?>
-															</td>
-															<td class="text-left">
-																<?= $entry_subtract; ?>
-															</td>
-															<td class="text-right">
-																<?= $entry_price; ?>
-															</td>
-															<td class="text-right">
-																<?= $entry_option_points; ?>
-															</td>
-															<td class="text-right">
-																<?= $entry_weight; ?>
-															</td>
-															<td></td>
-														</tr>
-													</thead>
-													<tbody>
-														<?php foreach ($product_option['product_option_value'] as $product_option_value) { ?>
-														<tr id="option-value-row<?= $option_value_row; ?>">
-															<td class="text-left"><select
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][option_value_id]"
-																	class="form-control">
-																	<?php if (isset($option_values[$product_option['option_id']])) { ?>
-																	<?php foreach ($option_values[$product_option['option_id']] as $option_value) { ?>
-																	<?php if ($option_value['option_value_id'] == $product_option_value['option_value_id']) { ?>
-																	<option value="<?= $option_value['option_value_id']; ?>" selected="selected">
-																		<?= $option_value['name']; ?>
-																	</option>
-																	<?php } else { ?>
-																	<option value="<?= $option_value['option_value_id']; ?>">
-																		<?= $option_value['name']; ?>
-																	</option>
-																	<?php } ?>
-																	<?php } ?>
-																	<?php } ?>
-																</select>
-																<input type="hidden"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][product_option_value_id]"
-																	value="<?= $product_option_value['product_option_value_id']; ?>" />
-															</td>
-															<td class="text-left"><input type="text"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][model]"
-																	value="<?= $product_option_value['model']; ?>" placeholder="<?= $entry_model; ?>"
-																	class="form-control" /></td>
-															<td class="text-right"><input type="text"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][quantity]"
-																	value="<?= $product_option_value['quantity']; ?>"
-																	placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>
-															<td class="text-left"><select
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][subtract]"
-																	class="form-control">
-																	<?php if ($product_option_value['subtract']) { ?>
-																	<option value="1" selected="selected">
-																		<?= $text_yes; ?>
-																	</option>
-																	<option value="0">
-																		<?= $text_no; ?>
-																	</option>
-																	<?php } else { ?>
-																	<option value="1">
-																		<?= $text_yes; ?>
-																	</option>
-																	<option value="0" selected="selected">
-																		<?= $text_no; ?>
-																	</option>
-																	<?php } ?>
-																</select></td>
-															<td class="text-right"><select
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][price_prefix]"
-																	class="form-control">
-																	<?php if ($product_option_value['price_prefix'] == '+') { ?>
-																	<option value="+" selected="selected">+</option>
-																	<?php } else { ?>
-																	<option value="+">+</option>
-																	<?php } ?>
-																	<?php if ($product_option_value['price_prefix'] == '-') { ?>
-																	<option value="-" selected="selected">-</option>
-																	<?php } else { ?>
-																	<option value="-">-</option>
-																	<?php } ?>
-																</select>
-																<input type="text"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][price]"
-																	value="<?= $product_option_value['price']; ?>" placeholder="<?= $entry_price; ?>"
-																	class="form-control" />
-															</td>
-															<td class="text-right"><select
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][points_prefix]"
-																	class="form-control">
-																	<?php if ($product_option_value['points_prefix'] == '+') { ?>
-																	<option value="+" selected="selected">+</option>
-																	<?php } else { ?>
-																	<option value="+">+</option>
-																	<?php } ?>
-																	<?php if ($product_option_value['points_prefix'] == '-') { ?>
-																	<option value="-" selected="selected">-</option>
-																	<?php } else { ?>
-																	<option value="-">-</option>
-																	<?php } ?>
-																</select>
-																<input type="text"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][points]"
-																	value="<?= $product_option_value['points']; ?>" placeholder="<?= $entry_points; ?>"
-																	class="form-control" />
-															</td>
-															<td class="text-right"><select
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][weight_prefix]"
-																	class="form-control">
-																	<?php if ($product_option_value['weight_prefix'] == '+') { ?>
-																	<option value="+" selected="selected">+</option>
-																	<?php } else { ?>
-																	<option value="+">+</option>
-																	<?php } ?>
-																	<?php if ($product_option_value['weight_prefix'] == '-') { ?>
-																	<option value="-" selected="selected">-</option>
-																	<?php } else { ?>
-																	<option value="-">-</option>
-																	<?php } ?>
-																</select>
-																<input type="text"
-																	name="product_option[<?= $option_row; ?>][product_option_value][<?= $option_value_row; ?>][weight]"
-																	value="<?= $product_option_value['weight']; ?>" placeholder="<?= $entry_weight; ?>"
-																	class="form-control" />
-															</td>
-															<td class="text-left"><button type="button"
-																	onclick="$(this).tooltip('destroy');$('#option-value-row<?= $option_value_row; ?>').remove();"
-																	data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i
-																		class="fa fa-minus-circle"></i></button></td>
-														</tr>
-														<?php $option_value_row++; ?>
-														<?php } ?>
-													</tbody>
-													<tfoot>
-														<tr>
-															<td colspan="7"></td>
-															<td class="text-left"><button type="button"
-																	onclick="addOptionValue('<?= $option_row; ?>');" data-toggle="tooltip"
-																	title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i
-																		class="fa fa-plus-circle"></i></button></td>
-														</tr>
-													</tfoot>
-												</table>
-											</div>
-											<select id="option-values<?= $option_row; ?>" style="display: none;">
-												<?php if (isset($option_values[$product_option['option_id']])) { ?>
-												<?php foreach ($option_values[$product_option['option_id']] as $option_value) { ?>
-												<option value="<?= $option_value['option_value_id']; ?>">
-													<?= $option_value['name']; ?>
-												</option>
-												<?php } ?>
-												<?php } ?>
-											</select>
-											<?php } ?>
 										</div>
 										<?php $option_row++; ?>
 										<?php } ?>
 									</div>
 								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="tab-multiple">
+							<?php if ($error_multiple) { ?>
+							<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+								<?= $error_multiple; ?>
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+							</div>
+							<?php } ?>
+							<div>
+								<?= $form_multiple; ?>
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-recurring">
@@ -1641,7 +1488,7 @@
 		$('input[name=\'option\']').autocomplete({
 			'source': function (request, response) {
 				$.ajax({
-					url: 'index.php?route=catalog/option/autocomplete&token=<?= $token; ?>&filter_name=' + encodeURIComponent(request),
+					url: 'index.php?route=catalog/option/autocomplete&token=<?= $token; ?>&filter_selection_only=0&filter_name=' + encodeURIComponent(request),
 					dataType: 'json',
 					success: function (json) {
 						response($.map(json, function (item) {

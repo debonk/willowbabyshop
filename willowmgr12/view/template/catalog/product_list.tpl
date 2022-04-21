@@ -192,6 +192,13 @@
 										</a>
 										<?php } ?>
 									</td>
+									<!-- <td class="text-center">
+										<?= $column_option; ?> | 
+										<?= $column_model; ?> | 
+										<?= $column_price; ?> | 
+										<?= $column_quantity; ?> | 
+										<?= $column_weight; ?>
+									</td> -->
 									<td>
 										<?php if ($sort == 'p.model') { ?>
 										<a href="<?= $sort_model; ?>" class="<?= strtolower($order); ?>">
@@ -236,7 +243,7 @@
 										</a>
 										<?php } ?>
 									</td>
-									<td class="text-right">
+									<!-- <td class="text-right">
 										<?php if ($sort == 'p.price') { ?>
 										<a href="<?= $sort_price; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_price; ?>
@@ -246,13 +253,7 @@
 											<?= $column_price; ?>
 										</a>
 										<?php } ?>
-									</td>
-									<td class="text-right">
-										<?= $column_weight; ?>
-									</td>
-									<td>
-										<?= $column_option; ?>
-									</td>
+									</td> -->
 									<td class="text-right">
 										<?php if ($sort == 'p.quantity') { ?>
 										<a href="<?= $sort_quantity; ?>" class="<?= strtolower($order); ?>">
@@ -263,6 +264,9 @@
 											<?= $column_quantity; ?>
 										</a>
 										<?php } ?>
+									</td>
+									<td class="text-right">
+										<?= $column_weight; ?>
 									</td>
 									<td>
 										<?php if ($sort == 'p.date_modified') { ?>
@@ -294,7 +298,7 @@
 							<tbody>
 								<?php if ($products) { ?>
 								<?php foreach ($products as $product) { ?>
-								<tr>
+								<tr class="<?= $product['option_name'] ? 'bg-warning' : ''; ?>">
 									<td class="text-center">
 										<?php if (in_array($product['product_id'], $selected)) { ?>
 										<input type="checkbox" name="selected[]" value="<?= $product['product_id']; ?>" checked="checked" />
@@ -312,9 +316,49 @@
 									</td>
 									<td>
 										<?= $product['name']; ?>
+										<?php if ($product['option_name']) { ?>
+										<small><cite>
+											<?= ' - ' . $product['option_name']; ?>
+										</cite></small>
+										<?php } ?>
+
 									</td>
+									<!-- <td>
+										<table class="table table-bordered my-0">
+											<tbody>
+												<?php foreach ($product['multiple'] as $multiple) { ?>
+												<tr>
+													<td><i>
+															<?= $multiple['option_name']; ?>
+														</i></td>
+													<td><code><?= $multiple['model']; ?></code></td>
+													<td class="text-right"><?= $multiple['price']; ?></td>
+													<td class="text-right">
+														<?php if ($multiple['quantity'] <= 0) { ?>
+														<span class="label label-danger">
+															<?= $multiple['quantity']; ?>
+														</span>
+														<?php } elseif ($multiple['quantity'] <= 5) { ?>
+														<span class="label label-warning">
+															<?= $multiple['quantity']; ?>
+														</span>
+														<?php } else { ?>
+														<span class="label label-success">
+															<?= $multiple['quantity']; ?>
+														</span>
+														<?php } ?>
+
+													</td>
+													<td class="text-right">
+														<?= $multiple['weight']; ?>
+													</td>
+												</tr>
+												<?php } ?>
+											</tbody>
+										</table>
+									</td> -->
 									<td>
-										<?= $product['model']; ?>
+										<code><?= $product['model']; ?></code>
 									</td>
 									<td>
 										<?= $product['tag']; ?>
@@ -329,7 +373,7 @@
 										<?php } ?>
 										<?php } ?>
 									</td>
-									<td class="text-right">
+									<!-- <td class="text-right">
 										<?php if ($product['special']) { ?>
 										<span style="text-decoration: line-through;">
 											<?= $product['price']; ?>
@@ -340,22 +384,14 @@
 										<?php } else { ?>
 										<?= $product['price']; ?>
 										<?php } ?>
-									</td>
-									<td class="text-right">
-										<?= $product['weight']; ?>
-									</td>
-									<td>
-										<?php foreach ($product['option'] as $option) { ?>
-										<?= $option; ?><br>
-										<?php } ?>
-									</td>
+									</td> -->
 									<td class="text-right">
 										<?php if ($product['quantity'] <= 0) { ?>
-										<span class="label label-warning">
+										<span class="label label-danger">
 											<?= $product['quantity']; ?>
 										</span>
 										<?php } elseif ($product['quantity'] <= 5) { ?>
-										<span class="label label-danger">
+										<span class="label label-warning">
 											<?= $product['quantity']; ?>
 										</span>
 										<?php } else { ?>
@@ -363,6 +399,9 @@
 											<?= $product['quantity']; ?>
 										</span>
 										<?php } ?>
+									</td>
+									<td class="text-right">
+										<?= $product['weight']; ?>
 									</td>
 									<td>
 										<?= $product['date_modified']; ?>

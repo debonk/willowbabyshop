@@ -458,32 +458,119 @@ class ControllerCatalogProduct extends Controller
 				}
 			}
 
-			$product_options = $this->model_catalog_product->getProductOptionsValue($result['product_id']);
+			$product_multiples = $this->model_catalog_product->getProductMultiple($result['product_id']);
 
-			$options = [];
-			if ($product_options) {
-				array_map(function ($option) use (&$options) {
-					$options[] = $option['name'] . ($option['model'] ? '&nbsp;[' . $option['model'] . ']' : '');
-				}, $product_options);
+			$multiples = [];
+
+			if ($product_multiples) {
+				$option_value_data = [];
+				$option_value_ids = [];
+
+				# get unique option_value_id
+				array_map(function ($ids) use (&$option_value_ids) {
+					$option_value_ids = array_merge($option_value_ids, $ids);
+				}, array_column($product_multiples['multiple_value'], 'option_value_id'));
+
+				$option_value_ids = array_unique($option_value_ids);
+
+				if ($option_value_ids) {
+					$this->load->model('catalog/option');
+
+					$option_values = $this->model_catalog_option->getOptionValuesDescription($option_value_ids);
+
+					foreach ($option_values as $option_value) {
+						$option_value_data[$option_value['option_value_id']] = $option_value['name'];
+					}
+				}
+
+				foreach ($product_multiples['multiple_value'] as $multiple_value) {
+					$option_name = [];
+
+					foreach ($multiple_value['option_value_id'] as $option_value_id) {
+						$option_name[] = $option_value_data[$option_value_id];
+					}
+
+					$option_name = implode(', ', $option_name);
+					
+					// $option_name = $option_name ? implode(', ', $option_name) : $this->language->get('text_default');
+					
+					// $multiples[] = [
+					// 	'option_name'	=> '[' . $option_name . ']',
+					// 	'model'			=> $multiple_value['model'],
+					// 	'quantity'		=> $multiple_value['quantity'],
+					// 	'price'			=> $multiple_value['price'],
+					// 	'weight'		=> $multiple_value['weight'] . $this->weight->getUnit($multiple_value['weight_class_id'])
+					// ];
+
+					$data['products'][] = array(
+						'product_id' 	=> $result['product_id'],
+						'image'      	=> $image,
+						'name'       	=> $result['name'],
+						'option_name'	=> $option_name,
+						'model'      	=> $multiple_value['model'],
+						'price'      	=> $multiple_value['price'],
+						'manufacturer'  => $result['manufacturer_name'],
+						'category'   	=> $category,
+						'tag'		 	=> $result['tag'],
+						'special'    	=> $special,
+						'quantity'   	=> $multiple_value['quantity'],
+						'weight'   	 	=> $multiple_value['weight'] . $this->weight->getUnit($multiple_value['weight_class_id']),
+						// 'multiple'    	=> $multiples,
+						'date_modified'	=> $result['date_modified'] != '0000-00-00 00:00:00' ? date($this->language->get('date_format_short'), strtotime($result['date_modified'])) : '-',
+						'status'     	=> ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+						'edit'       	=> $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, true)
+					);
+				}
+				// var_dump($multiples);
+			} else {
+
+				# Delete this part after correcting product data
+				$data['products'][] = array(
+					'product_id' 	=> $result['product_id'],
+					'image'      	=> $image,
+					'name'       	=> $result['name'],
+					'option_name'  	=> '',
+					'model'      	=> $result['model'],
+					'price'      	=> $result['price'],
+					'manufacturer'  => $result['manufacturer_name'],
+					'category'   	=> $category,
+					'tag'		 	=> $result['tag'],
+					'special'    	=> $special,
+					'quantity'   	=> $result['quantity'],
+					'weight'   	 	=> $result['weight'] . $this->weight->getUnit($result['weight_class_id']),
+					'multiple'    	=> $multiples,
+					'date_modified'	=> $result['date_modified'] != '0000-00-00 00:00:00' ? date($this->language->get('date_format_short'), strtotime($result['date_modified'])) : '-',
+					'status'     	=> ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+					'edit'       	=> $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, true)
+				);
 			}
 
-			$data['products'][] = array(
-				'product_id' 	=> $result['product_id'],
-				'image'      	=> $image,
-				'name'       	=> $result['name'],
-				'model'      	=> $result['model'],
-				'price'      	=> $result['price'],
-				'manufacturer'  => $result['manufacturer_name'],
-				'category'   	=> $category,
-				'tag'		 	=> $result['tag'],
-				'special'    	=> $special,
-				'quantity'   	=> $result['quantity'],
-				'weight'   	 	=> $result['weight'] . $this->weight->getUnit($result['weight_class_id']),
-				'option'    	=> $options,
-				'date_modified'	=> $result['date_modified'] != '0000-00-00 00:00:00' ? date($this->language->get('date_format_short'), strtotime($result['date_modified'])) : '-',
-				'status'     	=> ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'edit'       	=> $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, true)
-			);
+			// $product_options = $this->model_catalog_product->getProductOptionsValue($result['product_id']);
+
+			// $options = [];
+			// if ($product_options) {
+			// 	array_map(function ($option) use (&$options) {
+			// 		$options[] = $option['name'] . ($option['model'] ? '&nbsp;[' . $option['model'] . ']' : '');
+			// 	}, $product_options);
+			// }
+
+			// $data['products'][] = array(
+			// 	'product_id' 	=> $result['product_id'],
+			// 	'image'      	=> $image,
+			// 	'name'       	=> $result['name'],
+			// 	'model'      	=> $result['model'],
+			// 	'price'      	=> $result['price'],
+			// 	'manufacturer'  => $result['manufacturer_name'],
+			// 	'category'   	=> $category,
+			// 	'tag'		 	=> $result['tag'],
+			// 	'special'    	=> $special,
+			// 	'quantity'   	=> $result['quantity'],
+			// 	'weight'   	 	=> $result['weight'] . $this->weight->getUnit($result['weight_class_id']),
+			// 	'option'    	=> $options,
+			// 	'date_modified'	=> $result['date_modified'] != '0000-00-00 00:00:00' ? date($this->language->get('date_format_short'), strtotime($result['date_modified'])) : '-',
+			// 	'status'     	=> ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+			// 	'edit'       	=> $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, true)
+			// );
 		}
 
 		$language_items = [
@@ -829,10 +916,16 @@ class ControllerCatalogProduct extends Controller
 			$data['error_sku'] = '';
 		}
 
-		if (isset($this->error['option_model'])) {
-			$data['error_option_model'] = $this->error['option_model'];
+		// if (isset($this->error['option_model'])) {
+		// 	$data['error_option_model'] = $this->error['option_model'];
+		// } else {
+		// 	$data['error_option_model'] = '';
+		// }
+
+		if (isset($this->error['multiple'])) {
+			$data['error_multiple'] = $this->error['multiple'];
 		} else {
-			$data['error_option_model'] = '';
+			$data['error_multiple'] = '';
 		}
 
 		if (isset($this->error['keyword'])) {
@@ -1315,6 +1408,12 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
+		// $filter_data = array(
+		// 	'filter_type'  => ['select', 'radio', 'checkbox', 'image']
+		// );
+
+		// $data['multiple_options'] = $this->model_catalog_option->getOptions($filter_data);
+
 		$this->load->model('customer/customer_group');
 
 		$data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
@@ -1477,6 +1576,9 @@ class ControllerCatalogProduct extends Controller
 			$data['product_layout'] = array();
 		}
 
+		// $data['form_multiple'] = $this->load->controller('catalog/product/getFormMultiple');
+		$data['form_multiple'] = $this->getFormMultiple();
+
 		$this->load->model('design/layout');
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();
@@ -1488,6 +1590,129 @@ class ControllerCatalogProduct extends Controller
 		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('catalog/product_form', $data));
+	}
+
+	protected function getFormMultiple()
+	{
+		$this->load->language('catalog/product');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('catalog/product');
+
+		$language_items = [
+			'heading_title',
+			'entry_multiple',
+			'entry_model',
+			'entry_image',
+			'entry_quantity',
+			'entry_price',
+			'entry_points',
+			'entry_weight',
+			'entry_weight_class',
+			'entry_action',
+			'button_option_value_add',
+			'button_remove',
+		];
+		foreach ($language_items as $language_item) {
+			$data[$language_item] = $this->language->get($language_item);
+		}
+
+		$data['token'] = $this->session->data['token'];
+
+		$this->load->model('catalog/option');
+
+		if (isset($this->request->post['product_multiple'])) {
+			$product_multiple = $this->request->post['product_multiple'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$product_multiple = $this->model_catalog_product->getProductMultiple($this->request->get['product_id']);
+		} else {
+			$product_multiple = [];
+		}
+
+		$data['product_multiples'] = [];
+		$option_data = [];
+		$multiple_value_data = [];
+
+		if ($product_multiple) {
+			if (!empty($product_multiple['option'])) {
+				foreach ($product_multiple['option'] as $option) {
+					$option_info = $this->model_catalog_option->getOption($option);
+
+					if ($option_info['type'] == 'select' || $option_info['type'] == 'radio' || $option_info['type'] == 'checkbox' || $option_info['type'] == 'image') {
+						$option_value_data = [];
+
+						$option_values = $this->model_catalog_option->getOptionValues($option);
+
+						foreach ($option_values as $option_value) {
+							$option_value_data[] = array(
+								'option_value_id' => $option_value['option_value_id'],
+								'name'            => strip_tags(html_entity_decode($option_value['name'], ENT_QUOTES, 'UTF-8'))
+							);
+						}
+
+						$sort_order = array();
+
+						foreach ($option_value_data as $key => $value) {
+							$sort_order[$key] = $value['name'];
+						}
+
+						array_multisort($sort_order, SORT_ASC, $option_value_data);
+					}
+
+					$option_data[] = [
+						'option_id'		=> $option_info['option_id'],
+						'type'			=> $option_info['type'],
+						'name'			=> $option_info['name'],
+						'option_value'	=> $option_value_data
+					];
+				}
+			}
+
+			if (!empty($product_multiple['multiple_value'])) {
+				foreach ($product_multiple['multiple_value'] as $multiple_value) {
+					$thumb = (is_file(DIR_IMAGE . $multiple_value['image'])) ? $multiple_value['image'] : '';
+
+					$multiple_value_data[] = [
+						'thumb'				=> $this->model_tool_image->resize($thumb, 100, 100),
+						'image'				=> $multiple_value['image'],
+						'option_value_id'   => isset($multiple_value['option_value_id']) ? $multiple_value['option_value_id'] : [],
+						'model'          	=> $multiple_value['model'],
+						'quantity'       	=> $multiple_value['quantity'],
+						'price'          	=> $multiple_value['price'],
+						'points'         	=> $multiple_value['points'],
+						'weight'         	=> $multiple_value['weight'],
+						'weight_class_id'	=> $multiple_value['weight_class_id']
+					];
+				}
+			}
+		} else {
+			$multiple_value_data[] = [
+				'thumb'				=> $this->model_tool_image->resize('', 100, 100),
+				'image'				=> '',
+				'option_value_id'   => [],
+				'model'          	=> '',
+				'quantity'       	=> 0,
+				'price'          	=> 0,
+				'points'         	=> 0,
+				'weight'         	=> 0,
+				'weight_class_id'	=> $this->config->get('config_weight_class_id')
+			];
+		}
+
+		$data['product_multiples'] = [
+			'option'         		=> $option_data,
+			'multiple_value'   		=> $multiple_value_data
+		];
+
+		$data['option_count'] = count($option_data);
+		$data['multiple_value_count'] = count($multiple_value_data);
+
+		$data['weight_classes'] = $this->model_localisation_weight_class->getWeightClasses();
+
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+		return $this->load->view('catalog/product_form_multiple', $data);
 	}
 
 	protected function validateForm()
@@ -1506,24 +1731,22 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
-		if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 32)) {
-			$this->error['model'] = $this->language->get('error_model');
-		}
+		// if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 32)) {
+		// 	$this->error['model'] = $this->language->get('error_model');
+		// }
 
-		if (isset($this->request->get['product_id'])) {
-			$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
-		} else {
-			$product_info = [];
-		}
+		$product_id = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : 0;
+
+		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		# validasi model harus unik
-		if (!isset($this->request->get['product_id']) || ($product_info && $product_info['model'] != $this->request->post['model'])) {
-			$product_check = $this->model_catalog_product->getProductByModel($this->request->post['model']);
+		// if (!isset($this->request->get['product_id']) || ($product_info && $product_info['model'] != $this->request->post['model'])) {
+		// 	$product_check = $this->model_catalog_product->getProductByModel($this->request->post['model']);
 
-			if ($product_check) {
-				$this->error['model'] = $this->language->get('error_model_used');
-			}
-		}
+		// 	if ($product_check) {
+		// 		$this->error['model'] = $this->language->get('error_model_used');
+		// 	}
+		// }
 
 		# validasi sku harus unik
 		if (!isset($this->request->get['product_id']) || ($product_info && $product_info['sku'] != $this->request->post['sku'])) {
@@ -1534,43 +1757,27 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
-		if (isset($this->request->post['product_option'])) {
-			$option_models = [];
+		# check posted product_multiple_model must be unique and not in used
+		$multiple_models = array_column($this->request->post['product_multiple']['multiple_value'], 'model');
 
-			# get product_option_model
-			array_map(function ($m) use (&$option_models) {
-				array_map(function ($n) use (&$option_models) {
-					$option_models[] = $n['model'];
-				}, $m['product_option_value']);
-			}, $this->request->post['product_option']);
+		if ($multiple_models != array_unique($multiple_models)) {
+			$this->error['multiple'] = $this->language->get('error_option_model_used');
+		} elseif (!isset($this->request->post['product_multiple']['option']) && count($multiple_models) != 1) {
+			$this->error['multiple'] = $this->language->get('error_option');
+		} else {
+			foreach ($multiple_models as $option_model) {
+				if ((utf8_strlen($option_model) < 1) || (utf8_strlen($option_model) > 32)) {
+					$this->error['multiple'] = $this->language->get('error_model');
 
-			$option_models = array_filter($option_models);
+					break;
+				}
 
-			# check posted product_option_model must be unique
-			if ($option_models != array_unique($option_models)) {
-				$this->error['option_model'] = $this->language->get('error_option_model_used');
-			}
+				$product_option_check =  $this->model_catalog_product->checkProductOptionValueByModel($option_model, $product_id);
 
-			# check posted product_option_model must not in used
-			if (!isset($this->error['option_model'])) {
-				foreach ($option_models as $option_model) {
-					if (!isset($this->request->get['product_id']) || ($product_info && $product_info['model'] != $option_model)) {
-						$product_check = $this->model_catalog_product->getProductByModel($option_model);
+				if ($product_option_check) {
+					$this->error['multiple'] = $this->language->get('error_option_model_used');
 
-						if ($product_check) {
-							$this->error['option_model'] = $this->language->get('error_option_model_used');
-
-							break;
-						}
-
-						$product_option_check =  $this->model_catalog_product->checkProductOptionValueByModel($option_model, $product_info['product_id']);
-
-						if ($product_option_check) {
-							$this->error['option_model'] = $this->language->get('error_option_model_used');
-
-							break;
-						}
-					}
+					break;
 				}
 			}
 		}

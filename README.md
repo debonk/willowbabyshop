@@ -10,8 +10,16 @@ Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
 2.2.6.7 26/04/2022
 MODIFY: Product: Seo Url auto replace with correct format
 2.2.6.7_
+2.2.7.0_1
 Modul: Multiple Option >>
-	Micro: Catalog > Option: Add Multiple Selection on Option Type
+	- Catalog > Option: Remove Multiple Selection on Option Type
+	- Catalog > Product Form > Multiple Option: Option Tab
+	- Catalog > Product Form > Multiple Option: Variant Tab
+	- Catalog > Product Form > Multiple Option: UX by javascript untuk new data
+	- Catalog > Option: Add Multiple Selection on Option Type
+
+2.2.6.7
+MODIFY: Product: Seo Url auto replace with correct format
 
 2.2.6.6
 Bug Fixed: Mylivechat setting not show correct value
