@@ -190,6 +190,13 @@ class ModelCatalogOption extends Model
 		return $option_value_data;
 	}
 
+	// public function getOptionValueName($option_value_id)
+	// {
+	// 	$option_value_description_query = $this->db->query("SELECT name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id = '" . (int)$option_value_id . "'  AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		
+	// 	return $option_value_description_query->row['name'];
+	// }
+
 	public function getOptionValuesDescription($option_value_ids)
 	{
 		$option_value_ids = implode(', ', $option_value_ids);

@@ -45,13 +45,29 @@
 			<div class="panel-body">
 				<div class="well">
 					<div class="row">
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="input-name">
 									<?= $entry_name; ?>
 								</label>
 								<input type="text" name="filter_name" value="<?= $filter_name; ?>" placeholder="<?= $entry_name; ?>"
 									id="input-name" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="input-tag">
+									<?= $entry_tag; ?>
+								</label>
+								<input type="text" name="filter_tag" value="<?= $filter_tag; ?>" placeholder="<?= $entry_tag; ?>"
+									id="input-tag" class="form-control" />
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="input-product-id">
+									<?= $entry_product_id; ?>
+								</label>
+								<input type="text" name="filter_product_id" value="<?= $filter_product_id; ?>"
+									placeholder="<?= $entry_product_id; ?>" id="input-product-id" class="form-control" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="input-model">
@@ -61,7 +77,7 @@
 									id="input-model" class="form-control" />
 							</div>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="input-price">
 									<?= $entry_price; ?>
@@ -77,17 +93,17 @@
 									placeholder="<?= $entry_quantity; ?>" id="input-quantity" class="form-control" />
 							</div>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="input-manufacturer">
 									<?= $column_manufacturer; ?>
 								</label>
 								<select name="filter_manufacturer" id="input-manufacturer" class="form-control">
 									<option value="*">
-										<?= $entry_all_manufacturer; ?>
+										<?= $text_all; ?>
 									</option>
 									<?php foreach ($manufacturers as $manufacturer) { ?>
-									<?php if ($manufacturer['manufacturer_id']==$filter_manufacturer) { ?>
+									<?php if ($manufacturer['manufacturer_id'] === $filter_manufacturer) { ?>
 									<option value="<?= $manufacturer['manufacturer_id']; ?>" selected="selected">
 										<?= $manufacturer['name']; ?>
 									</option>
@@ -105,10 +121,10 @@
 								</label>
 								<select name="filter_category" id="input-category" class="form-control">
 									<option value="*">
-										<?= $entry_all_category; ?>
+										<?= $text_all; ?>
 									</option>
 									<?php foreach ($categories as $category) { ?>
-									<?php if ($category['category_id']==$filter_category) { ?>
+									<?php if ($category['category_id'] === $filter_category) { ?>
 									<option value="<?= $category['category_id']; ?>" selected="selected">
 										<?= $category['name']; ?>
 									</option>
@@ -121,13 +137,24 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="input-username">
+									<?= $entry_username; ?>
+								</label>
+								<input type="text" name="filter_username" value="<?= $filter_username; ?>"
+									placeholder="<?= $entry_username; ?>" id="input-username" class="form-control" />
+							</div>
+						</div>
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="input-status">
 									<?= $entry_status; ?>
 								</label>
 								<select name="filter_status" id="input-status" class="form-control">
-									<option value="*"></option>
+									<option value="*">
+										<?= $text_all; ?>
+									</option>
 									<?php if ($filter_status) { ?>
 									<option value="1" selected="selected">
 										<?= $text_enabled; ?>
@@ -149,15 +176,10 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label class="control-label" for="input-tag">
-									<?= $entry_tag; ?>
-								</label>
-								<input type="text" name="filter_tag" value="<?= $filter_tag; ?>" placeholder="<?= $entry_tag; ?>"
-									id="input-tag" class="form-control" />
+								<button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i>
+									<?= $button_filter; ?>
+								</button>
 							</div>
-							<button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i>
-								<?= $button_filter; ?>
-							</button>
 						</div>
 					</div>
 				</div>
@@ -200,7 +222,7 @@
 										<?= $column_weight; ?>
 									</td> -->
 									<td>
-										<?php if ($sort == 'p.model') { ?>
+										<?php if ($sort == 'pov.model') { ?>
 										<a href="<?= $sort_model; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_model; ?>
 										</a>
@@ -243,8 +265,8 @@
 										</a>
 										<?php } ?>
 									</td>
-									<!-- <td class="text-right">
-										<?php if ($sort == 'p.price') { ?>
+									<td class="text-right">
+										<?php if ($sort == 'pov.price') { ?>
 										<a href="<?= $sort_price; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_price; ?>
 										</a>
@@ -253,9 +275,9 @@
 											<?= $column_price; ?>
 										</a>
 										<?php } ?>
-									</td> -->
+									</td>
 									<td class="text-right">
-										<?php if ($sort == 'p.quantity') { ?>
+										<?php if ($sort == 'pov.quantity') { ?>
 										<a href="<?= $sort_quantity; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_quantity; ?>
 										</a>
@@ -269,6 +291,17 @@
 										<?= $column_weight; ?>
 									</td>
 									<td>
+										<?php if ($sort == 'p.status') { ?>
+										<a href="<?= $sort_status; ?>" class="<?= strtolower($order); ?>">
+											<?= $column_status; ?>
+										</a>
+										<?php } else { ?>
+										<a href="<?= $sort_status; ?>">
+											<?= $column_status; ?>
+										</a>
+										<?php } ?>
+									</td>
+									<td>
 										<?php if ($sort == 'p.date_modified') { ?>
 										<a href="<?= $sort_date_modified; ?>" class="<?= strtolower($order); ?>">
 											<?= $column_date_modified; ?>
@@ -280,13 +313,13 @@
 										<?php } ?>
 									</td>
 									<td>
-										<?php if ($sort == 'p.status') { ?>
-										<a href="<?= $sort_status; ?>" class="<?= strtolower($order); ?>">
-											<?= $column_status; ?>
+										<?php if ($sort == 'u.username') { ?>
+										<a href="<?= $sort_username; ?>" class="<?= strtolower($order); ?>">
+											<?= $column_username; ?>
 										</a>
 										<?php } else { ?>
-										<a href="<?= $sort_status; ?>">
-											<?= $column_status; ?>
+										<a href="<?= $sort_username; ?>">
+											<?= $column_username; ?>
 										</a>
 										<?php } ?>
 									</td>
@@ -318,8 +351,8 @@
 										<?= $product['name']; ?>
 										<?php if ($product['option_name']) { ?>
 										<small><cite>
-											<?= ' - ' . $product['option_name']; ?>
-										</cite></small>
+												<?= ' - ' . $product['option_name']; ?>
+											</cite></small>
 										<?php } ?>
 
 									</td>
@@ -373,18 +406,23 @@
 										<?php } ?>
 										<?php } ?>
 									</td>
-									<!-- <td class="text-right">
-										<?php if ($product['special']) { ?>
+									<td class="text-right">
+										<?php if ($product['special'] || $product['discount']) { ?>
 										<span style="text-decoration: line-through;">
 											<?= $product['price']; ?>
 										</span><br />
 										<div class="text-danger">
 											<?= $product['special']; ?>
 										</div>
+										<div class="text-warning">
+											<i>
+												<?= $product['discount']; ?>
+											</i>
+										</div>
 										<?php } else { ?>
 										<?= $product['price']; ?>
 										<?php } ?>
-									</td> -->
+									</td>
 									<td class="text-right">
 										<?php if ($product['quantity'] <= 0) { ?>
 										<span class="label label-danger">
@@ -404,10 +442,13 @@
 										<?= $product['weight']; ?>
 									</td>
 									<td>
+										<?= $product['status']; ?>
+									</td>
+									<td>
 										<?= $product['date_modified']; ?>
 									</td>
 									<td>
-										<?= $product['status']; ?>
+										<?= $product['username']; ?>
 									</td>
 									<td class="text-right"><a href="<?= $product['edit']; ?>" data-toggle="tooltip"
 											title="<?= $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
@@ -415,7 +456,7 @@
 								<?php } ?>
 								<?php } else { ?>
 								<tr>
-									<td class="text-center" colspan="14">
+									<td class="text-center" colspan="15">
 										<?= $text_no_results; ?>
 									</td>
 								</tr>
@@ -448,12 +489,6 @@
 
 			if (filter_name) {
 				url += '&filter_name=' + encodeURIComponent(filter_name);
-			}
-
-			var filter_tag = $('input[name=\'filter_tag\']').val();
-
-			if (filter_tag) {
-				url += '&filter_tag=' + encodeURIComponent(filter_tag);
 			}
 
 			var filter_model = $('input[name=\'filter_model\']').val();
@@ -490,6 +525,18 @@
 
 			if (filter_quantity) {
 				url += '&filter_quantity=' + encodeURIComponent(filter_quantity);
+			}
+
+			var filter_product_id = $('input[name=\'filter_product_id\']').val();
+
+			if (filter_product_id) {
+				url += '&filter_product_id=' + encodeURIComponent(filter_product_id);
+			}
+
+			var filter_username = $('input[name=\'filter_username\']').val();
+
+			if (filter_username) {
+				url += '&filter_username=' + encodeURIComponent(filter_username);
 			}
 
 			var filter_status = $('select[name=\'filter_status\']').val();

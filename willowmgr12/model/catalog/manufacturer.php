@@ -1,6 +1,8 @@
 <?php
-class ModelCatalogManufacturer extends Model {
-	public function addManufacturer($data) {
+class ModelCatalogManufacturer extends Model
+{
+	public function addManufacturer($data)
+	{
 		$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturer SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 
 		$manufacturer_id = $this->db->getLastId();
@@ -24,7 +26,8 @@ class ModelCatalogManufacturer extends Model {
 		return $manufacturer_id;
 	}
 
-	public function editManufacturer($manufacturer_id, $data) {
+	public function editManufacturer($manufacturer_id, $data)
+	{
 		$this->db->query("UPDATE " . DB_PREFIX . "manufacturer SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "' WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 
 		if (isset($data['image'])) {
@@ -48,7 +51,8 @@ class ModelCatalogManufacturer extends Model {
 		$this->cache->delete('manufacturer');
 	}
 
-	public function deleteManufacturer($manufacturer_id) {
+	public function deleteManufacturer($manufacturer_id)
+	{
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturer WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturer_to_store WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
@@ -56,58 +60,74 @@ class ModelCatalogManufacturer extends Model {
 		$this->cache->delete('manufacturer');
 	}
 
-	public function getManufacturer($manufacturer_id) {
+	public function getManufacturer($manufacturer_id)
+	{
 		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "') AS keyword FROM " . DB_PREFIX . "manufacturer WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 
 		return $query->row;
 	}
 
-	public function getManufacturers($data = array()) {
-		$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id)";
+	public function getManufacturers($data = array())
+	{
+		if ($data) {
+			$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id)";
 
-		if (!empty($data['filter_name'])) {
-			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
-		}
-		
-		$sql .= " GROUP BY m.manufacturer_id";
-
-		$sort_data = array(
-			'manufacturer_id',
-			'name',
-			'product_total',
-			'sort_order'
-		);
-
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];
-		} else {
-			$sql .= " ORDER BY name";
-		}
-
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
-
-		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
+			if (!empty($data['filter_name'])) {
+				$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 			}
 
-			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
+			$sql .= " GROUP BY m.manufacturer_id";
+
+			$sort_data = array(
+				'manufacturer_id',
+				'name',
+				'product_total',
+				'sort_order'
+			);
+
+			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+				$sql .= " ORDER BY " . $data['sort'];
+			} else {
+				$sql .= " ORDER BY name";
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			if (isset($data['order']) && ($data['order'] == 'DESC')) {
+				$sql .= " DESC";
+			} else {
+				$sql .= " ASC";
+			}
+
+			if (isset($data['start']) || isset($data['limit'])) {
+				if ($data['start'] < 0) {
+					$data['start'] = 0;
+				}
+
+				if ($data['limit'] < 1) {
+					$data['limit'] = 20;
+				}
+
+				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			}
+
+			$query = $this->db->query($sql);
+
+			return $query->rows;
+		} else {
+			$manufacturer_data = $this->cache->get('manufacturer.' . (int)$this->config->get('config_store_id'));
+
+			if (!$manufacturer_data) {
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY name");
+
+				$manufacturer_data = $query->rows;
+				$this->cache->set('manufacturer.' . (int)$this->config->get('config_store_id'), $manufacturer_data);
+			}
+
+			return $manufacturer_data;
 		}
-
-		$query = $this->db->query($sql);
-
-		return $query->rows;
 	}
 
-	public function getManufacturerStores($manufacturer_id) {
+	public function getManufacturerStores($manufacturer_id)
+	{
 		$manufacturer_store_data = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer_to_store WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
@@ -119,7 +139,8 @@ class ModelCatalogManufacturer extends Model {
 		return $manufacturer_store_data;
 	}
 
-	public function getTotalManufacturers() {
+	public function getTotalManufacturers()
+	{
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "manufacturer");
 
 		return $query->row['total'];

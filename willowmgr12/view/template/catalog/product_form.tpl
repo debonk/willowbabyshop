@@ -170,7 +170,7 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-data">
-							<div class="form-group required">
+							<!-- <div class="form-group required">
 								<label class="col-sm-2 control-label" for="input-model">
 									<?= $entry_model; ?>
 								</label>
@@ -183,7 +183,7 @@
 									</div>
 									<?php } ?>
 								</div>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-sku"><span data-toggle="tooltip"
 										title="<?= $help_sku; ?>">
@@ -258,7 +258,7 @@
 										id="input-location" class="form-control" />
 								</div>
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-2 control-label" for="input-price">
 									<?= $entry_price; ?>
 								</label>
@@ -266,7 +266,7 @@
 									<input type="text" name="price" value="<?= $price; ?>" placeholder="<?= $entry_price; ?>"
 										id="input-price" class="form-control" />
 								</div>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-tax-class">
 									<?= $entry_tax_class; ?>
@@ -290,7 +290,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-2 control-label" for="input-quantity">
 									<?= $entry_quantity; ?>
 								</label>
@@ -298,7 +298,7 @@
 									<input type="text" name="quantity" value="<?= $quantity; ?>" placeholder="<?= $entry_quantity; ?>"
 										id="input-quantity" class="form-control" />
 								</div>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-minimum"><span data-toggle="tooltip"
 										title="<?= $help_minimum; ?>">
@@ -450,7 +450,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-2 control-label" for="input-weight">
 									<?= $entry_weight; ?>
 								</label>
@@ -458,8 +458,8 @@
 									<input type="text" name="weight" value="<?= $weight; ?>" placeholder="<?= $entry_weight; ?>"
 										id="input-weight" class="form-control" />
 								</div>
-							</div>
-							<div class="form-group">
+							</div> -->
+							<!-- <div class="form-group">
 								<label class="col-sm-2 control-label" for="input-weight-class">
 									<?= $entry_weight_class; ?>
 								</label>
@@ -478,7 +478,7 @@
 										<?php } ?>
 									</select>
 								</div>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-status">
 									<?= $entry_status; ?>
@@ -868,9 +868,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<?php $recurring_row = 0; ?>
-										<?php foreach ($product_recurrings as $product_recurring) { ?>
-
+										<?php foreach ($product_recurrings as $recurring_row => $product_recurring) { ?>
 										<tr id="recurring-row<?= $recurring_row; ?>">
 											<td class="text-left"><select name="product_recurring[<?= $recurring_row; ?>][recurring_id]"
 													class="form-control">
@@ -900,18 +898,17 @@
 													<?php } ?>
 													<?php } ?>
 												</select></td>
-											<td class="text-left"><button type="button"
+											<td class="text-right"><button type="button"
 													onclick="$('#recurring-row<?= $recurring_row; ?>').remove()" data-toggle="tooltip"
 													title="<?= $button_remove; ?>" class="btn btn-danger"><i
 														class="fa fa-minus-circle"></i></button></td>
 										</tr>
-										<?php $recurring_row++; ?>
 										<?php } ?>
 									</tbody>
 									<tfoot>
 										<tr>
 											<td colspan="2"></td>
-											<td class="text-left"><button type="button" onclick="addRecurring()" data-toggle="tooltip"
+											<td class="text-right"><button type="button" onclick="addRecurring()" data-toggle="tooltip"
 													title="<?= $button_recurring_add; ?>" class="btn btn-primary"><i
 														class="fa fa-plus-circle"></i></button></td>
 										</tr>
@@ -921,11 +918,19 @@
 						</div>
 						<div class="tab-pane" id="tab-discount">
 							<div class="table-responsive">
-								<table id="discount" class="table table-striped table-bordered table-hover">
+								<table id="discount" class="table table-striped table-bordered table-hover text-left">
 									<thead>
 										<tr>
-											<td class="text-left">
+											<td>
 												<?= $entry_customer_group; ?>
+												<select id="customer_groups"
+													class="hidden">
+													<?php foreach ($customer_groups as $customer_group) { ?>
+													<option value="<?= $customer_group['customer_group_id']; ?>">
+														<?= $customer_group['name']; ?>
+													</option>
+													<?php } ?>
+												</select>
 											</td>
 											<td class="text-right">
 												<?= $entry_quantity; ?>
@@ -934,25 +939,27 @@
 												<?= $entry_priority; ?>
 											</td>
 											<td class="text-right">
-												<?= $entry_percentage; ?>
+												<?= $entry_discount_percent_1; ?>
 											</td>
 											<td class="text-right">
-												<?= $entry_price; ?>
+												<?= $entry_discount_percent_2; ?>
 											</td>
-											<td class="text-left">
+											<td class="text-right">
+												<?= $entry_discount_fixed; ?>
+											</td>
+											<td style="width: 20%;">
 												<?= $entry_date_start; ?>
 											</td>
-											<td class="text-left">
+											<td style="width: 20%;">
 												<?= $entry_date_end; ?>
 											</td>
 											<td></td>
 										</tr>
 									</thead>
 									<tbody>
-										<?php $discount_row = 0; ?>
-										<?php foreach ($product_discounts as $product_discount) { ?>
+										<?php foreach ($product_discounts as $discount_row => $product_discount) { ?>
 										<tr id="discount-row<?= $discount_row; ?>">
-											<td class="text-left"><select name="product_discount[<?= $discount_row; ?>][customer_group_id]"
+											<td><select name="product_discount[<?= $discount_row; ?>][customer_group_id]"
 													class="form-control">
 													<?php foreach ($customer_groups as $customer_group) { ?>
 													<?php if ($customer_group['customer_group_id'] == $product_discount['customer_group_id']) { ?>
@@ -972,14 +979,16 @@
 											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][priority]"
 													value="<?= $product_discount['priority']; ?>" placeholder="<?= $entry_priority; ?>"
 													class="form-control" /></td>
-											<td class="text-right"><input type="text"
-													name="product_discount[<?= $discount_row; ?>][percentage]"
-													value="<?=((1 - $product_discount['price'] * (1/$price)) * 100); ?>" size="2" placeholder="%"
-													onkeyup="calcPrice('discount', <?= $discount_row; ?>)" class="form-control" /></td>
-											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][price]"
-													value="<?= $product_discount['price']; ?>" placeholder="<?= $entry_price; ?>"
+											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][discount_percent_1]"
+													value="<?= $product_discount['discount_percent_1']; ?>" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_1; ?>"
 													class="form-control" /></td>
-											<td class="text-left" style="width: 20%;">
+											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][discount_percent_2]"
+													value="<?= $product_discount['discount_percent_2']; ?>" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_2; ?>"
+													class="form-control" /></td>
+											<td class="text-right"><input type="text" name="product_discount[<?= $discount_row; ?>][discount_fixed]"
+													value="<?= $product_discount['discount_fixed']; ?>" size="6" placeholder="<?= $entry_discount_fixed; ?>"
+													class="form-control" /></td>
+											<td>
 												<div class="input-group date">
 													<input type="text" name="product_discount[<?= $discount_row; ?>][date_start]"
 														value="<?= $product_discount['date_start']; ?>" placeholder="<?= $entry_date_start; ?>"
@@ -989,7 +998,7 @@
 													</span>
 												</div>
 											</td>
-											<td class="text-left" style="width: 20%;">
+											<td>
 												<div class="input-group date">
 													<input type="text" name="product_discount[<?= $discount_row; ?>][date_end]"
 														value="<?= $product_discount['date_end']; ?>" placeholder="<?= $entry_date_end; ?>"
@@ -999,18 +1008,17 @@
 													</span>
 												</div>
 											</td>
-											<td class="text-left"><button type="button"
+											<td class="text-right"><button type="button"
 													onclick="$('#discount-row<?= $discount_row; ?>').remove();" data-toggle="tooltip"
 													title="<?= $button_remove; ?>" class="btn btn-danger"><i
 														class="fa fa-minus-circle"></i></button></td>
 										</tr>
-										<?php $discount_row++; ?>
 										<?php } ?>
 									</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="7"></td>
-											<td class="text-left"><button type="button" onclick="addDiscount();" data-toggle="tooltip"
+											<td colspan="8"></td>
+											<td class="text-right"><button type="button" onclick="addDiscount();" data-toggle="tooltip"
 													title="<?= $button_discount_add; ?>" class="btn btn-primary"><i
 														class="fa fa-plus-circle"></i></button></td>
 										</tr>
@@ -1020,35 +1028,37 @@
 						</div>
 						<div class="tab-pane" id="tab-special">
 							<div class="table-responsive">
-								<table id="special" class="table table-striped table-bordered table-hover">
+								<table id="special" class="table table-striped table-bordered table-hover text-left">
 									<thead>
 										<tr>
-											<td class="text-left">
+											<td>
 												<?= $entry_customer_group; ?>
 											</td>
 											<td class="text-right">
 												<?= $entry_priority; ?>
 											</td>
 											<td class="text-right">
-												<?= $entry_percentage; ?>
+												<?= $entry_discount_percent_1; ?>
 											</td>
 											<td class="text-right">
-												<?= $entry_price; ?>
+												<?= $entry_discount_percent_2; ?>
 											</td>
-											<td class="text-left">
+											<td class="text-right">
+												<?= $entry_discount_fixed; ?>
+											</td>
+											<td style="width: 20%;">
 												<?= $entry_date_start; ?>
 											</td>
-											<td class="text-left">
+											<td style="width: 20%;">
 												<?= $entry_date_end; ?>
 											</td>
 											<td></td>
 										</tr>
 									</thead>
 									<tbody>
-										<?php $special_row = 0; ?>
-										<?php foreach ($product_specials as $product_special) { ?>
+										<?php foreach ($product_specials as $special_row => $product_special) { ?>
 										<tr id="special-row<?= $special_row; ?>">
-											<td class="text-left"><select name="product_special[<?= $special_row; ?>][customer_group_id]"
+											<td><select name="product_special[<?= $special_row; ?>][customer_group_id]"
 													class="form-control">
 													<?php foreach ($customer_groups as $customer_group) { ?>
 													<?php if ($customer_group['customer_group_id'] == $product_special['customer_group_id']) { ?>
@@ -1065,13 +1075,16 @@
 											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][priority]"
 													value="<?= $product_special['priority']; ?>" placeholder="<?= $entry_priority; ?>"
 													class="form-control" /></td>
-											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][percentage]"
-													value="<?=((1 - $product_special['price'] * (1/$price)) * 100); ?>" size="2" placeholder="%"
-													onkeyup="calcPrice('special', <?= $special_row; ?>)" class="form-control" /></td>
-											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][price]"
-													value="<?= $product_special['price']; ?>" placeholder="<?= $entry_price; ?>"
+											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][discount_percent_1]"
+													value="<?= $product_special['discount_percent_1']; ?>" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_1; ?>"
 													class="form-control" /></td>
-											<td class="text-left" style="width: 20%;">
+											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][discount_percent_2]"
+													value="<?= $product_special['discount_percent_2']; ?>" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_2; ?>"
+													class="form-control" /></td>
+											<td class="text-right"><input type="text" name="product_special[<?= $special_row; ?>][discount_fixed]"
+													value="<?= $product_special['discount_fixed']; ?>" size="6" placeholder="<?= $entry_discount_fixed; ?>"
+													class="form-control" /></td>
+											<td>
 												<div class="input-group date">
 													<input type="text" name="product_special[<?= $special_row; ?>][date_start]"
 														value="<?= $product_special['date_start']; ?>" placeholder="<?= $entry_date_start; ?>"
@@ -1081,7 +1094,7 @@
 													</span>
 												</div>
 											</td>
-											<td class="text-left" style="width: 20%;">
+											<td>
 												<div class="input-group date">
 													<input type="text" name="product_special[<?= $special_row; ?>][date_end]"
 														value="<?= $product_special['date_end']; ?>" placeholder="<?= $entry_date_end; ?>"
@@ -1091,18 +1104,17 @@
 													</span>
 												</div>
 											</td>
-											<td class="text-left"><button type="button"
+											<td class="text-right"><button type="button"
 													onclick="$('#special-row<?= $special_row; ?>').remove();" data-toggle="tooltip"
 													title="<?= $button_remove; ?>" class="btn btn-danger"><i
 														class="fa fa-minus-circle"></i></button></td>
 										</tr>
-										<?php $special_row++; ?>
 										<?php } ?>
 									</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="6"></td>
-											<td class="text-left"><button type="button" onclick="addSpecial();" data-toggle="tooltip"
+											<td colspan="7"></td>
+											<td class="text-right"><button type="button" onclick="addSpecial();" data-toggle="tooltip"
 													title="<?= $button_special_add; ?>" class="btn btn-primary"><i
 														class="fa fa-plus-circle"></i></button></td>
 										</tr>
@@ -1174,7 +1186,7 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-reward">
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="col-sm-2 control-label" for="input-points"><span data-toggle="tooltip"
 										title="<?= $help_points; ?>">
 										<?= $entry_points; ?>
@@ -1183,7 +1195,7 @@
 									<input type="text" name="points" value="<?= $points; ?>" placeholder="<?= $entry_points; ?>"
 										id="input-points" class="form-control" />
 								</div>
-							</div>
+							</div> -->
 							<div class="table-responsive">
 								<table class="table table-bordered table-hover">
 									<thead>
@@ -1276,19 +1288,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-
-		function calcPrice(name, row) {
-
-			var perc = $('input[name=\'product_' + name + '[' + row + '][percentage]\']').val();
-			var price = $('input[name=\'price\']').val();
-			var discounted_price = price * (1 - (perc / 100));
-			var calculated_percentage = discounted_price * (1 - (price / 100));
-
-			$('input[name=\'product_' + name + '[' + row + '][price]\']').val(discounted_price);
-
-		}
-	</script>
 	<script type="text/javascript">
 		// Manufacturer
 		$('input[name=\'manufacturer\']').autocomplete({
@@ -1625,60 +1624,21 @@
 		});
 	</script>
 	<script type="text/javascript">
-		var option_value_row = <?= $option_value_row; ?>;
-
-		function addOptionValue(option_row) {
-			html = '<tr id="option-value-row' + option_value_row + '">';
-			html += '  <td class="text-left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][option_value_id]" class="form-control">';
-			html += $('#option-values' + option_row).html();
-			html += '  </select><input type="hidden" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][product_option_value_id]" value="" /></td>';
-			html += '  <td class="text-left"><input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][model]" value="" placeholder="<?= $entry_model; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][subtract]" class="form-control">';
-			html += '    <option value="1"><?= $text_yes; ?></option>';
-			html += '    <option value="0"><?= $text_no; ?></option>';
-			html += '  </select></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points]" value="" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight]" value="" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left"><button type="button" onclick="$(this).tooltip(\'destroy\');$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" rel="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
-
-			$('#option-value' + option_row + ' tbody').append(html);
-			$('[rel=tooltip]').tooltip();
-
-			option_value_row++;
-		}
-	</script>
-	<script type="text/javascript">
-		var discount_row = <?= $discount_row; ?>;
+		let discount_row = '<?= $product_discount_count; ?>';
 
 		function addDiscount() {
 			html = '<tr id="discount-row' + discount_row + '">';
-			html += '  <td class="text-left"><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-control">';
-    <?php foreach($customer_groups as $customer_group) { ?>
-				html += '    <option value="<?= $customer_group['customer_group_id']; ?>"><?= addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-				html += '  </select></td>';
+			html += '  <td><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-control">';
+			html += $('#customer_groups').html();
+			html += '  </select></td>';
 			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
 			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>';
-			html += '<td class="right"><input type="text" name="product_discount[' + discount_row + '][percentage]" value="" size="2" placeholder="%" onkeyup="calcPrice(\'discount\',' + discount_row + ')" class="form-control"/></td>';
-			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
-			html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
-			html += '  <td class="text-left"><button type="button" onclick="$(\'#discount-row' + discount_row + '\').remove();" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][discount_percent_1]" value="" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_1; ?>" class="form-control"/></td>';
+			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][discount_percent_2]" value="" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_2; ?>" class="form-control"/></td>';
+			html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][discount_fixed]" value="" size="6" placeholder="<?= $entry_discount_fixed; ?>" class="form-control"/></td>';
+			html += '  <td><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+			html += '  <td><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+			html += '  <td class="text-right"><button type="button" onclick="$(\'#discount-row' + discount_row + '\').remove();" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 			html += '</tr>';
 
 			$('#discount tbody').append(html);
@@ -1688,24 +1648,28 @@
 			});
 
 			discount_row++;
+			
+			$('[data-toggle=\'tooltip\']').tooltip({
+				container: 'body',
+				html: true
+			});
 		}
 	</script>
 	<script type="text/javascript">
-		var special_row = <?= $special_row; ?>;
+		let special_row = '<?= $product_special_count; ?>';
 
 		function addSpecial() {
 			html = '<tr id="special-row' + special_row + '">';
-			html += '  <td class="text-left"><select name="product_special[' + special_row + '][customer_group_id]" class="form-control">';
-    <?php foreach($customer_groups as $customer_group) { ?>
-				html += '      <option value="<?= $customer_group['customer_group_id']; ?>"><?= addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-				html += '  </select></td>';
+			html += '  <td><select name="product_special[' + special_row + '][customer_group_id]" class="form-control">';
+			html += $('#customer_groups').html();
+			html += '  </select></td>';
 			html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][priority]" value="" placeholder="<?= $entry_priority; ?>" class="form-control" /></td>';
-			html += '    <td class="text-right"><input type="text" name="product_special[' + special_row + '][percentage]" value="" size="2" placeholder="%"  onkeyup="calcPrice(\'special\',' + special_row + ')" class="form-control"/></td>';
-			html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
-			html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
-			html += '  <td class="text-left"><button type="button" onclick="$(\'#special-row' + special_row + '\').remove();" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+			html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][discount_percent_1]" value="" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_1; ?>" class="form-control"/></td>';
+			html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][discount_percent_2]" value="" maxlength="3" size="2" placeholder="<?= $entry_discount_percent_2; ?>" class="form-control"/></td>';
+			html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][discount_fixed]" value="" size="6" placeholder="<?= $entry_discount_fixed; ?>" class="form-control"/></td>';
+			html += '  <td style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="<?= $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+			html += '  <td style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_end]" value="" placeholder="<?= $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+			html += '  <td class="text-right"><button type="button" onclick="$(\'#special-row' + special_row + '\').remove();" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 			html += '</tr>';
 
 			$('#special tbody').append(html);
@@ -1715,10 +1679,15 @@
 			});
 
 			special_row++;
+			
+			$('[data-toggle=\'tooltip\']').tooltip({
+				container: 'body',
+				html: true
+			});
 		}
 	</script>
 	<script type="text/javascript">
-		var image_row = <?= $image_row; ?>;
+		var image_row = '<?= $image_row; ?>';
 
 		function addImage() {
 			html = '<tr id="image-row' + image_row + '">';
@@ -1733,33 +1702,36 @@
 		}
 	</script>
 	<script type="text/javascript">
-		var recurring_row = <?= $recurring_row; ?>;
+		var recurring_row = '<?= $product_recurring_count; ?>';
 
 		function addRecurring() {
 			recurring_row++;
 
 			html = '';
 			html += '<tr id="recurring-row' + recurring_row + '">';
-			html += '  <td class="left">';
+			html += '  <td class="text-left">';
 			html += '    <select name="product_recurring[' + recurring_row + '][recurring_id]" class="form-control">>';
 	<?php foreach($recurrings as $recurring) { ?>
 				html += '      <option value="<?= $recurring['recurring_id']; ?>"><?= $recurring['name']; ?></option>';
 	<?php } ?>
 				html += '    </select>';
 			html += '  </td>';
-			html += '  <td class="left">';
+			html += '  <td class="text-left">';
 			html += '    <select name="product_recurring[' + recurring_row + '][customer_group_id]" class="form-control">>';
-	<?php foreach($customer_groups as $customer_group) { ?>
-				html += '      <option value="<?= $customer_group['customer_group_id']; ?>"><?= $customer_group['name']; ?></option>';
-	<?php } ?>
-				html += '    <select>';
+			html += $('#customer_groups').html();
+			html += '    <select>';
 			html += '  </td>';
-			html += '  <td class="left">';
+			html += '  <td class="text-right">';
 			html += '    <a onclick="$(\'#recurring-row' + recurring_row + '\').remove()" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></a>';
 			html += '  </td>';
 			html += '</tr>';
 
 			$('#tab-recurring table tbody').append(html);
+			
+			$('[data-toggle=\'tooltip\']').tooltip({
+				container: 'body',
+				html: true
+			});
 		}
 	</script>
 	<script type="text/javascript">

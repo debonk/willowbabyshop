@@ -11,11 +11,28 @@ Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
 MODIFY: Product: Seo Url auto replace with correct format
 2.2.6.7_
 2.2.7.0_1
+2.3.0.0_Developing
 Modul: Multiple Option >>
+	- Catalog > Product List > Delete
+	- Catalog > Product List > Copy
+	- Catalog > Product List > Filter
+	- Catalog > Product List > Autocomplete
+	- Catalog > Product Form > Special
+		Table: product_discount: change discount structure to disc_1 (%), disc_2 (%), disc_3(fixed)
+			ALTER TABLE `oc_product_special` ADD `discount_percent_1` TINYINT(3) NOT NULL DEFAULT '0' AFTER `priority`, ADD `discount_percent_2` TINYINT(3) NOT NULL DEFAULT '0' AFTER `discount_percent_1`
+			ALTER TABLE `oc_product_special` CHANGE `price` `discount_fixed` INT(11) NOT NULL DEFAULT '0';
+	- Catalog > Product Form > Discount
+		Table: product_discount: change discount structure to disc_1 (%), disc_2 (%), disc_3(fixed)
+			ALTER TABLE `oc_product_discount` ADD `discount_percent_1` TINYINT(3) NOT NULL DEFAULT '0' AFTER `priority`, ADD `discount_percent_2` TINYINT(3) NOT NULL DEFAULT '0' AFTER `discount_percent_1`;
+			ALTER TABLE `oc_product_discount` CHANGE `price` `discount_fixed` INT(11) NOT NULL DEFAULT '0';
+	- Catalog > Product List
+		Table: product: remove model, price, quantity, points, weight, weight_class_id (rename first)
+			ALTER TABLE `oc_product` CHANGE `model` `model_del` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `quantity` `quantity_del` INT(4) NOT NULL DEFAULT '0', CHANGE `price` `price_del` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `points` `points_del` INT(8) NOT NULL DEFAULT '0', CHANGE `weight` `weight_del` DECIMAL(15,2) NOT NULL DEFAULT '0.00', CHANGE `weight_class_id` `weight_class_id_del` INT(11) NOT NULL DEFAULT '0';
 	- Catalog > Option: Remove Multiple Selection on Option Type
 	- Catalog > Product Form > Multiple Option: Option Tab
 	- Catalog > Product Form > Multiple Option: Variant Tab
 	- Catalog > Product Form > Multiple Option: UX by javascript untuk new data
+		Table: product_option_value: modified
 	- Catalog > Option: Add Multiple Selection on Option Type
 
 2.2.6.7
