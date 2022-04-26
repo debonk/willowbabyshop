@@ -131,8 +131,6 @@ class ControllerCatalogTool extends Controller
 				for ($i = 3; $i <= count($sheet_data); $i++) {
 					$new_product = false;
 					$product_option_data = [];
-					// var_dump($sheet_data[$i]);
-					// die('---breakpoint---');
 					
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']]) {
 						# Model dan name harus ada

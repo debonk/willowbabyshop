@@ -493,7 +493,7 @@ class ControllerCatalogProduct extends Controller
 			'text_disabled',
 			'text_no_results',
 			'text_confirm',
-	
+
 			'column_image',
 			'column_name',
 			'column_model',
@@ -508,7 +508,7 @@ class ControllerCatalogProduct extends Controller
 			'column_date_modified',
 			'column_status',
 			'column_action',
-	
+
 			'entry_name',
 			'entry_model',
 			'entry_price',
@@ -518,13 +518,13 @@ class ControllerCatalogProduct extends Controller
 			'entry_quantity',
 			'entry_percentage',
 			'entry_status',
-	
+
 			'button_copy',
 			'button_add',
 			'button_edit',
 			'button_delete',
 			'button_filter'
-			];
+		];
 		foreach ($language_items as $language_item) {
 			$data[$language_item] = $this->language->get($language_item);
 		}
@@ -799,8 +799,6 @@ class ControllerCatalogProduct extends Controller
 
 		$data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
-
-
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -912,8 +910,6 @@ class ControllerCatalogProduct extends Controller
 		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
 		}
-
-		$data['token'] = $this->session->data['token'];
 
 		$this->load->model('localisation/language');
 
@@ -1577,17 +1573,21 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
-		if (utf8_strlen($this->request->post['keyword']) > 0) {
-			$this->load->model('catalog/url_alias');
+		if ($this->request->post['keyword']) {
+			$this->request->post['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($this->request->post['keyword'])));
 
-			$url_alias_info = $this->model_catalog_url_alias->getUrlAlias($this->request->post['keyword']);
+			if (utf8_strlen($this->request->post['keyword']) > 0) {
+				$this->load->model('catalog/url_alias');
 
-			if ($url_alias_info && isset($this->request->get['product_id']) && $url_alias_info['query'] != 'product_id=' . $this->request->get['product_id']) {
-				$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
-			}
+				$url_alias_info = $this->model_catalog_url_alias->getUrlAlias($this->request->post['keyword']);
 
-			if ($url_alias_info && !isset($this->request->get['product_id'])) {
-				$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+				if ($url_alias_info && isset($this->request->get['product_id']) && $url_alias_info['query'] != 'product_id=' . $this->request->get['product_id']) {
+					$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+				}
+
+				if ($url_alias_info && !isset($this->request->get['product_id'])) {
+					$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+				}
 			}
 		}
 

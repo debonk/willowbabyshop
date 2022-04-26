@@ -688,13 +688,6 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-option">
-							<?php if ($error_option_model) { ?>
-							<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-								<?= $error_option_model; ?>
-								<button type="button" class="close" data-dismiss="alert">&times;</button>
-							</div>
-							<?php } ?>
-
 							<div class="row">
 								<div class="col-sm-2">
 									<ul class="nav nav-pills nav-stacked" id="option">
@@ -1643,7 +1636,7 @@
 		});
 	</script>
 	<script type="text/javascript">
-		var option_row = <?= $option_row; ?>;
+		let option_row = '<?= $option_row; ?>';
 
 		$('input[name=\'option\']').autocomplete({
 			'source': function (request, response) {
@@ -1720,42 +1713,6 @@
 					html += '	</div>';
 				}
 
-				if (item['type'] == 'select' || item['type'] == 'radio' || item['type'] == 'checkbox' || item['type'] == 'image') {
-					html += '<div class="table-responsive">';
-					html += '  <table id="option-value' + option_row + '" class="table table-striped table-bordered table-hover">';
-					html += '  	 <thead>';
-					html += '      <tr>';
-					html += '        <td class="text-left"><?= $entry_option_value; ?></td>';
-					html += '        <td class="text-left required"><?= $entry_model ?></td>';
-					html += '        <td class="text-right"><?= $entry_quantity; ?></td>';
-					html += '        <td class="text-left"><?= $entry_subtract; ?></td>';
-					html += '        <td class="text-right"><?= $entry_price; ?></td>';
-					html += '        <td class="text-right"><?= $entry_option_points; ?></td>';
-					html += '        <td class="text-right"><?= $entry_weight; ?></td>';
-					html += '        <td></td>';
-					html += '      </tr>';
-					html += '  	 </thead>';
-					html += '  	 <tbody>';
-					html += '    </tbody>';
-					html += '    <tfoot>';
-					html += '      <tr>';
-					html += '        <td colspan="7"></td>';
-					html += '        <td class="text-left"><button type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>';
-					html += '      </tr>';
-					html += '    </tfoot>';
-					html += '  </table>';
-					html += '</div>';
-
-					html += '  <select id="option-values' + option_row + '" style="display: none;">';
-
-					for (i = 0; i < item['option_value'].length; i++) {
-						html += '  <option value="' + item['option_value'][i]['option_value_id'] + '">' + item['option_value'][i]['name'] + '</option>';
-					}
-
-					html += '  </select>';
-					html += '</div>';
-				}
-
 				$('#tab-option .tab-content').append(html);
 
 				$('#option > li:last-child').before('<li><a href="#tab-option' + option_row + '" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$(\'a[href=\\\'#tab-option' + option_row + '\\\']\').parent().remove(); $(\'#tab-option' + option_row + '\').remove(); $(\'#option a:first\').tab(\'show\')"></i> ' + item['label'] + '</li>');
@@ -1783,44 +1740,6 @@
 				option_row++;
 			}
 		});
-	</script>
-	<script type="text/javascript">
-		var option_value_row = <?= $option_value_row; ?>;
-
-		function addOptionValue(option_row) {
-			html = '<tr id="option-value-row' + option_value_row + '">';
-			html += '  <td class="text-left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][option_value_id]" class="form-control">';
-			html += $('#option-values' + option_row).html();
-			html += '  </select><input type="hidden" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][product_option_value_id]" value="" /></td>';
-			html += '  <td class="text-left"><input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][model]" value="" placeholder="<?= $entry_model; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][subtract]" class="form-control">';
-			html += '    <option value="1"><?= $text_yes; ?></option>';
-			html += '    <option value="0"><?= $text_no; ?></option>';
-			html += '  </select></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price]" value="" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points]" value="" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight_prefix]" class="form-control">';
-			html += '    <option value="+">+</option>';
-			html += '    <option value="-">-</option>';
-			html += '  </select>';
-			html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight]" value="" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
-			html += '  <td class="text-left"><button type="button" onclick="$(this).tooltip(\'destroy\');$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" rel="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
-
-			$('#option-value' + option_row + ' tbody').append(html);
-			$('[rel=tooltip]').tooltip();
-
-			option_value_row++;
-		}
 	</script>
 	<script type="text/javascript">
 		var discount_row = <?= $discount_row; ?>;

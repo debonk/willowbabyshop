@@ -1,5 +1,8 @@
 # willowbabyshop software
 
+2.2.6.7 26/04/2022
+MODIFY: Product: Seo Url auto replace with correct format
+
 2.2.6.6
 Bug Fixed: Mylivechat setting not show correct value
 

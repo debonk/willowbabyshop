@@ -1,8 +1,18 @@
 <?php
-class ControllerCatalogOption extends Controller {
+class ControllerCatalogOption extends Controller
+{
 	private $error = array();
 
-	public function index() {
+	private $types = [
+		'choose'	=> ['select', 'radio', 'checkbox', 'image'],
+		'input'		=> ['text', 'textarea'],
+		'file'		=> ['file'],
+		'date'		=> ['date', 'time', 'datetime']
+	];
+
+
+	public function index()
+	{
 		$this->load->language('catalog/option');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -12,7 +22,8 @@ class ControllerCatalogOption extends Controller {
 		$this->getList();
 	}
 
-	public function add() {
+	public function add()
+	{
 		$this->load->language('catalog/option');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -44,7 +55,8 @@ class ControllerCatalogOption extends Controller {
 		$this->getForm();
 	}
 
-	public function edit() {
+	public function edit()
+	{
 		$this->load->language('catalog/option');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -76,7 +88,8 @@ class ControllerCatalogOption extends Controller {
 		$this->getForm();
 	}
 
-	public function delete() {
+	public function delete()
+	{
 		$this->load->language('catalog/option');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -110,7 +123,8 @@ class ControllerCatalogOption extends Controller {
 		$this->getList();
 	}
 
-	protected function getList() {
+	protected function getList()
+	{
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -259,22 +273,24 @@ class ControllerCatalogOption extends Controller {
 		$this->response->setOutput($this->load->view('catalog/option_list', $data));
 	}
 
-	protected function getForm() {
+	protected function getForm()
+	{
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['option_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
-		$data['text_choose'] = $this->language->get('text_choose');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['text_radio'] = $this->language->get('text_radio');
-		$data['text_checkbox'] = $this->language->get('text_checkbox');
-		$data['text_image'] = $this->language->get('text_image');
-		$data['text_input'] = $this->language->get('text_input');
-		$data['text_text'] = $this->language->get('text_text');
-		$data['text_textarea'] = $this->language->get('text_textarea');
-		$data['text_file'] = $this->language->get('text_file');
-		$data['text_date'] = $this->language->get('text_date');
-		$data['text_datetime'] = $this->language->get('text_datetime');
-		$data['text_time'] = $this->language->get('text_time');
+		// $data['text_multiple'] = $this->language->get('text_multiple');
+		// $data['text_choose'] = $this->language->get('text_choose');
+		// $data['text_select'] = $this->language->get('text_select');
+		// $data['text_radio'] = $this->language->get('text_radio');
+		// $data['text_checkbox'] = $this->language->get('text_checkbox');
+		// $data['text_image'] = $this->language->get('text_image');
+		// $data['text_input'] = $this->language->get('text_input');
+		// $data['text_text'] = $this->language->get('text_text');
+		// $data['text_textarea'] = $this->language->get('text_textarea');
+		// $data['text_file'] = $this->language->get('text_file');
+		// $data['text_date'] = $this->language->get('text_date');
+		// $data['text_datetime'] = $this->language->get('text_datetime');
+		// $data['text_time'] = $this->language->get('text_time');
 
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_type'] = $this->language->get('entry_type');
@@ -348,6 +364,7 @@ class ControllerCatalogOption extends Controller {
 		$this->load->model('localisation/language');
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
+		$data['js_languages'] = json_encode($this->model_localisation_language->getLanguages());
 
 		if (isset($this->request->post['option_description'])) {
 			$data['option_description'] = $this->request->post['option_description'];
@@ -364,6 +381,25 @@ class ControllerCatalogOption extends Controller {
 		} else {
 			$data['type'] = '';
 		}
+
+		$data['type_groups'] = [];
+
+		foreach ($this->types as $group => $types) {
+			$type_data = [];
+
+			foreach ($types as $type) {
+				$type_data[] = [
+					'value'	=> $type,
+					'text'	=> $this->language->get('text_' . $type)
+				];
+			}
+
+			$data['type_groups'][] = [
+				'text'		=> $this->language->get('text_' . $group),
+				'type_data'	=> $type_data
+			];
+		}
+		// $data['types'] = $this->types;
 
 		if (isset($this->request->post['sort_order'])) {
 			$data['sort_order'] = $this->request->post['sort_order'];
@@ -412,7 +448,8 @@ class ControllerCatalogOption extends Controller {
 		$this->response->setOutput($this->load->view('catalog/option_form', $data));
 	}
 
-	protected function validateForm() {
+	protected function validateForm()
+	{
 		if (!$this->user->hasPermission('modify', 'catalog/option')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -440,7 +477,8 @@ class ControllerCatalogOption extends Controller {
 		return !$this->error;
 	}
 
-	protected function validateDelete() {
+	protected function validateDelete()
+	{
 		if (!$this->user->hasPermission('modify', 'catalog/option')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -458,7 +496,8 @@ class ControllerCatalogOption extends Controller {
 		return !$this->error;
 	}
 
-	public function autocomplete() {
+	public function autocomplete()
+	{
 		$json = array();
 
 		if (isset($this->request->get['filter_name'])) {
@@ -469,9 +508,10 @@ class ControllerCatalogOption extends Controller {
 			$this->load->model('tool/image');
 
 			$filter_data = array(
-				'filter_name' => $this->request->get['filter_name'],
-				'start'       => 0,
-				'limit'       => 5
+				'filter_selection_only'	=> isset($this->request->get['filter_selection_only']) ? $this->request->get['filter_selection_only'] : null,
+				'filter_name' 			=> $this->request->get['filter_name'],
+				'start'       			=> 0,
+				'limit'       			=> 10
 			);
 
 			$options = $this->model_catalog_option->getOptions($filter_data);

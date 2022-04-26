@@ -113,9 +113,10 @@ class ModelCatalogProduct extends Model
 			}
 		}
 
-		if (isset($data['keyword'])) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		$data['keyword'] = $data['keyword'] ? $data['keyword'] : $data['product_description'][(int)$this->config->get('config_language_id')]['name'];
+		$data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($data['keyword'])));
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 
 		if (isset($data['product_recurrings'])) {
 			foreach ($data['product_recurrings'] as $recurring) {
@@ -266,9 +267,10 @@ class ModelCatalogProduct extends Model
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "'");
 
-		if ($data['keyword']) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		$data['keyword'] = $data['keyword'] ? $data['keyword'] : $data['product_description'][(int)$this->config->get('config_language_id')]['name'];
+		$data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($data['keyword'])));
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_recurring` WHERE product_id = " . (int)$product_id);
 
@@ -342,14 +344,14 @@ class ModelCatalogProduct extends Model
 			foreach ($data['product_image'] as $idx => $product_image) {
 				$extension = '.' . pathinfo($product_image['image'], PATHINFO_EXTENSION);
 				$new_image = str_replace($extension, '-' . $token . $extension, $product_image['image']);
-	
+
 				copy(DIR_IMAGE . $product_image['image'], DIR_IMAGE . $new_image);
 
 				$data['product_image'][$idx]['image'] = $new_image;
 			}
 
 			$data['product_option'] = $this->getProductOptions($product_id);
-			
+
 			if ($data['product_option']) {
 				for ($i = 0; $i < count($data['product_option']); $i++) {
 					if ($data['product_option'][$i]) {
