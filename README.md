@@ -1,5 +1,8 @@
 # willowbabyshop software
 
+2.2.6.8	27/04/2022
+Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
+
 2.2.6.7 26/04/2022
 MODIFY: Product: Seo Url auto replace with correct format
 
