@@ -324,6 +324,7 @@ class ModelCatalogProduct extends Model
 			$data['model'] = $model;
 			$data['sku'] = $model;
 			$data['upc'] = '';
+			$data['date_available'] = date('Y-m-d');
 			$data['viewed'] = '0';
 			$data['keyword'] = '';
 			$data['status'] = '0';

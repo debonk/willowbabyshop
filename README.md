@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+2.2.6.9	14/05/2022
+Modify: Special, Discount, Coupon, Cart: Tanggal pada date_start dan date_end masih berlaku
+Modify: Catalog > Product: Set date_available to now when copy product
+
 2.2.6.8	27/04/2022
 Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
 
