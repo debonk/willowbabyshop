@@ -1,6 +1,7 @@
 <?php
 // Version
-define('VERSION', '2.2.6.9');
+define('VERSION', '2.3.0');
+define('FRAMEWORK_VERSION', '2.2.0.0');
 
 // Configuration
 if (is_file('config.php')) {
@@ -13,7 +14,16 @@ if (!defined('DIR_APPLICATION')) {
 	exit;
 }
 
-// VirtualQMOD
+// Startup
+require_once(DIR_SYSTEM . 'startup.php');
+
+$application_config = 'catalog';
+
+// Application
+require_once(DIR_SYSTEM . 'framework.php');
+
+# VQMOD Remove
+/* // VirtualQMOD
 require_once('./vqmod/vqmod.php');
 VQMod::bootup();
 
@@ -23,4 +33,4 @@ require_once(VQMod::modCheck(DIR_SYSTEM . 'startup.php'));
 $application_config = 'catalog';
 
 // Application
-require_once(VQMod::modCheck(DIR_SYSTEM . 'framework.php'));
+require_once(VQMod::modCheck(DIR_SYSTEM . 'framework.php')); */

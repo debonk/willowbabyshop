@@ -1,6 +1,8 @@
 <?php
-class ControllerCheckoutCart extends Controller {
-	public function index() {
+class ControllerCheckoutCart extends Controller
+{
+	public function index()
+	{
 		$this->load->language('checkout/cart');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -155,7 +157,7 @@ class ControllerCheckoutCart extends Controller {
 						$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
 					}
 				}
-		
+
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
@@ -192,14 +194,14 @@ class ControllerCheckoutCart extends Controller {
 			$totals = array();
 			$taxes = $this->cart->getTaxes();
 			$total = 0;
-			
+
 			// Because __call can not keep var references so we put them into an array. 			
 			$total_data = array(
 				'totals' => &$totals,
 				'taxes'  => &$taxes,
 				'total'  => &$total
 			);
-			
+
 			// Display prices
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 				$sort_order = array();
@@ -215,7 +217,7 @@ class ControllerCheckoutCart extends Controller {
 				foreach ($results as $result) {
 					if ($this->config->get($result['code'] . '_status')) {
 						$this->load->model('total/' . $result['code']);
-						
+
 						// We have to put the totals in an array so that they pass by reference.
 						$this->{'model_total_' . $result['code']}->getTotal($total_data);
 					}
@@ -246,13 +248,13 @@ class ControllerCheckoutCart extends Controller {
 			$this->load->model('extension/extension');
 
 			$data['modules'] = array();
-			
+
 			$files = glob(DIR_APPLICATION . '/controller/total/*.php');
 
 			if ($files) {
 				foreach ($files as $file) {
 					$result = $this->load->controller('total/' . basename($file, '.php'));
-					
+
 					if ($result) {
 						$data['modules'][] = $result;
 					}
@@ -289,7 +291,8 @@ class ControllerCheckoutCart extends Controller {
 		}
 	}
 
-	public function add() {
+	public function add()
+	{
 		$this->load->language('checkout/cart');
 
 		$json = array();
@@ -311,17 +314,61 @@ class ControllerCheckoutCart extends Controller {
 				$quantity = $product_info['minimum'] ? $product_info['minimum'] : 1;
 			}
 
+			if (isset($this->request->post['variant'])) {
+				$variant = array_filter($this->request->post['variant']);
+			} else {
+				$variant = array();
+			}
+
+			$product_variants = $this->model_catalog_product->getProductVariants($product_id);
+			
+			foreach ($product_variants['option'] as $idx => $variant_option) {
+				if (empty($variant['variant_id'][$idx])) {
+					$json['error']['variant'][$idx] = sprintf($this->language->get('error_required'), $variant_option['name']);
+				}
+
+				$variant['option_id'][$idx] = $variant_option['option_id'];
+			}
+
+			// $product_detail = [];
+
+			if (!$json && $variant) {
+				$product_available = false;
+
+				foreach ($product_variants['variant'] as $variant_value) {
+					if ($variant_value['option_value_id'] == $variant['variant_id']) {
+						$product_available = true;
+
+						$product_model = $variant_value['model'];
+
+						if ($product_info['subtract'] && ($variant_value['quantity'] < $product_info['minimum']) && !$this->config->get('config_stock_checkout')) {
+							$json['error']['variant']['warning'] = $this->language->get('error_stock_2');
+						}
+
+						break;
+					}
+				}
+
+				if (!$product_available) {
+					$json['error']['variant']['warning'] = $this->language->get('error_not_found');
+				}
+			} else {
+				$product_model = $product_variants['variant'][0]['model'];
+			}
+
 			if (isset($this->request->post['option'])) {
 				$option = array_filter($this->request->post['option']);
 			} else {
 				$option = array();
 			}
 
-			$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
+			$product_options = $this->model_catalog_product->getProductOptions($product_id);
 
 			foreach ($product_options as $product_option) {
 				if ($product_option['required'] && empty($option[$product_option['product_option_id']])) {
 					$json['error']['option'][$product_option['product_option_id']] = sprintf($this->language->get('error_required'), $product_option['name']);
+
+					break;
 				}
 			}
 
@@ -346,9 +393,9 @@ class ControllerCheckoutCart extends Controller {
 			}
 
 			if (!$json) {
-				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
+				$this->cart->add($product_id, $product_model, $quantity, $variant, $option, $recurring_id);
 
-				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
+				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $product_id), $product_info['name'], $this->url->link('checkout/cart'));
 
 				// Unset all shipping and payment methods
 				unset($this->session->data['shipping_method']);
@@ -362,7 +409,7 @@ class ControllerCheckoutCart extends Controller {
 				$totals = array();
 				$taxes = $this->cart->getTaxes();
 				$total = 0;
-		
+
 				// Because __call can not keep var references so we put them into an array. 			
 				$total_data = array(
 					'totals' => &$totals,
@@ -402,15 +449,16 @@ class ControllerCheckoutCart extends Controller {
 
 				$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));
 			} else {
-				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
+				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $product_id));
 			}
 		}
-
+		
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function edit() {
+	public function edit()
+	{
 		$this->load->language('checkout/cart');
 
 		$json = array();
@@ -434,7 +482,8 @@ class ControllerCheckoutCart extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function remove() {
+	public function remove()
+	{
 		$this->load->language('checkout/cart');
 
 		$json = array();

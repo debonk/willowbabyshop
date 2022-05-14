@@ -7145,7 +7145,8 @@ header, .container {
 }
 
 #sys-notification {
-  position: absolute;
+  position: fixed;
+  top: 0;
   width: 100%;
   z-index: 999;
   border-radius: 5px;

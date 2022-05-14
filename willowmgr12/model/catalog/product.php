@@ -892,6 +892,54 @@ class ModelCatalogProduct extends Model
 		return $product_attribute_data;
 	}
 
+	public function getProductVariants($product_id)
+	{
+		$product_variants_data = [];
+		$variants_data = [];
+		$options_data = [];
+
+		$product_variants_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value WHERE product_id = '" . (int)$product_id . "' ORDER BY product_option_value_id ASC");
+
+		foreach ($product_variants_query->rows as $product_variants_value) {
+			$variants_data[] = array(
+				'product_option_value_id' => $product_variants_value['product_option_value_id'],
+				'option_value_id'         => json_decode($product_variants_value['option_value_id']),
+				'model'               	  => $product_variants_value['model'],
+				'image'               	  => $product_variants_value['image'],
+				'quantity'                => $product_variants_value['quantity'],
+				'price'                   => $product_variants_value['price'],
+				'points'                  => $product_variants_value['points'],
+				'weight'                  => $product_variants_value['weight'],
+				'weight_class_id'         => $product_variants_value['weight_class_id']
+			);
+		}
+
+		if ($product_variants_query->num_rows > 1) {
+			$this->load->model('catalog/option');
+
+			$option_ids = json_decode($product_variants_query->row['option_id']);
+
+			$options_data = array_map(function ($option_id) {
+				$option_info = $this->model_catalog_option->getOption($option_id);
+
+				if ($option_info['type'] == 'select' || $option_info['type'] == 'radio' || $option_info['type'] == 'checkbox' || $option_info['type'] == 'image') {
+					$option_info['option_value'] = $this->model_catalog_option->getOptionValues($option_id);
+
+					return $option_info;
+				} else {
+					return;
+				}
+			}, $option_ids);
+		}
+
+		$product_variants_data = array(
+			'option'	=> $options_data,
+			'variant'	=> $variants_data
+		);
+
+		return $product_variants_data;
+	}
+
 	public function getProductMultiple($product_id)
 	{
 		$product_multiple_data = [];
@@ -961,7 +1009,7 @@ class ModelCatalogProduct extends Model
 
 	public function getProductOptions($product_id)
 	{
-		$product_option_data = array();
+		// $product_option_data = array();
 
 		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 

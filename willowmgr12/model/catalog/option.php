@@ -66,7 +66,7 @@ class ModelCatalogOption extends Model
 
 	public function getOption($option_id)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "option` o LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE o.option_id = '" . (int)$option_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "option` o LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE o.option_id = '" . (int)$option_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order");
 
 		return $query->row;
 	}
@@ -199,6 +199,7 @@ class ModelCatalogOption extends Model
 
 	public function getOptionValuesDescription($option_value_ids)
 	{
+		// $option_value_description
 		$option_value_ids = implode(', ', $option_value_ids);
 
 		$option_value_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($option_value_ids) . ")  AND language_id = '" . (int)$this->config->get('config_language_id') . "'");

@@ -1,18 +1,23 @@
 # willowbabyshop software
 
-2.2.6.9	14/05/2022
-Modify: Special, Discount, Coupon, Cart: Tanggal pada date_start dan date_end masih berlaku
-Modify: Catalog > Product: Set date_available to now when copy product
-
-2.2.6.8	27/04/2022
-Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
-
-2.2.6.7 26/04/2022
-MODIFY: Product: Seo Url auto replace with correct format
-2.2.6.7_
-2.2.7.0_1
 2.3.0.0_Developing
 Modul: Multiple Option >>
+	- Report > Product
+	- Catalog > Tool
+	- Sale > Order
+	- APP > order
+	- APP > cart
+	- APP > common/home
+
+	- APP > Common > Cart
+	- APP > Checkout > Cart
+		Table: cart: Modify
+			Add model and variant
+			ALTER TABLE `oc_cart` ADD INDEX( `model`);
+			Move variant after recurring_id
+	- APP > product > product
+	- Catalog > Product Form > Multiple Option: Variant Tab (REBUILD)
+	- Removing VQMod
 	- Catalog > Product List > Delete
 	- Catalog > Product List > Copy
 	- Catalog > Product List > Filter
@@ -35,7 +40,15 @@ Modul: Multiple Option >>
 		Table: product_option_value: modified
 	- Catalog > Option: Add Multiple Selection on Option Type
 
-2.2.6.7
+==================================
+2.2.6.9	14/05/2022
+Modify: Special, Discount, Coupon, Cart: Tanggal pada date_start dan date_end masih berlaku
+Modify: Catalog > Product: Set date_available to now when copy product
+
+2.2.6.8	27/04/2022
+Bug Fixed: Catalog > Product: Autocomplete tidak berfungsi
+
+2.2.6.7 26/04/2022
 MODIFY: Product: Seo Url auto replace with correct format
 
 2.2.6.6

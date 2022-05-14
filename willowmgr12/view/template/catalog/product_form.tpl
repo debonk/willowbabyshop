@@ -1137,7 +1137,7 @@
 										<tr>
 											<td class="text-left"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img
 														src="<?= $thumb; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
-													type="hidden" name="image" value="<?= $image; ?>" id="input-image" /></td>
+													type="" name="image" value="<?= $image; ?>" id="input-image" /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -1161,7 +1161,7 @@
 										<tr id="image-row<?= $image_row; ?>">
 											<td class="text-left"><a href="" id="thumb-image<?= $image_row; ?>" data-toggle="image"
 													class="img-thumbnail"><img src="<?= $product_image['thumb']; ?>" alt="" title=""
-														data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden"
+														data-placeholder="<?= $placeholder; ?>" /></a><input type=""
 													name="product_image[<?= $image_row; ?>][image]" value="<?= $product_image['image']; ?>"
 													id="input-image<?= $image_row; ?>" /></td>
 											<td class="text-right"><input type="text" name="product_image[<?= $image_row; ?>][sort_order]"

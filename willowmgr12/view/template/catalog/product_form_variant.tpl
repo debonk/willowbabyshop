@@ -57,10 +57,10 @@
 				<tbody>
 					<?php foreach($product_multiples['multiple_value'] as $row => $multiple_value) { ?>
 					<tr id="multiple-value-row<?= $row; ?>" data-row="<?= $row; ?>">
-						<td><a href="" id="thumb-image<?= $row; ?>" data-toggle="image" class="img-thumbnail"><img
+						<td><a href="" id="thumb-variant-image<?= $row; ?>" data-toggle="image" class="img-thumbnail"><img
 									src="<?= $multiple_value['thumb']; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
 								type="hidden" name="product_multiple[multiple_value][<?= $row; ?>][image]"
-								value="<?= $multiple_value['image']; ?>" id="input-image<?= $row; ?>" /></td>
+								value="<?= $multiple_value['image']; ?>" id="input-variant-image<?= $row; ?>" /></td>
 						<?php foreach($multiple_value['option_value_id'] as $column => $option_value_id) { ?>
 						<td class="multiple-option<?= $column; ?>"><select
 								name="product_multiple[multiple_value][<?= $row; ?>][option_value_id][<?= $column; ?>]"
@@ -117,7 +117,7 @@
 						<td class="multiple-option<?= $column; ?>"></td>
 						<?php } ?>
 						<td colspan="6"></td>
-						<td class="text-right"><button type="button" onclick="addMultipleValue();" data-toggle="tooltip"
+						<td class="text-right"><button type="button" onclick="addVariantValue();" data-toggle="tooltip"
 								title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i
 									class="fa fa-plus-circle"></i></button></td>
 					</tr>
@@ -199,10 +199,10 @@
 
 		let multiple_row = '<?= $multiple_value_count; ?>';
 
-		function addMultipleValue() {
+		function addVariantValue() {
 			html = ''
 			html += '<tr id="multiple-value-row' + multiple_row + '" data-row="' + multiple_row + '">';
-			html += '  <td><a href="" id="thumb-image' + multiple_row + '" data-toggle="image" class="img-thumbnail"><img src="<?= $placeholder; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_multiple[multiple_value][' + multiple_row + '][image]" value="" id="input-image' + multiple_row + '" /></td>';
+			html += '  <td><a href="" id="thumb-variant-image' + multiple_row + '" data-toggle="image" class="img-thumbnail"><img src="<?= $placeholder; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_multiple[multiple_value][' + multiple_row + '][image]" value="" id="input-variant-image' + multiple_row + '" /></td>';
 
 			let multiple_columns = $('[id^=\'multiple-option\']');
 

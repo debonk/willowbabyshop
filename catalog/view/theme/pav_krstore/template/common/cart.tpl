@@ -1,4 +1,3 @@
-<!--Bonk: tp412 -->
 <div id="cart" class="dropdown clearfix">
 	<div  data-toggle="dropdown" data-loading-text="<?php echo $text_loading; ?>" class="dropdown-toggle text-center">
 		<a href="<?php echo $cart;?>"><i class="icon-cart fa fa-shopping-cart fa-lg"></i></a>
@@ -22,6 +21,10 @@
 							</td>
 							<td class="text-left name">
 								<a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+								<?php if ($product['variant_name']) { ?>
+										<br />
+										<small><?php echo ' - ' . $product['variant_name']; ?></small>
+								<?php } ?>
 								<?php if ($product['option']) { ?>
 									<?php foreach ($product['option'] as $option) { ?>
 										<br />

@@ -1644,8 +1644,7 @@ class ControllerCatalogProduct extends Controller
 			$data['product_layout'] = array();
 		}
 
-		// $data['form_multiple'] = $this->load->controller('catalog/product/getFormMultiple');
-		$data['form_multiple'] = $this->getFormMultiple();
+		$data['form_multiple'] = $this->getFormVariant();
 
 		$this->load->model('design/layout');
 
@@ -1660,7 +1659,7 @@ class ControllerCatalogProduct extends Controller
 		$this->response->setOutput($this->load->view('catalog/product_form', $data));
 	}
 
-	protected function getFormMultiple()
+	protected function getFormVariant()
 	{
 		$this->load->language('catalog/product');
 
@@ -1693,7 +1692,7 @@ class ControllerCatalogProduct extends Controller
 		if (isset($this->request->post['product_multiple'])) {
 			$product_multiple = $this->request->post['product_multiple'];
 		} elseif (isset($this->request->get['product_id'])) {
-			$product_multiple = $this->model_catalog_product->getProductMultiple($this->request->get['product_id']);
+			$product_multiple = $this->model_catalog_product->getProductVariants($this->request->get['product_id']);
 		} else {
 			$product_multiple = [];
 		}
@@ -1702,17 +1701,18 @@ class ControllerCatalogProduct extends Controller
 		$option_data = [];
 		$multiple_value_data = [];
 
+		// var_dump($product_multiple);
+		// die('---breakpoint---');
+
 		if ($product_multiple) {
 			if (!empty($product_multiple['option'])) {
 				foreach ($product_multiple['option'] as $option) {
-					$option_info = $this->model_catalog_option->getOption($option);
-
-					if ($option_info['type'] == 'select' || $option_info['type'] == 'radio' || $option_info['type'] == 'checkbox' || $option_info['type'] == 'image') {
+					// if ($option['type'] == 'select' || $option['type'] == 'radio' || $option['type'] == 'checkbox' || $option['type'] == 'image') {
 						$option_value_data = [];
 
-						$option_values = $this->model_catalog_option->getOptionValues($option);
+						// $option_values = $this->model_catalog_option->getOptionValues($option['option_id']);
 
-						foreach ($option_values as $option_value) {
+						foreach ($option['option_value'] as $option_value) {
 							$option_value_data[] = array(
 								'option_value_id' => $option_value['option_value_id'],
 								'name'            => strip_tags(html_entity_decode($option_value['name'], ENT_QUOTES, 'UTF-8'))
@@ -1726,19 +1726,19 @@ class ControllerCatalogProduct extends Controller
 						}
 
 						array_multisort($sort_order, SORT_ASC, $option_value_data);
-					}
+					// }
 
 					$option_data[] = [
-						'option_id'		=> $option_info['option_id'],
-						'type'			=> $option_info['type'],
-						'name'			=> $option_info['name'],
+						'option_id'		=> $option['option_id'],
+						// 'type'			=> $option['type'],
+						'name'			=> $option['name'],
 						'option_value'	=> $option_value_data
 					];
 				}
 			}
 
-			if (!empty($product_multiple['multiple_value'])) {
-				foreach ($product_multiple['multiple_value'] as $multiple_value) {
+			if (!empty($product_multiple['variant'])) {
+				foreach ($product_multiple['variant'] as $multiple_value) {
 					$thumb = (is_file(DIR_IMAGE . $multiple_value['image'])) ? $multiple_value['image'] : '';
 
 					$multiple_value_data[] = [
@@ -1780,7 +1780,7 @@ class ControllerCatalogProduct extends Controller
 
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
-		return $this->load->view('catalog/product_form_multiple', $data);
+		return $this->load->view('catalog/product_form_variant', $data);
 	}
 
 	protected function validateForm()

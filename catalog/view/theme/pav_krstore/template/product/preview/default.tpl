@@ -31,9 +31,9 @@
                     $images = array_merge( $eimages, $images );
                 }
          
-                foreach ($images as  $image) { ?>
+                foreach ($images as $key => $image) { ?>
                     <div class="item clearfix">
-                        <a href="<?php echo $image['popup']; ?>" title="<?php echo $heading_title; ?>" class="imagezoom" data-zoom-image="<?php echo $image['popup']; ?>" data-image="<?php echo $image['popup']; ?>">
+                        <a href="<?php echo $image['popup']; ?>" title="<?php echo $heading_title; ?>" class="imagezoom" data-zoom-image="<?php echo $image['popup']; ?>" data-image="<?php echo $image['popup']; ?>" id="thumb-<?php echo $key; ?>">
                             <img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-zoom-image="<?php echo $image['popup']; ?>" class="product-image-zoom img-responsive" /><!--Bonk:defer image-->
                         </a>
                     </div>

@@ -105,16 +105,17 @@ class ControllerCommonCart extends Controller {
 			}
 
 			$data['products'][] = array(
-				'cart_id'   => $product['cart_id'],
-				'thumb'     => $image,
-				'name'      => $product['name'],
-				'model'     => $product['model'],
-				'option'    => $option_data,
-				'recurring' => ($product['recurring'] ? $product['recurring']['name'] : ''),
-				'quantity'  => $product['quantity'],
-				'price'     => $price,
-				'total'     => $total,
-				'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+				'cart_id'   	=> $product['cart_id'],
+				'thumb'     	=> $image,
+				'name'      	=> $product['name'],
+				'variant_name'	=> $product['variant_name'] ? $product['variant_name'] : '',
+				'model'     	=> $product['model'],
+				'option'    	=> $option_data,
+				'recurring' 	=> ($product['recurring'] ? $product['recurring']['name'] : ''),
+				'quantity'  	=> $product['quantity'],
+				'price'     	=> $price,
+				'total'     	=> $total,
+				'href'      	=> $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			);
 		}
 
