@@ -331,7 +331,7 @@
 							<tbody>
 								<?php if ($products) { ?>
 								<?php foreach ($products as $product) { ?>
-								<tr class="<?= $product['option_name'] ? 'bg-warning' : ''; ?>">
+								<tr class="<?= $product['variant_name'] ? 'bg-warning' : ''; ?>">
 									<td class="text-center">
 										<?php if (in_array($product['product_id'], $selected)) { ?>
 										<input type="checkbox" name="selected[]" value="<?= $product['product_id']; ?>" checked="checked" />
@@ -349,47 +349,13 @@
 									</td>
 									<td>
 										<?= $product['name']; ?>
-										<?php if ($product['option_name']) { ?>
+										<?php if ($product['variant_name']) { ?>
 										<small><cite>
-												<?= ' - ' . $product['option_name']; ?>
+												<?= ' - ' . $product['variant_name']; ?>
 											</cite></small>
 										<?php } ?>
 
 									</td>
-									<!-- <td>
-										<table class="table table-bordered my-0">
-											<tbody>
-												<?php foreach ($product['multiple'] as $multiple) { ?>
-												<tr>
-													<td><i>
-															<?= $multiple['option_name']; ?>
-														</i></td>
-													<td><code><?= $multiple['model']; ?></code></td>
-													<td class="text-right"><?= $multiple['price']; ?></td>
-													<td class="text-right">
-														<?php if ($multiple['quantity'] <= 0) { ?>
-														<span class="label label-danger">
-															<?= $multiple['quantity']; ?>
-														</span>
-														<?php } elseif ($multiple['quantity'] <= 5) { ?>
-														<span class="label label-warning">
-															<?= $multiple['quantity']; ?>
-														</span>
-														<?php } else { ?>
-														<span class="label label-success">
-															<?= $multiple['quantity']; ?>
-														</span>
-														<?php } ?>
-
-													</td>
-													<td class="text-right">
-														<?= $multiple['weight']; ?>
-													</td>
-												</tr>
-												<?php } ?>
-											</tbody>
-										</table>
-									</td> -->
 									<td>
 										<code><?= $product['model']; ?></code>
 									</td>

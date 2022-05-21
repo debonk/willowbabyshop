@@ -1,12 +1,12 @@
-<?php echo $header; ?><?php echo $column_left; ?>
+<?= $header; ?><?= $column_left; ?>
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
-      <div class="pull-right"><a href="<?php echo $cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i> <?php echo $button_cancel; ?></a></div>
-      <h1><?php echo $heading_title; ?></h1>
+      <div class="pull-right"><a href="<?= $cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i> <?= $button_cancel; ?></a></div>
+      <h1><?= $heading_title; ?></h1>
       <ul class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+        <li><a href="<?= $breadcrumb['href']; ?>"><?= $breadcrumb['text']; ?></a></li>
         <?php } ?>
       </ul>
     </div>
@@ -14,111 +14,111 @@
   <div class="container-fluid">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?= $text_form; ?></h3>
       </div>
       <div class="panel-body">
         <form class="form-horizontal">
           <ul id="order" class="nav nav-tabs nav-justified">
-            <li class="disabled active"><a href="#tab-customer" data-toggle="tab">1. <?php echo $tab_customer; ?></a></li>
-            <li class="disabled"><a href="#tab-cart" data-toggle="tab">2. <?php echo $tab_product; ?></a></li>
-            <li class="disabled"><a href="#tab-payment" data-toggle="tab">3. <?php echo $tab_payment; ?></a></li>
-            <li class="disabled"><a href="#tab-shipping" data-toggle="tab">4. <?php echo $tab_shipping; ?></a></li>
-            <li class="disabled"><a href="#tab-total" data-toggle="tab">5. <?php echo $tab_total; ?></a></li>
+            <li class="disabled active"><a href="#tab-customer" data-toggle="tab">1. <?= $tab_customer; ?></a></li>
+            <li class="disabled"><a href="#tab-cart" data-toggle="tab">2. <?= $tab_product; ?></a></li>
+            <li class="disabled"><a href="#tab-payment" data-toggle="tab">3. <?= $tab_payment; ?></a></li>
+            <li class="disabled"><a href="#tab-shipping" data-toggle="tab">4. <?= $tab_shipping; ?></a></li>
+            <li class="disabled"><a href="#tab-total" data-toggle="tab">5. <?= $tab_total; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-customer">
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-store"><?php echo $entry_store; ?></label>
+                <label class="col-sm-2 control-label" for="input-store"><?= $entry_store; ?></label>
                 <div class="col-sm-10">
                   <select name="store_id" id="input-store" class="form-control">
                     <?php foreach ($stores as $store) { ?>
                     <?php if ($store['store_id'] == $store_id) { ?>
-                    <option value="<?php echo $store['store_id']; ?>" selected="selected"><?php echo $store['name']; ?></option>
+                    <option value="<?= $store['store_id']; ?>" selected="selected"><?= $store['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $store['store_id']; ?>"><?php echo $store['name']; ?></option>
+                    <option value="<?= $store['store_id']; ?>"><?= $store['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-currency"><?php echo $entry_currency; ?></label>
+                <label class="col-sm-2 control-label" for="input-currency"><?= $entry_currency; ?></label>
                 <div class="col-sm-10">
                   <select name="currency" id="input-currency" class="form-control">
                     <?php foreach ($currencies as $currency) { ?>
                     <?php if ($currency['code'] == $currency_code) { ?>
-                    <option value="<?php echo $currency['code']; ?>" selected="selected"><?php echo $currency['title']; ?></option>
+                    <option value="<?= $currency['code']; ?>" selected="selected"><?= $currency['title']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $currency['code']; ?>"><?php echo $currency['title']; ?></option>
+                    <option value="<?= $currency['code']; ?>"><?= $currency['title']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-customer"><?php echo $entry_customer; ?></label>
+                <label class="col-sm-2 control-label" for="input-customer"><?= $entry_customer; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="customer" value="<?php echo $customer; ?>" placeholder="<?php echo $entry_customer; ?>" id="input-customer" class="form-control" />
-                  <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
+                  <input type="text" name="customer" value="<?= $customer; ?>" placeholder="<?= $entry_customer; ?>" id="input-customer" class="form-control" />
+                  <input type="hidden" name="customer_id" value="<?= $customer_id; ?>" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-customer-group"><?php echo $entry_customer_group; ?></label>
+                <label class="col-sm-2 control-label" for="input-customer-group"><?= $entry_customer_group; ?></label>
                 <div class="col-sm-10">
                   <select name="customer_group_id" id="input-customer-group" class="form-control">
                     <?php foreach ($customer_groups as $customer_group) { ?>
                     <?php if ($customer_group['customer_group_id'] == $customer_group_id) { ?>
-                    <option value="<?php echo $customer_group['customer_group_id']; ?>" selected="selected"><?php echo $customer_group['name']; ?></option>
+                    <option value="<?= $customer_group['customer_group_id']; ?>" selected="selected"><?= $customer_group['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>
+                    <option value="<?= $customer_group['customer_group_id']; ?>"><?= $customer_group['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-firstname"><?= $entry_firstname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $firstname; ?>" id="input-firstname" class="form-control" />
+                  <input type="text" name="firstname" value="<?= $firstname; ?>" id="input-firstname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
+                <label class="col-sm-2 control-label" for="input-lastname"><?= $entry_lastname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $lastname; ?>" id="input-lastname" class="form-control" />
+                  <input type="text" name="lastname" value="<?= $lastname; ?>" id="input-lastname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-email"><?php echo $entry_email; ?></label>
+                <label class="col-sm-2 control-label" for="input-email"><?= $entry_email; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="email" value="<?php echo $email; ?>" id="input-email" class="form-control" />
+                  <input type="text" name="email" value="<?= $email; ?>" id="input-email" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
+                <label class="col-sm-2 control-label" for="input-telephone"><?= $entry_telephone; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="telephone" value="<?php echo $telephone; ?>" id="input-telephone" class="form-control" />
+                  <input type="text" name="telephone" value="<?= $telephone; ?>" id="input-telephone" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
+                <label class="col-sm-2 control-label" for="input-fax"><?= $entry_fax; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="fax" value="<?php echo $fax; ?>" id="input-fax" class="form-control" />
+                  <input type="text" name="fax" value="<?= $fax; ?>" id="input-fax" class="form-control" />
                 </div>
               </div>
               <?php foreach ($custom_fields as $custom_field) { ?>
               <?php if ($custom_field['location'] == 'account') { ?>
               <?php if ($custom_field['type'] == 'select') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <select name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control">
-                    <option value=""><?php echo $text_select; ?></option>
+                  <select name="custom_field[<?= $custom_field['custom_field_id']; ?>]" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control">
+                    <option value=""><?= $text_select; ?></option>
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <?php if (isset($account_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $account_custom_field[$custom_field['custom_field_id']]) { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?= $custom_field_value['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>"><?= $custom_field_value['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
@@ -126,20 +126,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'radio') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="radio">
                       <?php if (isset($account_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $account_custom_field[$custom_field['custom_field_id']]) { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -148,20 +148,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'checkbox') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="checkbox">
                       <?php if (isset($account_custom_field[$custom_field['custom_field_id']]) && in_array($custom_field_value['custom_field_value_id'], $account_custom_field[$custom_field['custom_field_id']])) { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -170,36 +170,36 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'text') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                  <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'textarea') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <textarea name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?php echo $custom_field['name']; ?>" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control"><?php echo $custom_field['value']; ?></textarea>
+                  <textarea name="custom_field[<?= $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?= $custom_field['name']; ?>" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control"><?= $custom_field['value']; ?></textarea>
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'file') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <button type="button" id="button-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-                  <input type="hidden" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" />
+                  <button type="button" id="button-custom-field<?= $custom_field['custom_field_id']; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?= $button_upload; ?></button>
+                  <input type="hidden" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'date') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group date">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -207,11 +207,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'time') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group time">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="HH:mm" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="HH:mm" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -219,11 +219,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'datetime') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group datetime">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -233,20 +233,20 @@
               <?php } ?>
               <?php } ?>
               <div class="text-right">
-                <button type="button" id="button-customer" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?php echo $button_continue; ?></button>
+                <button type="button" id="button-customer" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?= $button_continue; ?></button>
               </div>
             </div>
-            <div class="tab-pane" id="tab-cart">
+            <div class="tab-pane active" id="tab-cart">
               <div class="table-responsive">
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <td class="text-left"><?php echo $column_product; ?></td>
-                      <td class="text-left"><?php echo $column_model; ?></td>
-                      <td class="text-right"><?php echo $column_quantity; ?></td>
-                      <td class="text-right"><?php echo $column_price; ?></td>
-                      <td class="text-right"><?php echo $column_total; ?></td>
-                      <td><?php echo $column_action; ?></td>
+                      <td class="text-left"><?= $column_product; ?></td>
+                      <td class="text-left"><?= $column_model; ?></td>
+                      <td class="text-right"><?= $column_quantity; ?></td>
+                      <td class="text-right"><?= $column_price; ?></td>
+                      <td class="text-right"><?= $column_total; ?></td>
+                      <td><?= $column_action; ?></td>
                     </tr>
                   </thead>
                   <tbody id="cart">
@@ -254,23 +254,24 @@
                     <?php $product_row = 0; ?>
                     <?php foreach ($order_products as $order_product) { ?>
                     <tr>
-                      <td class="text-left"><?php echo $order_product['name']; ?><br />
-                        <input type="hidden" name="product[<?php echo $product_row; ?>][product_id]" value="<?php echo $order_product['product_id']; ?>" />
+                      <td class="text-left"><?= $order_product['name']; ?><br />
+                        <input type="hidden" name="product[<?= $product_row; ?>][product_id]" value="<?= $order_product['product_id']; ?>" />
                         <?php foreach ($order_product['option'] as $option) { ?>
-                        - <small><?php echo $option['name']; ?>: <?php echo $option['value']; ?></small><br />
-                        <?php if ($option['type'] == 'select' || $option['type'] == 'radio' || $option['type'] == 'image') { ?>
-                        <input type="hidden" name="product[<?php echo $product_row; ?>][option][<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['product_option_value_id']; ?>" />
+                        - <small><?= $option['name']; ?>: <?= $option['value']; ?></small><br />
+                        <!-- <?php if ($option['type'] == 'select' || $option['type'] == 'radio' || $option['type'] == 'image') { ?>
+                        <input type="hidden" name="product[<?= $product_row; ?>][option][<?= $option['product_option_id']; ?>]" value="<?= $option['product_option_value_id']; ?>" />
                         <?php } ?>
                         <?php if ($option['type'] == 'checkbox') { ?>
-                        <input type="hidden" name="product[<?php echo $product_row; ?>][option][<?php echo $option['product_option_id']; ?>][]" value="<?php echo $option['product_option_value_id']; ?>" />
-                        <?php } ?>
+                        <input type="hidden" name="product[<?= $product_row; ?>][option][<?= $option['product_option_id']; ?>][]" value="<?= $option['product_option_value_id']; ?>" />
+                        <?php } ?> -->
                         <?php if ($option['type'] == 'text' || $option['type'] == 'textarea' || $option['type'] == 'file' || $option['type'] == 'date' || $option['type'] == 'datetime' || $option['type'] == 'time') { ?>
-                        <input type="hidden" name="product[<?php echo $product_row; ?>][option][<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" />
+                        <input type="hidden" name="product[<?= $product_row; ?>][option][<?= $option['product_option_id']; ?>]" value="<?= $option['value']; ?>" />
                         <?php } ?>
                         <?php } ?></td>
-                      <td class="text-left"><?php echo $order_product['model']; ?></td>
-                      <td class="text-right"><?php echo $order_product['quantity']; ?>
-                        <input type="hidden" name="product[<?php echo $product_row; ?>][quantity]" value="<?php echo $order_product['quantity']; ?>" /></td>
+                      <td class="text-left"><?= $order_product['model']; ?>
+												<input type="hidden" name="product[<?= $product_row; ?>][model]" value="<?= $order_product['model']; ?>" /></td>
+                      <td class="text-right"><?= $order_product['quantity']; ?>
+                        <input type="hidden" name="product[<?= $product_row; ?>][quantity]" value="<?= $order_product['quantity']; ?>" /></td>
                       <td class="text-right"></td>
                       <td class="text-right"></td>
                       <td class="text-center"></td>
@@ -280,17 +281,17 @@
                     <?php $voucher_row = 0; ?>
                     <?php foreach ($order_vouchers as $order_voucher) { ?>
                     <tr>
-                      <td class="text-left"><?php echo $order_voucher['description']; ?>
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][voucher_id]" value="<?php echo $order_voucher['voucher_id']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][description]" value="<?php echo $order_voucher['description']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][code]" value="<?php echo $order_voucher['code']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][from_name]" value="<?php echo $order_voucher['from_name']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][from_email]" value="<?php echo $order_voucher['from_email']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][to_name]" value="<?php echo $order_voucher['to_name']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][to_email]" value="<?php echo $order_voucher['to_email']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][voucher_theme_id]" value="<?php echo $order_voucher['voucher_theme_id']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][message]" value="<?php echo $order_voucher['message']; ?>" />
-                        <input type="hidden" name="voucher[<?php echo $voucher_row; ?>][amount]" value="<?php echo $order_voucher['amount']; ?>" /></td>
+                      <td class="text-left"><?= $order_voucher['description']; ?>
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][voucher_id]" value="<?= $order_voucher['voucher_id']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][description]" value="<?= $order_voucher['description']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][code]" value="<?= $order_voucher['code']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][from_name]" value="<?= $order_voucher['from_name']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][from_email]" value="<?= $order_voucher['from_email']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][to_name]" value="<?= $order_voucher['to_name']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][to_email]" value="<?= $order_voucher['to_email']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][voucher_theme_id]" value="<?= $order_voucher['voucher_theme_id']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][message]" value="<?= $order_voucher['message']; ?>" />
+                        <input type="hidden" name="voucher[<?= $voucher_row; ?>][amount]" value="<?= $order_voucher['amount']; ?>" /></td>
                       <td class="text-left"></td>
                       <td class="text-right">1</td>
                       <td class="text-right"></td>
@@ -301,177 +302,178 @@
                     <?php } ?>
                     <?php } else { ?>
                     <tr>
-                      <td class="text-center" colspan="6"><?php echo $text_no_results; ?></td>
+                      <td class="text-center" colspan="6"><?= $text_no_results; ?></td>
                     </tr>
                   </tbody>
                   <?php } ?>
                 </table>
               </div>
               <ul class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#tab-product" data-toggle="tab"><?php echo $tab_product; ?></a></li>
-                <li><a href="#tab-voucher" data-toggle="tab"><?php echo $tab_voucher; ?></a></li>
+                <li class="active"><a href="#tab-product" data-toggle="tab"><?= $tab_product; ?></a></li>
+                <li><a href="#tab-voucher" data-toggle="tab"><?= $tab_voucher; ?></a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab-product">
                   <fieldset>
-                    <legend><?php echo $text_product; ?></legend>
+                    <legend><?= $text_product; ?></legend>
                     <div class="form-group">
-                      <label class="col-sm-2 control-label" for="input-product"><?php echo $entry_product; ?></label>
+                      <label class="col-sm-2 control-label" for="input-product"><?= $entry_product; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="product" value="" id="input-product" class="form-control" />
                         <input type="hidden" name="product_id" value="" />
+                        <input type="hidden" name="model" value="" />
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-2 control-label" for="input-quantity"><?php echo $entry_quantity; ?></label>
+                      <label class="col-sm-2 control-label" for="input-quantity"><?= $entry_quantity; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="quantity" value="1" id="input-quantity" class="form-control" />
                       </div>
                     </div>
+                    <div id="variant"></div>
                     <div id="option"></div>
                   </fieldset>
                   <div class="text-right">
-                    <button type="button" id="button-product-add" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> <?php echo $button_product_add; ?></button>
+                    <button type="button" id="button-product-add" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> <?= $button_product_add; ?></button>
                   </div>
                 </div>
                 <div class="tab-pane" id="tab-voucher">
                   <fieldset>
-                    <legend><?php echo $text_voucher; ?></legend>
+                    <legend><?= $text_voucher; ?></legend>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-to-name"><?php echo $entry_to_name; ?></label>
+                      <label class="col-sm-2 control-label" for="input-to-name"><?= $entry_to_name; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="to_name" value="" id="input-to-name" class="form-control" />
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-to-email"><?php echo $entry_to_email; ?></label>
+                      <label class="col-sm-2 control-label" for="input-to-email"><?= $entry_to_email; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="to_email" value="" id="input-to-email" class="form-control" />
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-from-name"><?php echo $entry_from_name; ?></label>
+                      <label class="col-sm-2 control-label" for="input-from-name"><?= $entry_from_name; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="from_name" value="" id="input-from-name" class="form-control" />
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-from-email"><?php echo $entry_from_email; ?></label>
+                      <label class="col-sm-2 control-label" for="input-from-email"><?= $entry_from_email; ?></label>
                       <div class="col-sm-10">
                         <input type="text" name="from_email" value="" id="input-from-email" class="form-control" />
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-theme"><?php echo $entry_theme; ?></label>
+                      <label class="col-sm-2 control-label" for="input-theme"><?= $entry_theme; ?></label>
                       <div class="col-sm-10">
                         <select name="voucher_theme_id" id="input-theme" class="form-control">
                           <?php foreach ($voucher_themes as $voucher_theme) { ?>
-                          <option value="<?php echo $voucher_theme['voucher_theme_id']; ?>"><?php echo $voucher_theme['name']; ?></option>
+                          <option value="<?= $voucher_theme['voucher_theme_id']; ?>"><?= $voucher_theme['name']; ?></option>
                           <?php } ?>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-2 control-label" for="input-message"><?php echo $entry_message; ?></label>
+                      <label class="col-sm-2 control-label" for="input-message"><?= $entry_message; ?></label>
                       <div class="col-sm-10">
                         <textarea name="message" rows="5" id="input-message" class="form-control"></textarea>
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label class="col-sm-2 control-label" for="input-amount"><?php echo $entry_amount; ?></label>
+                      <label class="col-sm-2 control-label" for="input-amount"><?= $entry_amount; ?></label>
                       <div class="col-sm-10">
-                        <input type="text" name="amount" value="<?php echo $voucher_min; ?>" id="input-amount" class="form-control" />
+                        <input type="text" name="amount" value="<?= $voucher_min; ?>" id="input-amount" class="form-control" />
                       </div>
                     </div>
                   </fieldset>
                   <div class="text-right">
-                    <button type="button" id="button-voucher-add" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> <?php echo $button_voucher_add; ?></button>
+                    <button type="button" id="button-voucher-add" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> <?= $button_voucher_add; ?></button>
                   </div>
                 </div>
               </div>
               <br />
               <div class="row">
                 <div class="col-sm-6 text-left">
-                  <button type="button" onclick="$('a[href=\'#tab-customer\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>
+                  <button type="button" onclick="$('a[href=\'#tab-customer\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?= $button_back; ?></button>
                 </div>
                 <div class="col-sm-6 text-right">
-                  <button type="button" id="button-cart" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?php echo $button_continue; ?></button>
+                  <button type="button" id="button-cart" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?= $button_continue; ?></button>
                 </div>
               </div>
             </div>
             <div class="tab-pane" id="tab-payment">
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-payment-address"><?php echo $entry_address; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-address"><?= $entry_address; ?></label>
                 <div class="col-sm-10">
                   <select name="payment_address" id="input-payment-address" class="form-control">
-                    <option value="0" selected="selected"><?php echo $text_none; ?></option>
+                    <option value="0" selected="selected"><?= $text_none; ?></option>
                     <?php foreach ($addresses as $address) { ?>
-                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city_name'] . ', ' . $address['zone'] . ', ' . $address['country']; ?></option> <!-- Bonk -->
+                    <option value="<?= $address['address_id']; ?>"><?= $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city_name'] . ', ' . $address['zone'] . ', ' . $address['country']; ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-firstname"><?= $entry_firstname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $payment_firstname; ?>" id="input-payment-firstname" class="form-control" />
+                  <input type="text" name="firstname" value="<?= $payment_firstname; ?>" id="input-payment-firstname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-lastname"><?php echo $entry_lastname; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-lastname"><?= $entry_lastname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $payment_lastname; ?>" id="input-payment-lastname" class="form-control" />
+                  <input type="text" name="lastname" value="<?= $payment_lastname; ?>" id="input-payment-lastname" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-payment-company"><?php echo $entry_company; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-company"><?= $entry_company; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="company" value="<?php echo $payment_company; ?>" id="input-payment-company" class="form-control" />
+                  <input type="text" name="company" value="<?= $payment_company; ?>" id="input-payment-company" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-address-1"><?php echo $entry_address_1; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-address-1"><?= $entry_address_1; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_1" value="<?php echo $payment_address_1; ?>" id="input-payment-address-1" class="form-control" />
+                  <input type="text" name="address_1" value="<?= $payment_address_1; ?>" id="input-payment-address-1" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-payment-address-2"><?php echo $entry_address_2; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-address-2"><?= $entry_address_2; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_2" value="<?php echo $payment_address_2; ?>" id="input-payment-address-2" class="form-control" />
+                  <input type="text" name="address_2" value="<?= $payment_address_2; ?>" id="input-payment-address-2" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-payment-postcode"><?php echo $entry_postcode; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-postcode"><?= $entry_postcode; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="postcode" value="<?php echo $payment_postcode; ?>" id="input-payment-postcode" class="form-control" />
+                  <input type="text" name="postcode" value="<?= $payment_postcode; ?>" id="input-payment-postcode" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-country"><?php echo $entry_country; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-country"><?= $entry_country; ?></label>
                 <div class="col-sm-10">
                   <select name="country_id" id="input-payment-country" class="form-control">
-                    <option value=""><?php echo $text_select; ?></option>
+                    <option value=""><?= $text_select; ?></option>
                     <?php foreach ($countries as $country) { ?>
                     <?php if ($country['country_id'] == $payment_country_id) { ?>
-                    <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+                    <option value="<?= $country['country_id']; ?>" selected="selected"><?= $country['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+                    <option value="<?= $country['country_id']; ?>"><?= $country['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-zone"><?php echo $entry_zone; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-zone"><?= $entry_zone; ?></label>
                 <div class="col-sm-10">
-				<!-- Bonk -->
 				<select name="zone_id" id="input-payment-zone" class="form-control">
 				</select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-city"><?php echo $entry_city; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-city"><?= $entry_city; ?></label>
                 <div class="col-sm-10">
                   <select name="city" id="input-payment-city" class="form-control">
                   </select>
@@ -480,16 +482,16 @@
               <?php foreach ($custom_fields as $custom_field) { ?>
               <?php if ($custom_field['location'] == 'address') { ?>
               <?php if ($custom_field['type'] == 'select') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <select name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control">
-                    <option value=""><?php echo $text_select; ?></option>
+                  <select name="custom_field[<?= $custom_field['custom_field_id']; ?>]" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control">
+                    <option value=""><?= $text_select; ?></option>
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <?php if (isset($payment_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $payment_custom_field[$custom_field['custom_field_id']]) { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?= $custom_field_value['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>"><?= $custom_field_value['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
@@ -497,20 +499,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'radio') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="radio">
                       <?php if (isset($payment_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $payment_custom_field[$custom_field['custom_field_id']]) { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -519,20 +521,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'checkbox') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="checkbox">
                       <?php if (isset($payment_custom_field[$custom_field['custom_field_id']]) && in_array($custom_field_value['custom_field_value_id'], $payment_custom_field[$custom_field['custom_field_id']])) { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -541,36 +543,36 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'text') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                  <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'textarea') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <textarea name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?php echo $custom_field['name']; ?>" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control"><?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?></textarea>
+                  <textarea name="custom_field[<?= $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?= $custom_field['name']; ?>" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control"><?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?></textarea>
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'file') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <button type="button" id="button-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-                  <input type="hidden" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" />
+                  <button type="button" id="button-payment-custom-field<?= $custom_field['custom_field_id']; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?= $button_upload; ?></button>
+                  <input type="hidden" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'date') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group date">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -578,11 +580,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'time') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group time">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="HH:mm" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="HH:mm" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -590,11 +592,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'datetime') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group datetime">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-payment-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($payment_custom_field[$custom_field['custom_field_id']]) ? $payment_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-payment-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -605,88 +607,86 @@
               <?php } ?>
               <div class="row">
                 <div class="col-sm-6 text-left">
-                  <button type="button" onclick="$('a[href=\'#tab-cart\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>
+                  <button type="button" onclick="$('a[href=\'#tab-cart\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?= $button_back; ?></button>
                 </div>
                 <div class="col-sm-6 text-right">
-                  <button type="button" id="button-payment-address" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?php echo $button_continue; ?></button>
+                  <button type="button" id="button-payment-address" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?= $button_continue; ?></button>
                 </div>
               </div>
             </div>
             <div class="tab-pane" id="tab-shipping">
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-shipping-address"><?php echo $entry_address; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-address"><?= $entry_address; ?></label>
                 <div class="col-sm-10">
                   <select name="shipping_address" id="input-shipping-address" class="form-control">
-                    <option value="0" selected="selected"><?php echo $text_none; ?></option>
+                    <option value="0" selected="selected"><?= $text_none; ?></option>
                     <?php foreach ($addresses as $address) { ?>
-                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city_name'] . ', ' . $address['zone'] . ', ' . $address['country']; ?></option> <!-- Bonk -->
+                    <option value="<?= $address['address_id']; ?>"><?= $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city_name'] . ', ' . $address['zone'] . ', ' . $address['country']; ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-firstname"><?= $entry_firstname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $shipping_firstname; ?>" id="input-shipping-firstname" class="form-control" />
+                  <input type="text" name="firstname" value="<?= $shipping_firstname; ?>" id="input-shipping-firstname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-lastname"><?php echo $entry_lastname; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-lastname"><?= $entry_lastname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $shipping_lastname; ?>" id="input-shipping-lastname" class="form-control" />
+                  <input type="text" name="lastname" value="<?= $shipping_lastname; ?>" id="input-shipping-lastname" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-shipping-company"><?php echo $entry_company; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-company"><?= $entry_company; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="company" value="<?php echo $shipping_company; ?>" id="input-shipping-company" class="form-control" />
+                  <input type="text" name="company" value="<?= $shipping_company; ?>" id="input-shipping-company" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-address-1"><?php echo $entry_address_1; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-address-1"><?= $entry_address_1; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_1" value="<?php echo $shipping_address_1; ?>" id="input-shipping-address-1" class="form-control" />
+                  <input type="text" name="address_1" value="<?= $shipping_address_1; ?>" id="input-shipping-address-1" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-shipping-address-2"><?php echo $entry_address_2; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-address-2"><?= $entry_address_2; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_2" value="<?php echo $shipping_address_2; ?>" id="input-shipping-address-2" class="form-control" />
+                  <input type="text" name="address_2" value="<?= $shipping_address_2; ?>" id="input-shipping-address-2" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-postcode"><?= $entry_postcode; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="postcode" value="<?php echo $shipping_postcode; ?>" id="input-shipping-postcode" class="form-control" />
+                  <input type="text" name="postcode" value="<?= $shipping_postcode; ?>" id="input-shipping-postcode" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-country"><?php echo $entry_country; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-country"><?= $entry_country; ?></label>
                 <div class="col-sm-10">
                   <select name="country_id" id="input-shipping-country" class="form-control">
-                    <option value=""><?php echo $text_select; ?></option>
+                    <option value=""><?= $text_select; ?></option>
                     <?php foreach ($countries as $country) { ?>
                     <?php if ($country['country_id'] == $shipping_country_id) { ?>
-                    <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+                    <option value="<?= $country['country_id']; ?>" selected="selected"><?= $country['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+                    <option value="<?= $country['country_id']; ?>"><?= $country['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-zone"><?php echo $entry_zone; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-zone"><?= $entry_zone; ?></label>
                 <div class="col-sm-10">
-				<!-- Bonk -->
                   <select name="zone_id" id="input-shipping-zone" class="form-control">
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-city"><?= $entry_city; ?></label>
                 <div class="col-sm-10">
-				<!-- Bonk -->
 				<select name="city" id="input-shipping-city" class="form-control">
                 </select>
                 </div>
@@ -694,16 +694,16 @@
               <?php foreach ($custom_fields as $custom_field) { ?>
               <?php if ($custom_field['location'] == 'address') { ?>
               <?php if ($custom_field['type'] == 'select') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <select name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control">
-                    <option value=""><?php echo $text_select; ?></option>
+                  <select name="custom_field[<?= $custom_field['custom_field_id']; ?>]" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control">
+                    <option value=""><?= $text_select; ?></option>
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <?php if (isset($ashipping_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $shipping_custom_field[$custom_field['custom_field_id']]) { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>" selected="selected"><?= $custom_field_value['name']; ?></option>
                     <?php } else { ?>
-                    <option value="<?php echo $custom_field_value['custom_field_value_id']; ?>"><?php echo $custom_field_value['name']; ?></option>
+                    <option value="<?= $custom_field_value['custom_field_value_id']; ?>"><?= $custom_field_value['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
                   </select>
@@ -711,20 +711,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'radio') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="radio">
                       <?php if (isset($shipping_custom_field[$custom_field['custom_field_id']]) && $custom_field_value['custom_field_value_id'] == $shipping_custom_field[$custom_field['custom_field_id']]) { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="radio" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="radio" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -733,20 +733,20 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'checkbox') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <div id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>">
+                  <div id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>">
                     <?php foreach ($custom_field['custom_field_value'] as $custom_field_value) { ?>
                     <div class="checkbox">
                       <?php if (isset($shipping_custom_field[$custom_field['custom_field_id']]) && in_array($custom_field_value['custom_field_value_id'], $shipping_custom_field[$custom_field['custom_field_id']])) { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" checked="checked" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } else { ?>
                       <label>
-                        <input type="checkbox" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>][]" value="<?php echo $custom_field_value['custom_field_value_id']; ?>" />
-                        <?php echo $custom_field_value['name']; ?></label>
+                        <input type="checkbox" name="custom_field[<?= $custom_field['custom_field_id']; ?>][]" value="<?= $custom_field_value['custom_field_value_id']; ?>" />
+                        <?= $custom_field_value['name']; ?></label>
                       <?php } ?>
                     </div>
                     <?php } ?>
@@ -755,36 +755,36 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'text') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                  <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'textarea') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <textarea name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?php echo $custom_field['name']; ?>" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control"><?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?></textarea>
+                  <textarea name="custom_field[<?= $custom_field['custom_field_id']; ?>]" rows="5" placeholder="<?= $custom_field['name']; ?>" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control"><?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?></textarea>
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'file') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
-                  <button type="button" id="button-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-                  <input type="hidden" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-custom-field<?php echo $custom_field['custom_field_id']; ?>" />
+                  <button type="button" id="button-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?= $button_upload; ?></button>
+                  <input type="hidden" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : ''); ?>" id="input-custom-field<?= $custom_field['custom_field_id']; ?>" />
                 </div>
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'date') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group date">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -792,11 +792,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'time') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group time">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="HH:mm" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="HH:mm" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -804,11 +804,11 @@
               </div>
               <?php } ?>
               <?php if ($custom_field['type'] == 'datetime') { ?>
-              <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 3; ?>">
-                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>"><?php echo $custom_field['name']; ?></label>
+              <div class="form-group custom-field custom-field<?= $custom_field['custom_field_id']; ?>" data-sort="<?= $custom_field['sort_order'] + 3; ?>">
+                <label class="col-sm-2 control-label" for="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>"><?= $custom_field['name']; ?></label>
                 <div class="col-sm-10">
                   <div class="input-group datetime">
-                    <input type="text" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?php echo $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-shipping-custom-field<?php echo $custom_field['custom_field_id']; ?>" class="form-control" />
+                    <input type="text" name="custom_field[<?= $custom_field['custom_field_id']; ?>]" value="<?= (isset($shipping_custom_field[$custom_field['custom_field_id']]) ? $shipping_custom_field[$custom_field['custom_field_id']] : $custom_field['value']); ?>" placeholder="<?= $custom_field['name']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-shipping-custom-field<?= $custom_field['custom_field_id']; ?>" class="form-control" />
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                     </span></div>
@@ -819,130 +819,130 @@
               <?php } ?>
               <div class="row">
                 <div class="col-sm-6 text-left">
-                  <button type="button" onclick="$('a[href=\'#tab-payment\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>
+                  <button type="button" onclick="$('a[href=\'#tab-payment\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?= $button_back; ?></button>
                 </div>
                 <div class="col-sm-6 text-right">
-                  <button type="button" id="button-shipping-address" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?php echo $button_continue; ?></button>
+                  <button type="button" id="button-shipping-address" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?= $button_continue; ?></button>
                 </div>
               </div>
             </div>
-            <div class="tab-pane" id="tab-total">
+            <div class="tab-pane active" id="tab-total">
               <div class="table-responsive">
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <td class="text-left"><?php echo $column_product; ?></td>
-                      <td class="text-left"><?php echo $column_model; ?></td>
-                      <td class="text-right"><?php echo $column_quantity; ?></td>
-                      <td class="text-right"><?php echo $column_price; ?></td>
-                      <td class="text-right"><?php echo $column_total; ?></td>
+                      <td class="text-left"><?= $column_product; ?></td>
+                      <td class="text-left"><?= $column_model; ?></td>
+                      <td class="text-right"><?= $column_quantity; ?></td>
+                      <td class="text-right"><?= $column_price; ?></td>
+                      <td class="text-right"><?= $column_total; ?></td>
                     </tr>
                   </thead>
                   <tbody id="total">
                     <tr>
-                      <td class="text-center" colspan="5"><?php echo $text_no_results; ?></td>
+                      <td class="text-center" colspan="5"><?= $text_no_results; ?></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <fieldset>
-                <legend><?php echo $text_order_detail; ?></legend>
+                <legend><?= $text_order_detail; ?></legend>
                 <div class="form-group required">
-                  <label class="col-sm-2 control-label" for="input-shipping-method"><?php echo $entry_shipping_method; ?></label>
+                  <label class="col-sm-2 control-label" for="input-shipping-method"><?= $entry_shipping_method; ?></label>
                   <div class="col-sm-10">
                     <div class="input-group">
                       <select name="shipping_method" id="input-shipping-method" class="form-control">
-                        <option value=""><?php echo $text_select; ?></option>
+                        <option value=""><?= $text_select; ?></option>
                         <?php if ($shipping_code) { ?>
-                        <option value="<?php echo $shipping_code; ?>" selected="selected"><?php echo $shipping_method; ?></option>
+                        <option value="<?= $shipping_code; ?>" selected="selected"><?= $shipping_method; ?></option>
                         <?php } ?>
                       </select>
                       <span class="input-group-btn">
-                      <button type="button" id="button-shipping-method" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $button_apply; ?></button>
+                      <button type="button" id="button-shipping-method" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><?= $button_apply; ?></button>
                       </span></div>
                   </div>
                 </div>
                 <div class="form-group required">
-                  <label class="col-sm-2 control-label" for="input-payment-method"><?php echo $entry_payment_method; ?></label>
+                  <label class="col-sm-2 control-label" for="input-payment-method"><?= $entry_payment_method; ?></label>
                   <div class="col-sm-10">
                     <div class="input-group">
                       <select name="payment_method" id="input-payment-method" class="form-control">
-                        <option value=""><?php echo $text_select; ?></option>
+                        <option value=""><?= $text_select; ?></option>
                         <?php if ($payment_code) { ?>
-                        <option value="<?php echo $payment_code; ?>" selected="selected"><?php echo $payment_method; ?></option>
+                        <option value="<?= $payment_code; ?>" selected="selected"><?= $payment_method; ?></option>
                         <?php } ?>
                       </select>
                       <span class="input-group-btn">
-                      <button type="button" id="button-payment-method" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $button_apply; ?></button>
+                      <button type="button" id="button-payment-method" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><?= $button_apply; ?></button>
                       </span></div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-coupon"><?php echo $entry_coupon; ?></label>
+                  <label class="col-sm-2 control-label" for="input-coupon"><?= $entry_coupon; ?></label>
                   <div class="col-sm-10">
                     <div class="input-group">
-                      <input type="text" name="coupon" value="<?php echo $coupon; ?>" id="input-coupon" class="form-control" />
+                      <input type="text" name="coupon" value="<?= $coupon; ?>" id="input-coupon" class="form-control" />
                       <span class="input-group-btn">
-                      <button type="button" id="button-coupon" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $button_apply; ?></button>
+                      <button type="button" id="button-coupon" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><?= $button_apply; ?></button>
                       </span></div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-voucher"><?php echo $entry_voucher; ?></label>
+                  <label class="col-sm-2 control-label" for="input-voucher"><?= $entry_voucher; ?></label>
                   <div class="col-sm-10">
                     <div class="input-group">
-                      <input type="text" name="voucher" value="<?php echo $voucher; ?>" id="input-voucher" data-loading-text="<?php echo $text_loading; ?>" class="form-control" />
+                      <input type="text" name="voucher" value="<?= $voucher; ?>" id="input-voucher" data-loading-text="<?= $text_loading; ?>" class="form-control" />
                       <span class="input-group-btn">
-                      <button type="button" id="button-voucher" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $button_apply; ?></button>
+                      <button type="button" id="button-voucher" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><?= $button_apply; ?></button>
                       </span></div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-reward"><?php echo $entry_reward; ?></label>
+                  <label class="col-sm-2 control-label" for="input-reward"><?= $entry_reward; ?></label>
                   <div class="col-sm-10">
                     <div class="input-group">
-                      <input type="text" name="reward" value="<?php echo $reward; ?>" id="input-reward" data-loading-text="<?php echo $text_loading; ?>" class="form-control" />
+                      <input type="text" name="reward" value="<?= $reward; ?>" id="input-reward" data-loading-text="<?= $text_loading; ?>" class="form-control" />
                       <span class="input-group-btn">
-                      <button type="button" id="button-reward" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $button_apply; ?></button>
+                      <button type="button" id="button-reward" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><?= $button_apply; ?></button>
                       </span></div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_order_status; ?></label>
+                  <label class="col-sm-2 control-label" for="input-order-status"><?= $entry_order_status; ?></label>
                   <div class="col-sm-10">
                     <select name="order_status_id" id="input-order-status" class="form-control">
                       <?php foreach ($order_statuses as $order_status) { ?>
                       <?php if ($order_status['order_status_id'] == $order_status_id) { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
+                      <option value="<?= $order_status['order_status_id']; ?>" selected="selected"><?= $order_status['name']; ?></option>
                       <?php } else { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
+                      <option value="<?= $order_status['order_status_id']; ?>"><?= $order_status['name']; ?></option>
                       <?php } ?>
                       <?php } ?>
                     </select>
-                    <input type="hidden" name="order_id" value="<?php echo $order_id; ?>" />
+                    <input type="hidden" name="order_id" value="<?= $order_id; ?>" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-comment"><?php echo $entry_comment; ?></label>
+                  <label class="col-sm-2 control-label" for="input-comment"><?= $entry_comment; ?></label>
                   <div class="col-sm-10">
-                    <textarea name="comment" rows="5" id="input-comment" class="form-control"><?php echo $comment; ?></textarea>
+                    <textarea name="comment" rows="5" id="input-comment" class="form-control"><?= $comment; ?></textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-affiliate"><?php echo $entry_affiliate; ?></label>
+                  <label class="col-sm-2 control-label" for="input-affiliate"><?= $entry_affiliate; ?></label>
                   <div class="col-sm-10">
-                    <input type="text" name="affiliate" value="<?php echo $affiliate; ?>" id="input-affiliate" class="form-control" />
-                    <input type="hidden" name="affiliate_id" value="<?php echo $affiliate_id; ?>" />
+                    <input type="text" name="affiliate" value="<?= $affiliate; ?>" id="input-affiliate" class="form-control" />
+                    <input type="hidden" name="affiliate_id" value="<?= $affiliate_id; ?>" />
                   </div>
                 </div>
               </fieldset>
               <div class="row">
                 <div class="col-sm-6 text-left">
-                  <button type="button" onclick="$('select[name=\'shipping_method\']').prop('disabled') ? $('a[href=\'#tab-payment\']').tab('show') : $('a[href=\'#tab-shipping\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>
+                  <button type="button" onclick="$('select[name=\'shipping_method\']').prop('disabled') ? $('a[href=\'#tab-payment\']').tab('show') : $('a[href=\'#tab-shipping\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?= $button_back; ?></button>
                 </div>
                 <div class="col-sm-6 text-right">
-                  <button type="button" id="button-refresh" data-toggle="tooltip" title="<?php echo $button_refresh; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-warning"><i class="fa fa-refresh"></i></button>
-                  <button type="button" id="button-save" class="btn btn-primary"><i class="fa fa-check-circle"></i> <?php echo $button_save; ?></button>
+                  <button type="button" id="button-refresh" data-toggle="tooltip" title="<?= $button_refresh; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-warning"><i class="fa fa-refresh"></i></button>
+                  <button type="button" id="button-save" class="btn btn-primary"><i class="fa fa-check-circle"></i> <?= $button_save; ?></button>
                 </div>
               </div>
             </div>
@@ -951,7 +951,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
 // Disable the tabs
 $('#order a[data-toggle=\'tab\']').on('click', function(e) {
 	return false;
@@ -959,9 +959,9 @@ $('#order a[data-toggle=\'tab\']').on('click', function(e) {
 
 $(document).delegate('#button-ip-add', 'click', function() {
 	$.ajax({
-		url: 'index.php?route=user/api/addip&token=<?php echo $token; ?>&api_id=<?php echo $api_id; ?>',
+		url: 'index.php?route=user/api/addip&token=<?= $token; ?>&api_id=<?= $api_id; ?>',
 		type: 'post',
-		data: 'ip=<?php echo $api_ip; ?>',
+		data: 'ip=<?= $api_ip; ?>',
 		dataType: 'json',
 		beforeSend: function() {
 			$('#button-ip-add').button('loading');
@@ -990,9 +990,9 @@ var token = '';
 
 // Login to the API
 $.ajax({
-	url: '<?php echo $store_url; ?>index.php?route=api/login',
+	url: '<?= $store_url; ?>index.php?route=api/login',
 	type: 'post',
-	data: 'key=<?php echo $api_key; ?>',
+	data: 'key=<?= $api_key; ?>',
 	dataType: 'json',
 	crossDomain: true,
 	success: function(json) {
@@ -1004,7 +1004,7 @@ $.ajax({
     		}
 
             if (json['error']['ip']) {
-    			$('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error']['ip'] + ' <button type="button" id="button-ip-add" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger btn-xs pull-right"><i class="fa fa-plus"></i> <?php echo $button_ip_add; ?></button></div>');
+    			$('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error']['ip'] + ' <button type="button" id="button-ip-add" data-loading-text="<?= $text_loading; ?>" class="btn btn-danger btn-xs pull-right"><i class="fa fa-plus"></i> <?= $button_ip_add; ?></button></div>');
     		}
         }
 
@@ -1022,7 +1022,7 @@ $.ajax({
 // Currency
 $('select[name=\'currency\']').on('change', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/currency&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/currency&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'currency=' + $('select[name=\'currency\'] option:selected').val(),
 		dataType: 'json',
@@ -1053,7 +1053,7 @@ $('select[name=\'currency\']').on('change', function() {
 // Add all products to the cart using the api
 $('#button-refresh').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/cart/products&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/cart/products&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		dataType: 'json',
 		crossDomain: true,
 		success: function(json) {
@@ -1076,7 +1076,7 @@ $('#button-refresh').on('click', function() {
 				}
 			}
 
-			var shipping = false;
+			let shipping = false;
 
 			html = '';
 
@@ -1094,14 +1094,6 @@ $('#button-refresh').on('click', function() {
 
 							html += '  - <small>' + option['name'] + ': ' + option['value'] + '</small><br />';
 
-							if (option['type'] == 'select' || option['type'] == 'radio' || option['type'] == 'image') {
-								html += '<input type="hidden" name="product[' + i + '][option][' + option['product_option_id'] + ']" value="' + option['product_option_value_id'] + '" />';
-							}
-
-							if (option['type'] == 'checkbox') {
-								html += '<input type="hidden" name="product[' + i + '][option][' + option['product_option_id'] + '][]" value="' + option['product_option_value_id'] + '" />';
-							}
-
 							if (option['type'] == 'text' || option['type'] == 'textarea' || option['type'] == 'file' || option['type'] == 'date' || option['type'] == 'datetime' || option['type'] == 'time') {
 								html += '<input type="hidden" name="product[' + i + '][option][' + option['product_option_id'] + ']" value="' + option['value'] + '" />';
 							}
@@ -1109,11 +1101,12 @@ $('#button-refresh').on('click', function() {
 					}
 
 					html += '</td>';
-					html += '  <td class="text-left">' + product['model'] + '</td>';
-					html += '  <td class="text-right"><div class="input-group btn-block" style="max-width: 200px;"><input type="text" name="product[' + i + '][quantity]" value="' + product['quantity'] + '" class="form-control" /><span class="input-group-btn"><button type="button" data-toggle="tooltip" title="<?php echo $button_refresh; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-refresh"></i></button></span></div></td>';
+					html += '  <td class="text-left">' + product['model'];
+					html += '  <input type="hidden" name="product[' + i + '][model]" value="' + product['model'] + '" /></td>';
+					html += '  <td class="text-right"><div class="input-group btn-block" style="max-width: 200px;"><input type="text" name="product[' + i + '][quantity]" value="' + product['quantity'] + '" class="form-control" /><span class="input-group-btn"><button type="button" data-toggle="tooltip" title="<?= $button_refresh; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-refresh"></i></button></span></div></td>';
                     html += '  <td class="text-right">' + product['price'] + '</td>';
 					html += '  <td class="text-right">' + product['total'] + '</td>';
-					html += '  <td class="text-center" style="width: 3px;"><button type="button" value="' + product['cart_id'] + '" data-toggle="tooltip" title="<?php echo $button_remove; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+					html += '  <td class="text-center" style="width: 3px;"><button type="button" value="' + product['cart_id'] + '" data-toggle="tooltip" title="<?= $button_remove; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 					html += '</tr>';
 
 					if (product['shipping'] != 0) {
@@ -1151,14 +1144,14 @@ $('#button-refresh').on('click', function() {
 					html += '  <td class="text-right">1</td>';
 					html += '  <td class="text-right">' + voucher['price'] + '</td>';
 					html += '  <td class="text-right">' + voucher['price'] + '</td>';
-					html += '  <td class="text-center" style="width: 3px;"><button type="button" value="' + voucher['code'] + '" data-toggle="tooltip" title="<?php echo $button_remove; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+					html += '  <td class="text-center" style="width: 3px;"><button type="button" value="' + voucher['code'] + '" data-toggle="tooltip" title="<?= $button_remove; ?>" data-loading-text="<?= $text_loading; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 					html += '</tr>';
 				}
 			}
 
 			if (!json['products'].length && !json['vouchers'].length) {
 				html += '<tr>';
-				html += '  <td colspan="6" class="text-center"><?php echo $text_no_results; ?></td>';
+				html += '  <td colspan="6" class="text-center"><?= $text_no_results; ?></td>';
 				html += '</tr>';
 			}
 
@@ -1218,7 +1211,7 @@ $('#button-refresh').on('click', function() {
 
 			if (!json['totals'].length && !json['products'].length && !json['vouchers'].length) {
 				html += '<tr>';
-				html += '  <td colspan="5" class="text-center"><?php echo $text_no_results; ?></td>';
+				html += '  <td colspan="5" class="text-center"><?= $text_no_results; ?></td>';
 				html += '</tr>';
 			}
 
@@ -1234,13 +1227,13 @@ $('#button-refresh').on('click', function() {
 $('input[name=\'customer\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=customer/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=customer/customer/autocomplete&token=<?= $token; ?>&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
 				json.unshift({
 					customer_id: '0',
-					customer_group_id: '<?php echo $customer_group_id; ?>',
-					name: '<?php echo $text_none; ?>',
+					customer_group_id: '<?= $customer_group_id; ?>',
+					name: '<?= $text_none; ?>',
 					customer_group: '',
 					firstname: '',
 					lastname: '',
@@ -1300,7 +1293,7 @@ $('input[name=\'customer\']').autocomplete({
 
 		$('select[name=\'customer_group_id\']').trigger('change');
 
-		html = '<option value="0"><?php echo $text_none; ?></option>';
+		html = '<option value="0"><?= $text_none; ?></option>';
 
 		for (i in  item['address']) {
 			html += '<option value="' + item['address'][i]['address_id'] + '">' + item['address'][i]['firstname'] + ' ' + item['address'][i]['lastname'] + ', ' + item['address'][i]['address_1'] + ', ' + item['address'][i]['city'] + ', ' + item['address'][i]['country'] + '</option>';
@@ -1317,7 +1310,7 @@ $('input[name=\'customer\']').autocomplete({
 // Custom Fields
 $('select[name=\'customer_group_id\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=customer/customer/customfield&token=<?php echo $token; ?>&customer_group_id=' + this.value,
+		url: 'index.php?route=customer/customer/customfield&token=<?= $token; ?>&customer_group_id=' + this.value,
 		dataType: 'json',
 		success: function(json) {
 			$('.custom-field').hide();
@@ -1343,7 +1336,7 @@ $('select[name=\'customer_group_id\']').trigger('change');
 
 $('#button-customer').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/customer&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/customer&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: $('#tab-customer input[type=\'text\'], #tab-customer input[type=\'hidden\'], #tab-customer input[type=\'radio\']:checked, #tab-customer input[type=\'checkbox\']:checked, #tab-customer select, #tab-customer textarea'),
 		dataType: 'json',
@@ -1378,7 +1371,7 @@ $('#button-customer').on('click', function() {
 			} else {
                 // Refresh products, vouchers and totals
                 var request_1 = $.ajax({
-                    url: '<?php echo $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+                    url: '<?= $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
                     type: 'post',
                     data: $('#cart input[name^=\'product\'][type=\'text\'], #cart input[name^=\'product\'][type=\'hidden\'], #cart input[name^=\'product\'][type=\'radio\']:checked, #cart input[name^=\'product\'][type=\'checkbox\']:checked, #cart select[name^=\'product\'], #cart textarea[name^=\'product\']'),
                     dataType: 'json',
@@ -1404,7 +1397,7 @@ $('#button-customer').on('click', function() {
 
                 var request_2 = request_1.then(function() {
                     $.ajax({
-                        url: '<?php echo $store_url; ?>index.php?route=api/voucher/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+                        url: '<?= $store_url; ?>index.php?route=api/voucher/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
                         type: 'post',
                         data: $('#cart input[name^=\'voucher\'][type=\'text\'], #cart input[name^=\'voucher\'][type=\'hidden\'], #cart input[name^=\'voucher\'][type=\'radio\']:checked, #cart input[name^=\'voucher\'][type=\'checkbox\']:checked, #cart select[name^=\'voucher\'], #cart textarea[name^=\'voucher\']'),
                         dataType: 'json',
@@ -1445,7 +1438,7 @@ $('#button-customer').on('click', function() {
 $('#tab-product input[name=\'product\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/product/autocomplete&token=<?= $token; ?>&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
@@ -1453,8 +1446,9 @@ $('#tab-product input[name=\'product\']').autocomplete({
 						label: item['name'],
 						value: item['product_id'],
 						model: item['model'],
-						option: item['option'],
-						price: item['price']
+						variant: item['variant'],
+						option: item['option']
+						// price: item['price']
 					}
 				}));
 			}
@@ -1463,111 +1457,72 @@ $('#tab-product input[name=\'product\']').autocomplete({
 	'select': function(item) {
 		$('#tab-product input[name=\'product\']').val(item['label']);
 		$('#tab-product input[name=\'product_id\']').val(item['value']);
+		$('#tab-product input[name=\'model\']').val(item['model']);
 
-		if (item['option'] != '') {
+		if (item['variant']['option'].length) {
  			html  = '<fieldset>';
-            html += '  <legend><?php echo $entry_option; ?></legend>';
+			html += '  <legend><?= $entry_variant; ?></legend>';
 
-			for (i = 0; i < item['option'].length; i++) {
-				option = item['option'][i];
+			for (i = 0; i < item['variant']['option'].length; i++) {
+				let variant_option = item['variant']['option'][i];
 
-				if (option['type'] == 'select') {
-					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
-					html += '  <label class="col-sm-2 control-label" for="input-option' + option['product_option_id'] + '">' + option['name'] + '</label>';
+				if (variant_option['type'] == 'checkbox') {
+					html += '<div class="form-group required">';
+					html += '  <label class="col-sm-2 control-label">' + variant_option['name'] + '</label>';
 					html += '  <div class="col-sm-10">';
-					html += '    <select name="option[' + option['product_option_id'] + ']" id="input-option' + option['product_option_id'] + '" class="form-control">';
-					html += '      <option value=""><?php echo $text_select; ?></option>';
+					html += '    <div id="input-variant-option' + i + '">';
 
-					for (j = 0; j < option['product_option_value'].length; j++) {
-						option_value = option['product_option_value'][j];
-
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
-
-						html += '</option>';
-					}
-
-					html += '    </select>';
-					html += '  </div>';
-					html += '</div>';
-				}
-
-				if (option['type'] == 'radio') {
-					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
-					html += '  <label class="col-sm-2 control-label" for="input-option' + option['product_option_id'] + '">' + option['name'] + '</label>';
-					html += '  <div class="col-sm-10">';
-					html += '    <select name="option[' + option['product_option_id'] + ']" id="input-option' + option['product_option_id'] + '" class="form-control">';
-					html += '      <option value=""><?php echo $text_select; ?></option>';
-
-					for (j = 0; j < option['product_option_value'].length; j++) {
-						option_value = option['product_option_value'][j];
-
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
-
-						html += '</option>';
-					}
-
-					html += '    </select>';
-					html += '  </div>';
-					html += '</div>';
-				}
-
-				if (option['type'] == 'checkbox') {
-					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
-					html += '  <label class="col-sm-2 control-label">' + option['name'] + '</label>';
-					html += '  <div class="col-sm-10">';
-					html += '    <div id="input-option' + option['product_option_id'] + '">';
-
-					for (j = 0; j < option['product_option_value'].length; j++) {
-						option_value = option['product_option_value'][j];
+					for (j = 0; j < variant_option['option_value'].length; j++) {
+						variant_option_value = variant_option['option_value'][j];
 
 						html += '<div class="checkbox">';
 
-						html += '  <label><input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" /> ' + option_value['name'];
-
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
-
-						html += '  </label>';
+						html += '  <label><input type="checkbox" name="variant_option[' + i + '][]" value="' + variant_option_value['option_value_id'] + '" /> ' + variant_option_value['name'] + '</label>';
 						html += '</div>';
 					}
 
 					html += '    </div>';
 					html += '  </div>';
 					html += '</div>';
-				}
-
-				if (option['type'] == 'image') {
-					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
-					html += '  <label class="col-sm-2 control-label" for="input-option' + option['product_option_id'] + '">' + option['name'] + '</label>';
+				} else {
+					html += '<div class="form-group required">';
+					html += '  <label class="col-sm-2 control-label" for="input-variant-option' + i + '">' + variant_option['name'] + '</label>';
 					html += '  <div class="col-sm-10">';
-					html += '    <select name="option[' + option['product_option_id'] + ']" id="input-option' + option['product_option_id'] + '" class="form-control">';
-					html += '      <option value=""><?php echo $text_select; ?></option>';
+					html += '    <select name="variant_option[' + i + ']" id="input-variant-option' + i + '" class="form-control">';
+					html += '      <option value=""><?= $text_select; ?></option>';
 
-					for (j = 0; j < option['product_option_value'].length; j++) {
-						option_value = option['product_option_value'][j];
+					for (j = 0; j < variant_option['option_value'].length; j++) {
+						let variant_option_value = variant_option['option_value'][j];
 
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
-
-						html += '</option>';
+						html += '<option value="' + variant_option_value['option_value_id'] + '">' + variant_option_value['name'] + '</option>';
 					}
 
 					html += '    </select>';
 					html += '  </div>';
 					html += '</div>';
 				}
+			}
+
+			html += '<div class="form-group">';
+			html += '  <label class="col-sm-2 control-label"><?= $text_variant; ?></label>';
+			html += '  <div class="col-sm-10">';
+			html += '    <p class="form-control-static" id="text-variant">-</p>';
+			html += '  </div>';
+			html += '</div>';
+
+			html += '</fieldset>';
+
+			$('#variant').html(html);
+		} else {
+			$('#variant').html('');
+		}
+
+		if (item['option'] != '') {
+ 			html  = '<fieldset>';
+      html += '  <legend><?= $entry_option; ?></legend>';
+
+			for (i = 0; i < item['option'].length; i++) {
+				option = item['option'][i];
 
 				if (option['type'] == 'text') {
 					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
@@ -1587,7 +1542,7 @@ $('#tab-product input[name=\'product\']').autocomplete({
 					html += '<div class="form-group' + (option['required'] ? ' required' : '') + '">';
 					html += '  <label class="col-sm-2 control-label">' + option['name'] + '</label>';
 					html += '  <div class="col-sm-10">';
-					html += '    <button type="button" id="button-upload' + option['product_option_id'] + '" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>';
+					html += '    <button type="button" id="button-upload' + option['product_option_id'] + '" data-loading-text="<?= $text_loading; ?>" class="btn btn-default"><i class="fa fa-upload"></i> <?= $button_upload; ?></button>';
 					html += '    <input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['value'] + '" id="input-option' + option['product_option_id'] + '" />';
 					html += '  </div>';
 					html += '</div>';
@@ -1637,11 +1592,26 @@ $('#tab-product input[name=\'product\']').autocomplete({
 	}
 });
 
+$('#tab-product').on('change', '[name^=\'variant_option\']', function() {
+		$.ajax({
+			url: 'index.php?route=sale/order/productVariant&token=<?= $token; ?>&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+			type: 'post',
+			data: $('#tab-product input[name=\'product_id\'], #tab-product select[name^=\'variant_option\']'),
+			dataType: 'json',
+			success: function (json) {
+				if (json['variant_data']) {
+					$('#tab-product #text-variant').html(json['variant_data']['name']);
+					$('#tab-product input[name=\'model\']').val(json['variant_data']['model']);
+				}
+			}
+		});
+	});
+
 $('#button-product-add').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
-		data: $('#tab-product input[name=\'product_id\'], #tab-product input[name=\'quantity\'], #tab-product input[name^=\'option\'][type=\'text\'], #tab-product input[name^=\'option\'][type=\'hidden\'], #tab-product input[name^=\'option\'][type=\'radio\']:checked, #tab-product input[name^=\'option\'][type=\'checkbox\']:checked, #tab-product select[name^=\'option\'], #tab-product textarea[name^=\'option\']'),
+		data: $('#tab-product input[name=\'product_id\'], #tab-product input[name=\'model\'], #tab-product input[name=\'quantity\'], #tab-product select[name^=\'variant_option\'], #tab-product input[name^=\'option\'][type=\'text\'], #tab-product input[name^=\'option\'][type=\'hidden\'], #tab-product input[name^=\'option\'][type=\'radio\']:checked, #tab-product input[name^=\'option\'][type=\'checkbox\']:checked, #tab-product select[name^=\'option\'], #tab-product textarea[name^=\'option\']'),
 		dataType: 'json',
 		crossDomain: true,
 		beforeSend: function() {
@@ -1680,6 +1650,12 @@ $('#button-product-add').on('click', function() {
 			} else {
 				// Refresh products, vouchers and totals
 				$('#button-refresh').trigger('click');
+				
+				// Empty all input
+				$('#tab-product input').val('');
+				$('#tab-product #variant, #tab-product #option').html('');
+				$('#tab-product input[name=\'quantity\']').val('1');
+
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -1691,7 +1667,7 @@ $('#button-product-add').on('click', function() {
 // Voucher
 $('#button-voucher-add').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/voucher/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/voucher/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: $('#tab-voucher input[type=\'text\'], #tab-voucher input[type=\'hidden\'], #tab-voucher input[type=\'radio\']:checked, #tab-voucher input[type=\'checkbox\']:checked, #tab-voucher select, #tab-voucher textarea'),
 		dataType: 'json',
@@ -1729,7 +1705,7 @@ $('#button-voucher-add').on('click', function() {
 				$('input[name=\'to_name\']').attr('value', '');
 				$('input[name=\'to_email\']').attr('value', '');
 				$('textarea[name=\'message\']').attr('value', '');
-				$('input[name=\'amount\']').attr('value', '<?php echo addslashes($voucher_min); ?>');
+				$('input[name=\'amount\']').attr('value', '<?= addslashes($voucher_min); ?>');
 
 				// Refresh products, vouchers and totals
 				$('#button-refresh').trigger('click');
@@ -1745,7 +1721,7 @@ $('#cart').delegate('.btn-danger', 'click', function() {
 	var node = this;
 
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/cart/remove&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/cart/remove&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'key=' + encodeURIComponent(this.value),
 		dataType: 'json',
@@ -1778,7 +1754,7 @@ $('#cart').delegate('.btn-primary', 'click', function() {
 
     // Refresh products, vouchers and totals
     $.ajax({
-        url: '<?php echo $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+        url: '<?= $store_url; ?>index.php?route=api/cart/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
         type: 'post',
         data: $('#cart input[name^=\'product\'][type=\'text\'], #cart input[name^=\'product\'][type=\'hidden\'], #cart input[name^=\'product\'][type=\'radio\']:checked, #cart input[name^=\'product\'][type=\'checkbox\']:checked, #cart select[name^=\'product\'], #cart textarea[name^=\'product\']'),
         dataType: 'json',
@@ -1816,7 +1792,7 @@ $('#button-cart').on('click', function() {
 // Payment Address
 $('select[name=\'payment_address\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=customer/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
+		url: 'index.php?route=customer/customer/address&token=<?= $token; ?>&address_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('select[name=\'payment_address\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -1865,12 +1841,12 @@ $('select[name=\'payment_address\']').on('change', function() {
 	});
 });
 
-var payment_zone_id = '<?php echo $payment_zone_id; ?>',
-	payment_city = '<?php echo $payment_city; ?>'; //Bonk
+var payment_zone_id = '<?= $payment_zone_id; ?>',
+	payment_city = '<?= $payment_city; ?>'; //Bonk
 
 $('#tab-payment select[name=\'country_id\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=localisation/country/country&token=<?php echo $token; ?>&country_id=' + this.value,
+		url: 'index.php?route=localisation/country/country&token=<?= $token; ?>&country_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('#tab-payment select[name=\'country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -1885,7 +1861,7 @@ $('#tab-payment select[name=\'country_id\']').on('change', function() {
 				$('#tab-payment input[name=\'postcode\']').parent().parent().removeClass('required');
 			}
 */
-			html = '<option value=""><?php echo $text_select; ?></option>';
+			html = '<option value=""><?= $text_select; ?></option>';
 
 			if (json['zone'] && json['zone'] != '') {
 				for (i = 0; i < json['zone'].length; i++) {
@@ -1898,11 +1874,11 @@ $('#tab-payment select[name=\'country_id\']').on('change', function() {
 	    			html += '>' + json['zone'][i]['name'] + '</option>';
 				}
 			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				html += '<option value="0" selected="selected"><?= $text_none; ?></option>';
 			}
 
 			$('#tab-payment select[name=\'zone_id\']').html(html);
-			$('#tab-payment select[name=\'city\']').load('index.php?route=customer/customer/city&token=<?php echo $token; ?>&zone_id=' + $('#tab-payment select[name=\'zone_id\']').val() + '&city=' + payment_city); // Bonk
+			$('#tab-payment select[name=\'city\']').load('index.php?route=customer/customer/city&token=<?= $token; ?>&zone_id=' + $('#tab-payment select[name=\'zone_id\']').val() + '&city=' + payment_city); // Bonk
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -1915,7 +1891,7 @@ $('#tab-payment select[name=\'country_id\']').trigger('change');
 // Bonk
 $('#tab-payment select[name=\'zone_id\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=localisation/zone/zone&token=<?php echo $token; ?>&zone_id=' + this.value,
+		url: 'index.php?route=localisation/zone/zone&token=<?= $token; ?>&zone_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('#tab-payment select[name=\'zone_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -1924,7 +1900,7 @@ $('#tab-payment select[name=\'zone_id\']').on('change', function() {
 			$('#tab-payment .fa-spin').remove();
 		},
 		success: function(json) {
-			html = '<option value=""><?php echo $text_select; ?></option>';
+			html = '<option value=""><?= $text_select; ?></option>';
 
 			if (json['city'] && json['city'] != '') {
 				for (i = 0; i < json['city'].length; i++) {
@@ -1937,7 +1913,7 @@ $('#tab-payment select[name=\'zone_id\']').on('change', function() {
 	    			html += '>' + json['city'][i]['name'] + '</option>';
 				}
 			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				html += '<option value="0" selected="selected"><?= $text_none; ?></option>';
 			}
 
 			$('#tab-payment select[name=\'city\']').html(html);
@@ -1952,7 +1928,7 @@ $('#tab-payment select[name=\'zone_id\']').trigger('change');
 
 $('#button-payment-address').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/payment/address&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/payment/address&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: $('#tab-payment input[type=\'text\'], #tab-payment input[type=\'hidden\'], #tab-payment input[type=\'radio\']:checked, #tab-payment input[type=\'checkbox\']:checked, #tab-payment select, #tab-payment textarea'),
 		dataType: 'json',
@@ -1988,7 +1964,7 @@ $('#button-payment-address').on('click', function() {
 			} else {
 				// Payment Methods
 				$.ajax({
-					url: '<?php echo $store_url; ?>index.php?route=api/payment/methods&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+					url: '<?= $store_url; ?>index.php?route=api/payment/methods&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 					dataType: 'json',
 					crossDomain: true,
 					beforeSend: function() {
@@ -2003,7 +1979,7 @@ $('#button-payment-address').on('click', function() {
 						if (json['error']) {
 							$('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 						} else {
-							html = '<option value=""><?php echo $text_select; ?></option>';
+							html = '<option value=""><?= $text_select; ?></option>';
 
 							if (json['payment_methods']) {
 								for (i in json['payment_methods']) {
@@ -2043,7 +2019,7 @@ $('#button-payment-address').on('click', function() {
 // Shipping Address
 $('select[name=\'shipping_address\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=customer/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
+		url: 'index.php?route=customer/customer/address&token=<?= $token; ?>&address_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('select[name=\'shipping_address\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -2092,12 +2068,12 @@ $('select[name=\'shipping_address\']').on('change', function() {
 	});
 });
 
-var shipping_zone_id = '<?php echo $shipping_zone_id; ?>',
-	shipping_city = '<?php echo $shipping_city; ?>'; //Bonk
+var shipping_zone_id = '<?= $shipping_zone_id; ?>',
+	shipping_city = '<?= $shipping_city; ?>'; //Bonk
 
 $('#tab-shipping select[name=\'country_id\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=localisation/country/country&token=<?php echo $token; ?>&country_id=' + this.value,
+		url: 'index.php?route=localisation/country/country&token=<?= $token; ?>&country_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('#tab-shipping select[name=\'country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -2112,7 +2088,7 @@ $('#tab-shipping select[name=\'country_id\']').on('change', function() {
 				$('#tab-shipping input[name=\'postcode\']').parent().parent().removeClass('required');
 			}
 */
-			html = '<option value=""><?php echo $text_select; ?></option>';
+			html = '<option value=""><?= $text_select; ?></option>';
 
 			if (json['zone'] && json['zone'] != '') {
 				for (i = 0; i < json['zone'].length; i++) {
@@ -2125,11 +2101,11 @@ $('#tab-shipping select[name=\'country_id\']').on('change', function() {
 	    			html += '>' + json['zone'][i]['name'] + '</option>';
 				}
 			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				html += '<option value="0" selected="selected"><?= $text_none; ?></option>';
 			}
 
 			$('#tab-shipping select[name=\'zone_id\']').html(html);
-			$('#tab-shipping select[name=\'city\']').load('index.php?route=customer/customer/city&token=<?php echo $token; ?>&zone_id=' + $('#tab-shipping select[name=\'zone_id\']').val() + '&city=' + shipping_city); // Bonk
+			$('#tab-shipping select[name=\'city\']').load('index.php?route=customer/customer/city&token=<?= $token; ?>&zone_id=' + $('#tab-shipping select[name=\'zone_id\']').val() + '&city=' + shipping_city); // Bonk
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -2142,7 +2118,7 @@ $('#tab-shipping select[name=\'country_id\']').trigger('change');
 // Bonk
 $('#tab-shipping select[name=\'zone_id\']').on('change', function() {
 	$.ajax({
-		url: 'index.php?route=localisation/zone/zone&token=<?php echo $token; ?>&zone_id=' + this.value,
+		url: 'index.php?route=localisation/zone/zone&token=<?= $token; ?>&zone_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
 			$('#tab-shipping select[name=\'zone_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -2151,7 +2127,7 @@ $('#tab-shipping select[name=\'zone_id\']').on('change', function() {
 			$('#tab-shipping .fa-spin').remove();
 		},
 		success: function(json) {
-			html = '<option value=""><?php echo $text_select; ?></option>';
+			html = '<option value=""><?= $text_select; ?></option>';
 
 			if (json['city'] && json['city'] != '') {
 				for (i = 0; i < json['city'].length; i++) {
@@ -2164,7 +2140,7 @@ $('#tab-shipping select[name=\'zone_id\']').on('change', function() {
 	    			html += '>' + json['city'][i]['name'] + '</option>';
 				}
 			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				html += '<option value="0" selected="selected"><?= $text_none; ?></option>';
 			}
 
 			$('#tab-shipping select[name=\'city\']').html(html);
@@ -2179,7 +2155,7 @@ $('#tab-shipping select[name=\'zone_id\']').trigger('change');
 
 $('#button-shipping-address').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/shipping/address&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/shipping/address&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: $('#tab-shipping input[type=\'text\'], #tab-shipping input[type=\'hidden\'], #tab-shipping input[type=\'radio\']:checked, #tab-shipping input[type=\'checkbox\']:checked, #tab-shipping select, #tab-shipping textarea'),
 		dataType: 'json',
@@ -2215,7 +2191,7 @@ $('#button-shipping-address').on('click', function() {
 			} else {
 				// Shipping Methods
 				var request = $.ajax({
-					url: '<?php echo $store_url; ?>index.php?route=api/shipping/methods&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+					url: '<?= $store_url; ?>index.php?route=api/shipping/methods&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 					dataType: 'json',
 					beforeSend: function() {
 						$('#button-shipping-address i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -2230,7 +2206,7 @@ $('#button-shipping-address').on('click', function() {
 							$('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 						} else {
 							// Shipping Methods
-							html = '<option value=""><?php echo $text_select; ?></option>';
+							html = '<option value=""><?= $text_select; ?></option>';
 
 							if (json['shipping_methods']) {
 								for (i in json['shipping_methods']) {
@@ -2275,7 +2251,7 @@ $('#button-shipping-address').on('click', function() {
 // Shipping Method
 $('#button-shipping-method').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/shipping/method&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/shipping/method&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'shipping_method=' + $('select[name=\'shipping_method\'] option:selected').val(),
 		dataType: 'json',
@@ -2313,7 +2289,7 @@ $('#button-shipping-method').on('click', function() {
 // Payment Method
 $('#button-payment-method').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/payment/method&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/payment/method&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'payment_method=' + $('select[name=\'payment_method\'] option:selected').val(),
 		dataType: 'json',
@@ -2351,7 +2327,7 @@ $('#button-payment-method').on('click', function() {
 // Coupon
 $('#button-coupon').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/coupon&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/coupon&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'coupon=' + $('input[name=\'coupon\']').val(),
 		dataType: 'json',
@@ -2389,7 +2365,7 @@ $('#button-coupon').on('click', function() {
 // Voucher
 $('#button-voucher').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/voucher&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/voucher&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'voucher=' + $('input[name=\'voucher\']').val(),
 		dataType: 'json',
@@ -2427,7 +2403,7 @@ $('#button-voucher').on('click', function() {
 // Reward
 $('#button-reward').on('click', function() {
 	$.ajax({
-		url: '<?php echo $store_url; ?>index.php?route=api/reward&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+		url: '<?= $store_url; ?>index.php?route=api/reward&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		type: 'post',
 		data: 'reward=' + $('input[name=\'reward\']').val(),
 		dataType: 'json',
@@ -2466,12 +2442,12 @@ $('#button-reward').on('click', function() {
 $('input[name=\'affiliate\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=marketing/affiliate/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=marketing/affiliate/autocomplete&token=<?= $token; ?>&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
 				json.unshift({
 					affiliate_id: 0,
-					name: '<?php echo $text_none; ?>'
+					name: '<?= $text_none; ?>'
 				});
 
 				response($.map(json, function(item) {
@@ -2492,9 +2468,9 @@ $('input[name=\'affiliate\']').autocomplete({
 // Checkout
 $('#button-save').on('click', function() {
 	if ($('input[name=\'order_id\']').val() == 0) {
-		var url = '<?php echo $store_url; ?>index.php?route=api/order/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val();
+		var url = '<?= $store_url; ?>index.php?route=api/order/add&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val();
 	} else {
-		var url = '<?php echo $store_url; ?>index.php?route=api/order/edit&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val() + '&order_id=' + $('input[name=\'order_id\']').val();
+		var url = '<?= $store_url; ?>index.php?route=api/order/edit&token=' + token + '&store_id=' + $('select[name=\'store_id\'] option:selected').val() + '&order_id=' + $('input[name=\'order_id\']').val();
 	}
 
 	$.ajax({
@@ -2519,7 +2495,7 @@ $('#button-save').on('click', function() {
 			if (json['success']) {
 				$('#content > .container-fluid').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 
-				location = 'index.php?route=sale/order/info&token=<?php echo $token; ?>&order_id=' + json['order_id'] + '<?php echo $url; ?>';
+				location = 'index.php?route=sale/order/info&token=<?= $token; ?>&order_id=' + json['order_id'] + '<?= $url; ?>';
                // Refresh products, vouchers and totals
 				// $('#button-refresh').trigger('click');
         }
@@ -2552,7 +2528,7 @@ $('#content').delegate('button[id^=\'button-upload\'], button[id^=\'button-custo
 			clearInterval(timer);
 
 			$.ajax({
-				url: 'index.php?route=tool/upload/upload&token=<?php echo $token; ?>',
+				url: 'index.php?route=tool/upload/upload&token=<?= $token; ?>',
 				type: 'post',
 				dataType: 'json',
 				data: new FormData($('#form-upload')[0]),
@@ -2600,7 +2576,7 @@ $('.datetime').datetimepicker({
 $('.time').datetimepicker({
 	pickDate: false
 });
-//--></script>
+</script>
   <script type="text/javascript">
 // Sort the custom fields
 $('#tab-customer .form-group[data-sort]').detach().each(function() {
@@ -2646,4 +2622,4 @@ $('#tab-shipping .form-group[data-sort]').detach().each(function() {
 	}
 });
 </script></div>
-<?php echo $footer; ?>
+<?= $footer; ?>

@@ -1,9 +1,9 @@
 <?php
 // Text
-// $_['text_discount']            = ' or more ';
 $_['text_brand']               = 'Brand';
 $_['text_day']                 = 'day';
-$_['text_discount']            = ' %d or more %s (%s)';
+$_['text_discount']            = ' or more ';
+// $_['text_discount']            = ' %d or more %s (%s)';
 $_['text_error']               = 'Product not found!';
 $_['text_instock']             = 'In Stock';
 $_['text_login']               = 'Please <a href="%s">login</a> or <a href="%s">register</a> to review';

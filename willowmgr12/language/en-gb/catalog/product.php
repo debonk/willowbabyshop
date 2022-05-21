@@ -69,7 +69,7 @@ $_['entry_meta_title'] 	     	= 'Meta Tag Title';
 $_['entry_minimum']          	= 'Minimum Quantity';
 $_['entry_model']            	= 'Model';
 $_['entry_mpn']              	= 'MPN';
-$_['entry_multiple']     	 	= 'Variant';
+$_['entry_variant']     	 	= 'Variant';
 $_['entry_name']             	= 'Product Name';
 $_['entry_no_manufacturer']     = 'Product Name';
 $_['entry_option_points']    	= 'Points';
@@ -137,4 +137,4 @@ $_['error_sku_used']       	 	= 'SKU already in use!';
 // $_['button_option_delete']      = 'Remove Option';
 
 // Tab
-$_['tab_multiple']       	 	= 'Variant';
+$_['tab_variant']       	 	= 'Variant';

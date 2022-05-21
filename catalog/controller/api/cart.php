@@ -18,7 +18,7 @@ class ControllerApiCart extends Controller {
 						$option = array();
 					}
 
-					$this->cart->add($product['product_id'], $product['quantity'], $option);
+					$this->cart->add($product['product_id'], $product['model'], $product['quantity'], $option);
 				}
 
 				$json['success'] = $this->language->get('text_success');
@@ -27,11 +27,11 @@ class ControllerApiCart extends Controller {
 				unset($this->session->data['shipping_methods']);
 				unset($this->session->data['payment_method']);
 				unset($this->session->data['payment_methods']);
-			} elseif (isset($this->request->post['product_id'])) {
+			} elseif (isset($this->request->post['model'])) {
 				$this->load->model('catalog/product');
 
-				$product_info = $this->model_catalog_product->getProduct($this->request->post['product_id']);
-				
+				$product_info = $this->model_catalog_product->getProductByModel($this->request->post['model']);
+								
 				if ($product_info) {
 					if (isset($this->request->post['quantity'])) {
 						$quantity = $this->request->post['quantity'];
@@ -54,7 +54,7 @@ class ControllerApiCart extends Controller {
 					}
 
 					if (!isset($json['error']['option'])) {
-						$this->cart->add($this->request->post['product_id'], $quantity, $option);
+						$this->cart->add($this->request->post['product_id'], $this->request->post['model'], $quantity, $option);
 
 						$json['success'] = $this->language->get('text_success');
 
@@ -177,7 +177,6 @@ class ControllerApiCart extends Controller {
 				}
 
 				$option_data = [];
-				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					$option_data[] = array(
@@ -187,17 +186,13 @@ class ControllerApiCart extends Controller {
 						'value'                   => $option['value'],
 						'type'                    => $option['type']
 					);
-
-					if ($option['model']) {
-						$option_model[] = $option['model'];
-					}
 				}
 
 				$json['products'][] = array(
 					'cart_id'    => $product['cart_id'],
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
-					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
+					'model'      => $product['model'],
 					'option'     => $option_data,
 					'quantity'   => $product['quantity'],
 					'stock'      => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),

@@ -1,20 +1,23 @@
 <?php
-class ControllerSaleOrder extends Controller {
+class ControllerSaleOrder extends Controller
+{
 	private $error = array();
 
-	public function index() {
+	public function index()
+	{
 		$this->load->language('sale/order');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('sale/order');
 
-		$this->load->model('customer/customer');//Bonk05
+		$this->load->model('customer/customer'); //Bonk05
 
 		$this->getList();
 	}
 
-	public function add() {
+	public function add()
+	{
 		$this->load->language('sale/order');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -24,7 +27,8 @@ class ControllerSaleOrder extends Controller {
 		$this->getForm();
 	}
 
-	public function edit() {
+	public function edit()
+	{
 		$this->load->language('sale/order');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -34,7 +38,8 @@ class ControllerSaleOrder extends Controller {
 		$this->getForm();
 	}
 
-	protected function getList() {
+	protected function getList()
+	{
 		if (isset($this->request->get['filter_order_id'])) {
 			$filter_order_id = $this->request->get['filter_order_id'];
 		} else {
@@ -161,20 +166,20 @@ class ControllerSaleOrder extends Controller {
 		$order_total = $this->model_sale_order->getTotalOrders($filter_data);
 
 		$results = $this->model_sale_order->getOrders($filter_data);
-		
+
 		//Bonk04: Cashback Module
 		$complete_status_id = $this->config->get('config_complete_status');
 
 		if ($this->config->get('cashback_status')) {
 			$data['cashback_status'] = true;
-			
+
 			$cashback_voucher_theme_id = $this->config->get('cashback_voucher_theme_id');
-			
+
 			$cashback_date_start = strtotime($this->config->get('cashback_date_start'));
 			$cashback_min_total = $this->config->get('cashback_min_total');
 			$cashback_max_total = $this->config->get('cashback_max_total');
-			$cashback_discount = $this->config->get('cashback_discount')/100;
-			
+			$cashback_discount = $this->config->get('cashback_discount') / 100;
+
 			$data['text_cashback'] = $this->language->get('text_cashback');
 			$data['button_cashback_add'] = $this->language->get('button_cashback_add');
 
@@ -190,29 +195,29 @@ class ControllerSaleOrder extends Controller {
 
 			$reward = 0;
 
-			$order_info = $this->model_sale_order->getOrder($result['order_id']);//Bonk05 & Bonk11
+			$order_info = $this->model_sale_order->getOrder($result['order_id']); //Bonk05 & Bonk11
 
 			$reward = $order_info['reward'];
 			//Bonk05:End
-			
+
 			//Bonk11
 			if ($order_info['invoice_no']) {
 				$invoice_no = $order_info['invoice_prefix'] . $order_info['invoice_no'];
 			} else {
 				$invoice_no = '';
 			}
-			
+
 			//Bonk04
 			if (in_array($result['order_status_id'], $complete_status_id)) {
 				$complete_status = true;
 			} else {
 				$complete_status = false;
 			}
-			
+
 			if ($this->config->get('cashback_status')) {
 				if (strtotime($result['date_added']) > $cashback_date_start) {
 					$subtotal = 0;
-					
+
 					$totals = $this->model_sale_order->getOrderTotals($result['order_id']);
 
 					foreach ($totals as $total) {
@@ -232,39 +237,38 @@ class ControllerSaleOrder extends Controller {
 				} else {
 					$cashback_point = 0;
 				}
-			
+
 				$cashback_total = $this->model_sale_voucher->getTotalVoucherByPrefixCode($result['order_id'] . 'C', $cashback_voucher_theme_id);
-					
+
 				if ($cashback_total && ($cashback_total <> $cashback_point)) {
 					$error_cashback = $this->language->get('error_cashback');
 				} else {
 					$error_cashback = '';
 				}
-				
 			} else {
 				$cashback_total = 0;
 				$cashback_point = 0;
 				$error_cashback = '';
 			}
-			
+
 			//Bonk04:End
 
 			$data['orders'][] = array(
 				'order_id'      => $result['order_id'],
-				'invoice_no'      => $invoice_no,//Bonk11
+				'invoice_no'      => $invoice_no, //Bonk11
 				'customer'      => $result['customer'],
 				'order_status'  => $result['order_status'],
-				'order_status_id'=> $result['order_status_id'],//Bonk04
+				'order_status_id' => $result['order_status_id'], //Bonk04
 				'total'         => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified' => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
-				'reward_total'  => $reward_total,//Bonk05
-				'reward'        => $reward,//Bonk05
-				'complete_status'=> $complete_status,//Bonk04 dan Bonk05
-				'cashback_total'=> $cashback_total,//Bonk04
-				'cashback_point'=> $cashback_point,//Bonk04
-				'cashback'  	=> $this->currency->format($cashback_point, $result['currency_code'], $result['currency_value']),//Bonk04
-				'error_cashback'=> $error_cashback,//Bonk04
+				'reward_total'  => $reward_total, //Bonk05
+				'reward'        => $reward, //Bonk05
+				'complete_status' => $complete_status, //Bonk04 dan Bonk05
+				'cashback_total' => $cashback_total, //Bonk04
+				'cashback_point' => $cashback_point, //Bonk04
+				'cashback'  	=> $this->currency->format($cashback_point, $result['currency_code'], $result['currency_value']), //Bonk04
+				'error_cashback' => $error_cashback, //Bonk04
 				'shipping_code' => $result['shipping_code'],
 				'view'          => $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, true),
 				'edit'          => $this->url->link('sale/order/edit', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, true),
@@ -280,14 +284,14 @@ class ControllerSaleOrder extends Controller {
 		$data['text_loading'] = $this->language->get('text_loading');
 
 		$data['column_order_id'] = $this->language->get('column_order_id');
-		$data['column_invoice'] = $this->language->get('column_invoice');//Bonk11
+		$data['column_invoice'] = $this->language->get('column_invoice'); //Bonk11
 		$data['column_customer'] = $this->language->get('column_customer');
 		$data['column_status'] = $this->language->get('column_status');
 		$data['column_total'] = $this->language->get('column_total');
 		$data['column_date_added'] = $this->language->get('column_date_added');
 		$data['column_date_modified'] = $this->language->get('column_date_modified');
-		$data['column_reward'] = $this->language->get('column_reward');//Bonk05
-		$data['column_cashback'] = $this->language->get('column_cashback');//Bonk04
+		$data['column_reward'] = $this->language->get('column_reward'); //Bonk05
+		$data['column_cashback'] = $this->language->get('column_cashback'); //Bonk04
 		$data['column_action'] = $this->language->get('column_action');
 
 		$data['entry_order_id'] = $this->language->get('entry_order_id');
@@ -305,9 +309,9 @@ class ControllerSaleOrder extends Controller {
 		$data['button_filter'] = $this->language->get('button_filter');
 		$data['button_view'] = $this->language->get('button_view');
 		$data['button_ip_add'] = $this->language->get('button_ip_add');
-		$data['button_uncomplete_status'] = $this->language->get('button_uncomplete_status');//Bonk04,Bonk05
-		$data['button_reward_add'] = $this->language->get('button_reward_add');//Bonk05
-		$data['button_reward_remove'] = $this->language->get('button_reward_remove');//Bonk05
+		$data['button_uncomplete_status'] = $this->language->get('button_uncomplete_status'); //Bonk04,Bonk05
+		$data['button_reward_add'] = $this->language->get('button_reward_add'); //Bonk05
+		$data['button_reward_remove'] = $this->language->get('button_reward_remove'); //Bonk05
 
 		$data['token'] = $this->session->data['token'];
 
@@ -442,83 +446,87 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_list', $data));
 	}
 
-	public function getForm() {
-		$data['heading_title'] = $this->language->get('heading_title');
+	public function getForm()
+	{
+		$language_items = [
+			'heading_title',
+			'text_default',
+			'text_loading',
+			'text_no_results',
+			'text_none',
+			'text_order_detail',
+			'text_product',
+			'text_select',
+			'text_variant',
+			'text_voucher',
+			'entry_store',
+			'entry_customer',
+			'entry_customer_group',
+			'entry_firstname',
+			'entry_lastname',
+			'entry_email',
+			'entry_telephone',
+			'entry_fax',
+			'entry_comment',
+			'entry_affiliate',
+			'entry_address',
+			'entry_company',
+			'entry_address_1',
+			'entry_address_2',
+			'entry_city',
+			'entry_postcode',
+			'entry_zone',
+			'entry_zone_code',
+			'entry_country',
+			'entry_product',
+			'entry_variant',
+			'entry_option',
+			'entry_quantity',
+			'entry_to_name',
+			'entry_to_email',
+			'entry_from_name',
+			'entry_from_email',
+			'entry_theme',
+			'entry_message',
+			'entry_amount',
+			'entry_currency',
+			'entry_shipping_method',
+			'entry_payment_method',
+			'entry_coupon',
+			'entry_voucher',
+			'entry_reward',
+			'entry_order_status',
+			'column_action',
+			'column_model',
+			'column_price',
+			'column_product',
+			'column_quantity',
+			'column_total',
+			'button_apply',
+			'button_back',
+			'button_cancel',
+			'button_continue',
+			'button_ip_add',
+			'button_product_add',
+			'button_refresh',
+			'button_remove',
+			'button_save',
+			'button_upload',
+			'button_voucher_add',
+			'tab_customer',
+			'tab_order',
+			'tab_payment',
+			'tab_product',
+			'tab_shipping',
+			'tab_total',
+			'tab_voucher'
+		];
+		foreach ($language_items as $language_item) {
+			$data[$language_item] = $this->language->get($language_item);
+		}
 
 		$data['text_form'] = !isset($this->request->get['order_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
-		$data['text_no_results'] = $this->language->get('text_no_results');
-		$data['text_default'] = $this->language->get('text_default');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['text_none'] = $this->language->get('text_none');
-		$data['text_loading'] = $this->language->get('text_loading');
 		$data['text_ip_add'] = sprintf($this->language->get('text_ip_add'), $this->request->server['REMOTE_ADDR']);
-		$data['text_product'] = $this->language->get('text_product');
-		$data['text_voucher'] = $this->language->get('text_voucher');
-		$data['text_order_detail'] = $this->language->get('text_order_detail');
-
-		$data['entry_store'] = $this->language->get('entry_store');
-		$data['entry_customer'] = $this->language->get('entry_customer');
-		$data['entry_customer_group'] = $this->language->get('entry_customer_group');
-		$data['entry_firstname'] = $this->language->get('entry_firstname');
-		$data['entry_lastname'] = $this->language->get('entry_lastname');
-		$data['entry_email'] = $this->language->get('entry_email');
-		$data['entry_telephone'] = $this->language->get('entry_telephone');
-		$data['entry_fax'] = $this->language->get('entry_fax');
-		$data['entry_comment'] = $this->language->get('entry_comment');
-		$data['entry_affiliate'] = $this->language->get('entry_affiliate');
-		$data['entry_address'] = $this->language->get('entry_address');
-		$data['entry_company'] = $this->language->get('entry_company');
-		$data['entry_address_1'] = $this->language->get('entry_address_1');
-		$data['entry_address_2'] = $this->language->get('entry_address_2');
-		$data['entry_city'] = $this->language->get('entry_city');
-		$data['entry_postcode'] = $this->language->get('entry_postcode');
-		$data['entry_zone'] = $this->language->get('entry_zone');
-		$data['entry_zone_code'] = $this->language->get('entry_zone_code');
-		$data['entry_country'] = $this->language->get('entry_country');
-		$data['entry_product'] = $this->language->get('entry_product');
-		$data['entry_option'] = $this->language->get('entry_option');
-		$data['entry_quantity'] = $this->language->get('entry_quantity');
-		$data['entry_to_name'] = $this->language->get('entry_to_name');
-		$data['entry_to_email'] = $this->language->get('entry_to_email');
-		$data['entry_from_name'] = $this->language->get('entry_from_name');
-		$data['entry_from_email'] = $this->language->get('entry_from_email');
-		$data['entry_theme'] = $this->language->get('entry_theme');
-		$data['entry_message'] = $this->language->get('entry_message');
-		$data['entry_amount'] = $this->language->get('entry_amount');
-		$data['entry_currency'] = $this->language->get('entry_currency');
-		$data['entry_shipping_method'] = $this->language->get('entry_shipping_method');
-		$data['entry_payment_method'] = $this->language->get('entry_payment_method');
-		$data['entry_coupon'] = $this->language->get('entry_coupon');
-		$data['entry_voucher'] = $this->language->get('entry_voucher');
-		$data['entry_reward'] = $this->language->get('entry_reward');
-		$data['entry_order_status'] = $this->language->get('entry_order_status');
-
-		$data['column_product'] = $this->language->get('column_product');
-		$data['column_model'] = $this->language->get('column_model');
-		$data['column_quantity'] = $this->language->get('column_quantity');
-		$data['column_price'] = $this->language->get('column_price');
-		$data['column_total'] = $this->language->get('column_total');
-		$data['column_action'] = $this->language->get('column_action');
-
-		$data['button_save'] = $this->language->get('button_save');
-		$data['button_cancel'] = $this->language->get('button_cancel');
-		$data['button_continue'] = $this->language->get('button_continue');
-		$data['button_back'] = $this->language->get('button_back');
-		$data['button_refresh'] = $this->language->get('button_refresh');
-		$data['button_product_add'] = $this->language->get('button_product_add');
-		$data['button_voucher_add'] = $this->language->get('button_voucher_add');
-		$data['button_apply'] = $this->language->get('button_apply');
-		$data['button_upload'] = $this->language->get('button_upload');
-		$data['button_remove'] = $this->language->get('button_remove');
-		$data['button_ip_add'] = $this->language->get('button_ip_add');
-
-		$data['tab_order'] = $this->language->get('tab_order');
-		$data['tab_customer'] = $this->language->get('tab_customer');
-		$data['tab_payment'] = $this->language->get('tab_payment');
-		$data['tab_shipping'] = $this->language->get('tab_shipping');
-		$data['tab_product'] = $this->language->get('tab_product');
-		$data['tab_voucher'] = $this->language->get('tab_voucher');
-		$data['tab_total'] = $this->language->get('tab_total');
 
 		$data['token'] = $this->session->data['token'];
 
@@ -673,7 +681,7 @@ class ControllerSaleOrder extends Controller {
 			$data['order_id'] = 0;
 			$data['store_id'] = '';
 			$data['store_url'] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
-			
+
 			$data['customer'] = '';
 			$data['customer_id'] = '';
 			$data['customer_group_id'] = $this->config->get('config_customer_group_id');
@@ -817,7 +825,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_form', $data));
 	}
 
-	public function info() {
+	public function info()
+	{
 		$this->load->model('sale/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -883,9 +892,9 @@ class ControllerSaleOrder extends Controller {
 			$data['button_shipping_print'] = $this->language->get('button_shipping_print');
 			$data['button_edit'] = $this->language->get('button_edit');
 			$data['button_cancel'] = $this->language->get('button_cancel');
-//			$data['button_generate'] = $this->language->get('button_generate');
-			$data['button_edit'] = $this->language->get('button_edit');//Bonk11
-			$data['button_save'] = $this->language->get('button_save');//Bonk11
+			//			$data['button_generate'] = $this->language->get('button_generate');
+			$data['button_edit'] = $this->language->get('button_edit'); //Bonk11
+			$data['button_save'] = $this->language->get('button_save'); //Bonk11
 			$data['button_reward_add'] = $this->language->get('button_reward_add');
 			$data['button_reward_remove'] = $this->language->get('button_reward_remove');
 			$data['button_commission_add'] = $this->language->get('button_commission_add');
@@ -959,9 +968,9 @@ class ControllerSaleOrder extends Controller {
 			$data['store_name'] = $order_info['store_name'];
 			$data['store_url'] = $this->request->server['HTTPS'] ? str_replace("http", "https", $order_info['store_url']) : $order_info['store_url'];
 
-			$data['user_id'] = $this->user->getId();//Bonk01
+			$data['user_id'] = $this->user->getId(); //Bonk01
 
-/*			if ($order_info['invoice_no']) {
+			/*			if ($order_info['invoice_no']) {
 				$data['invoice_no'] = $order_info['invoice_prefix'] . $order_info['invoice_no'];
 			} else {
 				$data['invoice_no'] = '';
@@ -969,7 +978,7 @@ class ControllerSaleOrder extends Controller {
 */
 			//Bonk11
 			$data['invoice_prefix'] = $order_info['invoice_prefix'];
-			
+
 			if ($order_info['invoice_no']) {
 				$data['invoice_no'] = $order_info['invoice_no'];
 			} else {
@@ -1086,7 +1095,7 @@ class ControllerSaleOrder extends Controller {
 
 			foreach ($products as $product) {
 				$option_data = array();
-				
+
 				$options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
 
 				foreach ($options as $option) {
@@ -1164,12 +1173,12 @@ class ControllerSaleOrder extends Controller {
 				$data['complete_status'] = false;
 			}
 
-			$data['button_uncomplete_status'] = $this->language->get('button_uncomplete_status');//Bonk04
+			$data['button_uncomplete_status'] = $this->language->get('button_uncomplete_status'); //Bonk04
 
-				if ($this->config->get('cashback_status') && (strtotime($order_info['date_added']) > strtotime($this->config->get('cashback_date_start')))) {
+			if ($this->config->get('cashback_status') && (strtotime($order_info['date_added']) > strtotime($this->config->get('cashback_date_start')))) {
 				$data['cashback_status'] = true;
 
-//				$complete_status_id = $this->config->get('config_complete_status');
+				//				$complete_status_id = $this->config->get('config_complete_status');
 
 				$data['text_cashback'] = $this->language->get('text_cashback');
 				$data['button_cashback_add'] = $this->language->get('button_cashback_add');
@@ -1183,27 +1192,27 @@ class ControllerSaleOrder extends Controller {
 						$subtotal += $total['value'];
 					}
 				}
-				
+
 				$data['cashback_point'] = 0;
 				if ($subtotal >= $this->config->get('cashback_min_total')) {
 					if ($subtotal > $this->config->get('cashback_max_total')) {
 						$subtotal = $this->config->get('cashback_max_total');
 					}
-					$data['cashback_point'] = floor($subtotal * $this->config->get('cashback_discount')/100);
+					$data['cashback_point'] = floor($subtotal * $this->config->get('cashback_discount') / 100);
 				}
-				
+
 				$data['cashback'] = $this->currency->format($data['cashback_point'], $order_info['currency_code'], $order_info['currency_value']);
-				
+
 				$cashback_voucher_theme_id = $this->config->get('cashback_voucher_theme_id');
 				$data['cashback_total'] = $this->model_sale_voucher->getTotalVoucherByPrefixCode($order_id . 'C', $cashback_voucher_theme_id);
-				
+
 				if ($data['cashback_total'] && $data['cashback_total'] <> $data['cashback_point']) {
 					$data['error_cashback'] = $this->language->get('error_cashback');
 				} else {
 					$data['error_cashback'] = '';
 				}
 			}
-				
+
 			//Bonk04:End
 
 			$data['affiliate_firstname'] = $order_info['affiliate_firstname'];
@@ -1466,7 +1475,8 @@ class ControllerSaleOrder extends Controller {
 		}
 	}
 
-	public function setInvoiceNo() {
+	public function setInvoiceNo()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1506,7 +1516,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function addReward() {
+	public function addReward()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1541,7 +1552,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function removeReward() {
+	public function removeReward()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1572,8 +1584,9 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-//Bonk04
-	public function addCashback() {
+	//Bonk04
+	public function addCashback()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1600,20 +1613,20 @@ class ControllerSaleOrder extends Controller {
 					$subtotal += $total['value'];
 				}
 			}
-			
+
 			$cashback_point = 0;
 			if ($subtotal >= $this->config->get('cashback_min_total')) {
 				if ($subtotal > $this->config->get('cashback_max_total')) {
 					$subtotal = $this->config->get('cashback_max_total');
 				}
-				$cashback_point = floor($subtotal * $this->config->get('cashback_discount')/100);
+				$cashback_point = floor($subtotal * $this->config->get('cashback_discount') / 100);
 			}
 
 			if ($order_info && $order_info['customer_id'] && $cashback_point) {
 				$this->load->model('sale/voucher');
 
 				$cashback_voucher_theme_id = $this->config->get('cashback_voucher_theme_id');
-			
+
 				$cashback_total = $this->model_sale_voucher->getTotalVoucherByPrefixCode($order_id . 'C', $cashback_voucher_theme_id);
 
 				if (!$cashback_total) {
@@ -1631,7 +1644,6 @@ class ControllerSaleOrder extends Controller {
 
 					$this->model_sale_voucher->addVoucher($cashback_data);
 				}
-
 			}
 			$json['success'] = $this->language->get('text_cashback_added');
 		}
@@ -1640,7 +1652,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function addCommission() {
+	public function addCommission()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1675,7 +1688,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function removeCommission() {
+	public function removeCommission()
+	{
 		$this->load->language('sale/order');
 
 		$json = array();
@@ -1706,7 +1720,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function history() {
+	public function history()
+	{
 		$this->load->language('sale/order');
 
 		$data['text_no_results'] = $this->language->get('text_no_results');
@@ -1715,7 +1730,7 @@ class ControllerSaleOrder extends Controller {
 		$data['column_status'] = $this->language->get('column_status');
 		$data['column_notify'] = $this->language->get('column_notify');
 		$data['column_comment'] = $this->language->get('column_comment');
-		$data['column_username'] = $this->language->get('column_username');//Bonk01
+		$data['column_username'] = $this->language->get('column_username'); //Bonk01
 
 		if (isset($this->request->get['page'])) {
 			$page = intval($this->request->get['page']);
@@ -1734,7 +1749,7 @@ class ControllerSaleOrder extends Controller {
 				'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
 				'status'     => $result['status'],
 				'comment'    => nl2br($result['comment']),
-				'username'     => $result['username'],//Bonk01
+				'username'     => $result['username'], //Bonk01
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -1754,7 +1769,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_history', $data));
 	}
 
-	public function invoice() {
+	public function invoice()
+	{
 		$this->load->language('sale/order');
 
 		$data['title'] = $this->language->get('text_invoice');
@@ -1989,7 +2005,8 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_invoice', $data));
 	}
 
-	public function shipping() {
+	public function shipping()
+	{
 		$this->load->language('sale/order');
 
 		$data['title'] = $this->language->get('text_shipping');
@@ -2015,7 +2032,7 @@ class ControllerSaleOrder extends Controller {
 		$data['text_email'] = $this->language->get('text_email');
 		$data['text_website'] = $this->language->get('text_website');
 		$data['text_contact'] = $this->language->get('text_contact');
-//		$data['text_payment_address'] = $this->language->get('text_payment_address');
+		//		$data['text_payment_address'] = $this->language->get('text_payment_address');
 		$data['text_shipping_address'] = $this->language->get('text_shipping_address');
 		$data['text_shipping_method'] = $this->language->get('text_shipping_method');
 		$data['text_sku'] = $this->language->get('text_sku');
@@ -2119,11 +2136,11 @@ class ControllerSaleOrder extends Controller {
 				foreach ($products as $product) {
 					$option_weight = 0;
 
-					$product_info = $this->model_catalog_product->getProduct($product['product_id']);
+					// $product_info = $this->model_catalog_product->getProduct($product['product_id']);
+					$product_info = $this->model_catalog_product->getProductByModel($product['model']);
 
 					if ($product_info) {
 						$option_data = [];
-						$option_model = [];
 
 						$options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
 
@@ -2144,36 +2161,21 @@ class ControllerSaleOrder extends Controller {
 								'name'  => $option['name'],
 								'value' => $value
 							);
-							
-							$product_option_value_info = $this->model_catalog_product->getProductOptionValue($product['product_id'], $option['product_option_value_id']);
-
-							if ($product_option_value_info['model']) {
-								$option_model[] = $product_option_value_info['model'];
-							}
-							
-							if ($product_option_value_info) {
-								if ($product_option_value_info['weight_prefix'] == '+') {
-									$option_weight += $product_option_value_info['weight'];
-								} elseif ($product_option_value_info['weight_prefix'] == '-') {
-									$option_weight -= $product_option_value_info['weight'];
-								}
-							}
 						}
 
 						$product_data[] = array(
 							'name'     => $product_info['name'],
-							'model'    => $option_model ? implode(', ', $option_model) : $product_info['model'],
+							'model'    => $product_info['model'],
 							'option'   => $option_data,
 							'quantity' => $product['quantity'],
 							'location' => $product_info['location'],
-							// 'sku'      => $product_info['sku'], //disabled because model used as sku
 							'sku'      => '',
 							'upc'      => $product_info['upc'],
 							'ean'      => $product_info['ean'],
 							'jan'      => $product_info['jan'],
 							'isbn'     => $product_info['isbn'],
 							'mpn'      => $product_info['mpn'],
-							'weight'   => $this->weight->format(($product_info['weight'] + $option_weight) * $product['quantity'], $product_info['weight_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point'))
+							'weight'   => $this->weight->format($product_info['weight'] * $product['quantity'], $product_info['weight_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point'))
 						);
 					}
 				}
@@ -2199,5 +2201,41 @@ class ControllerSaleOrder extends Controller {
 		}
 
 		$this->response->setOutput($this->load->view('sale/order_shipping', $data));
+	}
+
+	public function productVariant()
+	{
+		$this->load->language('sale/order');
+
+		$json = array();
+		$variant_name = '-';
+
+		if (!in_array('', $this->request->post['variant_option'])) {
+			$product_id = isset($this->request->post['product_id']) ? (int)$this->request->post['product_id'] : 0;
+
+			$this->load->model('catalog/product');
+
+			$product_info = $this->model_catalog_product->getProduct($product_id);
+
+			if ($product_info) {
+				$product_variants = $this->model_catalog_product->getProductVariants($product_id);
+
+				foreach ($product_variants['variant'] as $variant_value) {
+					if ($variant_value['option_value_id'] == $this->request->post['variant_option']) {
+						$variant_name = $product_info['name'] . ' - ' . $this->model_catalog_product->getProductVariantName($variant_value['option_value_id']);
+
+						break;
+					}
+				}
+			}
+		}
+
+		$json['variant_data'] = [
+			'name'	=> $variant_name,
+			'model'	=> $variant_value['model']
+		];
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 }

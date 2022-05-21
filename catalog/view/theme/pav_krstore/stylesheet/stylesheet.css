@@ -11817,9 +11817,9 @@ div.required .control-label:before {
 }
 
 /***** Checkout - Checkout *****/
-#accordion br {
+/* #accordion br {
   display: none;
-}
+} */
 #accordion .panel-title {
   font-size: 16px;
 }

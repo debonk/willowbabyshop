@@ -50,8 +50,8 @@
 						<li><a href="#tab-attribute" data-toggle="tab">
 								<?= $tab_attribute; ?>
 							</a></li>
-						<li><a href="#tab-multiple" data-toggle="tab">
-								<?= $tab_multiple; ?>
+						<li><a href="#tab-variant" data-toggle="tab">
+								<?= $tab_variant; ?>
 							</a></li>
 						<li><a href="#tab-option" data-toggle="tab">
 								<?= $tab_option; ?>
@@ -842,15 +842,15 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane" id="tab-multiple">
-							<?php if ($error_multiple) { ?>
+						<div class="tab-pane" id="tab-variant">
+							<?php if ($error_variant) { ?>
 							<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-								<?= $error_multiple; ?>
+								<?= $error_variant; ?>
 								<button type="button" class="close" data-dismiss="alert">&times;</button>
 							</div>
 							<?php } ?>
 							<div>
-								<?= $form_multiple; ?>
+								<?= $form_variant; ?>
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-recurring">

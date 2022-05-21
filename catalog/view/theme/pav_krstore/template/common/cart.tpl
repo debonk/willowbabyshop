@@ -21,10 +21,6 @@
 							</td>
 							<td class="text-left name">
 								<a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
-								<?php if ($product['variant_name']) { ?>
-										<br />
-										<small><?php echo ' - ' . $product['variant_name']; ?></small>
-								<?php } ?>
 								<?php if ($product['option']) { ?>
 									<?php foreach ($product['option'] as $option) { ?>
 										<br />

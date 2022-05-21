@@ -1,20 +1,23 @@
 # willowbabyshop software
 
-2.3.0.0_Developing
+2.3.0.3_Developing
 Modul: Multiple Option >>
+	CHECK FUNCTIONALITY
+		route=catalog/product/autocomplete
+		
+
 	- Report > Product
 	- Catalog > Tool
-	- Sale > Order
-	- APP > order
-	- APP > cart
 	- APP > common/home
 
+	- Sale > Order
+	- APP > order
+		Table: product_option_value: add index to model and product_id
 	- APP > Common > Cart
 	- APP > Checkout > Cart
-		Table: cart: Modify
-			Add model and variant
+		Table: cart: Modified
+			Add model
 			ALTER TABLE `oc_cart` ADD INDEX( `model`);
-			Move variant after recurring_id
 	- APP > product > product
 	- Catalog > Product Form > Multiple Option: Variant Tab (REBUILD)
 	- Removing VQMod

@@ -29,7 +29,7 @@ class Cart
 				$this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE cart_id = '" . (int)$cart['cart_id'] . "'");
 
 				// The advantage of using $this->add is that it will check if the products already exist and increaser the quantity if necessary.
-				$this->add($cart['product_id'], $cart['quantity'], json_decode($cart['option']), $cart['recurring_id']);
+				$this->add($cart['product_id'], $cart['model'], $cart['quantity'], json_decode($cart['option']), $cart['recurring_id']);
 			}
 		}
 	}
@@ -43,10 +43,12 @@ class Cart
 		foreach ($cart_query->rows as $cart) {
 			$stock = true;
 
+			// $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_store p2s LEFT JOIN " . DB_PREFIX . "product p ON (p2s.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pov.product_id = p.product_id) WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND p2s.product_id = '" . (int)$cart['product_id'] . "' AND pov.model = '" . $this->db->escape($cart['model']) . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.date_available <= NOW() AND p.status = '1'");
 			$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_store p2s LEFT JOIN " . DB_PREFIX . "product p ON (p2s.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND p2s.product_id = '" . (int)$cart['product_id'] . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.date_available <= NOW() AND p.status = '1'");
+			$variant_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.model = '" . $this->db->escape($cart['model']) . "' AND pov.product_id = '" . (int)$cart['product_id'] . "'");
 
-			if ($product_query->num_rows && ($cart['quantity'] > 0)) {
-				$variant_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.model = '" . $this->db->escape($cart['model']) . "' AND pov.product_id = '" . (int)$cart['product_id'] . "'");
+			if ($product_query->num_rows && $variant_query->num_rows && ($cart['quantity'] > 0)) {
+				// $variant_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.model = '" . $this->db->escape($cart['model']) . "' AND pov.product_id = '" . (int)$cart['product_id'] . "'");
 
 				$price = $variant_query->row['price'];
 
@@ -84,32 +86,38 @@ class Cart
 				$variant_id = json_decode($variant_query->row['option_value_id']);
 
 				// $variant_data = [];
-				$variant_name = '';
 
+				$variant_name = [];
+				// $option_name = [];
+				
 				if ($variant_id) {
+
 					$variant_ids = implode(', ', $variant_id);
-					$variant_name_query = $this->db->query("SELECT GROUP_CONCAT(name SEPARATOR ', ') AS name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($variant_ids) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					
+					// $variant_name_query = $this->db->query("SELECT GROUP_CONCAT(name SEPARATOR ', ') AS name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($variant_ids) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					// $variant_name = $variant_name_query->row['name'];
 
-					$variant_name = $variant_name_query->row['name'];
+					$variant_value_query = $this->db->query("SELECT ovd.*, od.name AS option_name FROM " . DB_PREFIX . "option_value_description ovd LEFT JOIN " . DB_PREFIX . "option_description od ON (ovd.option_id = od.option_id AND ovd.language_id = od.language_id) WHERE ovd.option_value_id IN (" . $this->db->escape($variant_ids) . ") AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
-					// $variant_data = array(
+					$variants = array_combine(array_column($variant_value_query->rows, 'option_value_id'), $variant_value_query->rows);
+
+					foreach ($variant_id as $id) {
+						$variant_name[] = $variants[$id]['name'];
+						// $option_name[] = $variants[$id]['option_name'];
+					}
+
+					// $variant_data = [
 					// 	'product_option_id'       => $variant_query->row['product_option_id'],
 					// 	'product_option_value_id' => $variant_query->row['product_option_value_id'],
-					// 	'option_id'               => json_decode($variant_query->row['option_id']),
-					// 	'option_value_id'         => $variant_id,
-					// 	'name'                    => $variant_name_query->row['name'],
-					// 	// 'value'         		  => '',
-					// 	// 'type'                    => $option_query->row['type'],
-					// 	'model'                   => $variant_query->row['model'],
-					// 	'quantity'                => $variant_query->row['quantity'],
-					// 	'price'                   => $variant_query->row['price'],
-					// 	'points'                  => $variant_query->row['points'],
-					// 	'weight'                  => $variant_query->row['weight'],
-					// 	'weight_class_id'         => $variant_query->row['weight_class_id']
-					// );
+					// 	'option_id'               => $variant_query->row['option_id'],
+					// 	'option_value_id'         => $variant_query->row['option_value_id'],
+					// 	'name'                    => json_encode($option_name),
+					// 	'value'         		  => json_encode($variant_name),
+					// 	'type'                    => 'variant'
+					// ];
 				}
-
-				$option_data = array();
+				
+				$option_data = [];
 
 				foreach (json_decode($cart['option']) as $product_option_id => $value) {
 					$option_query = $this->db->query("SELECT po.product_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_option_id = '" . (int)$product_option_id . "' AND po.product_id = '" . (int)$cart['product_id'] . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
@@ -118,18 +126,12 @@ class Cart
 						if ($option_query->row['type'] == 'text' || $option_query->row['type'] == 'textarea' || $option_query->row['type'] == 'file' || $option_query->row['type'] == 'date' || $option_query->row['type'] == 'datetime' || $option_query->row['type'] == 'time') {
 							$option_data[] = array(
 								'product_option_id'       => $product_option_id,
-								// 'product_option_value_id' => '',
+								'product_option_value_id' => 0,
 								'option_id'               => $option_query->row['option_id'],
-								// 'option_value_id'         => '',
+								'option_value_id'         => '',
 								'name'                    => $option_query->row['name'],
 								'value'                   => $value,
 								'type'                    => $option_query->row['type']
-								// 'model'                   => '',
-								// 'quantity'                => '',
-								// 'price'                   => '',
-								// 'points'                  => '',
-								// 'weight'                  => '',
-								// 'weight_class_id'         => 0
 							);
 						}
 					}
@@ -181,11 +183,11 @@ class Cart
 				$product_data[] = array(
 					'cart_id'         => $cart['cart_id'],
 					'product_id'      => $product_query->row['product_id'],
-					'name'            => $product_query->row['name'],
+					'name'            => $product_query->row['name'] . ($variant_name ? ' - ' . implode(', ', $variant_name) : ''),
 					'model'           => $variant_query->row['model'],
 					'shipping'        => $product_query->row['shipping'],
 					'image'           => $variant_query->row['image'] ? $variant_query->row['image'] : $product_query->row['image'],
-					'variant_name'    => $variant_name,
+					// 'variant_name'    => implode(', ', $variant_name),
 					// 'variant'         => $variant_data,
 					'option'          => $option_data,
 					'download'        => $download_data,
@@ -214,14 +216,14 @@ class Cart
 		return $product_data;
 	}
 
-	public function add($product_id, $model, $quantity = 1, $variant = [], $option = [], $recurring_id = 0)
+	public function add($product_id, $model, $quantity = 1, $option = [], $recurring_id = 0)
 	{
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "cart WHERE customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND recurring_id = '" . (int)$recurring_id . "' AND `variant` = '" . $this->db->escape(json_encode($variant)) . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "cart WHERE customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND recurring_id = '" . (int)$recurring_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
 
 		if (!$query->row['total']) {
-			$this->db->query("INSERT " . DB_PREFIX . "cart SET customer_id = '" . (int)$this->customer->getId() . "', session_id = '" . $this->db->escape($this->session->getId()) . "', product_id = '" . (int)$product_id . "', model = '" . $this->db->escape($model) . "', recurring_id = '" . (int)$recurring_id . "', `variant` = '" . $this->db->escape(json_encode($variant)) . "', `option` = '" . $this->db->escape(json_encode($option)) . "', quantity = '" . (int)$quantity . "', date_added = NOW()");
+			$this->db->query("INSERT " . DB_PREFIX . "cart SET customer_id = '" . (int)$this->customer->getId() . "', session_id = '" . $this->db->escape($this->session->getId()) . "', product_id = '" . (int)$product_id . "', model = '" . $this->db->escape($model) . "', recurring_id = '" . (int)$recurring_id . "', `option` = '" . $this->db->escape(json_encode($option)) . "', quantity = '" . (int)$quantity . "', date_added = NOW()");
 		} else {
-			$this->db->query("UPDATE " . DB_PREFIX . "cart SET quantity = (quantity + " . (int)$quantity . ") WHERE customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND recurring_id = '" . (int)$recurring_id . "' AND `variant` = '" . $this->db->escape(json_encode($variant)) . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "cart SET quantity = (quantity + " . (int)$quantity . ") WHERE customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND recurring_id = '" . (int)$recurring_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
 		}
 	}
 

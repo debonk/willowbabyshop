@@ -1,28 +1,28 @@
 <div class="form-group">
 	<div class="col-sm-3">
-		<input type="text" name="multiple" value="" placeholder="<?= $entry_multiple; ?>" id="input-multiple"
+		<input type="text" name="variant" value="" placeholder="<?= $entry_variant; ?>" id="input-variant"
 			class="form-control" />
 	</div>
 </div>
 <div>
 	<div class="tab-content">
 		<div class="table-responsive">
-			<table id="table-product-multiple" class="table table-striped table-bordered table-hover text-left">
+			<table id="table-product-variant" class="table table-striped table-bordered table-hover text-left">
 				<thead>
 					<tr>
 						<td>
 							<?= $entry_image; ?>
 						</td>
-						<?php foreach($product_multiples['option'] as $column => $product_option) { ?>
-						<td class="multiple-option<?= $column; ?> bg-primary">
-							<div id="multiple-option<?= $column; ?>" data-column="<?= $column; ?>"><i
-									class="fa fa-minus-circle" onclick="deleteMultipleOption('<?= $column; ?>');" data-toggle="tooltip"
+						<?php foreach($product_variants['option'] as $column => $product_option) { ?>
+						<td class="variant-option<?= $column; ?> bg-primary">
+							<div id="variant-option<?= $column; ?>" data-column="<?= $column; ?>"><i
+									class="fa fa-minus-circle" onclick="deleteVariantOption('<?= $column; ?>');" data-toggle="tooltip"
 									title="<?= $button_remove; ?>"></i>
 								<?= $product_option['name']; ?>
 							</div>
-							<input type="hidden" name="product_multiple[option][<?= $column; ?>]"
+							<input type="hidden" name="product_variant[option][<?= $column; ?>][option_id]"
 								value="<?= $product_option['option_id']; ?>" />
-							<select id="multiple-values<?= $column; ?>" style="display: none;">
+							<select id="variant-values<?= $column; ?>" style="display: none;">
 								<?php foreach($product_option['option_value'] as $option_value) { ?>
 								<option value="<?= $option_value['option_value_id']; ?>">
 									<?= $option_value['name']; ?>
@@ -55,19 +55,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($product_multiples['multiple_value'] as $row => $multiple_value) { ?>
-					<tr id="multiple-value-row<?= $row; ?>" data-row="<?= $row; ?>">
+					<?php foreach($product_variants['variant'] as $row => $variant) { ?>
+					<tr id="variant-value-row<?= $row; ?>" data-row="<?= $row; ?>">
 						<td><a href="" id="thumb-variant-image<?= $row; ?>" data-toggle="image" class="img-thumbnail"><img
-									src="<?= $multiple_value['thumb']; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
-								type="hidden" name="product_multiple[multiple_value][<?= $row; ?>][image]"
-								value="<?= $multiple_value['image']; ?>" id="input-variant-image<?= $row; ?>" /></td>
-						<?php foreach($multiple_value['option_value_id'] as $column => $option_value_id) { ?>
-						<td class="multiple-option<?= $column; ?>"><select
-								name="product_multiple[multiple_value][<?= $row; ?>][option_value_id][<?= $column; ?>]"
+									src="<?= $variant['thumb']; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
+								type="hidden" name="product_variant[variant][<?= $row; ?>][image]"
+								value="<?= $variant['image']; ?>" id="input-variant-image<?= $row; ?>" /></td>
+						<?php foreach($variant['option_value_id'] as $column => $option_value_id) { ?>
+						<td class="variant-option<?= $column; ?>"><select
+								name="product_variant[variant][<?= $row; ?>][option_value_id][<?= $column; ?>]"
 								class="form-control">
-								<?php foreach($product_multiples['option'][$column]['option_value'] as $option_value) { ?>
+								<?php foreach($product_variants['option'][$column]['option_value'] as $option_value) { ?>
 								<option value="<?= $option_value['option_value_id']; ?>"
-									<?=($option_value['option_value_id']==$multiple_value['option_value_id'][$column]) ? 'selected' : ''
+									<?=($option_value['option_value_id']==$variant['option_value_id'][$column]) ? 'selected' : ''
 									?>>
 									<?= $option_value['name']; ?>
 								</option>
@@ -76,24 +76,24 @@
 						</td>
 						<?php } ?>
 						<td id="input-model<?= $row; ?>"><input type="text"
-								name="product_multiple[multiple_value][<?= $row; ?>][model]" value="<?= $multiple_value['model']; ?>"
+								name="product_variant[variant][<?= $row; ?>][model]" value="<?= $variant['model']; ?>"
 								placeholder="<?= $entry_model; ?>" class="form-control" /></td>
-						<td class="text-right"><input type="text" name="product_multiple[multiple_value][<?= $row; ?>][quantity]"
-								value="<?= $multiple_value['quantity']; ?>" placeholder="<?= $entry_quantity; ?>"
+						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][quantity]"
+								value="<?= $variant['quantity']; ?>" placeholder="<?= $entry_quantity; ?>"
 								class="form-control" /></td>
-						<td class="text-right"><input type="text" name="product_multiple[multiple_value][<?= $row; ?>][price]"
-								value="<?= $multiple_value['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control" id="input-price<?= $row; ?>" /></td>
-						<td class="text-rigth"><input type="text" name="product_multiple[multiple_value][<?= $row; ?>][points]"
-								value="<?= $multiple_value['points']; ?>" placeholder="<?= $entry_points; ?>" class="form-control" id="input-points<?= $row; ?>" />
+						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][price]"
+								value="<?= $variant['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control" id="input-price<?= $row; ?>" /></td>
+						<td class="text-rigth"><input type="text" name="product_variant[variant][<?= $row; ?>][points]"
+								value="<?= $variant['points']; ?>" placeholder="<?= $entry_points; ?>" class="form-control" id="input-points<?= $row; ?>" />
 						</td>
-						<td class="text-right"><input type="text" name="product_multiple[multiple_value][<?= $row; ?>][weight]"
-								value="<?= $multiple_value['weight']; ?>" placeholder="<?= $entry_weight; ?>" class="form-control" id="input-weight<?= $row; ?>" />
+						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][weight]"
+								value="<?= $variant['weight']; ?>" placeholder="<?= $entry_weight; ?>" class="form-control" id="input-weight<?= $row; ?>" />
 						</td>
-						<td><select name="product_multiple[multiple_value][<?= $row; ?>][weight_class_id]" class="form-control"
+						<td><select name="product_variant[variant][<?= $row; ?>][weight_class_id]" class="form-control"
 								id="weight-classes<?= $row; ?>">
 								<?php foreach($weight_classes as $weight_class) { ?>
 								<option value="<?= $weight_class['weight_class_id'] ?>"
-									<?=($weight_class['weight_class_id']==$multiple_value['weight_class_id']) ? 'selected' : '' ?>>
+									<?=($weight_class['weight_class_id']==$variant['weight_class_id']) ? 'selected' : '' ?>>
 									<?= $weight_class['title']; ?>
 								</option>
 								<?php } ?>
@@ -113,8 +113,8 @@
 				<tfoot>
 					<tr>
 						<td></td>
-						<?php foreach($multiple_value['option_value_id'] as $column => $option_value_id) { ?>
-						<td class="multiple-option<?= $column; ?>"></td>
+						<?php foreach($variant['option_value_id'] as $column => $option_value_id) { ?>
+						<td class="variant-option<?= $column; ?>"></td>
 						<?php } ?>
 						<td colspan="6"></td>
 						<td class="text-right"><button type="button" onclick="addVariantValue();" data-toggle="tooltip"
@@ -127,14 +127,14 @@
 	</div>
 
 	<script type="text/javascript">
-		let multiple_column = '<?= $option_count; ?>';
+		let variant_column = '<?= $option_count; ?>';
 
-		if (multiple_column == 0) {
-			$('#table-product-multiple tfoot').hide();
+		if (variant_column == 0) {
+			$('#table-product-variant tfoot').hide();
 		}
 
 		$(document).ready(function () {
-			$('input[name=\'multiple\']').autocomplete({
+			$('input[name=\'variant\']').autocomplete({
 				'source': function (request, response) {
 					$.ajax({
 						url: 'index.php?route=catalog/option/autocomplete&token=<?= $token; ?>&filter_selection_only=1&filter_name=' + encodeURIComponent(request),
@@ -153,36 +153,36 @@
 					});
 				},
 				'select': function (item) {
-					$('#table-product-multiple tfoot').show();
+					$('#table-product-variant tfoot').show();
 
 					html = '';
-					html += '  <td class="multiple-option' + multiple_column + ' bg-primary">';
-					html += '  <div id="multiple-option' + multiple_column + '" data-column="' + multiple_column + '"><i class="fa fa-minus-circle" onclick="deleteMultipleOption(' + multiple_column + ');" data-toggle="tooltip" title="<?= $button_remove; ?>"></i> ' + item['label'] + '</div>';
-					html += '	 <input type="hidden" name="product_multiple[option][' + multiple_column + ']" value="' + item['value'] + '" />';
+					html += '  <td class="variant-option' + variant_column + ' bg-primary">';
+					html += '  <div id="variant-option' + variant_column + '" data-column="' + variant_column + '"><i class="fa fa-minus-circle" onclick="deleteVariantOption(' + variant_column + ');" data-toggle="tooltip" title="<?= $button_remove; ?>"></i> ' + item['label'] + '</div>';
+					html += '	 <input type="hidden" name="product_variant[option][' + variant_column + '][option_id]" value="' + item['value'] + '" />';
 
-					html += '  <select id="multiple-values' + multiple_column + '" style="display: none;">';
+					html += '  <select id="variant-values' + variant_column + '" style="display: none;">';
 					for (let i = 0; i < item['option_value'].length; i++) {
 						html += '  <option value="' + item['option_value'][i]['option_value_id'] + '">' + item['option_value'][i]['name'] + '</option>';
 					}
 					html += '  </select>';
 					html += '  </td>';
 
-					$('#tab-multiple #label-model').before(html);
-					$('#tab-multiple tfoot > tr').prepend('<td class="multiple-option' + multiple_column + '"></td>');
+					$('#tab-variant #label-model').before(html);
+					$('#tab-variant tfoot > tr').prepend('<td class="variant-option' + variant_column + '"></td>');
 
-					let multiple_rows = $('[id^=\'multiple-value-row\']');
+					let variant_rows = $('[id^=\'variant-value-row\']');
 
-					for (let j = 0; j < multiple_rows.length; j++) {
-						let row = $(multiple_rows[j]).data('row');
+					for (let j = 0; j < variant_rows.length; j++) {
+						let row = $(variant_rows[j]).data('row');
 						html = '';
-						html += '  <td class="multiple-option' + multiple_column + '"><select name="product_multiple[multiple_value][' + row + '][option_value_id][' + multiple_column + ']" class="form-control">';
-						html += $('#multiple-values' + multiple_column).html();
+						html += '  <td class="variant-option' + variant_column + '"><select name="product_variant[variant][' + row + '][option_value_id][' + variant_column + ']" class="form-control">';
+						html += $('#variant-values' + variant_column).html();
 						html += '  </select></td>';
 
-						$('#tab-multiple #input-model' + row).before(html);
+						$('#tab-variant #input-model' + row).before(html);
 					}
 
-					multiple_column++;
+					variant_column++;
 
 					$('[data-toggle=\'tooltip\']').tooltip({
 						container: 'body',
@@ -193,43 +193,43 @@
 		});
 	</script>
 	<script type="text/javascript">
-		function deleteMultipleOption(multiple_column) {
-			$('[class^=\'multiple-option' + multiple_column + '\']').remove();
+		function deleteVariantOption(variant_column) {
+			$('[class^=\'variant-option' + variant_column + '\']').remove();
 		}
 
-		let multiple_row = '<?= $multiple_value_count; ?>';
+		let variant_row = '<?= $variant_count; ?>';
 
 		function addVariantValue() {
 			html = ''
-			html += '<tr id="multiple-value-row' + multiple_row + '" data-row="' + multiple_row + '">';
-			html += '  <td><a href="" id="thumb-variant-image' + multiple_row + '" data-toggle="image" class="img-thumbnail"><img src="<?= $placeholder; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_multiple[multiple_value][' + multiple_row + '][image]" value="" id="input-variant-image' + multiple_row + '" /></td>';
+			html += '<tr id="variant-value-row' + variant_row + '" data-row="' + variant_row + '">';
+			html += '  <td><a href="" id="thumb-variant-image' + variant_row + '" data-toggle="image" class="img-thumbnail"><img src="<?= $placeholder; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_variant[variant][' + variant_row + '][image]" value="" id="input-variant-image' + variant_row + '" /></td>';
 
-			let multiple_columns = $('[id^=\'multiple-option\']');
+			let variant_columns = $('[id^=\'variant-option\']');
 
-			for (let k = 0; k < multiple_columns.length; k++) {
-				let column = $(multiple_columns[k]).data('column');
+			for (let k = 0; k < variant_columns.length; k++) {
+				let column = $(variant_columns[k]).data('column');
 
-				html += '  <td class="multiple-option' + column + '"><select name="product_multiple[multiple_value][' + multiple_row + '][option_value_id][' + column + ']" class="form-control">';
-				html += $('#multiple-values' + column).html();
+				html += '  <td class="variant-option' + column + '"><select name="product_variant[variant][' + variant_row + '][option_value_id][' + column + ']" class="form-control">';
+				html += $('#variant-values' + column).html();
 				html += '  </select></td>';
 			}
 
-			html += '  <td id="input-model' + multiple_row + '"><input type="text" name="product_multiple[multiple_value][' + multiple_row + '][model]" value="" placeholder="<?= $entry_model; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_multiple[multiple_value][' + multiple_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_multiple[multiple_value][' + multiple_row + '][price]" value="' + $('#input-price0').val() + '" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-rigth"><input type="text" name="product_multiple[multiple_value][' + multiple_row + '][points]" value="' + $('#input-points0').val() + '" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_multiple[multiple_value][' + multiple_row + '][weight]" value="' + $('#input-weight0').val() + '" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
-			html += '  <td><select name="product_multiple[multiple_value][' + multiple_row + '][weight_class_id]" class="form-control">';
+			html += '  <td id="input-model' + variant_row + '"><input type="text" name="product_variant[variant][' + variant_row + '][model]" value="" placeholder="<?= $entry_model; ?>" class="form-control" /></td>';
+			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
+			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][price]" value="' + $('#input-price0').val() + '" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
+			html += '  <td class="text-rigth"><input type="text" name="product_variant[variant][' + variant_row + '][points]" value="' + $('#input-points0').val() + '" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
+			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][weight]" value="' + $('#input-weight0').val() + '" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
+			html += '  <td><select name="product_variant[variant][' + variant_row + '][weight_class_id]" class="form-control">';
 			html += $('#weight-classes0').html();
 			html += '    </select>';
 			html += '  </td>';
 			html += '  <td class="text-right"><button type="button" onclick="$(this).tooltip(\'destroy\');$(this).closest(\'tr\').remove();" data-toggle="tooltip" rel="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 			html += '</tr>';
 
-			$('#table-product-multiple tbody').append(html);
+			$('#table-product-variant tbody').append(html);
 			$('[rel=tooltip]').tooltip();
 
-			multiple_row++;
+			variant_row++;
 		}
 	</script>
 </div>

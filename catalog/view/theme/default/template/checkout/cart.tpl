@@ -57,7 +57,7 @@
                   <?php if (!$product['stock']) { ?>
                   <span class="text-danger">***</span>
                   <?php } ?>
-                  <?php if ($product['option']) { ?>
+									<?php if ($product['option']) { ?>
                   <?php foreach ($product['option'] as $option) { ?>
                   <br />
                   <small><?php echo $option['name']; ?>: <?php echo $option['value']; ?></small>

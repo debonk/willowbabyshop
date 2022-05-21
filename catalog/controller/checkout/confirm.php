@@ -206,38 +206,21 @@ class ControllerCheckoutConfirm extends Controller {
 
 			$order_data['products'] = array();
 
-			foreach ($this->cart->getProducts() as $product) {
+			foreach ($products as $product) {
 				$option_data = [];
-				$option_model = [];
-
-				foreach ($product['option'] as $option) {
-					$option_data[] = array(
-						'product_option_id'       => $option['product_option_id'],
-						'product_option_value_id' => $option['product_option_value_id'],
-						'option_id'               => $option['option_id'],
-						'option_value_id'         => $option['option_value_id'],
-						'name'                    => $option['name'],
-						'value'                   => $option['value'],
-						'type'                    => $option['type']
-					);
-
-					if ($option['model']) {
-						$option_model[] = $option['model'];
-					}
-				}
-
+				
 				$order_data['products'][] = array(
-					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
-					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
-					'option'     => $option_data,
-					'download'   => $product['download'],
-					'quantity'   => $product['quantity'],
-					'subtract'   => $product['subtract'],
-					'price'      => $product['price'],
-					'total'      => $product['total'],
-					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
-					'reward'     => $product['reward']
+					'product_id' 	=> $product['product_id'],
+					'name'       	=> $product['name'],
+					'model'   		=> $product['model'],
+					'option'  		=> $product['option'],
+					'download'		=> $product['download'],
+					'quantity'		=> $product['quantity'],
+					'subtract'		=> $product['subtract'],
+					'price'   		=> $product['price'],
+					'total'   		=> $product['total'],
+					'tax'     		=> $this->tax->getTax($product['price'], $product['tax_class_id']),
+					'reward'  		=> $product['reward']
 				);
 			}
 			
@@ -341,9 +324,8 @@ class ControllerCheckoutConfirm extends Controller {
 
 			$data['products'] = array();
 
-			foreach ($this->cart->getProducts() as $product) {
+			foreach ($products as $product) {
 				$option_data = [];
-				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					if ($option['type'] != 'file') {
@@ -362,10 +344,6 @@ class ControllerCheckoutConfirm extends Controller {
 						'name'  => $option['name'],
 						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
 					);
-
-					if ($option['model']) {
-						$option_model[] = $option['model'];
-					}
 				}
 
 				$recurring = '';
@@ -391,17 +369,17 @@ class ControllerCheckoutConfirm extends Controller {
 				}
 
 				$data['products'][] = array(
-					'cart_id'    => $product['cart_id'],
-					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
-					'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
-					'option'     => $option_data,
-					'recurring'  => $recurring,
-					'quantity'   => $product['quantity'],
-					'subtract'   => $product['subtract'],
-					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
-					'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'], $this->session->data['currency']),
-					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+					'cart_id'   	=> $product['cart_id'],
+					'product_id'	=> $product['product_id'],
+					'name'      	=> $product['name'],
+					'model'    		=> $product['model'],
+					'option'   		=> $option_data,
+					'recurring'		=> $recurring,
+					'quantity' 		=> $product['quantity'],
+					'subtract' 		=> $product['subtract'],
+					'price'    		=> $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
+					'total'    		=> $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'], $this->session->data['currency']),
+					'href'     		=> $this->url->link('product/product', 'product_id=' . $product['product_id'])
 				);
 			}
 

@@ -89,19 +89,19 @@
 					<?php } ?>
 					<?php if ($price) { ?>
 					<?php if (!$special) { ?>
-					<h3 class="price-olds">
+					<h3 class="price-olds" id="price">
 						<?= $price; ?>
 					</h3>
 					<?php } else { ?>
 					<div class="price clearfix">
-						<span class="price-old">
+						<span class="price-old" id="price">
 							<?= $price; ?>
 						</span>
 						<span class="label label-danger special-percentage-big">
 							<?= $special_text; ?>
 						</span>
 						<!--Bonk-->
-						<div class="price-new">
+						<div class="price-new" id="special">
 							<?= $special; ?>
 						</div>
 					</div>
@@ -124,7 +124,9 @@
 						<?php if ($discounts) { ?>
 						<?php foreach ($discounts as $discount) { ?>
 						<li>
-							<?= $discount['discount_text']; ?>
+							<?= $discount['quantity'] . $text_discount; ?>
+							<span id="discount<?= $discount['quantity']; ?>"><?= $discount['price']; ?></span>
+							<?= ' (' . $discount['text'] . ')'; ?>
 						</li>
 						<?php } ?>
 						<?php } ?>
@@ -583,14 +585,7 @@
 	});
 </script>
 <script type="text/javascript">
-	$('[name^=\'variant\']').on('change', function(){
-		// let variants = $('select[name^=\'variant\'], input[name^=\'variant\']:checked');
-		// let variant_ids = [];
-
-		// for (let i = 0; i < variants.length; i++) {
-		// 	variant_ids[i] = variants[i].value;
-		// }
-// console.table(variant_ids);
+	$('[name^=\'variant\']').on('change', function() {
 		$.ajax({
 			url: 'index.php?route=product/product/variant&product_id=<?= $product_id; ?>',
 			type: 'post',
@@ -598,8 +593,17 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['detail']) {
-					// console.table(json['detail']);
+					if (json['detail']['special']) {
+						$('#special').html(json['detail']['special']);
+					}
 
+					if (json['detail']['discount']) {
+						for (const i in json['detail']['discount']) {
+							$('#discount' + json['detail']['discount'][i]['quantity']).html(json['detail']['discount'][i]['price']);
+						}
+					}
+
+					$('#price').html(json['detail']['price']);
 					$('#model').html(json['detail']['model']);
 					$('#title').html(json['detail']['name']);
 					$('#stock').html(json['detail']['stock']);
@@ -607,7 +611,6 @@
 
 					$('#thumb-v' + json['detail']['idx']).trigger('click');
 				}
-
 			}
 		});
 	});
@@ -627,15 +630,6 @@
 			success: function (json) {
 				$('.alert, .text-danger').remove();
 				$('.form-group').removeClass('has-error');
-
-				if (json['detail']) {
-					$('#model').html(json['detail']['model']);
-					$('#title').html(json['detail']['name']);
-					$('#stock').html(json['detail']['stock']);
-					$('#points').html(json['detail']['points']);
-
-					$('#thumb-v' + json['detail']['idx']).trigger('click');
-				}
 
 				if (json['error']) {
 					if (json['error']['variant']) {
@@ -827,17 +821,21 @@
 <?php if( $productConfig['product_enablezoom'] ) { ?>
 <script type="text/javascript" src=" catalog/view/javascript/jquery/elevatezoom/elevatezoom-min.js"></script>
 <script type="text/javascript">
-	var zoomCollection = '<?= $productConfig["product_zoomgallery"]=="basic"?".product-image-zoom":"#image";?>';
+	let zoomCollection = '<?= $productConfig["product_zoomgallery"]=="basic"?".product-image-zoom":"#image";?>';
+	let zoomType = '<?= $productConfig["product_zoommode"];?>';
+
+	if (zoomType == 'basic') {
+		zoomType = undefined;
+	}
+
 	$(zoomCollection).elevateZoom({
-    <?php if ($productConfig['product_zoommode'] != 'basic') { ?>
-		zoomType        : "<?= $productConfig['product_zoommode'];?>",
-    <?php } ?>
-		lensShape : "<?= $productConfig['product_zoomlensshape'];?>",
-			lensSize    : <?= (int)$productConfig['product_zoomlenssize'];?>,
-				easing: true,
-					gallery: 'image-additional-carousel',
-						cursor: 'pointer',
-							galleryActiveClass: "active"
+		zoomType						: zoomType,
+		lensShape						: "<?= $productConfig['product_zoomlensshape'];?>",
+		lensSize						: "<?= (int)$productConfig['product_zoomlenssize'];?>",
+		easing							: true,
+		gallery							: 'image-additional-carousel',
+		cursor							: 'pointer',
+		galleryActiveClass	: "active"
   });
 
 </script>

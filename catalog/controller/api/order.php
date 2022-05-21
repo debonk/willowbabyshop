@@ -191,7 +191,6 @@ class ControllerApiOrder extends Controller {
 
 				foreach ($this->cart->getProducts() as $product) {
 					$option_data = [];
-					$option_model = [];
 
 					foreach ($product['option'] as $option) {
 						$option_data[] = array(
@@ -203,16 +202,12 @@ class ControllerApiOrder extends Controller {
 							'value'                   => $option['value'],
 							'type'                    => $option['type']
 						);
-
-						if ($option['model']) {
-							$option_model[] = $option['model'];
-						}	
 					}
 
 					$order_data['products'][] = array(
 						'product_id' => $product['product_id'],
 						'name'       => $product['name'],
-						'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
+						'model'      => $product['model'],
 						'option'     => $option_data,
 						'download'   => $product['download'],
 						'quantity'   => $product['quantity'],
@@ -569,7 +564,6 @@ class ControllerApiOrder extends Controller {
 
 					foreach ($this->cart->getProducts() as $product) {
 						$option_data = [];
-						$option_model = [];
 
 						foreach ($product['option'] as $option) {
 							$option_data[] = array(
@@ -581,16 +575,12 @@ class ControllerApiOrder extends Controller {
 								'value'                   => $option['value'],
 								'type'                    => $option['type']
 							);
-
-							if ($option['model']) {
-								$option_model[] = $option['model'];
-							}
 						}
 
 						$order_data['products'][] = array(
 							'product_id' => $product['product_id'],
 							'name'       => $product['name'],
-							'model'      => $option_model ? implode(', ', $option_model) : $product['model'],
+							'model'      => $product['model'],
 							'option'     => $option_data,
 							'download'   => $product['download'],
 							'quantity'   => $product['quantity'],

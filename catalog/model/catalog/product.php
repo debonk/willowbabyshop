@@ -219,11 +219,19 @@ class ModelCatalogProduct extends Model
 
 	public function getProductVariantName($option_value_ids)
 	{
+		$variant_name = [];
 		$option_values_id = implode(', ', $option_value_ids);
 
-		$product_variant_name_query = $this->db->query("SELECT GROUP_CONCAT(name SEPARATOR ', ') AS name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($option_values_id) . ")  AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		// $product_variant_name_query = $this->db->query("SELECT GROUP_CONCAT(name SEPARATOR ', ') AS name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($option_values_id) . ")  AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$variant_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($option_values_id) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
-		return $product_variant_name_query->row['name'];
+		$variants_value = array_combine(array_column($variant_value_query->rows, 'option_value_id'), $variant_value_query->rows);
+
+		foreach ($option_value_ids as $id) {
+			$variant_name[] = $variants_value[$id]['name'];
+		}
+		
+		return implode(', ', $variant_name);
 	}
 
 	// public function getProductVariantsValue($product_id, $product_option_value_id = 0)
@@ -261,7 +269,7 @@ class ModelCatalogProduct extends Model
 			);
 		}
 
-		if ($product_variants_query->num_rows > 1) {
+		if ($product_variants_query->row['option_id']) {
 			$this->load->model('catalog/option');
 
 			$option_ids = json_decode($product_variants_query->row['option_id']);
@@ -481,7 +489,7 @@ class ModelCatalogProduct extends Model
 
 	public function getProductDiscounts($product_id)
 	{
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY quantity ASC, priority ASC, price ASC");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY quantity ASC, priority ASC, discount_fixed DESC");
 
 		return $query->rows;
 	}
@@ -701,16 +709,17 @@ class ModelCatalogProduct extends Model
 
 	public function getProductByModel($model)
 	{
-		$query = $this->db->query("SELECT DISTINCT p.*, pd.name AS name FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE model = '" . $this->db->escape($model) . "'");
+		$query = $this->db->query("SELECT DISTINCT pov.*, p.*, pd.name AS name FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pov.model = '" . $this->db->escape($model) . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		if ($query->num_rows) {
 			return array(
-				'product_id'       => $query->row['product_id'],
-				'name'             => $query->row['name'],
-				'model'            => $query->row['model'],
-				'quantity'         => $query->row['quantity'],
-				'price'            => $query->row['price'],
-				'status'           => $query->row['status']
+				'product_id'		=> $query->row['product_id'],
+				'name'      		=> $query->row['name'],
+				'model'     		=> $query->row['model'],
+				'quantity'  		=> $query->row['quantity'],
+				'price'     		=> $query->row['price'],
+				'status'    		=> $query->row['status'],
+				'variant_value_id'	=> json_decode($query->row['option_value_id'])
 			);
 		} else {
 			return false;

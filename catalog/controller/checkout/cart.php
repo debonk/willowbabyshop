@@ -97,7 +97,6 @@ class ControllerCheckoutCart extends Controller
 				}
 
 				$option_data = [];
-				$option_model = [];
 
 				foreach ($product['option'] as $option) {
 					if ($option['type'] != 'file') {
@@ -110,10 +109,6 @@ class ControllerCheckoutCart extends Controller
 						} else {
 							$value = '';
 						}
-					}
-
-					if ($option['model']) {
-						$option_model[] = $option['model'];
 					}
 
 					$option_data[] = array(
@@ -159,18 +154,18 @@ class ControllerCheckoutCart extends Controller
 				}
 
 				$data['products'][] = array(
-					'cart_id'   => $product['cart_id'],
-					'thumb'     => $image,
-					'name'      => $product['name'],
-					'model'     => $option_model ? implode(', ', $option_model) : $product['model'],
-					'option'    => $option_data,
-					'recurring' => $recurring,
-					'quantity'  => $product['quantity'],
-					'stock'     => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
-					'reward'    => ($product['reward'] ? sprintf($this->language->get('text_points'), $product['reward']) : ''),
-					'price'     => $price,
-					'total'     => $total,
-					'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+					'cart_id'   	=> $product['cart_id'],
+					'thumb'     	=> $image,
+					'name'      	=> $product['name'],
+					'model'     	=> $product['model'],
+					'option'    	=> $option_data,
+					'recurring' 	=> $recurring,
+					'quantity'  	=> $product['quantity'],
+					'stock'     	=> $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
+					'reward'    	=> ($product['reward'] ? sprintf($this->language->get('text_points'), $product['reward']) : ''),
+					'price'     	=> $price,
+					'total'     	=> $total,
+					'href'      	=> $this->url->link('product/product', 'product_id=' . $product['product_id'])
 				);
 			}
 
@@ -330,8 +325,6 @@ class ControllerCheckoutCart extends Controller
 				$variant['option_id'][$idx] = $variant_option['option_id'];
 			}
 
-			// $product_detail = [];
-
 			if (!$json && $variant) {
 				$product_available = false;
 
@@ -393,7 +386,7 @@ class ControllerCheckoutCart extends Controller
 			}
 
 			if (!$json) {
-				$this->cart->add($product_id, $product_model, $quantity, $variant, $option, $recurring_id);
+				$this->cart->add($product_id, $product_model, $quantity, $option, $recurring_id);
 
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $product_id), $product_info['name'], $this->url->link('checkout/cart'));
 
