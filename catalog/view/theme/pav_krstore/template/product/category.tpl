@@ -36,7 +36,7 @@
 					</div>
 			<?php } ?>
 			<?php if ($products) { ?>
-				<?php   require( ThemeControlHelper::getLayoutPath( 'product/product_filter.tpl' ) );   ?>
+				<?php require( ThemeControlHelper::getLayoutPath( 'product/product_filter.tpl' ) ); ?>
 				<?php require( ThemeControlHelper::getLayoutPath( 'common/product_collection.tpl' ) );  ?> 
 				<div class="paging row">
 				<div class="col-sm-4 text-left space-top-10"><?php echo $results; ?></div>

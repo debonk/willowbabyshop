@@ -47,7 +47,7 @@
                   <?php if (!$product['special']) { ?>
                   <?php echo $product['price']; ?>
                   <?php } else { ?>
-                  <b><?php echo $product['special']; ?></b> <s><?php echo $product['price']; ?></s>
+										<s><?php echo $product['price']; ?></s><br><b><?php echo $product['special']; ?></b>
                   <?php } ?>
                 </div>
                 <?php } ?></td>

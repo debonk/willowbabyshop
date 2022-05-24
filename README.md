@@ -1,15 +1,28 @@
 # willowbabyshop software
 
-2.3.0.3_Developing
+3.0.0.5_Developing >> Progress
 Modul: Multiple Option >>
 	CHECK FUNCTIONALITY
-		route=catalog/product/autocomplete
 		
 
 	- Report > Product
 	- Catalog > Tool
 	- APP > common/home
 
+3.0.0.4_Developing
+	- APP > Product > Comparison
+	- APP > Product > Wishlist
+	- APP > Product > Search
+	- APP > Product > Category
+	- APP > Product > Manufacturer
+	- APP > Product > Special
+	- APP > Product > Highlight
+	- APP > Module > Featured
+	- APP > Module > Special
+	- APP > Module > Latest
+	- APP > Module > Bestseller
+
+2.3.0.3_Developing
 	- Sale > Order
 	- APP > order
 		Table: product_option_value: add index to model and product_id

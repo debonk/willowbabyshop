@@ -82,10 +82,6 @@ class ControllerReportProductPurchased extends Controller {
 			
 			foreach ($options as $option) {
 				$option_data[] = $option['name'] . ': ' . $option['value'];
-				// $option_data[] = array(
-				// 	'name'  => $option['name'],
-				// 	'value' => $option['value']
-				// );
 			}
 
 			$data['products'][] = array(

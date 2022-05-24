@@ -1,7 +1,8 @@
 <?php
-class ControllerProductSpecial extends Controller {
-	public function index() {
-
+class ControllerProductSpecial extends Controller
+{
+	public function index()
+	{
 		// pavo version 2.2
 		$this->load->language('module/themecontrol');
 		$data['objlang'] = $this->registry->get('language');
@@ -11,7 +12,7 @@ class ControllerProductSpecial extends Controller {
 		$data['sconfig'] = $config;
 		$data['themename'] = $config->get("theme_default_directory");
 		// end edit
-		
+
 		$this->load->language('product/special');
 
 		$this->load->model('catalog/product');
@@ -141,16 +142,17 @@ class ControllerProductSpecial extends Controller {
 			}
 
 			$data['products'][] = array(
-				'product_id'  => $result['product_id'],
-				'thumb'       => $image,
-				'name'        => $result['name'],
-				'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
-				'price'       => $price,
-				'special'     => $special,
-				'tax'         => $tax,
-				'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
-				'rating'      => $result['rating'],
-				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
+				'product_id' 	=> $result['product_id'],
+				'thumb'      	=> $image,
+				'name'       	=> $result['name'],
+				'description'	=> utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+				'price'      	=> $price,
+				'special'    	=> $special,
+				'special_text'	=> $result['special_text'],
+				'tax'    		=> $tax,
+				'minimum'		=> $result['minimum'] > 0 ? $result['minimum'] : 1,
+				'rating' 		=> $rating,
+				'href'   		=> $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
 			);
 		}
 
@@ -182,14 +184,14 @@ class ControllerProductSpecial extends Controller {
 
 		$data['sorts'][] = array(
 			'text'  => $this->language->get('text_price_asc'),
-			'value' => 'ps.price-ASC',
-			'href'  => $this->url->link('product/special', 'sort=ps.price&order=ASC' . $url)
+			'value' => 'pov.price-ASC',
+			'href'  => $this->url->link('product/special', 'sort=pov.price&order=ASC' . $url)
 		);
 
 		$data['sorts'][] = array(
 			'text'  => $this->language->get('text_price_desc'),
-			'value' => 'ps.price-DESC',
-			'href'  => $this->url->link('product/special', 'sort=ps.price&order=DESC' . $url)
+			'value' => 'pov.price-DESC',
+			'href'  => $this->url->link('product/special', 'sort=pov.price&order=DESC' . $url)
 		);
 
 		if ($this->config->get('config_review_status')) {
@@ -207,15 +209,15 @@ class ControllerProductSpecial extends Controller {
 		}
 
 		$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('product/special', 'sort=p.model&order=ASC' . $url)
+			'text'  => $this->language->get('text_model_asc'),
+			'value' => 'pov.model-ASC',
+			'href'  => $this->url->link('product/special', 'sort=pov.model&order=ASC' . $url)
 		);
 
 		$data['sorts'][] = array(
 			'text'  => $this->language->get('text_model_desc'),
-			'value' => 'p.model-DESC',
-			'href'  => $this->url->link('product/special', 'sort=p.model&order=DESC' . $url)
+			'value' => 'pov.model-DESC',
+			'href'  => $this->url->link('product/special', 'sort=pov.model&order=DESC' . $url)
 		);
 
 		$url = '';
@@ -234,7 +236,7 @@ class ControllerProductSpecial extends Controller {
 
 		sort($limits);
 
-		foreach($limits as $value) {
+		foreach ($limits as $value) {
 			$data['limits'][] = array(
 				'text'  => $value,
 				'value' => $value,
@@ -268,15 +270,15 @@ class ControllerProductSpecial extends Controller {
 
 		// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 		if ($page == 1) {
-		    $this->document->addLink($this->url->link('product/special', '', true), 'canonical');
+			$this->document->addLink($this->url->link('product/special', '', true), 'canonical');
 		} elseif ($page == 2) {
-		    $this->document->addLink($this->url->link('product/special', '', true), 'prev');
+			$this->document->addLink($this->url->link('product/special', '', true), 'prev');
 		} else {
-		    $this->document->addLink($this->url->link('product/special', 'page='. ($page - 1), true), 'prev');
+			$this->document->addLink($this->url->link('product/special', 'page=' . ($page - 1), true), 'prev');
 		}
 
 		if ($limit && ceil($product_total / $limit) > $page) {
-		    $this->document->addLink($this->url->link('product/special', 'page='. ($page + 1), true), 'next');
+			$this->document->addLink($this->url->link('product/special', 'page=' . ($page + 1), true), 'next');
 		}
 
 		$data['sort'] = $sort;

@@ -1,6 +1,8 @@
 <?php
-class ControllerProductHighlight extends Controller {
-	public function index() {
+class ControllerProductHighlight extends Controller
+{
+	public function index()
+	{
 
 		// pavo version 2.2
 		$this->load->language('module/themecontrol');
@@ -11,7 +13,7 @@ class ControllerProductHighlight extends Controller {
 		$data['sconfig'] = $config;
 		$data['themename'] = $config->get("theme_default_directory");
 		// end edit
-		
+
 		$this->load->language('product/highlight');
 
 		$this->load->model('catalog/product');
@@ -52,7 +54,7 @@ class ControllerProductHighlight extends Controller {
 		}
 
 		$this->document->setTitle($title);
-//		$this->document->setTitle($this->language->get('heading_title'));
+		//		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['breadcrumbs'] = array();
 
@@ -85,7 +87,7 @@ class ControllerProductHighlight extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $title,
-//			'text' => $this->language->get('heading_title'),
+			//			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('product/highlight', $url)
 		);
 
@@ -113,25 +115,25 @@ class ControllerProductHighlight extends Controller {
 
 		$data['products'] = array();
 
-/*		$filter_data = array(
+		/*		$filter_data = array(
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit
 		);
 */
-//echo $sort . " - " . $order;
+		//echo $sort . " - " . $order;
 		switch ($highlight) {
 			case "popular":
-				$product_total = 50;
+				$product_total = 100;
 				$results = $this->model_catalog_product->getPopularProducts($product_total);
 				break;
 			case "bestseller":
-				$product_total = 50;
+				$product_total = 100;
 				$results = $this->model_catalog_product->getBestSellerProducts($product_total);
 				break;
 			default: //latest
-				$product_total = 50;
+				$product_total = 100;
 				$results = $this->model_catalog_product->getLatestProducts($product_total);
 		}
 
@@ -146,7 +148,7 @@ class ControllerProductHighlight extends Controller {
 		}
 
 		$start = ($page - 1) * $limit;
-		
+
 		if (isset($this->request->get['limit']) || isset($this->request->get['start'])) {
 			if ($start < 0) {
 				$start = 0;
@@ -156,9 +158,9 @@ class ControllerProductHighlight extends Controller {
 				$limit = 20;
 			}
 		}
-		
+
 		$results = array_slice($results, $start, $limit);
-		
+
 		foreach ($results as $result) {
 			if ($result['image']) {
 				$image = $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_product_width'), $this->config->get($this->config->get('config_theme') . '_image_product_height'));
@@ -191,16 +193,17 @@ class ControllerProductHighlight extends Controller {
 			}
 
 			$data['products'][] = array(
-				'product_id'  => $result['product_id'],
-				'thumb'       => $image,
-				'name'        => $result['name'],
-				'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
-				'price'       => $price,
-				'special'     => $special,
-				'tax'         => $tax,
-				'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
-				'rating'      => $result['rating'],
-				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
+				'product_id' 	=> $result['product_id'],
+				'thumb'      	=> $image,
+				'name'       	=> $result['name'],
+				'description'	=> utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+				'price'      	=> $price,
+				'special'    	=> $special,
+				'special_text'	=> $result['special_text'],
+				'tax'    		=> $tax,
+				'minimum'		=> $result['minimum'] > 0 ? $result['minimum'] : 1,
+				'rating' 		=> $rating,
+				'href'   		=> $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
 			);
 		}
 
@@ -261,9 +264,9 @@ class ControllerProductHighlight extends Controller {
 		}
 
 		$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'model-ASC',
-				'href'  => $this->url->link('product/highlight', 'sort=model&order=ASC' . $url)
+			'text'  => $this->language->get('text_model_asc'),
+			'value' => 'model-ASC',
+			'href'  => $this->url->link('product/highlight', 'sort=model&order=ASC' . $url)
 		);
 
 		$data['sorts'][] = array(
@@ -292,7 +295,7 @@ class ControllerProductHighlight extends Controller {
 
 		sort($limits);
 
-		foreach($limits as $value) {
+		foreach ($limits as $value) {
 			$data['limits'][] = array(
 				'text'  => $value,
 				'value' => $value,
@@ -330,19 +333,19 @@ class ControllerProductHighlight extends Controller {
 
 		// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 		if ($page == 1) {
-		    $this->document->addLink($this->url->link('product/highlight', '', true), 'canonical');
+			$this->document->addLink($this->url->link('product/highlight', '', true), 'canonical');
 		} elseif ($page == 2) {
-		    $this->document->addLink($this->url->link('product/highlight', '', true), 'prev');
+			$this->document->addLink($this->url->link('product/highlight', '', true), 'prev');
 		} else {
-		    $this->document->addLink($this->url->link('product/highlight', 'page='. ($page - 1), true), 'prev');
+			$this->document->addLink($this->url->link('product/highlight', 'page=' . ($page - 1), true), 'prev');
 		}
 
 		if ($limit && ceil($product_total / $limit) > $page) {
-		    $this->document->addLink($this->url->link('product/highlight', 'page='. ($page + 1), true), 'next');
+			$this->document->addLink($this->url->link('product/highlight', 'page=' . ($page + 1), true), 'next');
 		}
 
-//		$data['highlight'] = $highlight;
-		
+		//		$data['highlight'] = $highlight;
+
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 		$data['limit'] = $limit;

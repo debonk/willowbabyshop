@@ -1,8 +1,8 @@
 <div class="product-block">
-    <?php if ($product['thumb']) {    ?>
+    <?php if ($product['thumb']) { ?>
 		<div class="image">
-			<?php if( $product['special'] ) {   ?>
-				<span class="product-label sale-exist radius-3x text-center"><span class="product-label-special"><?php echo $objlang->get('text_sale'); ?></span></span>
+			<?php if( $product['special'] ) { ?>
+				<span class="sale-exist radius-3x text-center"><span class="product-label-special"><?php echo $objlang->get('text_sale'); ?></span></span>
 			<?php } ?>
 			<div class="product-img img">
 				<a class="img" title="<?php echo $product['name']; ?>" href="<?php echo $product['href']; ?>">
@@ -27,22 +27,11 @@
 					<?php if (!$product['special']) {  ?>
 						<span class="price-old invisible">Bonk</span>
 						<div class="price-olds"><?php echo $product['price']; ?></div>
-						<?php if( preg_match( '#(\d+).?(\d+)#',  $product['price'], $p ) ) { ?> 
-						<?php } ?>
-					<?php } else { ?>
-						<?php //Bonk 
-							$calc_percent = '';
-							$calc_price = preg_replace('/\D/', '', $product['price']);
-							$calc_special = preg_replace('/\D/', '', $product['special']);
-							if ($calc_price > $calc_special) {
-								$calc_percent = round(-100/($calc_price/($calc_price - $calc_special)), 2, PHP_ROUND_HALF_UP) . '%';
-							}
-						?>
+						<div class="label label-danger special-percentage invisible">Bonk</div>
+						<?php } else { ?>
 						<span class="price-old"><?php echo $product['price']; ?></span>
-						<span class="label label-danger special-percentage"><?php echo $calc_percent; ?></span>
 						<div class="price-new"><?php echo $product['special']; ?></div>
-						<?php if( preg_match( '#(\d+).?(\d+)#',  $product['special'], $p ) ) { ?>
-						<?php } ?>
+						<div class="label label-danger special-percentage"><?php echo $product['special_text']; ?></div>
 					<?php } ?>
 				</div>
 			<?php } ?>
@@ -56,7 +45,7 @@
 						<?php } ?>
 					<?php } ?>
 				</div>
-			<?php  } else { ?> <!-- Bonk: add else statement -->
+			<?php } else { ?>
 			<i class="zmdi zmdi-star invisible"></i>
 			<?php } ?>
 		</div>

@@ -219,16 +219,17 @@ class ControllerProductManufacturer extends Controller {
 				}
 
 				$data['products'][] = array(
-					'product_id'  => $result['product_id'],
-					'thumb'       => $image,
-					'name'        => $result['name'],
-					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
-					'price'       => $price,
-					'special'     => $special,
-					'tax'         => $tax,
-					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
-					'rating'      => $rating,
-					'href'        => $this->url->link('product/product', 'manufacturer_id=' . $result['manufacturer_id'] . '&product_id=' . $result['product_id'] . $url)
+					'product_id' 	=> $result['product_id'],
+					'thumb'      	=> $image,
+					'name'       	=> $result['name'],
+					'description'	=> utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+					'price'      	=> $price,
+					'special'    	=> $special,
+					'special_text'	=> $result['special_text'],
+					'tax'    		=> $tax,
+					'minimum'		=> $result['minimum'] > 0 ? $result['minimum'] : 1,
+					'rating' 		=> $rating,
+					'href'   		=> $this->url->link('product/product', 'manufacturer_id=' . $result['manufacturer_id'] . '&product_id=' . $result['product_id'] . $url)
 				);
 			}
 
@@ -260,14 +261,14 @@ class ControllerProductManufacturer extends Controller {
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_asc'),
-				'value' => 'p.price-ASC',
-				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=ASC' . $url)
+				'value' => 'pov.price-ASC',
+				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pov.price&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_desc'),
-				'value' => 'p.price-DESC',
-				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=DESC' . $url)
+				'value' => 'pov.price-DESC',
+				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pov.price&order=DESC' . $url)
 			);
 
 			if ($this->config->get('config_review_status')) {
@@ -286,14 +287,14 @@ class ControllerProductManufacturer extends Controller {
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.model&order=ASC' . $url)
+				'value' => 'pov.model-ASC',
+				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pov.model&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_desc'),
-				'value' => 'p.model-DESC',
-				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.model&order=DESC' . $url)
+				'value' => 'pov.model-DESC',
+				'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pov.model&order=DESC' . $url)
 			);
 
 			$url = '';
