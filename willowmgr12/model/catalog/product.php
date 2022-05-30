@@ -285,32 +285,32 @@ class ModelCatalogProduct extends Model
 		$this->cache->delete('product');
 	}
 
-	public function editProductPartially($product_id, $data)
-	{
-		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
+	// public function editProductPartially($product_id, $data)
+	// {
+	// 	$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
 
-		$implode = [];
+	// 	$implode = [];
 
-		if (isset($data['quantity'])) {
-			$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
-		}
+	// 	if (isset($data['quantity'])) {
+	// 		$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
+	// 	}
 
-		if (isset($data['price'])) {
-			$implode[] = "price = '" . (int)$data['price'] . "'";
-		}
+	// 	if (isset($data['price'])) {
+	// 		$implode[] = "price = '" . (int)$data['price'] . "'";
+	// 	}
 
-		$sql .= ", " . implode(', ', $implode);
+	// 	$sql .= ", " . implode(', ', $implode);
 
-		$sql .= " WHERE product_id = " . (int)$product_id;
+	// 	$sql .= " WHERE product_id = " . (int)$product_id;
 
-		$this->db->query($sql);
+	// 	$this->db->query($sql);
 
-		if (isset($data['product_image'])) {
-			foreach ($data['product_image'] as $product_image) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "'");
-			}
-		}
-	}
+	// 	if (isset($data['product_image'])) {
+	// 		foreach ($data['product_image'] as $product_image) {
+	// 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "'");
+	// 		}
+	// 	}
+	// }
 
 	public function copyProduct($product_id)
 	{
@@ -396,7 +396,7 @@ class ModelCatalogProduct extends Model
 			$extension = pathinfo(DIR_IMAGE . $image, PATHINFO_EXTENSION);
 
 			$cache_files = str_replace('.' . $extension, '*', DIR_IMAGE . 'cache/' . $image);
-			
+
 			foreach (glob($cache_files) as $file) {
 				unlink($file);
 			}
@@ -448,12 +448,14 @@ class ModelCatalogProduct extends Model
 
 		$product_data = $query->row;
 
-		$keyword_query = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_data['product_id'] . "'");
+		if ($query->num_rows) {
+			$keyword_query = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_data['product_id'] . "'");
 
-		if ($keyword_query->num_rows) {
-			$product_data['keyword'] = $keyword_query->row['keyword'];
-		} else {
-			$product_data['keyword'] = '';
+			if ($keyword_query->num_rows) {
+				$product_data['keyword'] = $keyword_query->row['keyword'];
+			} else {
+				$product_data['keyword'] = '';
+			}
 		}
 
 		return $product_data;
@@ -749,23 +751,15 @@ class ModelCatalogProduct extends Model
 		return $product_variants_data;
 	}
 
-	public function addProductOption($product_id, $data)
+	public function addProductVariant($product_id, $data)
 	{
-		if (isset($data['product_option'])) {
-			if ($data['product_option']['type'] == 'select' || $data['product_option']['type'] == 'radio' || $data['product_option']['type'] == 'checkbox' || $data['product_option']['type'] == 'image') {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_option SET product_id = '" . (int)$product_id . "', option_id = '" . (int)$data['product_option']['option_id'] . "', required = '" . (int)$data['product_option']['required'] . "'");
-			} else {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_option SET product_id = '" . (int)$product_id . "', option_id = '" . (int)$data['product_option']['option_id'] . "', value = '" . $this->db->escape($data['product_option']['value']) . "', required = '" . (int)$data['product_option']['required'] . "'");
-			}
+		$option_ids = isset($data['option']) ? array_column($data['option'], 'option_id') : [];
 
-			$product_option_id = $this->db->getLastId();
+		foreach ($data['variant'] as $variant) {
+			$option_value_ids = isset($variant['option_value_id']) ? $variant['option_value_id'] : [];
+
+			$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_id = '" . (int)$product_id . "', option_id = '" . $this->db->escape(json_encode($option_ids)) . "', option_value_id = '" . $this->db->escape(json_encode($option_value_ids)) . "', model = '" . $this->db->escape($variant['model']) . "', image = '" . $this->db->escape($variant['image']) . "', quantity = '" . (int)$variant['quantity'] . "', price = '" . (float)$variant['price'] . "', points = '" . (int)$variant['points'] . "', weight = '" . (float)$variant['weight'] . "', weight_class_id = '" . (int)$variant['weight_class_id'] . "'");
 		}
-
-		if ($data['product_option_value']['product_option_id']) {
-			$product_option_id = $data['product_option_value']['product_option_id'];
-		}
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', option_id = '" . (int)$data['product_option_value']['option_id'] . "', option_value_id = '" . (int)$data['product_option_value']['option_value_id'] . "', model = '" . $this->db->escape($data['product_option_value']['model']) . "', quantity = '" . (int)$data['product_option_value']['quantity'] . "', subtract = '" . (int)$data['product_option_value']['subtract'] . "', price = '" . (float)$data['product_option_value']['price'] . "', price_prefix = '" . $this->db->escape($data['product_option_value']['price_prefix']) . "', points = '" . (int)$data['product_option_value']['points'] . "', points_prefix = '" . $this->db->escape($data['product_option_value']['points_prefix']) . "', weight = '" . (float)$data['product_option_value']['weight'] . "', weight_prefix = '" . $this->db->escape($data['product_option_value']['weight_prefix']) . "'");
 	}
 
 	public function getProductOption($product_id, $option_id)
@@ -777,43 +771,7 @@ class ModelCatalogProduct extends Model
 
 	public function getProductOptions($product_id)
 	{
-		// $product_option_data = array();
-
 		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-
-		// foreach ($product_option_query->rows as $product_option) {
-		// 	$product_option_value_data = array();
-
-		// 	$product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value WHERE product_option_id = '" . (int)$product_option['product_option_id'] . "'");
-
-		// 	foreach ($product_option_value_query->rows as $product_option_value) {
-		// 		$product_option_value_data[] = array(
-		// 			'product_option_value_id' => $product_option_value['product_option_value_id'],
-		// 			'option_value_id'         => $product_option_value['option_value_id'],
-		// 			'model'               	  => $product_option_value['model'],
-		// 			'quantity'                => $product_option_value['quantity'],
-		// 			'subtract'                => $product_option_value['subtract'],
-		// 			'price'                   => $product_option_value['price'],
-		// 			'price_prefix'            => $product_option_value['price_prefix'],
-		// 			'points'                  => $product_option_value['points'],
-		// 			'points_prefix'           => $product_option_value['points_prefix'],
-		// 			'weight'                  => $product_option_value['weight'],
-		// 			'weight_prefix'           => $product_option_value['weight_prefix']
-		// 		);
-		// 	}
-
-		// 	$product_option_data[] = array(
-		// 		'product_option_id'    => $product_option['product_option_id'],
-		// 		'product_option_value' => $product_option_value_data,
-		// 		'option_id'            => $product_option['option_id'],
-		// 		'name'                 => $product_option['name'],
-		// 		'type'                 => $product_option['type'],
-		// 		'value'                => $product_option['value'],
-		// 		'required'             => $product_option['required']
-		// 	);
-		// }
-
-		// return $product_option_data;
 		return $product_option_query->rows;
 	}
 
@@ -831,7 +789,7 @@ class ModelCatalogProduct extends Model
 		return $query->rows;
 	}
 
-	public function getProductOptionValueByModel($model)
+	public function getProductVariantByModel($model)
 	{
 		$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "'";
 

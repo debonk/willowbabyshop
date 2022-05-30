@@ -8,3 +8,5 @@ $_['error_permission'] 	= 'Warning: You do not have permission to access the API
 $_['error_product']    	= 'Product not found!';
 $_['error_data']       	= 'Product data not found!';
 $_['error_invalid']    	= 'Invalid source data!';
+$_['error_not_found']   = '%s: not found.';
+$_['error_update']		= '%s: up to date.';

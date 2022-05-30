@@ -1073,14 +1073,6 @@ class ControllerCatalogProduct extends Controller
 			$data['product_description'] = array();
 		}
 
-		// if (isset($this->request->post['model'])) {
-		// 	$data['model'] = $this->request->post['model'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['model'] = $product_info['model'];
-		// } else {
-		// 	$data['model'] = '';
-		// }
-
 		if (isset($this->request->post['sku'])) {
 			$data['sku'] = $this->request->post['sku'];
 		} elseif (!empty($product_info)) {
@@ -1165,14 +1157,6 @@ class ControllerCatalogProduct extends Controller
 			$data['shipping'] = 1;
 		}
 
-		// if (isset($this->request->post['price'])) {
-		// 	$data['price'] = $this->request->post['price'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['price'] = $product_info['price'];
-		// } else {
-		// 	$data['price'] = '';
-		// }
-
 		$this->load->model('catalog/recurring');
 
 		$data['recurrings'] = $this->model_catalog_recurring->getRecurrings();
@@ -1206,14 +1190,6 @@ class ControllerCatalogProduct extends Controller
 		} else {
 			$data['date_available'] = date('Y-m-d');
 		}
-
-		// if (isset($this->request->post['quantity'])) {
-		// 	$data['quantity'] = $this->request->post['quantity'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['quantity'] = $product_info['quantity'];
-		// } else {
-		// 	$data['quantity'] = 1;
-		// }
 
 		if (isset($this->request->post['minimum'])) {
 			$data['minimum'] = $this->request->post['minimum'];
@@ -1259,25 +1235,9 @@ class ControllerCatalogProduct extends Controller
 			$data['status'] = true;
 		}
 
-		// if (isset($this->request->post['weight'])) {
-		// 	$data['weight'] = $this->request->post['weight'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['weight'] = $product_info['weight'];
-		// } else {
-		// 	$data['weight'] = '';
-		// }
-
 		$this->load->model('localisation/weight_class');
 
 		$data['weight_classes'] = $this->model_localisation_weight_class->getWeightClasses();
-
-		// if (isset($this->request->post['weight_class_id'])) {
-		// 	$data['weight_class_id'] = $this->request->post['weight_class_id'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['weight_class_id'] = $product_info['weight_class_id'];
-		// } else {
-		// 	$data['weight_class_id'] = $this->config->get('config_weight_class_id');
-		// }
 
 		if (isset($this->request->post['length'])) {
 			$data['length'] = $this->request->post['length'];
@@ -1427,24 +1387,6 @@ class ControllerCatalogProduct extends Controller
 
 		foreach ($product_options as $product_option) {
 			$product_option_value_data = array();
-
-			if (isset($product_option['product_option_value'])) {
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-					$product_option_value_data[] = array(
-						'product_option_value_id' => $product_option_value['product_option_value_id'],
-						'option_value_id'         => $product_option_value['option_value_id'],
-						'model'                   => $product_option_value['model'],
-						'quantity'                => $product_option_value['quantity'],
-						'subtract'                => $product_option_value['subtract'],
-						'price'                   => $product_option_value['price'],
-						'price_prefix'            => $product_option_value['price_prefix'],
-						'points'                  => $product_option_value['points'],
-						'points_prefix'           => $product_option_value['points_prefix'],
-						'weight'                  => $product_option_value['weight'],
-						'weight_prefix'           => $product_option_value['weight_prefix']
-					);
-				}
-			}
 
 			$data['product_options'][] = array(
 				'product_option_id'    => $product_option['product_option_id'],
@@ -1613,14 +1555,6 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
-		// if (isset($this->request->post['points'])) {
-		// 	$data['points'] = $this->request->post['points'];
-		// } elseif (!empty($product_info)) {
-		// 	$data['points'] = $product_info['points'];
-		// } else {
-		// 	$data['points'] = '';
-		// }
-
 		if (isset($this->request->post['product_reward'])) {
 			$data['product_reward'] = $this->request->post['product_reward'];
 		} elseif (isset($this->request->get['product_id'])) {
@@ -1731,7 +1665,7 @@ class ControllerCatalogProduct extends Controller
 					$variant_value_data[] = [
 						'thumb'				=> $this->model_tool_image->resize($thumb, 100, 100),
 						'image'				=> $variant['image'],
-						'option_value_id'   => is_array($variant['option_value_id']) ? $variant['option_value_id'] : [],
+						'option_value_id'   => (isset($variant['option_value_id']) && is_array($variant['option_value_id'])) ? $variant['option_value_id'] : [],
 						'model'          	=> $variant['model'],
 						'quantity'       	=> $variant['quantity'],
 						'price'          	=> $variant['price'],

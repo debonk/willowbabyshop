@@ -1,12 +1,13 @@
 # willowbabyshop software
 
-3.0.0.5_Developing >> Progress
-Modul: Multiple Option >>
-	CHECK FUNCTIONALITY
-		
+3.0.0	30/05/2022
+Modify: File Manager: Regenerate new filename to avoid error when Upload image contain special character
 
-	- Report > Product
+3.0.0.5_Developed
+Modul: Multiple Option >>
 	- Catalog > Tool
+	- Api > Product
+	- Report > Product
 	- APP > common/home
 
 3.0.0.4_Developing

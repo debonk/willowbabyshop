@@ -3,7 +3,6 @@ class ControllerApiProduct extends Controller
 {
 	public function index()
 	{
-		// In all function, option model (sku) only applied to updates function. If other function still used, check for this option model.
 		$this->load->language('api/product');
 
 		$json = array();
@@ -133,39 +132,25 @@ class ControllerApiProduct extends Controller
 		} else {
 			$this->load->model('catalog/product');
 
-			if (isset($this->request->post['product_id'])) {
-				$product_info = $this->model_catalog_product->getProduct($this->request->post['product_id']);
-			} elseif (isset($this->request->post['model'])) {
-				$product_info = $this->model_catalog_product->getProductByModel($this->request->post['model']);
+			if (isset($this->request->post['model'])) {
+				$product_variant_info = $this->model_catalog_product->getProductVariantByModel($this->request->post['model']);
 			}
 
-			$product_data = [];
+			if ($product_variant_info) {
+				if ($product_variant_info['quantity'] != $this->request->post['quantity'] || $product_variant_info['price'] != $this->request->post['price']) {
+					$this->model_catalog_product->editProductVariant($product_variant_info['product_option_value_id'], $this->request->post);
 
-			if (isset($product_info)) {
-				if (isset($this->request->post['quantity']) && $this->request->post['quantity'] != $product_info['quantity']) {
-					$product_data['quantity'] = $this->request->post['quantity'];
-				}
-
-				if (isset($this->request->post['price']) && $this->request->post['price'] != $product_info['price']) {
-					$product_data['price'] = $this->request->post['price'];
-				}
-
-				if (isset($this->request->post['status']) && $this->request->post['status'] != $product_info['status']) {
-					$product_data['status'] = $this->request->post['status'];
-				}
-
-				if ($product_data) {
-					if (isset($this->request->post['product_id'])) {
-						$this->model_catalog_product->editProduct($this->request->post['product_id'], $product_data);
-					} elseif (isset($this->request->post['model'])) {
-						$this->model_catalog_product->editProductByModel($this->request->post['model'], $product_data);
-					}
-
-					$json['success'] = $this->language->get('text_success');
+					$this->model_catalog_product->updateModified($product_variant_info['product_id']);
+				} else {
+					$json['not_updated'][] = sprintf($this->language->get('error_update'), $this->request->post['model']);
 				}
 			} else {
-				$json['error']['product'] = $this->language->get('error_product');
+				$json['not_updated'][] = sprintf($this->language->get('error_not_found'), $this->request->post['model']);
 			}
+
+			$json['success'] = $this->language->get('text_success');
+
+			$this->cache->delete('product');
 		}
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
@@ -219,65 +204,27 @@ class ControllerApiProduct extends Controller
 			}
 
 			if (!$json) {
+				$json['not_updated'] = [];
+
 				$this->load->model('catalog/product');
 
 				$products_data = array_slice($products_data, 1);
 
 				foreach ($products_data as $product_data) {
-					$update_data = [];
-
 					$product_data = array_combine($column_data, $product_data);
 
-					$product_option_value_info = $this->model_catalog_product->getProductOptionValueByModel($product_data['model']);
+					$product_variant_info = $this->model_catalog_product->getProductVariantByModel($product_data['model']);
 
-					if ($product_option_value_info) {
-						$option_update_data = [];
+					if ($product_variant_info) {
+						if ($product_variant_info['quantity'] != $product_data['quantity'] || $product_variant_info['price'] != $product_data['price']) {
+							$this->model_catalog_product->editProductVariant($product_variant_info['product_option_value_id'], $product_data);
 
-						$product_info = $this->model_catalog_product->getProduct($product_option_value_info['product_id']);
-
-						if ($product_info['model'] == $product_data['model']) {
-							$option_update_data = [
-								'quantity'		=> $product_data['quantity'],
-								'price_prefix'	=> '+',
-								'price'			=> 0.00
-							];
-
-							$update_data = [
-								'quantity'		=> 888,
-								'price'			=> $product_data['price']
-							];
+							$this->model_catalog_product->updateModified($product_variant_info['product_id']);
 						} else {
-							$price = $product_data['price'] - $product_info['price'];
-
-							if ($price < 0) {
-								$price_prefix = '-';
-
-								$price = abs($price);
-							} else {
-								$price_prefix = '+';
-							}
-
-							$option_update_data = [
-								'quantity'		=> $product_data['quantity'],
-								'price_prefix'	=> $price_prefix,
-								'price'			=> $price
-							];
-
-							$update_data = [
-								'quantity'		=> 888
-							];
+							$json['not_updated'][] = sprintf($this->language->get('error_update'), $product_data['model']);
 						}
-
-						$this->model_catalog_product->editProductOption($product_option_value_info['product_option_value_id'], $option_update_data);
-
-						$this->model_catalog_product->editProduct($product_option_value_info['product_id'], $update_data);
 					} else {
-						$update_data = [
-							'quantity'		=> $product_data['quantity'],
-							'price'			=> $product_data['price']
-						];
-
-						$this->model_catalog_product->editProductByModel($product_data['model'], $update_data);
+						$json['not_updated'][] = sprintf($this->language->get('error_not_found'), $product_data['model']);
 					}
 				}
 
@@ -311,11 +258,9 @@ class ControllerApiProduct extends Controller
 
 			$this->load->model('catalog/product');
 
-			$products = $this->model_catalog_product->getProductsModel($status);
+			$json['products'] = $this->model_catalog_product->getProductsModel($status);
 
-			$json['products'] = $products;
-
-			$json['success'] = sprintf($this->language->get('text_success_info'), count($products));
+			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
 		}
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {

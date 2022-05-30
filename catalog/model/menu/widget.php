@@ -112,14 +112,15 @@ class ModelMenuWidget extends Model {
 			}
 
 			$product = array(
-				'product_id' => $result['product_id'],
-				'thumb'   	 => $image,
-				'name'    	 => $result['name'],
-				'price'   	 => $price,
-				'special' 	 => $special,
-				'rating'     => $rating,
-				'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
-				'href'    	 => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+				'product_id'	=> $result['product_id'],
+				'thumb'   		=> $image,
+				'name'    		=> $result['name'],
+				'price'   		=> $price,
+				'special' 		=> $special,
+				'special_text'	=> $result['special_text'],
+				'rating' 		=> $rating,
+				'reviews'		=> sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+				'href'   		=> $this->url->link('product/product', 'product_id=' . $result['product_id']),
 			);
 
 
@@ -391,14 +392,15 @@ class ModelMenuWidget extends Model {
 			}
 
 			$products[] = array(
-				'product_id' => $result['product_id'],
-				'thumb'   	 => $image,
-				'name'    	 => $result['name'],
-				'price'   	 => $price,
-				'special' 	 => $special,
-				'rating'     => $rating,
-				'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
-				'href'    	 => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+				'product_id'	=> $result['product_id'],
+				'thumb'   		=> $image,
+				'name'    		=> $result['name'],
+				'price'   		=> $price,
+				'special' 		=> $special,
+				'special_text'	=> $result['special_text'],
+				'rating' 		=> $rating,
+				'reviews'		=> sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+				'href'   		=> $this->url->link('product/product', 'product_id=' . $result['product_id']),
 			);
 		}
 		return $products;

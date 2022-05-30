@@ -130,8 +130,8 @@ class ControllerCatalogTool extends Controller
 
 				for ($i = 3; $i <= count($sheet_data); $i++) {
 					$new_product = false;
-					$product_option_data = [];
-					
+					$product_variant_data = [];
+
 					if (!$sheet_data[$i][$field_data['model']] || !$sheet_data[$i][$field_data['name']]) {
 						# Model dan name harus ada
 						$error_import[] = sprintf($this->language->get('error_model_name'), $i);
@@ -139,15 +139,13 @@ class ControllerCatalogTool extends Controller
 						continue;
 					}
 
-					if ($sheet_data[$i][$field_data['model']] != $sheet_data[$i][$field_data['parent_model']]) {
-						$product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['model']]);
+					$product_variant_info = $this->model_catalog_product->getProductVariantByModel($sheet_data[$i][$field_data['model']]);
 
-						if ($product_info) {
-							# Product sudah ada
-							$error_import[] = sprintf($this->language->get('error_registered'), $sheet_data[$i][$field_data['model']]);
+					if ($product_variant_info) {
+						# Product sudah ada
+						$error_import[] = sprintf($this->language->get('error_registered'), $sheet_data[$i][$field_data['model']]);
 
-							continue;
-						}
+						continue;
 					}
 
 					if ($sheet_data[$i][$field_data['parent_model']]) {
@@ -157,104 +155,9 @@ class ControllerCatalogTool extends Controller
 							continue;
 						}
 
-						$product_option_value_info = $this->model_catalog_product->getProductOptionValueByModel($sheet_data[$i][$field_data['model']]);
-
-						if ($product_option_value_info) {
-							# product option sudah ada
-							$error_import[] = sprintf($this->language->get('error_registered'), $sheet_data[$i][$field_data['model']]);
-
-							continue;
-						}
-
 						$parent_product_info = $this->model_catalog_product->getProductByModel($sheet_data[$i][$field_data['parent_model']]);
 
-						$product_id = $parent_product_info ? $parent_product_info['product_id'] : 0;
-
-						$product_option_info = $this->model_catalog_product->getProductOption($product_id, $sheet_data[$i][$field_data['option_id']]);
-
-						if (!$product_option_info) {
-							$product_option_data['product_option'] = [
-								'type'			=> 'select',
-								'option_id'		=> $sheet_data[$i][$field_data['option_id']],
-								'required'		=> 1
-							];
-						}
-
-						$product_option_data['product_option_value'] = [
-							'product_option_id'	=> $product_option_info ? $product_option_info['product_option_id'] : 0,
-							'option_id'			=> $sheet_data[$i][$field_data['option_id']],
-							'option_value_id'	=> $sheet_data[$i][$field_data['option_value_id']],
-							'model'				=> $sheet_data[$i][$field_data['model']],
-							'quantity'			=> $sheet_data[$i][$field_data['quantity']],
-							'subtract'			=> 1,
-							'price'				=> 0,
-							'price_prefix'		=> '+',
-							'points'			=> 0,
-							'points_prefix'		=> '+',
-							'weight'			=> 0,
-							'weight_prefix'		=> '+'
-						];
-
-						if ($parent_product_info) {
-							$parent_product_data = [];
-							$parent_product_data['quantity'] = 111;
-
-							$price = $sheet_data[$i][$field_data['price']] - $parent_product_info['price'];
-
-							if ($price < 0) {
-								$price_prefix = '-';
-
-								$price = abs($price);
-							} else {
-								$price_prefix = '+';
-							}
-
-							$product_option_data['product_option_value']['price'] = $price;
-							$product_option_data['product_option_value']['price_prefix'] = $price_prefix;
-
-							$product_option_weight = $this->weight->convert($sheet_data[$i][$field_data['weight']], $weight_class_id, $parent_product_info['weight_class_id']);
-
-							$weight = $product_option_weight - $parent_product_info['weight'];
-
-							if ($weight < 0) {
-								$weight_prefix = '-';
-
-								$weight = abs($weight);
-							} else {
-								$weight_prefix = '+';
-							}
-
-							$product_option_data['product_option_value']['weight'] = $weight;
-							$product_option_data['product_option_value']['weight_prefix'] = $weight_prefix;
-
-							$this->model_catalog_product->addProductOption($product_id, $product_option_data);
-
-							# Add option main image to product Image as additional image
-							$url_source = $sheet_data[$i][$field_data['main_image']];
-
-							if ($url_source) {
-								$extension = pathinfo($url_source, PATHINFO_EXTENSION);
-
-								if ($extension == '') {
-									$extension = 'png';
-								}
-
-								if (in_array(strtolower($extension), $image_types)) {
-									$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
-
-									$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
-
-									$parent_product_data['product_image'][] = [
-										'image'			=> $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension),
-										'sort_order'	=> 99
-									];
-								} else {
-									$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
-								}
-							}
-
-							$this->model_catalog_product->editProductPartially($product_id, $parent_product_data);
-						} else {
+						if (!$parent_product_info) {
 							$new_product = true;
 						}
 					} else {
@@ -268,9 +171,47 @@ class ControllerCatalogTool extends Controller
 
 							continue;
 						}
+					}
 
+					# Add main image to product variant image
+					$url_source = $sheet_data[$i][$field_data['main_image']];
+
+					if ($url_source) {
+						$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+
+						if ($extension == '') {
+							$extension = 'png';
+						}
+
+						if (in_array(strtolower($extension), $image_types)) {
+							$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+
+							$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+
+							$variant_image = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
+							// $variant_image = $path_destination . '/' . $new_image . '.' . $extension;
+						} else {
+							$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
+						}
+					}
+
+					$product_variant_data['variant'][0] = [
+						'model'				=> $sheet_data[$i][$field_data['model']],
+						'quantity'			=> $sheet_data[$i][$field_data['quantity']],
+						'image'				=> $variant_image,
+						'price'				=> $sheet_data[$i][$field_data['price']],
+						'points'			=> 0,
+						'weight'			=> $sheet_data[$i][$field_data['weight']],
+						'weight_class_id'	=> $weight_class_id
+					];
+
+					$product_variant_data['option'][0]['option_id'] = (int)$sheet_data[$i][$field_data['option_id']];
+					$product_variant_data['variant'][0]['option_value_id'][0] = (int)$sheet_data[$i][$field_data['option_value_id']];
+
+					if (!$new_product) { //has parent model
+						$this->model_catalog_product->addProductVariant($parent_product_info['product_id'], $product_variant_data);
+					} else {
 						$product_data = [
-							'model'				=> '',
 							'sku'				=> '',
 							'upc'				=> '',
 							'ean'				=> '',
@@ -278,17 +219,12 @@ class ControllerCatalogTool extends Controller
 							'isbn'				=> '',
 							'mpn'				=> '',
 							'location'			=> '',
-							'quantity' 			=> 0,
 							'minimum' 			=> 1,
 							'subtract' 			=> 1,
 							'stock_status_id' 	=> 5,
 							'date_available' 	=> date('Y-m-d'),
 							'manufacturer_id' 	=> 0,
 							'shipping' 			=> 1,
-							'price'				=> 0,
-							'points' 			=> 0,
-							'weight' 			=> 0,
-							'weight_class_id' 	=> 2,
 							'length' 			=> 0,
 							'width' 			=> 0,
 							'height'			=> 0,
@@ -308,22 +244,21 @@ class ControllerCatalogTool extends Controller
 								]
 							],
 							'product_store' 	=> [0],
+							'product_variant' 	=> [],
 							'product_option' 	=> [],
 							'product_image' 	=> [],
 							'product_category' 	=> [],
 							'keyword' 			=> ''
 						];
 
-						$product_data['model'] = $sheet_data[$i][$field_data['model']];
 						$product_data['sku'] = $sheet_data[$i][$field_data['model']];
-						$product_data['quantity'] = $sheet_data[$i][$field_data['quantity']];
 						$product_data['minimum'] = max(1, $sheet_data[$i][$field_data['minimum']]);
 						$product_data['manufacturer_id'] = $sheet_data[$i][$field_data['manufacturer_id']];
-						$product_data['price'] = $sheet_data[$i][$field_data['price']];
-						$product_data['weight'] = $sheet_data[$i][$field_data['weight']];
 						$product_data['length'] = $sheet_data[$i][$field_data['length']];
 						$product_data['width'] = $sheet_data[$i][$field_data['width']];
 						$product_data['height'] = $sheet_data[$i][$field_data['height']];
+
+						$product_data['product_variant'] = $product_variant_data;
 						$product_data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower(($sheet_data[$i][$field_data['name']])));
 
 						if ($this->model_catalog_url_alias->getUrlAlias($product_data['keyword'])) {
@@ -339,35 +274,7 @@ class ControllerCatalogTool extends Controller
 							'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 						];
 
-						if (!empty($product_option_data)) {
-							$product_data['product_option'][0] = $product_option_data['product_option'];
-							$product_data['product_option'][0]['product_option_value'][0] = $product_option_data['product_option_value'];
-						}
-
-						$url_source = $sheet_data[$i][$field_data['main_image']];
-
-						$extension = pathinfo($url_source, PATHINFO_EXTENSION);
-
-						if ($extension == '') {
-							$extension = 'png';
-						}
-
-						if (!in_array(strtolower($extension), $image_types)) {
-							# Imagetype tidak sesuai
-							$error_import[] = sprintf($this->language->get('error_image_type'), $sheet_data[$i][$field_data['model']]);
-
-							continue;
-						}
-
-						$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
-
-						$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
-
-						if (!is_dir(DIR_IMAGE . $path_destination)) {
-							@mkdir(DIR_IMAGE . $path_destination, 0777);
-						}
-
-						$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
+						$product_data['image'] = $variant_image;
 
 						for ($j = 2; $j < 6; $j++) {
 							if ($sheet_data[$i][$field_data['image_' . $j]]) {

@@ -337,29 +337,11 @@ class ControllerProductProduct extends Controller
 				$data['price'] = false;
 			}
 
-			$specials = $this->model_catalog_product->getProductSpecial($product_id);
+			$special_info = $this->model_catalog_product->getProductSpecial($product_id, $product_info['price']);
 
-			if ($specials) {
-				$product_info['special'] = $product_info['price'];
-				$data['special_text'] = [];
-
-				if ($specials['discount_percent_1']) {
-					$product_info['special'] *= (100 - $specials['discount_percent_1']) / 100;
-					$data['special_text'][] = $specials['discount_percent_1'] . '%';
-				}
-
-				if ($specials['discount_percent_2']) {
-					$product_info['special'] *= (100 - $specials['discount_percent_2']) / 100;
-					$data['special_text'][] = $specials['discount_percent_2'] . '%';
-				}
-
-				if ($specials['discount_fixed']) {
-					$product_info['special'] = max(0, $product_info['special'] - $specials['discount_fixed']);
-					$data['special_text'][] = round($specials['discount_fixed'] / 1000, 0) . 'K';
-				}
-
-				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-				$data['special_text'] = implode(' + ', $data['special_text']);
+			if ($special_info) {
+				$data['special'] = $this->currency->format($this->tax->calculate($special_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$data['special_text'] = $special_info['text'];
 			} else {
 				$data['special'] = false;
 			}
@@ -552,8 +534,8 @@ class ControllerProductProduct extends Controller
 			$data['mark_up_breadcrumb'] = $mark_up_breadcrumb;
 
 			//Bonk02:Markup Data - Product //should be: "price": "' . $mark_up_product_price . '",
-			if ($specials) {
-				$mark_up_product_price = $product_info['special'];
+			if ($special_info) {
+				$mark_up_product_price = $special_info['price'];
 			} else {
 				$mark_up_product_price = $product_info['price'];
 			}
@@ -719,14 +701,16 @@ class ControllerProductProduct extends Controller
 						$product_stock = $this->language->get('text_instock');
 					}
 
-					$specials = $this->model_catalog_product->getProductSpecial($product_id);
+					$specials = $this->model_catalog_product->getProductSpecial($product_id, $variant_value['price']);
 
 					if ($specials) {
-						$special = $variant_value['price'];
+						$special = $specials['price'];
 
-						$special *= (100 - $specials['discount_percent_1']) / 100;
-						$special *= (100 - $specials['discount_percent_2']) / 100;
-						$special = max(0, $special - $specials['discount_fixed']);
+						// $special = $variant_value['price'];
+
+						// $special *= (100 - $specials['discount_percent_1']) / 100;
+						// $special *= (100 - $specials['discount_percent_2']) / 100;
+						// $special = max(0, $special - $specials['discount_fixed']);
 					}
 
 					$discounts = $this->model_catalog_product->getProductDiscounts($product_id);

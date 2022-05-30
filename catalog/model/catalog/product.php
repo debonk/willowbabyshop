@@ -6,6 +6,11 @@ class ModelCatalogProduct extends Model
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET viewed = (viewed + 1) WHERE product_id = '" . (int)$product_id . "'");
 	}
 
+	public function updateModified($product_id, $user_id = 0)
+	{
+		$this->db->query("UPDATE " . DB_PREFIX . "product SET date_modified = NOW() WHERE product_id = '" . (int)$product_id . "' AND user_id = '" . (int)$user_id . "'");
+	}
+
 	public function getProduct($product_id)
 	{
 		// $query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, m.name AS manufacturer, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT points FROM " . DB_PREFIX . "product_reward pr WHERE pr.product_id = p.product_id AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT wcd.unit FROM " . DB_PREFIX . "weight_class_description wcd WHERE p.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS weight_class, (SELECT lcd.unit FROM " . DB_PREFIX . "length_class_description lcd WHERE p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS length_class, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.product_id = p.product_id AND r2.status = '1' GROUP BY r2.product_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
@@ -124,26 +129,6 @@ class ModelCatalogProduct extends Model
 				'date_added'       		=> $query->row['date_added'],
 				'date_modified'    		=> $query->row['date_modified'],
 				'viewed'           		=> $query->row['viewed']
-			);
-		} else {
-			return false;
-		}
-	}
-
-	public function getProductByModelToDelete($model)
-	{
-		$query = $this->db->query("SELECT DISTINCT pov.*, pov.image AS variant_image, p.*, pd.name AS name FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pov.model = '" . $this->db->escape($model) . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-
-		if ($query->num_rows) {
-			return array(
-				'product_id'		=> $query->row['product_id'],
-				'name'      		=> $query->row['name'],
-				'model'     		=> $query->row['model'],
-				'image'     		=> $query->row['variant_image'] ? $query->row['variant_image'] : $query->row['image'],
-				'quantity'  		=> $query->row['quantity'],
-				'price'     		=> $query->row['price'],
-				'status'    		=> $query->row['status'],
-				'variant_value_id'	=> json_decode($query->row['option_value_id'])
 			);
 		} else {
 			return false;
@@ -310,19 +295,6 @@ class ModelCatalogProduct extends Model
 
 		return implode(', ', $variant_name);
 	}
-
-	// public function getProductVariantsValue($product_id, $product_option_value_id = 0)
-	// {
-	// 	$sql = "SELECT * FROM " . DB_PREFIX . "product_option_value WHERE product_id = '" . (int)$product_id . "'";
-
-	// 	if ($product_option_value_id) {
-	// 		$sql .= " AND product_option_value_id = '" . (int)$product_option_value_id . "'";
-	// 	}
-
-	// 	$query = $this->db->query($sql);
-
-	// 	return $query->rows;
-	// }
 
 	public function getProductVariants($product_id)
 	{
@@ -538,43 +510,9 @@ class ModelCatalogProduct extends Model
 
 	public function getProductOptions($product_id)
 	{
-		// $product_option_data = array();
-
 		$product_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order");
+		
 		return $product_option_query->rows;
-
-		// foreach ($product_option_query->rows as $product_option) {
-		// 	$product_option_value_data = array();
-
-		// 	$product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_id = '" . (int)$product_id . "' AND pov.product_option_id = '" . (int)$product_option['product_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY ov.sort_order");
-
-		// 	foreach ($product_option_value_query->rows as $product_option_value) {
-		// 		$product_option_value_data[] = array(
-		// 			'product_option_value_id' => $product_option_value['product_option_value_id'],
-		// 			'option_value_id'         => $product_option_value['option_value_id'],
-		// 			'name'                    => $product_option_value['name'],
-		// 			'image'                   => $product_option_value['image'],
-		// 			'quantity'                => $product_option_value['quantity'],
-		// 			'subtract'                => $product_option_value['subtract'],
-		// 			'price'                   => $product_option_value['price'],
-		// 			'price_prefix'            => $product_option_value['price_prefix'],
-		// 			'weight'                  => $product_option_value['weight'],
-		// 			'weight_prefix'           => $product_option_value['weight_prefix']
-		// 		);
-		// 	}
-
-		// 	$product_option_data[] = array(
-		// 		'product_option_id'    => $product_option['product_option_id'],
-		// 		'product_option_value' => $product_option_value_data,
-		// 		'option_id'            => $product_option['option_id'],
-		// 		'name'                 => $product_option['name'],
-		// 		'type'                 => $product_option['type'],
-		// 		'value'                => $product_option['value'],
-		// 		'required'             => $product_option['required']
-		// 	);
-		// }
-
-		// return $product_option_data;
 	}
 
 	public function getProductDiscounts($product_id)
@@ -728,7 +666,7 @@ class ModelCatalogProduct extends Model
 
 	public function getTotalProductSpecials()
 	{
-		$query = $this->db->query("SELECT COUNT(DISTINCT ps.product_id) AS total FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start <= CURDATE()) AND (ps.date_end = '0000-00-00' OR ps.date_end >= CURDATE())) AND pov.quantity > 0"); //Bonk07
+		$query = $this->db->query("SELECT COUNT(DISTINCT ps.product_id) AS total FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start <= CURDATE()) AND (ps.date_end = '0000-00-00' OR ps.date_end >= CURDATE())) AND pov.quantity > 0");
 		//		$query = $this->db->query("SELECT COUNT(DISTINCT ps.product_id) AS total FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))");
 
 		if (isset($query->row['total'])) {
@@ -738,66 +676,22 @@ class ModelCatalogProduct extends Model
 		}
 	}
 
-	public function editProduct($product_id, $data)
-	{
-		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
-
-		if (isset($data['quantity'])) {
-			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
-		}
-
-		if (isset($data['price'])) {
-			$sql .= ", price = '" . (float)$data['price'] . "'";
-		}
-
-		if (isset($data['status'])) {
-			$sql .= ", status = '" . (int)$data['status'] . "'";
-		}
-
-		$sql .= " WHERE product_id = '" . (int)$product_id . "'";
-
-		$this->db->query($sql);
-	}
-
-	public function editProductByModel($model, $data)
-	{
-		$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
-
-		if (isset($data['quantity'])) {
-			$sql .= ", quantity = '" . (int)$data['quantity'] . "'";
-		}
-
-		if (isset($data['price'])) {
-			$sql .= ", price = '" . (float)$data['price'] . "'";
-		}
-
-		if (isset($data['status'])) {
-			$sql .= ", status = '" . (int)$data['status'] . "'";
-		}
-
-		$sql .= " WHERE model = '" . $this->db->escape($model) . "'";
-
-		$this->db->query($sql);
-	}
-
-	public function getProductsModel($status)
+	public function getProductsModel($status = 1)
 	{
 		if ($status == 'all') {
-			$query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product");
+			$query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product_option_value");
 		} else {
-			$query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product WHERE status = '" . (int)$status . "'");
+			$query = $this->db->query("SELECT pov.model FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = pov.product_id) WHERE p.status = '" . (int)$status . "'");
 		}
 
 		if ($query->num_rows) {
-			$product_data = array_column($query->rows, 'model');
-
-			return $product_data;
+			return array_column($query->rows, 'model');
 		} else {
 			return false;
 		}
 	}
 
-	public function editProductOption($product_option_value_id, $data)
+	public function editProductVariant($product_option_value_id, $data)
 	{
 		$sql = "UPDATE " . DB_PREFIX . "product_option_value";
 
@@ -805,10 +699,6 @@ class ModelCatalogProduct extends Model
 
 		if (isset($data['quantity'])) {
 			$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
-		}
-
-		if (isset($data['price_prefix'])) {
-			$implode[] = "price_prefix = '" . $this->db->escape($data['price_prefix']) . "'";
 		}
 
 		if (isset($data['price'])) {
@@ -822,7 +712,7 @@ class ModelCatalogProduct extends Model
 		$this->db->query($sql);
 	}
 
-	public function getProductOptionValueByModel($model)
+	public function getProductVariantByModel($model)
 	{
 		$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "'";
 

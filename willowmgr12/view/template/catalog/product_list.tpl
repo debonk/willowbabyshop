@@ -214,13 +214,6 @@
 										</a>
 										<?php } ?>
 									</td>
-									<!-- <td class="text-center">
-										<?= $column_option; ?> | 
-										<?= $column_model; ?> | 
-										<?= $column_price; ?> | 
-										<?= $column_quantity; ?> | 
-										<?= $column_weight; ?>
-									</td> -->
 									<td>
 										<?php if ($sort == 'pov.model') { ?>
 										<a href="<?= $sort_model; ?>" class="<?= strtolower($order); ?>">

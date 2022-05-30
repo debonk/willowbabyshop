@@ -127,8 +127,8 @@
 
 <script type="text/javascript"><!--
 $('#button-search').bind('click', function() {
-//	url = 'index.php?route=product/search'; //Bonk: search seo url
-	url = 'search';
+	url = 'index.php?route=product/search';
+	// url = 'search'; //Bonk: search seo url
 
 	var search = $('#content input[name=\'search\']').prop('value');
 

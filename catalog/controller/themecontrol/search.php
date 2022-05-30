@@ -164,14 +164,15 @@ class ControllerthemecontrolSearch extends Controller {
 				
 				$json[] = array(
 					'total' => $total,
-					'product_id' => $result['product_id'],
-					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),	
-					'model'      => $result['model'],
-					'image'		 => $image,
-					'link'		 => $this->url->link('product/product','product_id='.$result['product_id']),
-					'special'	 => $special,
-					'tax'		 => $tax,
-					'price'      => $price
+					'product_id'	=> $result['product_id'],
+					'name'      	=> strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),	
+					'model'     	=> $result['model'],
+					'image'			=> $image,
+					'link'			=> $this->url->link('product/product','product_id='.$result['product_id']),
+					'special'		=> $special,
+					'special_text'	=> $result['special_text'],
+					'tax'			=> $tax,
+					'price'			=> $price
 				);	
 			}
 			

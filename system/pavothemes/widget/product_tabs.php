@@ -251,16 +251,17 @@ class PtsWidgetProduct_tabs extends PtsWidgetPageBuilder {
 	 			
 				
 				$products[] = array(
-					'product_id' => $result['product_id'],
-					'thumb'   	 => $image,
-					'name'    	 => $result['name'],
-					'price'   	 => $price,
-					'special' 	 => $special,
-					'rating'     => $rating,
-					'description'=> (html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')),
-					'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
-					'href'    	 => $this->url->link('product/product', 'product_id=' . $result['product_id']),
-					'thumb2'     => isset($thumb2)?$thumb2:'',
+					'product_id'	=> $result['product_id'],
+					'thumb'   		=> $image,
+					'name'    		=> $result['name'],
+					'price'   		=> $price,
+					'special' 		=> $special,
+					'special_text'	=> $result['special_text'],
+					'rating'     	=> $rating,
+					'description'	=> (html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')),
+					'reviews'    	=> sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+					'href'    	 	=> $this->url->link('product/product', 'product_id=' . $result['product_id']),
+					'thumb2'     	=> isset($thumb2)?$thumb2:'',
 				);
 			}
 			return $products;
@@ -276,7 +277,7 @@ class PtsWidgetProduct_tabs extends PtsWidgetPageBuilder {
 			$this->load->model('catalog/product');
 			$this->load->model('tool/image');
 
-			if($id_products){
+			if($id_products) {
 				foreach ($id_products as $id_product) {
 					$result = $this->model_catalog_product->getProduct( $id_product );
 
@@ -305,16 +306,16 @@ class PtsWidgetProduct_tabs extends PtsWidgetPageBuilder {
 					}
 
 					$products[] = array(
-						'product_id' => $result['product_id'],
-						'thumb'   	 => $image,
-						'name'    	 => $result['name'],
-						'price'   	 => $price,
-						'special' 	 => $special,
-						'rating'     => $rating,
-						'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
-						'href'    	 => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+						'product_id'	=> $result['product_id'],
+						'thumb'   		=> $image,
+						'name'    		=> $result['name'],
+						'price'   		=> $price,
+						'special' 		=> $special,
+						'special_text'	=> $result['special_text'],
+						'rating' 		=> $rating,
+						'reviews'		=> sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+						'href'   		=> $this->url->link('product/product', 'product_id=' . $result['product_id']),
 					);
-					
 				}
 			}
 			return $products;
