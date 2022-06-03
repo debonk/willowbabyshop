@@ -41,6 +41,26 @@
 				</h3>
 			</div>
 			<div class="panel-body">
+				<div class="well">
+					<div class="row">
+						<div class="col-sm-3">
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="control-label" for="input-name">
+									<?= $entry_name; ?>
+								</label>
+								<input type="text" name="filter_name" value="<?= $filter_name; ?>" placeholder="<?= $entry_name; ?>"
+									id="input-name" class="form-control" />
+							</div>
+							<div class="form-group">
+								<button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i>
+									<?= $button_filter; ?>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<form action="<?= $delete; ?>" method="post" enctype="multipart/form-data" id="form-manufacturer">
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover">
@@ -146,5 +166,23 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(document).keypress(function (e) {
+			if (e.which == 13) {
+				$("#button-filter").click();
+			}
+		});
+		$('#button-filter').on('click', function () {
+			var url = 'index.php?route=catalog/manufacturer&token=<?= $token; ?>';
+
+			var filter_name = $('input[name=\'filter_name\']').val();
+
+			if (filter_name) {
+				url += '&filter_name=' + encodeURIComponent(filter_name);
+			}
+
+			location = url;
+		});
+	</script>
 </div>
 <?= $footer; ?>

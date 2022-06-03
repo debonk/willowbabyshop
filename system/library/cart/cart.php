@@ -85,36 +85,18 @@ class Cart
 
 				$variant_id = json_decode($variant_query->row['option_value_id']);
 
-				// $variant_data = [];
-
 				$variant_name = [];
-				// $option_name = [];
 				
 				if ($variant_id) {
-
 					$variant_ids = implode(', ', $variant_id);
 					
-					// $variant_name_query = $this->db->query("SELECT GROUP_CONCAT(name SEPARATOR ', ') AS name FROM " . DB_PREFIX . "option_value_description WHERE option_value_id IN (" . $this->db->escape($variant_ids) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
-					// $variant_name = $variant_name_query->row['name'];
-
 					$variant_value_query = $this->db->query("SELECT ovd.*, od.name AS option_name FROM " . DB_PREFIX . "option_value_description ovd LEFT JOIN " . DB_PREFIX . "option_description od ON (ovd.option_id = od.option_id AND ovd.language_id = od.language_id) WHERE ovd.option_value_id IN (" . $this->db->escape($variant_ids) . ") AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 					$variants = array_combine(array_column($variant_value_query->rows, 'option_value_id'), $variant_value_query->rows);
 
 					foreach ($variant_id as $id) {
 						$variant_name[] = $variants[$id]['name'];
-						// $option_name[] = $variants[$id]['option_name'];
 					}
-
-					// $variant_data = [
-					// 	'product_option_id'       => $variant_query->row['product_option_id'],
-					// 	'product_option_value_id' => $variant_query->row['product_option_value_id'],
-					// 	'option_id'               => $variant_query->row['option_id'],
-					// 	'option_value_id'         => $variant_query->row['option_value_id'],
-					// 	'name'                    => json_encode($option_name),
-					// 	'value'         		  => json_encode($variant_name),
-					// 	'type'                    => 'variant'
-					// ];
 				}
 				
 				$option_data = [];

@@ -74,15 +74,6 @@ class ModelCatalogProduct extends Model
 		$query = $this->db->query("SELECT DISTINCT pov.*, pov.image AS variant_image, p.*, pd.*, pd.name AS name, m.name AS manufacturer, m.image AS manufacturer_image, (SELECT points FROM " . DB_PREFIX . "product_reward pr WHERE pr.product_id = p.product_id AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT lcd.unit FROM " . DB_PREFIX . "length_class_description lcd WHERE p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS length_class, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.product_id = p.product_id AND r2.status = '1' GROUP BY r2.product_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE pov.model = '" . $this->db->escape($model) . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 		if ($query->num_rows) {
-			// $product_discount = $this->getProductDiscounts($query->row['product_id']);
-	
-			// if ($product_discount) {
-			// 	$discount = $query->row['price'];
-			// 	$discount *= (100 - $product_discount[0]['discount_percent_1']) / 100;
-			// 	$discount *= (100 - $product_discount[0]['discount_percent_2']) / 100;
-			// 	$discount = max(0, $discount - $product_discount[0]['discount_fixed']);
-			// }
-	
 			$product_special = $this->getProductSpecial($query->row['product_id'], $query->row['price']);
 			
 			return array(

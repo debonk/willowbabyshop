@@ -379,7 +379,6 @@ class ControllerProductProduct extends Controller
 					'quantity' 		=> $discount['quantity'],
 					'price'    		=> $this->currency->format($this->tax->calculate($discount_price, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
 					'text' 			=> implode(' + ', $discount_text)
-					// 'discount_text'	=> sprintf($this->language->get('text_discount'), $discount['quantity'], $this->currency->format($this->tax->calculate($discount_price, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), implode(' + ', $discount_text))
 				);
 			}
 

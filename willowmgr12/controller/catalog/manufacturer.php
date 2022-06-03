@@ -111,6 +111,12 @@ class ControllerCatalogManufacturer extends Controller {
 	}
 
 	protected function getList() {
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = null;
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -130,6 +136,10 @@ class ControllerCatalogManufacturer extends Controller {
 		}
 
 		$url = '';
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -161,13 +171,14 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['manufacturers'] = array();
 
 		$filter_data = array(
-			'sort'  => $sort,
-			'order' => $order,
-			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit' => $this->config->get('config_limit_admin')
+			'filter_name'	=> $filter_name,
+			'sort' 			=> $sort,
+			'order'			=> $order,
+			'start'			=> ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit'			=> $this->config->get('config_limit_admin')
 		);
 
-		$manufacturer_total = $this->model_catalog_manufacturer->getTotalManufacturers();
+		$manufacturer_total = $this->model_catalog_manufacturer->getTotalManufacturers($filter_data);
 
 		$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
 
@@ -181,22 +192,26 @@ class ControllerCatalogManufacturer extends Controller {
 			);
 		}
 
-		$data['heading_title'] = $this->language->get('heading_title');
-
-		$data['text_list'] = $this->language->get('text_list');
-		$data['text_no_results'] = $this->language->get('text_no_results');
-		$data['text_confirm'] = $this->language->get('text_confirm');
-
-		$data['column_id'] = $this->language->get('column_id');
-		$data['column_name'] = $this->language->get('column_name');
-		$data['column_sort_order'] = $this->language->get('column_sort_order');
-		$data['column_product_total'] = $this->language->get('column_product_total');
-		$data['column_action'] = $this->language->get('column_action');
-
-		$data['button_add'] = $this->language->get('button_add');
-		$data['button_edit'] = $this->language->get('button_edit');
-		$data['button_delete'] = $this->language->get('button_delete');
-
+		$language_items = [
+			'heading_title',
+			'text_list',
+			'text_no_results',
+			'text_confirm',
+			'entry_name',
+			'column_id',
+			'column_name',
+			'column_sort_order',
+			'column_product_total',
+			'column_action',
+			'button_add',
+			'button_edit',
+			'button_delete',
+			'button_filter'
+		];
+		foreach ($language_items as $language_item) {
+			$data[$language_item] = $this->language->get($language_item);
+		}
+		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -219,6 +234,10 @@ class ControllerCatalogManufacturer extends Controller {
 
 		$url = '';
 
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
 		} else {
@@ -235,6 +254,10 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['sort_sort_order'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
 
 		$url = '';
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -253,6 +276,10 @@ class ControllerCatalogManufacturer extends Controller {
 		$data['pagination'] = $pagination->render();
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($manufacturer_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($manufacturer_total - $this->config->get('config_limit_admin'))) ? $manufacturer_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $manufacturer_total, ceil($manufacturer_total / $this->config->get('config_limit_admin')));
+
+		$data['token'] = $this->session->data['token'];
+
+		$data['filter_name'] = $filter_name;
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -460,7 +487,7 @@ class ControllerCatalogManufacturer extends Controller {
 			$filter_data = array(
 				'filter_name' => $this->request->get['filter_name'],
 				'start'       => 0,
-				'limit'       => 5
+				'limit'       => 10
 			);
 
 			$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);

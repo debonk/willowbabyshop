@@ -53,7 +53,34 @@ class ModelReportProduct extends Model {
 			$sql .= " AND DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		}
 
-		$sql .= " GROUP BY op.model ORDER BY total DESC";
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND op.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		if (!empty($data['filter_model'])) {
+			$sql .= " AND op.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
+		}
+
+		$sql .= " GROUP BY op.model";
+
+		$sort_data = array(
+			'op.name',
+			'op.model',
+			'quantity',
+			'total'
+		);
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];
+		} else {
+			$sql .= " ORDER BY total";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'ASC')) {
+			$sql .= " ASC";
+		} else {
+			$sql .= " DESC";
+		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
@@ -79,7 +106,7 @@ class ModelReportProduct extends Model {
 	}
 
 	public function getTotalPurchased($data) {
-		$sql = "SELECT COUNT(DISTINCT op.product_id) AS total FROM `" . DB_PREFIX . "order_product` op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";
+		$sql = "SELECT COUNT(DISTINCT op.model) AS total FROM `" . DB_PREFIX . "order_product` op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";
 
 		if (!empty($data['filter_order_status_id'])) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
@@ -93,6 +120,14 @@ class ModelReportProduct extends Model {
 
 		if (!empty($data['filter_date_end'])) {
 			$sql .= " AND DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
+
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND op.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		if (!empty($data['filter_model'])) {
+			$sql .= " AND op.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
 		}
 
 		$query = $this->db->query($sql);

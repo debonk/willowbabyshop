@@ -17,4 +17,6 @@ $_['column_total']      = 'Total';
 // Entry
 $_['entry_date_start']  = 'Date Start';
 $_['entry_date_end']    = 'Date End';
-$_['entry_status']      = 'Order Status';
+$_['entry_name']		= 'Product Name';
+$_['entry_model']		= 'Model';
+$_['entry_status']		= 'Order Status';

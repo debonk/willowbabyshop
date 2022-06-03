@@ -405,7 +405,9 @@ class PtsWidgetProduct_tabs extends PtsWidgetPageBuilder {
 			$setting['heading_title'] = isset($setting['widget_title_'.$languageID])?$setting['widget_title_'.$languageID]:'';
 			 
 			$output = array('type'=>'product_tabs','data' => $setting );
- 
+			// var_dump($output);
+			// die('---breakpoint---');
+
 			return $output;
 		}
 	}

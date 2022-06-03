@@ -17,10 +17,34 @@ class ControllerReportProductPurchased extends Controller {
 			$filter_date_end = '';
 		}
 
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = null;
+		}
+
+		if (isset($this->request->get['filter_model'])) {
+			$filter_model = $this->request->get['filter_model'];
+		} else {
+			$filter_model = null;
+		}
+
 		if (isset($this->request->get['filter_order_status_id'])) {
 			$filter_order_status_id = $this->request->get['filter_order_status_id'];
 		} else {
 			$filter_order_status_id = 0;
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'total';
+		}
+
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -29,23 +53,31 @@ class ControllerReportProductPurchased extends Controller {
 			$page = 1;
 		}
 
-		$url = '';
+		// $url = '';
 
-		if (isset($this->request->get['filter_date_start'])) {
-			$url .= '&filter_date_start=' . $this->request->get['filter_date_start'];
-		}
+		// if (isset($this->request->get['filter_date_start'])) {
+		// 	$url .= '&filter_date_start=' . $this->request->get['filter_date_start'];
+		// }
 
-		if (isset($this->request->get['filter_date_end'])) {
-			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
-		}
+		// if (isset($this->request->get['filter_date_end'])) {
+		// 	$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
+		// }
 
-		if (isset($this->request->get['filter_order_status_id'])) {
-			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
-		}
+		// if (isset($this->request->get['filter_order_status_id'])) {
+		// 	$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
+		// }
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+		// if (isset($this->request->get['sort'])) {
+		// 	$url .= '&sort=' . $this->request->get['sort'];
+		// }
+
+		// if (isset($this->request->get['order'])) {
+		// 	$url .= '&order=' . $this->request->get['order'];
+		// }
+
+		// if (isset($this->request->get['page'])) {
+		// 	$url .= '&page=' . $this->request->get['page'];
+		// }
 
 		$data['breadcrumbs'] = array();
 
@@ -56,7 +88,7 @@ class ControllerReportProductPurchased extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . $url, true)
+			'href' => $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'], true)
 		);
 
 		$this->load->model('report/product');
@@ -64,11 +96,15 @@ class ControllerReportProductPurchased extends Controller {
 		$data['products'] = array();
 
 		$filter_data = array(
-			'filter_date_start'	     => $filter_date_start,
-			'filter_date_end'	     => $filter_date_end,
-			'filter_order_status_id' => $filter_order_status_id,
-			'start'                  => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'                  => $this->config->get('config_limit_admin')
+			'filter_date_start'			=> $filter_date_start,
+			'filter_date_end'			=> $filter_date_end,
+			'filter_name'	  			=> $filter_name,
+			'filter_model'	  			=> $filter_model,
+			'filter_order_status_id' 	=> $filter_order_status_id,
+			'sort' 						=> $sort,
+			'order'						=> $order,
+			'start'						=> ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit'						=> $this->config->get('config_limit_admin')
 		);
 
 		$product_total = $this->model_report_product->getTotalPurchased($filter_data);
@@ -93,23 +129,63 @@ class ControllerReportProductPurchased extends Controller {
 			);
 		}
 
-		$data['heading_title'] = $this->language->get('heading_title');
+		$language_items = [
+			'heading_title',
+			'text_list',
+			'text_no_results',
+			'text_confirm',
+			'text_all_status',
+			'column_name',
+			'column_model',
+			'column_quantity',
+			'column_total',
+			'entry_date_start',
+			'entry_date_end',
+			'entry_name',
+			'entry_model',
+			'entry_status',
+			'button_filter'
+		];
+		foreach ($language_items as $language_item) {
+			$data[$language_item] = $this->language->get($language_item);
+		}
+		
+		$url = '';
 
-		$data['text_list'] = $this->language->get('text_list');
-		$data['text_no_results'] = $this->language->get('text_no_results');
-		$data['text_confirm'] = $this->language->get('text_confirm');
-		$data['text_all_status'] = $this->language->get('text_all_status');
+		if (isset($this->request->get['filter_date_start'])) {
+			$url .= '&filter_date_start=' . $this->request->get['filter_date_start'];
+		}
 
-		$data['column_name'] = $this->language->get('column_name');
-		$data['column_model'] = $this->language->get('column_model');
-		$data['column_quantity'] = $this->language->get('column_quantity');
-		$data['column_total'] = $this->language->get('column_total');
+		if (isset($this->request->get['filter_date_end'])) {
+			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
+		}
 
-		$data['entry_date_start'] = $this->language->get('entry_date_start');
-		$data['entry_date_end'] = $this->language->get('entry_date_end');
-		$data['entry_status'] = $this->language->get('entry_status');
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
 
-		$data['button_filter'] = $this->language->get('button_filter');
+		if (isset($this->request->get['filter_model'])) {
+			$url .= '&filter_model=' . urlencode(html_entity_decode($this->request->get['filter_model'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_order_status_id'])) {
+			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
+		}
+
+		if ($order == 'DESC') {
+			$url .= '&order=ASC';
+		} else {
+			$url .= '&order=DESC';
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		$data['sort_name'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . '&sort=op.name' . $url, true);
+		$data['sort_model'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . '&sort=op.model' . $url, true);
+		$data['sort_quantity'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . '&sort=quantity' . $url, true);
+		$data['sort_total'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . '&sort=total' . $url, true);
 
 		$data['token'] = $this->session->data['token'];
 
@@ -127,8 +203,24 @@ class ControllerReportProductPurchased extends Controller {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
 
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_model'])) {
+			$url .= '&filter_model=' . urlencode(html_entity_decode($this->request->get['filter_model'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_order_status_id'])) {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
 		}
 
 		$pagination = new Pagination();
@@ -143,7 +235,12 @@ class ControllerReportProductPurchased extends Controller {
 
 		$data['filter_date_start'] = $filter_date_start;
 		$data['filter_date_end'] = $filter_date_end;
+		$data['filter_name'] = $filter_name;
+		$data['filter_model'] = $filter_model;
 		$data['filter_order_status_id'] = $filter_order_status_id;
+
+		$data['sort'] = $sort;
+		$data['order'] = $order;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

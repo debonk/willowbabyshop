@@ -96,7 +96,7 @@
 					<div class="price clearfix">
 						<span class="price-old" id="price">
 							<?= $price; ?>
-						</span>
+						</span>&nbsp;
 						<span class="label label-danger special-percentage-big">
 							<?= $special_text; ?>
 						</span>

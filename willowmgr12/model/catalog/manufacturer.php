@@ -73,7 +73,7 @@ class ModelCatalogManufacturer extends Model
 			$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id)";
 
 			if (!empty($data['filter_name'])) {
-				$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+				$sql .= " WHERE m.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 			}
 
 			$sql .= " GROUP BY m.manufacturer_id";
@@ -139,9 +139,15 @@ class ModelCatalogManufacturer extends Model
 		return $manufacturer_store_data;
 	}
 
-	public function getTotalManufacturers()
+	public function getTotalManufacturers($data = [])
 	{
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "manufacturer");
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "manufacturer";
+		
+		if (!empty($data['filter_name'])) {
+			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		$query = $this->db->query($sql);
 
 		return $query->row['total'];
 	}

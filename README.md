@@ -1,5 +1,10 @@
 # willowbabyshop software
 
+3.0.1	03/06/2022
+Modify: Catalog > Manufacturer: Add filter feature
+Modify: Report > Product Purchased: Add filter and sort features
+Bug Fixed: Themecontrol > Product: error special and discount
+
 3.0.0	30/05/2022
 Modify: File Manager: Regenerate new filename to avoid error when Upload image contain special character
 
@@ -40,7 +45,7 @@ Modul: Multiple Option >>
 	- Catalog > Product List > Filter
 	- Catalog > Product List > Autocomplete
 	- Catalog > Product Form > Special
-		Table: product_discount: change discount structure to disc_1 (%), disc_2 (%), disc_3(fixed)
+		Table: product_special: change discount structure to disc_1 (%), disc_2 (%), disc_3(fixed)
 			ALTER TABLE `oc_product_special` ADD `discount_percent_1` TINYINT(3) NOT NULL DEFAULT '0' AFTER `priority`, ADD `discount_percent_2` TINYINT(3) NOT NULL DEFAULT '0' AFTER `discount_percent_1`
 			ALTER TABLE `oc_product_special` CHANGE `price` `discount_fixed` INT(11) NOT NULL DEFAULT '0';
 	- Catalog > Product Form > Discount
