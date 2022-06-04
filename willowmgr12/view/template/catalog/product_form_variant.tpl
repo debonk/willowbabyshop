@@ -11,12 +11,12 @@
 				<thead>
 					<tr>
 						<td>
-							<?= $entry_image; ?>
+							<?= $column_image; ?>
 						</td>
 						<?php foreach($product_variants['option'] as $column => $product_option) { ?>
 						<td class="variant-option<?= $column; ?> bg-primary">
-							<div id="variant-option<?= $column; ?>" data-column="<?= $column; ?>"><i
-									class="fa fa-minus-circle" onclick="deleteVariantOption('<?= $column; ?>');" data-toggle="tooltip"
+							<div id="variant-option<?= $column; ?>" data-column="<?= $column; ?>"><i class="fa fa-minus-circle"
+									onclick="deleteVariantOption('<?= $column; ?>');" data-toggle="tooltip"
 									title="<?= $button_remove; ?>"></i>
 								<?= $product_option['name']; ?>
 							</div>
@@ -32,25 +32,34 @@
 						</td>
 						<?php } ?>
 						<td class="required" id="label-model">
-							<?= $entry_model; ?>
+							<?= $column_model; ?>
 						</td>
 						<td class="text-right">
-							<?= $entry_quantity; ?>
+							<?= $column_quantity; ?>
 						</td>
 						<td class="text-right">
-							<?= $entry_price; ?>
+							<?= $column_price; ?>
 						</td>
 						<td class="text-right">
-							<?= $entry_points; ?>
+							<?= $column_points; ?>
 						</td>
 						<td class="text-right">
-							<?= $entry_weight; ?>
+							<?= $column_weight; ?>
 						</td>
 						<td class="text-right">
-							<?= $entry_weight_class; ?>
+							<?= $column_weight_class; ?>
+							<select id="weight-classes" class="hidden">
+								<?php foreach($weight_classes as $weight_class) { ?>
+								<option value="<?= $weight_class['weight_class_id'] ?>"
+									<?=($weight_class['weight_class_id']==$product_variants['variant'][0]['weight_class_id']) ? 'selected'
+									: '' ?>>
+									<?= $weight_class['title']; ?>
+								</option>
+								<?php } ?>
+							</select>
 						</td>
 						<td class="text-right">
-							<?= $entry_action; ?>
+							<?= $column_action; ?>
 						</td>
 					</tr>
 				</thead>
@@ -59,35 +68,34 @@
 					<tr id="variant-value-row<?= $row; ?>" data-row="<?= $row; ?>">
 						<td><a href="" id="thumb-variant-image<?= $row; ?>" data-toggle="image" class="img-thumbnail"><img
 									src="<?= $variant['thumb']; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
-								type="hidden" name="product_variant[variant][<?= $row; ?>][image]"
-								value="<?= $variant['image']; ?>" id="input-variant-image<?= $row; ?>" /></td>
+								type="hidden" name="product_variant[variant][<?= $row; ?>][image]" value="<?= $variant['image']; ?>"
+								id="input-variant-image<?= $row; ?>" /></td>
 						<?php foreach($variant['option_value_id'] as $column => $option_value_id) { ?>
 						<td class="variant-option<?= $column; ?>"><select
-								name="product_variant[variant][<?= $row; ?>][option_value_id][<?= $column; ?>]"
-								class="form-control">
+								name="product_variant[variant][<?= $row; ?>][option_value_id][<?= $column; ?>]" class="form-control">
 								<?php foreach($product_variants['option'][$column]['option_value'] as $option_value) { ?>
 								<option value="<?= $option_value['option_value_id']; ?>"
-									<?=($option_value['option_value_id']==$variant['option_value_id'][$column]) ? 'selected' : ''
-									?>>
+									<?=($option_value['option_value_id']==$variant['option_value_id'][$column]) ? 'selected' : '' ?>>
 									<?= $option_value['name']; ?>
 								</option>
 								<?php } ?>
 							</select>
 						</td>
 						<?php } ?>
-						<td id="input-model<?= $row; ?>"><input type="text"
-								name="product_variant[variant][<?= $row; ?>][model]" value="<?= $variant['model']; ?>"
-								placeholder="<?= $entry_model; ?>" class="form-control" /></td>
+						<td id="input-model<?= $row; ?>"><input type="text" name="product_variant[variant][<?= $row; ?>][model]"
+								value="<?= $variant['model']; ?>" placeholder="<?= $entry_model; ?>" class="form-control" /></td>
 						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][quantity]"
-								value="<?= $variant['quantity']; ?>" placeholder="<?= $entry_quantity; ?>"
-								class="form-control" /></td>
+								value="<?= $variant['quantity']; ?>" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>
 						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][price]"
-								value="<?= $variant['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control" id="input-price<?= $row; ?>" /></td>
+								value="<?= $variant['price']; ?>" placeholder="<?= $entry_price; ?>" class="form-control"
+								id="input-price<?= $row; ?>" /></td>
 						<td class="text-rigth"><input type="text" name="product_variant[variant][<?= $row; ?>][points]"
-								value="<?= $variant['points']; ?>" placeholder="<?= $entry_points; ?>" class="form-control" id="input-points<?= $row; ?>" />
+								value="<?= $variant['points']; ?>" placeholder="<?= $entry_points; ?>" class="form-control"
+								id="input-points<?= $row; ?>" />
 						</td>
 						<td class="text-right"><input type="text" name="product_variant[variant][<?= $row; ?>][weight]"
-								value="<?= $variant['weight']; ?>" placeholder="<?= $entry_weight; ?>" class="form-control" id="input-weight<?= $row; ?>" />
+								value="<?= $variant['weight']; ?>" placeholder="<?= $entry_weight; ?>" class="form-control"
+								id="input-weight<?= $row; ?>" />
 						</td>
 						<td><select name="product_variant[variant][<?= $row; ?>][weight_class_id]" class="form-control"
 								id="weight-classes<?= $row; ?>">
@@ -100,11 +108,9 @@
 							</select>
 						</td>
 						<td class="text-right">
-							<?php if ($row) { ?>
 							<button type="button" onclick="$(this).tooltip('destroy');$(this).closest('tr').remove();"
 								data-toggle="tooltip" rel="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i
 									class="fa fa-minus-circle"></i></button>
-							<?php } ?>
 
 						</td>
 					</tr>
@@ -112,12 +118,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td></td>
-						<?php foreach($variant['option_value_id'] as $column => $option_value_id) { ?>
-						<td class="variant-option<?= $column; ?>"></td>
-						<?php } ?>
-						<td colspan="6"></td>
-						<td class="text-right"><button type="button" onclick="addVariantValue();" data-toggle="tooltip"
+						<td class="text-right" colspan="15"><button type="button" onclick="addVariantValue();" data-toggle="tooltip"
 								title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i
 									class="fa fa-plus-circle"></i></button></td>
 					</tr>
@@ -128,10 +129,6 @@
 
 	<script type="text/javascript">
 		let variant_column = '<?= $option_count; ?>';
-
-		if (variant_column == 0) {
-			$('#table-product-variant tfoot').hide();
-		}
 
 		$(document).ready(function () {
 			$('input[name=\'variant\']').autocomplete({
@@ -153,8 +150,6 @@
 					});
 				},
 				'select': function (item) {
-					$('#table-product-variant tfoot').show();
-
 					html = '';
 					html += '  <td class="variant-option' + variant_column + ' bg-primary">';
 					html += '  <div id="variant-option' + variant_column + '" data-column="' + variant_column + '"><i class="fa fa-minus-circle" onclick="deleteVariantOption(' + variant_column + ');" data-toggle="tooltip" title="<?= $button_remove; ?>"></i> ' + item['label'] + '</div>';
@@ -168,7 +163,6 @@
 					html += '  </td>';
 
 					$('#tab-variant #label-model').before(html);
-					$('#tab-variant tfoot > tr').prepend('<td class="variant-option' + variant_column + '"></td>');
 
 					let variant_rows = $('[id^=\'variant-value-row\']');
 
@@ -198,6 +192,7 @@
 		}
 
 		let variant_row = '<?= $variant_count; ?>';
+		let default_value = JSON.parse('<?= $default_value; ?>');
 
 		function addVariantValue() {
 			html = ''
@@ -216,11 +211,11 @@
 
 			html += '  <td id="input-model' + variant_row + '"><input type="text" name="product_variant[variant][' + variant_row + '][model]" value="" placeholder="<?= $entry_model; ?>" class="form-control" /></td>';
 			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][quantity]" value="" placeholder="<?= $entry_quantity; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][price]" value="' + $('#input-price0').val() + '" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
-			html += '  <td class="text-rigth"><input type="text" name="product_variant[variant][' + variant_row + '][points]" value="' + $('#input-points0').val() + '" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
-			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][weight]" value="' + $('#input-weight0').val() + '" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
+			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][price]" value="' + default_value.price + '" placeholder="<?= $entry_price; ?>" class="form-control" /></td>';
+			html += '  <td class="text-rigth"><input type="text" name="product_variant[variant][' + variant_row + '][points]" value="' + default_value.points + '" placeholder="<?= $entry_points; ?>" class="form-control" /></td>';
+			html += '  <td class="text-right"><input type="text" name="product_variant[variant][' + variant_row + '][weight]" value="' + default_value.weight + '" placeholder="<?= $entry_weight; ?>" class="form-control" /></td>';
 			html += '  <td><select name="product_variant[variant][' + variant_row + '][weight_class_id]" class="form-control">';
-			html += $('#weight-classes0').html();
+			html += $('#weight-classes').html();
 			html += '    </select>';
 			html += '  </td>';
 			html += '  <td class="text-right"><button type="button" onclick="$(this).tooltip(\'destroy\');$(this).closest(\'tr\').remove();" data-toggle="tooltip" rel="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';

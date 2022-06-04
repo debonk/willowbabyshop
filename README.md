@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+3.0.2	04/06/2022
+Bug Fixed: Catalog > Product Form: Variant value id saved as object instead of array
+Bug Fixed: Catalog > Product List: Manufacturer & Category filter keep showing --- All Data ---
+
 3.0.1	03/06/2022
 Modify: Catalog > Manufacturer: Add filter feature
 Modify: Report > Product Purchased: Add filter and sort features

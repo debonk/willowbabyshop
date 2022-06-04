@@ -338,13 +338,13 @@ class ControllerCatalogProduct extends Controller
 		}
 
 		if (isset($this->request->get['filter_manufacturer'])) {
-			$filter_manufacturer = (int)$this->request->get['filter_manufacturer'];
+			$filter_manufacturer = $this->request->get['filter_manufacturer'];
 		} else {
 			$filter_manufacturer = null;
 		}
 
 		if (isset($this->request->get['filter_category'])) {
-			$filter_category = (int)$this->request->get['filter_category'];
+			$filter_category = $this->request->get['filter_category'];
 		} else {
 			$filter_category = null;
 		}
@@ -1596,15 +1596,20 @@ class ControllerCatalogProduct extends Controller
 
 		$language_items = [
 			'heading_title',
-			'entry_variant',
+			'column_image',
+			'column_model',
+			'column_quantity',
+			'column_price',
+			'column_points',
+			'column_weight',
+			'column_weight_class',
+			'column_action',
 			'entry_model',
-			'entry_image',
 			'entry_quantity',
 			'entry_price',
 			'entry_points',
 			'entry_weight',
-			'entry_weight_class',
-			'entry_action',
+			'entry_variant',
 			'button_option_value_add',
 			'button_remove',
 		];
@@ -1630,7 +1635,7 @@ class ControllerCatalogProduct extends Controller
 
 		if ($product_variant) {
 			if (!empty($product_variant['option'])) {
-				foreach ($product_variant['option'] as $option) {
+				foreach ($product_variant['option'] as $idx => $option) {
 					$option_value_data = [];
 					
 					$option_value_data = $this->model_catalog_option->getOptionValues($option['option_id']);
@@ -1649,9 +1654,8 @@ class ControllerCatalogProduct extends Controller
 						$option_name = $option['name'];
 					}
 
-					$option_data[] = [
+					$option_data[$idx] = [
 						'option_id'		=> $option['option_id'],
-						// 'type'			=> $option['type'],
 						'name'			=> $option_name,
 						'option_value'	=> $option_value_data
 					];
@@ -1694,6 +1698,8 @@ class ControllerCatalogProduct extends Controller
 			'variant'	=> $variant_value_data
 		];
 
+		$data['default_value'] = json_encode($variant_value_data[0]);
+
 		$data['option_count'] = count($option_data);
 		$data['variant_count'] = count($variant_value_data);
 
@@ -1720,22 +1726,9 @@ class ControllerCatalogProduct extends Controller
 			}
 		}
 
-		// if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 32)) {
-		// 	$this->error['model'] = $this->language->get('error_model');
-		// }
-
 		$product_id = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : 0;
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-
-		# validasi model harus unik
-		// if (!isset($this->request->get['product_id']) || ($product_info && $product_info['model'] != $this->request->post['model'])) {
-		// 	$product_check = $this->model_catalog_product->getProductByModel($this->request->post['model']);
-
-		// 	if ($product_check) {
-		// 		$this->error['model'] = $this->language->get('error_model_used');
-		// 	}
-		// }
 
 		# validasi sku harus unik
 		if (!isset($this->request->get['product_id']) || ($product_info && $product_info['sku'] != $this->request->post['sku'])) {
@@ -1750,21 +1743,21 @@ class ControllerCatalogProduct extends Controller
 		$variant_models = array_column($this->request->post['product_variant']['variant'], 'model');
 
 		if ($variant_models != array_unique($variant_models)) {
-			$this->error['variant'] = $this->language->get('error_option_model_used');
+			$this->error['variant'] = $this->language->get('error_model_unique');
 		} elseif (!isset($this->request->post['product_variant']['option']) && count($variant_models) != 1) {
 			$this->error['variant'] = $this->language->get('error_option');
 		} else {
-			foreach ($variant_models as $option_model) {
-				if ((utf8_strlen($option_model) < 1) || (utf8_strlen($option_model) > 32)) {
+			foreach ($variant_models as $model) {
+				if ((utf8_strlen($model) < 1) || (utf8_strlen($model) > 32)) {
 					$this->error['variant'] = $this->language->get('error_model');
 
 					break;
 				}
 
-				$product_option_check =  $this->model_catalog_product->checkProductOptionValueByModel($option_model, $product_id);
+				$product_model_check =  $this->model_catalog_product->checkProductModel($model, $product_id);
 
-				if ($product_option_check) {
-					$this->error['variant'] = $this->language->get('error_option_model_used');
+				if ($product_model_check) {
+					$this->error['variant'] = $this->language->get('error_model_used');
 
 					break;
 				}

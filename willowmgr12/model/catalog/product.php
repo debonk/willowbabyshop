@@ -40,7 +40,7 @@ class ModelCatalogProduct extends Model
 		$option_ids = isset($data['product_variant']['option']) ? array_column($data['product_variant']['option'], 'option_id') : [];
 
 		foreach ($data['product_variant']['variant'] as $variant) {
-			$option_value_ids = isset($variant['option_value_id']) ? $variant['option_value_id'] : [];
+			$option_value_ids = isset($variant['option_value_id']) ? array_values($variant['option_value_id']) : [];
 
 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_id = '" . (int)$product_id . "', option_id = '" . $this->db->escape(json_encode($option_ids)) . "', option_value_id = '" . $this->db->escape(json_encode($option_value_ids)) . "', model = '" . $this->db->escape($variant['model']) . "', image = '" . $this->db->escape($variant['image']) . "', quantity = '" . (int)$variant['quantity'] . "', price = '" . (float)$variant['price'] . "', points = '" . (int)$variant['points'] . "', weight = '" . (float)$variant['weight'] . "', weight_class_id = '" . (int)$variant['weight_class_id'] . "'");
 		}
@@ -166,14 +166,14 @@ class ModelCatalogProduct extends Model
 				}
 			}
 		}
-
+		
 		# Product Variant
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_value WHERE product_id = '" . (int)$product_id . "'");
 
 		$option_ids = isset($data['product_variant']['option']) ? array_column($data['product_variant']['option'], 'option_id') : [];
 
 		foreach ($data['product_variant']['variant'] as $variant) {
-			$option_value_ids = isset($variant['option_value_id']) ? $variant['option_value_id'] : [];
+			$option_value_ids = isset($variant['option_value_id']) ? array_values($variant['option_value_id']) : [];
 
 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET product_id = '" . (int)$product_id . "', option_id = '" . $this->db->escape(json_encode($option_ids)) . "', option_value_id = '" . $this->db->escape(json_encode($option_value_ids)) . "', model = '" . $this->db->escape($variant['model']) . "', image = '" . $this->db->escape($variant['image']) . "', quantity = '" . (int)$variant['quantity'] . "', price = '" . (float)$variant['price'] . "', points = '" . (int)$variant['points'] . "', weight = '" . (float)$variant['weight'] . "', weight_class_id = '" . (int)$variant['weight_class_id'] . "'");
 		}
@@ -772,6 +772,7 @@ class ModelCatalogProduct extends Model
 	public function getProductOptions($product_id)
 	{
 		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		
 		return $product_option_query->rows;
 	}
 
@@ -1016,9 +1017,9 @@ class ModelCatalogProduct extends Model
 		return $query->row['total'];
 	}
 
-	public function checkProductOptionValueByModel($model, $product_id)
+	public function checkProductModel($model, $product_id)
 	{
-		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "' AND product_id <> '" . (int)$product_id . "'";
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "' AND product_id != '" . (int)$product_id . "'";
 
 		$query = $this->db->query($sql);
 

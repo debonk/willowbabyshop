@@ -76,7 +76,7 @@
 							</a></li>
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane active" id="tab-general">
+						<div class="tab-pane" id="tab-general">
 							<ul class="nav nav-tabs" id="language">
 								<?php foreach ($languages as $language) { ?>
 								<li><a href="#language<?= $language['language_id']; ?>" data-toggle="tab"><img
@@ -450,35 +450,6 @@
 									</select>
 								</div>
 							</div>
-							<!-- <div class="form-group">
-								<label class="col-sm-2 control-label" for="input-weight">
-									<?= $entry_weight; ?>
-								</label>
-								<div class="col-sm-10">
-									<input type="text" name="weight" value="<?= $weight; ?>" placeholder="<?= $entry_weight; ?>"
-										id="input-weight" class="form-control" />
-								</div>
-							</div> -->
-							<!-- <div class="form-group">
-								<label class="col-sm-2 control-label" for="input-weight-class">
-									<?= $entry_weight_class; ?>
-								</label>
-								<div class="col-sm-10">
-									<select name="weight_class_id" id="input-weight-class" class="form-control">
-										<?php foreach ($weight_classes as $weight_class) { ?>
-										<?php if ($weight_class['weight_class_id'] == $weight_class_id) { ?>
-										<option value="<?= $weight_class['weight_class_id']; ?>" selected="selected">
-											<?= $weight_class['title']; ?>
-										</option>
-										<?php } else { ?>
-										<option value="<?= $weight_class['weight_class_id']; ?>">
-											<?= $weight_class['title']; ?>
-										</option>
-										<?php } ?>
-										<?php } ?>
-									</select>
-								</div>
-							</div> -->
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-status">
 									<?= $entry_status; ?>
@@ -842,7 +813,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane" id="tab-variant">
+						<div class="tab-pane active" id="tab-variant">
 							<?php if ($error_variant) { ?>
 							<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
 								<?= $error_variant; ?>
@@ -1186,16 +1157,6 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="tab-reward">
-							<!-- <div class="form-group">
-								<label class="col-sm-2 control-label" for="input-points"><span data-toggle="tooltip"
-										title="<?= $help_points; ?>">
-										<?= $entry_points; ?>
-									</span></label>
-								<div class="col-sm-10">
-									<input type="text" name="points" value="<?= $points; ?>" placeholder="<?= $entry_points; ?>"
-										id="input-points" class="form-control" />
-								</div>
-							</div> -->
 							<div class="table-responsive">
 								<table class="table table-bordered table-hover">
 									<thead>
@@ -1433,7 +1394,7 @@
 		});
 	</script>
 	<script type="text/javascript">
-		var attribute_row = <?= $attribute_row; ?>;
+		var attribute_row = '<?= $attribute_row; ?>';
 
 		function addAttribute() {
 			html = '<tr id="attribute-row' + attribute_row + '">';
@@ -1559,41 +1520,41 @@
 					html += '	</div>';
 				}
 
-				if (item['type'] == 'select' || item['type'] == 'radio' || item['type'] == 'checkbox' || item['type'] == 'image') {
-					html += '<div class="table-responsive">';
-					html += '  <table id="option-value' + option_row + '" class="table table-striped table-bordered table-hover">';
-					html += '  	 <thead>';
-					html += '      <tr>';
-					html += '        <td class="text-left"><?= $entry_option_value; ?></td>';
-					html += '        <td class="text-left required"><?= $entry_model ?></td>';
-					html += '        <td class="text-right"><?= $entry_quantity; ?></td>';
-					html += '        <td class="text-left"><?= $entry_subtract; ?></td>';
-					html += '        <td class="text-right"><?= $entry_price; ?></td>';
-					html += '        <td class="text-right"><?= $entry_option_points; ?></td>';
-					html += '        <td class="text-right"><?= $entry_weight; ?></td>';
-					html += '        <td></td>';
-					html += '      </tr>';
-					html += '  	 </thead>';
-					html += '  	 <tbody>';
-					html += '    </tbody>';
-					html += '    <tfoot>';
-					html += '      <tr>';
-					html += '        <td colspan="7"></td>';
-					html += '        <td class="text-left"><button type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>';
-					html += '      </tr>';
-					html += '    </tfoot>';
-					html += '  </table>';
-					html += '</div>';
+				// if (item['type'] == 'select' || item['type'] == 'radio' || item['type'] == 'checkbox' || item['type'] == 'image') {
+				// 	html += '<div class="table-responsive">';
+				// 	html += '  <table id="option-value' + option_row + '" class="table table-striped table-bordered table-hover">';
+				// 	html += '  	 <thead>';
+				// 	html += '      <tr>';
+				// 	html += '        <td class="text-left"><?= $entry_option_value; ?></td>';
+				// 	html += '        <td class="text-left required"><?= $entry_model ?></td>';
+				// 	html += '        <td class="text-right"><?= $entry_quantity; ?></td>';
+				// 	html += '        <td class="text-left"><?= $entry_subtract; ?></td>';
+				// 	html += '        <td class="text-right"><?= $entry_price; ?></td>';
+				// 	html += '        <td class="text-right"><?= $entry_option_points; ?></td>';
+				// 	html += '        <td class="text-right"><?= $entry_weight; ?></td>';
+				// 	html += '        <td></td>';
+				// 	html += '      </tr>';
+				// 	html += '  	 </thead>';
+				// 	html += '  	 <tbody>';
+				// 	html += '    </tbody>';
+				// 	html += '    <tfoot>';
+				// 	html += '      <tr>';
+				// 	html += '        <td colspan="7"></td>';
+				// 	html += '        <td class="text-left"><button type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="<?= $button_option_value_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>';
+				// 	html += '      </tr>';
+				// 	html += '    </tfoot>';
+				// 	html += '  </table>';
+				// 	html += '</div>';
 
-					html += '  <select id="option-values' + option_row + '" style="display: none;">';
+				// 	html += '  <select id="option-values' + option_row + '" style="display: none;">';
 
-					for (i = 0; i < item['option_value'].length; i++) {
-						html += '  <option value="' + item['option_value'][i]['option_value_id'] + '">' + item['option_value'][i]['name'] + '</option>';
-					}
+				// 	for (i = 0; i < item['option_value'].length; i++) {
+				// 		html += '  <option value="' + item['option_value'][i]['option_value_id'] + '">' + item['option_value'][i]['name'] + '</option>';
+				// 	}
 
-					html += '  </select>';
-					html += '</div>';
-				}
+				// 	html += '  </select>';
+				// 	html += '</div>';
+				// }
 
 				$('#tab-option .tab-content').append(html);
 

@@ -17,24 +17,25 @@ $_['text_percent']           = 'Percentage';
 $_['text_amount']            = 'Fixed Amount';
 
 // Column
-$_['column_name']            = 'Product Name';
-$_['column_model']           = 'Model';
-$_['column_image']           = 'Image';
-$_['column_price']           = 'Price';
-$_['column_product_id']    	 = 'ID';
-$_['column_manufacturer']    = 'Brand';
-$_['column_category']        = 'Category';
-$_['column_tag']             = 'Tags';
-$_['column_quantity']        = 'Quantity';
-$_['column_weight']          = 'Weight';
-$_['column_option']          = 'Variant';
-$_['column_status']          = 'Status';
-$_['column_date_modified']   = 'Date Modified';
-$_['column_username']        = 'Username';
-$_['column_action']          = 'Action';
+$_['column_action']       	= 'Action';
+$_['column_category']     	= 'Category';
+$_['column_date_modified']	= 'Date Modified';
+$_['column_image']        	= 'Image';
+$_['column_manufacturer'] 	= 'Brand';
+$_['column_model']        	= 'Model';
+$_['column_name']         	= 'Product Name';
+$_['column_option']       	= 'Variant';
+$_['column_points']       	= 'Points';
+$_['column_price']        	= 'Price';
+$_['column_product_id']   	= 'ID';
+$_['column_quantity']     	= 'Quantity';
+$_['column_status']       	= 'Status';
+$_['column_tag']          	= 'Tags';
+$_['column_username']     	= 'Username';
+$_['column_weight']       	= 'Weight';
+$_['column_weight_class']	= 'Weight Class';
 
 // Entry
-$_['entry_action'] 			 	= 'Action';
 $_['entry_additional_image'] 	= 'Additional Images';
 $_['entry_all_category']     	= '--- All Categories ---';
 $_['entry_all_manufacturer'] 	= '--- All Brands ---';
@@ -97,8 +98,6 @@ $_['entry_tax_class']        	= 'Tax Class';
 $_['entry_text']             	= 'Text';
 $_['entry_upc']              	= 'UPC';
 $_['entry_username']            = 'Username';
-$_['entry_weight_class']  	 	= 'Weight Class';
-$_['entry_weight_class']     	= 'Weight Class';
 $_['entry_weight']           	= 'Weight';
 $_['entry_width']            	= 'Width';
 
@@ -127,14 +126,10 @@ $_['error_name']             	= 'Product Name must be greater than 3 and less th
 $_['error_meta_title']       	= 'Meta Title must be greater than 3 and less than 255 characters!';
 $_['error_model']            	= 'Product Model must be greater than 1 and less than 32 characters!';
 $_['error_keyword']          	= 'SEO URL already in use!';
-$_['error_model_used']       	= 'Model already in use!';
+$_['error_model_unique']		= 'Model must unique!';
+$_['error_model_used']			= 'Model already in use!';
 $_['error_option']				= 'Use only one Model for product with no option/variant!';
-$_['error_option_model_used']	= 'Product Option Model must be unique or already in use!';
-// $_['error_option_not_found']	= 'Product Option required!';
 $_['error_sku_used']       	 	= 'SKU already in use!';
-
-// Button
-// $_['button_option_delete']      = 'Remove Option';
 
 // Tab
 $_['tab_variant']       	 	= 'Variant';
