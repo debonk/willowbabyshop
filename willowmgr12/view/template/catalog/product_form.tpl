@@ -76,7 +76,7 @@
 							</a></li>
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane" id="tab-general">
+						<div class="tab-pane active" id="tab-general">
 							<ul class="nav nav-tabs" id="language">
 								<?php foreach ($languages as $language) { ?>
 								<li><a href="#language<?= $language['language_id']; ?>" data-toggle="tab"><img
@@ -813,7 +813,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane active" id="tab-variant">
+						<div class="tab-pane" id="tab-variant">
 							<?php if ($error_variant) { ?>
 							<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
 								<?= $error_variant; ?>
