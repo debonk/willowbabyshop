@@ -139,14 +139,33 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="input-username">
-									<?= $entry_username; ?>
+								<label class="control-label" for="input-special">
+									<?= $entry_has_special; ?>
 								</label>
-								<input type="text" name="filter_username" value="<?= $filter_username; ?>"
-									placeholder="<?= $entry_username; ?>" id="input-username" class="form-control" />
+								<select name="filter_special" id="input-special" class="form-control">
+									<option value="*">
+										<?= $text_all; ?>
+									</option>
+									<?php if ($filter_special == 'special') { ?>
+									<option value="special" selected="selected">
+										<?= $text_has_special; ?>
+									</option>
+									<?php } else { ?>
+									<option value="special">
+										<?= $text_has_special; ?>
+									</option>
+									<?php } ?>
+									<?php if ($filter_special == 'discount') { ?>
+									<option value="discount" selected="selected">
+										<?= $text_has_discount; ?>
+									</option>
+									<?php } else { ?>
+									<option value="discount">
+										<?= $text_has_discount; ?>
+									</option>
+									<?php } ?>
+								</select>
 							</div>
-						</div>
-						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="input-status">
 									<?= $entry_status; ?>
@@ -174,6 +193,15 @@
 									</option>
 									<?php } ?>
 								</select>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="input-username">
+									<?= $entry_username; ?>
+								</label>
+								<input type="text" name="filter_username" value="<?= $filter_username; ?>"
+									placeholder="<?= $entry_username; ?>" id="input-username" class="form-control" />
 							</div>
 							<div class="form-group">
 								<button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i>
@@ -502,6 +530,12 @@
 
 			if (filter_status != '*') {
 				url += '&filter_status=' + encodeURIComponent(filter_status);
+			}
+
+			var filter_special = $('select[name=\'filter_special\']').val();
+
+			if (filter_special != '*') {
+				url += '&filter_special=' + encodeURIComponent(filter_special);
 			}
 
 			location = url;

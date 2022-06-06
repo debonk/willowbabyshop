@@ -463,42 +463,57 @@ class ModelCatalogProduct extends Model
 
 	public function getProducts($data = array())
 	{
-		$sql = "SELECT p.*, pd.*, pov.*, pov.image AS main_image, p2c.category_id, m.name AS manufacturer_name, u.username FROM oc_product p LEFT JOIN `oc_product_option_value` pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "user u ON (p.user_id = u.user_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT p.*, pd.*, pov.*, pov.image AS main_image, p2c.category_id, m.name AS manufacturer_name, u.username FROM oc_product p LEFT JOIN `oc_product_option_value` pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "user u ON (p.user_id = u.user_id) ";
+
+		$filter_data = [];
+		$join_data = [];
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$filter_data[] = "pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_model'])) {
-			$sql .= " AND pov.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
+			$filter_data[] = "pov.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
 		}
 
 		if (isset($data['filter_price']) && !is_null($data['filter_price'])) {
-			$sql .= " AND pov.price LIKE '" . $this->db->escape($data['filter_price']) . "%'";
+			$filter_data[] = "pov.price LIKE '" . $this->db->escape($data['filter_price']) . "%'";
 		}
 
 		if (isset($data['filter_quantity']) && !is_null($data['filter_quantity'])) {
-			$sql .= " AND pov.quantity = '" . (int)$data['filter_quantity'] . "'";
+			$filter_data[] = "pov.quantity = '" . (int)$data['filter_quantity'] . "'";
 		}
 
 		if (isset($data['filter_product_id']) && !is_null($data['filter_product_id'])) {
-			$sql .= " AND p.product_id = '" . (int)$data['filter_product_id'] . "'";
+			$filter_data[] = "p.product_id = '" . (int)$data['filter_product_id'] . "'";
 		}
 
 		if (!empty($data['filter_tag'])) {
-			$sql .= " AND pd.tag LIKE '%" . $this->db->escape($data['filter_tag']) . "%'";
+			$filter_data[] = "pd.tag LIKE '%" . $this->db->escape($data['filter_tag']) . "%'";
 		}
 
 		if (!empty($data['filter_username'])) {
-			$sql .= " AND u.username LIKE '%" . $this->db->escape($data['filter_username']) . "%'";
+			$filter_data[] = "u.username LIKE '%" . $this->db->escape($data['filter_username']) . "%'";
 		}
 
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
+			$filter_data[] = "p.status = '" . (int)$data['filter_status'] . "'";
 		}
 
 		if (isset($data['filter_manufacturer']) && !is_null($data['filter_manufacturer'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer'] . "'";
+			$filter_data[] = "p.manufacturer_id = '" . (int)$data['filter_manufacturer'] . "'";
+		}
+
+		if (isset($data['filter_special'])) {
+			if ($data['filter_special'] == 'special') {
+				$join_data[] = "LEFT JOIN `oc_product_special` ps ON (ps.product_id = p.product_id)";
+
+				$filter_data[] = "ps.product_special_id IS NOT NULL";
+			} elseif ($data['filter_special'] == 'discount') {
+				$join_data[] = "LEFT JOIN `oc_product_discount` pd2 ON (pd2.product_id = p.product_id)";
+			
+				$filter_data[] = "pd2.product_discount_id IS NOT NULL";
+			}
 		}
 
 		if (isset($data['filter_category'])) {
@@ -516,13 +531,21 @@ class ModelCatalogProduct extends Model
 						$implode_data[] = "p2c.category_id = '" . (int)$category['category_id'] . "'";
 					}
 
-					$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+					$filter_data[] = "(" . implode(' OR ', $implode_data) . ")";
 				} else {
-					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category'] . "'";
+					$filter_data[] = "p2c.category_id = '" . (int)$data['filter_category'] . "'";
 				}
 			} else {
-				$sql .= " AND p2c.category_id IS NULL";
+				$filter_data[] = "p2c.category_id IS NULL";
 			}
+		}
+
+		$sql .= implode(' ', $join_data);
+
+		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+		if ($filter_data) {
+			$sql .= " AND " . implode(' AND ', $filter_data);
 		}
 
 		$sql .= " GROUP BY pov.product_option_value_id";
@@ -554,6 +577,8 @@ class ModelCatalogProduct extends Model
 			$sql .= " ASC";
 		}
 
+		$sql .= ", pov.product_option_value_id ASC";
+
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
 				$data['start'] = 0;
@@ -565,6 +590,7 @@ class ModelCatalogProduct extends Model
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
+		// print_r($sql);//die('---breakpoint---');
 
 		$query = $this->db->query($sql);
 
@@ -772,7 +798,7 @@ class ModelCatalogProduct extends Model
 	public function getProductOptions($product_id)
 	{
 		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-		
+
 		return $product_option_query->rows;
 	}
 
@@ -892,55 +918,77 @@ class ModelCatalogProduct extends Model
 		return $query->rows;
 	}
 
-	public function getTotalProducts($data = array())
+	public function getTotalProducts($data = [])
 	{
 		$sql = "SELECT COUNT(DISTINCT pov.product_option_value_id) AS total FROM oc_product p LEFT JOIN `oc_product_option_value` pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "user u ON (p.user_id = u.user_id) ";
 
-		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$filter_data = [];
+		$join_data = [];
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$filter_data[] = "pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_model'])) {
-			$sql .= " AND pov.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
+			$filter_data[] = "pov.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
 		}
 
 		if (isset($data['filter_price']) && !is_null($data['filter_price'])) {
-			$sql .= " AND pov.price LIKE '" . $this->db->escape($data['filter_price']) . "%'";
+			$filter_data[] = "pov.price LIKE '" . $this->db->escape($data['filter_price']) . "%'";
 		}
 
 		if (isset($data['filter_quantity']) && !is_null($data['filter_quantity'])) {
-			$sql .= " AND pov.quantity = '" . (int)$data['filter_quantity'] . "'";
+			$filter_data[] = "pov.quantity = '" . (int)$data['filter_quantity'] . "'";
 		}
 
 		if (isset($data['filter_product_id']) && !is_null($data['filter_product_id'])) {
-			$sql .= " AND p.product_id = '" . (int)$data['filter_product_id'] . "'";
+			$filter_data[] = "p.product_id = '" . (int)$data['filter_product_id'] . "'";
 		}
 
 		if (!empty($data['filter_tag'])) {
-			$sql .= " AND pd.tag LIKE '%" . $this->db->escape($data['filter_tag']) . "%'";
+			$filter_data[] = "pd.tag LIKE '%" . $this->db->escape($data['filter_tag']) . "%'";
+		}
+
+		if (!empty($data['filter_username'])) {
+			$filter_data[] = "u.username LIKE '%" . $this->db->escape($data['filter_username']) . "%'";
+		}
+
+		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+			$filter_data[] = "p.status = '" . (int)$data['filter_status'] . "'";
 		}
 
 		if (isset($data['filter_manufacturer']) && !is_null($data['filter_manufacturer'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer'] . "'";
+			$filter_data[] = "p.manufacturer_id = '" . (int)$data['filter_manufacturer'] . "'";
+		}
+
+		if (isset($data['filter_special'])) {
+			if ($data['filter_special'] == 'special') {
+				$join_data[] = "LEFT JOIN `oc_product_special` ps ON (ps.product_id = p.product_id)";
+
+				$filter_data[] = "ps.product_special_id IS NOT NULL";
+			} elseif ($data['filter_special'] == 'discount') {
+				$join_data[] = "LEFT JOIN `oc_product_discount` pd2 ON (pd2.product_id = p.product_id)";
+			
+				$filter_data[] = "pd2.product_discount_id IS NOT NULL";
+			}
 		}
 
 		if (isset($data['filter_category'])) {
 			if (!empty($data['filter_category'])) {
-				$sql .= " AND p2c.category_id = '" . (int)$data['filter_category'] . "'";
+				$filter_data[] = "p2c.category_id = '" . (int)$data['filter_category'] . "'";
 			} else {
-				$sql .= " AND p2c.category_id IS NULL";
+				$filter_data[] = "p2c.category_id IS NULL";
 			}
 		}
 
-		if (!empty($data['filter_username'])) {
-			$sql .= " AND u.username LIKE '%" . $this->db->escape($data['filter_username']) . "%'";
-		}
+		$sql .= implode(' ', $join_data);
 
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
+		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+		if ($filter_data) {
+			$sql .= " AND " . implode(' AND ', $filter_data);
 		}
+		// print_r($sql);//die('---breakpoint---');
 
 		$query = $this->db->query($sql);
 

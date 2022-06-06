@@ -3,18 +3,21 @@
 $_['heading_title']          = 'Products';
 
 // Text
-$_['text_success']           = 'Success: You have modified products!';
-$_['text_list']              = 'Product List';
-$_['text_add']               = 'Add Product';
-$_['text_discount']          = '[%d+:&nbsp;%d]';
-$_['text_edit']              = 'Edit Product';
-$_['text_plus']              = '+';
-$_['text_minus']             = '-';
-$_['text_default']           = 'Default';
-$_['text_option']            = 'Option';
-$_['text_option_value']      = 'Option Value';
-$_['text_percent']           = 'Percentage';
-$_['text_amount']            = 'Fixed Amount';
+$_['text_success']     	= 'Success: You have modified products!';
+$_['text_list']        	= 'Product List';
+$_['text_add']         	= 'Add Product';
+$_['text_discount']    	= '[%d+:&nbsp;%d]';
+$_['text_edit']        	= 'Edit Product';
+$_['text_plus']        	= '+';
+$_['text_minus']       	= '-';
+$_['text_default']     	= 'Default';
+$_['text_option']      	= 'Option';
+$_['text_option_value']	= 'Option Value';
+$_['text_percent']     	= 'Percentage';
+$_['text_amount']      	= 'Fixed Amount';
+$_['text_system']      	= 'system';
+$_['text_has_special']	= 'Special';
+$_['text_has_discount']	= 'Discount';
 
 // Column
 $_['column_action']       	= 'Action';
@@ -37,8 +40,6 @@ $_['column_weight_class']	= 'Weight Class';
 
 // Entry
 $_['entry_additional_image'] 	= 'Additional Images';
-$_['entry_all_category']     	= '--- All Categories ---';
-$_['entry_all_manufacturer'] 	= '--- All Brands ---';
 $_['entry_attribute_group']  	= 'Attribute Group';
 $_['entry_attribute']        	= 'Attribute';
 $_['entry_category']         	= 'Categories';
@@ -54,6 +55,7 @@ $_['entry_discount_percent_2']	= 'Discount_2 (%)';
 $_['entry_download']         	= 'Downloads';
 $_['entry_ean']              	= 'EAN';
 $_['entry_filter']           	= 'Filters';
+$_['entry_has_special']         = 'Product In Promo';
 $_['entry_height']           	= 'Height';
 $_['entry_image']            	= 'Image';
 $_['entry_isbn']             	= 'ISBN';

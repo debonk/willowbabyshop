@@ -733,7 +733,7 @@ class ControllerProductProduct extends Controller
 						'model'		=> $product_model,
 						'name'		=> $product_info['name'] . ' - ' . $this->model_catalog_product->getProductVariantName($variant_value['option_value_id']),
 						'price'		=> $this->currency->format($this->tax->calculate($variant_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
-						'special'	=> $this->currency->format($this->tax->calculate($special, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
+						'special'	=> isset($special) ? $this->currency->format($this->tax->calculate($special, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) : null,
 						'discount'	=> $discount_data,
 						'points'	=> $variant_value['points'],
 						'idx'		=> $variant_value['product_option_value_id'],

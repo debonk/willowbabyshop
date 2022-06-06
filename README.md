@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+3.0.3	06/06/2022
+Modify: Catalog > Product List: Add Product in Promo filter
+Bug Fixed: APP > Product: Select variant not refresh image/model/price/special
+
 3.0.2	04/06/2022
 Bug Fixed: Catalog > Product Form: Variant value id saved as object instead of array
 Bug Fixed: Catalog > Product List: Manufacturer & Category filter keep showing --- All Data ---
