@@ -19,6 +19,10 @@ willowmgr12/view/image/
 
 ### OpenCart ###
 vqmod/
+
+### Tailwind ###
+tailwind.config.js
+
 # vqmod/install/
 # vqmod/logs/
 # vqmod/vqcache/

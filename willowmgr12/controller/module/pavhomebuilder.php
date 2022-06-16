@@ -182,11 +182,13 @@ class ControllerModulepavhomebuilder extends Controller {
  			'status' => 0
  		);
 
-		if (isset($this->request->get['module_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$module_info = $this->model_extension_module->getModule($this->request->get['module_id']);
+		$module_id = isset($this->request->get['module_id']) ? $this->request->get['module_id'] : 0;
+
+		$module_info = $this->model_extension_module->getModule($module_id);
+
+		if ($module_info && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$this->mdata['selectedid'] = $this->request->get['module_id'];
 
-			
 			$this->mdata['subheading'] = 'Edit Module: '. $module_info['name'];
 			$this->mdata['action'] = $this->url->link('module/pavhomebuilder', 'module_id='.$this->request->get['module_id'].'&token=' . $this->session->data['token'], 'SSL');
 		}else {

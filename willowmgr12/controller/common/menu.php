@@ -27,7 +27,7 @@ class ControllerCommonMenu extends Controller {
 				'catalog/information',
 				'catalog/tool'
 			],
-			'extension'		=> ['extension/installer', 'extension/modification', 'extension/theme', 'extension/analytics', 'extension/captcha', 'extension/feed', 'module/vqmod_manager', 'extension/fraud', 'extension/module', 'extension/payment', 'extension/shipping', 'extension/total'],
+			'extension'		=> ['extension/installer', 'extension/modification', 'extension/theme', 'extension/analytics', 'extension/captcha', 'extension/feed', 'extension/fraud', 'extension/module', 'extension/payment', 'extension/shipping', 'extension/total'],
 			'design'		=> ['design/layout', 'design/banner'],
 			'sale'		=> [
 				'sale/order',

@@ -197,7 +197,7 @@
 		function addVariantValue() {
 			html = ''
 			html += '<tr id="variant-value-row' + variant_row + '" data-row="' + variant_row + '">';
-			html += '  <td><a href="" id="thumb-variant-image' + variant_row + '" data-toggle="image" class="img-thumbnail"><img src="<?= $placeholder; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_variant[variant][' + variant_row + '][image]" value="' + default_value.image + '" id="input-variant-image' + variant_row + '" /></td>';
+			html += '  <td><a href="" id="thumb-variant-image' + variant_row + '" data-toggle="image" class="img-thumbnail"><img src="' + default_value.thumb + '" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input type="hidden" name="product_variant[variant][' + variant_row + '][image]" value="' + default_value.image + '" id="input-variant-image' + variant_row + '" /></td>';
 
 			let variant_columns = $('[id^=\'variant-option\']');
 

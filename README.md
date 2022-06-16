@@ -1,5 +1,10 @@
 # willowbabyshop software
 
+3.0.4	16/06/2022
+Modul: Api > Product: Campaign API - Set promo through API
+Modify: Catalog > Product Form: Set default image when add new variant
+Refactoring: Cleaning VQMod, Remove VQMod Folder
+
 3.0.3	06/06/2022
 Modify: Catalog > Product List: Add Product in Promo filter
 Bug Fixed: APP > Product: Select variant not refresh image/model/price/special

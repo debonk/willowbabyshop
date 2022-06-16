@@ -394,10 +394,13 @@
 										<?php } ?>
 									</td>
 									<td class="text-right">
-										<?php if ($product['special'] || $product['discount']) { ?>
-										<span style="text-decoration: line-through;">
+										<?php if ($product['special']) { ?>
+										<s>
 											<?= $product['price']; ?>
-										</span><br />
+										</s>
+										<?php } else { ?>
+										<?= $product['price']; ?>
+										<?php } ?>
 										<div class="text-danger">
 											<?= $product['special']; ?>
 										</div>
@@ -406,9 +409,6 @@
 												<?= $product['discount']; ?>
 											</i>
 										</div>
-										<?php } else { ?>
-										<?= $product['price']; ?>
-										<?php } ?>
 									</td>
 									<td class="text-right">
 										<?php if ($product['quantity'] <= 0) { ?>
