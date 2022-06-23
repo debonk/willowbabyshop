@@ -1,5 +1,10 @@
 # willowbabyshop software
 
+3.0.5	23/06/2022
+Modify: Catalog > Tools: Add variant image field
+Modify: Manufacturer, Category: Auto generate SEO Url
+Bug Fixed: Manufacturer form: Add/Edit doesn't follow filter url
+
 3.0.4	16/06/2022
 Modul: Api > Product: Campaign API - Set promo through API
 Modify: Catalog > Product Form: Set default image when add new variant

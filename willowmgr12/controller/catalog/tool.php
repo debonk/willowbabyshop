@@ -101,6 +101,7 @@ class ControllerCatalogTool extends Controller
 					'image_3',
 					'image_4',
 					'image_5',
+					'variant_image',
 					'parent_model',
 					'option_id',
 					'option_value_id'
@@ -173,8 +174,8 @@ class ControllerCatalogTool extends Controller
 						}
 					}
 
-					# Add main image to product variant image
-					$url_source = $sheet_data[$i][$field_data['main_image']];
+					# Add variant image
+					$url_source = $sheet_data[$i][$field_data['variant_image']];
 
 					if ($url_source) {
 						$extension = pathinfo($url_source, PATHINFO_EXTENSION);
@@ -184,7 +185,7 @@ class ControllerCatalogTool extends Controller
 						}
 
 						if (in_array(strtolower($extension), $image_types)) {
-							$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+							$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]) . '_v';
 
 							$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
 
@@ -207,7 +208,7 @@ class ControllerCatalogTool extends Controller
 
 					$product_variant_data['option'][0]['option_id'] = (int)$sheet_data[$i][$field_data['option_id']];
 					$product_variant_data['variant'][0]['option_value_id'][0] = (int)$sheet_data[$i][$field_data['option_value_id']];
-
+					
 					if (!$new_product) { //has parent model
 						$this->model_catalog_product->addProductVariant($parent_product_info['product_id'], $product_variant_data);
 					} else {
@@ -274,7 +275,24 @@ class ControllerCatalogTool extends Controller
 							'tag'				=> utf8_strtolower($sheet_data[$i][$field_data['tag']])
 						];
 
-						$product_data['image'] = $variant_image;
+						# Add main image
+						$url_source = $sheet_data[$i][$field_data['main_image']];
+
+						if ($url_source) {
+							$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+
+							if ($extension == '') {
+								$extension = 'png';
+							}
+
+							if (in_array(strtolower($extension), $image_types)) {
+								$new_image = str_replace('.', '', $sheet_data[$i][$field_data['model']]);
+
+								$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
+
+								$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension);
+							}
+						}
 
 						for ($j = 2; $j < 6; $j++) {
 							if ($sheet_data[$i][$field_data['image_' . $j]]) {

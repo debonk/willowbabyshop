@@ -17,9 +17,14 @@ class ModelCatalogManufacturer extends Model
 			}
 		}
 
-		if (isset($data['keyword'])) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		$data['keyword'] = !empty($data['keyword']) ? $data['keyword'] : $data['name'] . '-' . token(3);
+		$data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower($data['keyword']));
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+
+		// if (isset($data['keyword'])) {
+		// 	$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+		// }
 
 		$this->cache->delete('manufacturer');
 
@@ -44,9 +49,14 @@ class ModelCatalogManufacturer extends Model
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
 
-		if ($data['keyword']) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		$data['keyword'] = !empty($data['keyword']) ? $data['keyword'] : $data['name'] . '-' . token(3);
+		$data['keyword'] = preg_replace('/[\'\"*?+&\s-]+/', '-', utf8_strtolower($data['keyword']));
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+
+		// if ($data['keyword']) {
+		// 	$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+		// }
 
 		$this->cache->delete('manufacturer');
 	}
