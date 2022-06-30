@@ -253,6 +253,35 @@ class ControllerApiProduct extends Controller
 		$this->response->setOutput(json_encode($json));
 	}
 
+	public function list()
+	{
+		$this->load->language('api/product');
+
+		$json = array();
+
+		if (!isset($this->session->data['api_id'])) {
+			$json['error']['warning'] = $this->language->get('error_permission');
+		} else {
+			$status = isset($this->request->get['status']) && !is_null($this->request->get['status']) ? $this->request->get['status'] : 1;
+
+			$this->load->model('catalog/product');
+
+			$json['products'] = $this->model_catalog_product->getProductsModel($status);
+
+			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
+		}
+
+		if (isset($this->request->server['HTTP_ORIGIN'])) {
+			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
+			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+			$this->response->addHeader('Access-Control-Max-Age: 1000');
+			$this->response->addHeader('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
 	public function addSpecials()
 	{
 		$this->load->language('api/product');
@@ -439,6 +468,48 @@ class ControllerApiProduct extends Controller
 			}
 		}
 
+		if (isset($this->request->server['HTTP_ORIGIN'])) {
+			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
+			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+			$this->response->addHeader('Access-Control-Max-Age: 1000');
+			$this->response->addHeader('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function specials()
+	{
+		$this->load->language('api/product');
+
+		$json = array();
+
+		if (!isset($this->session->data['api_id'])) {
+			$json['error']['warning'] = $this->language->get('error_permission');
+		} else {
+			$this->load->model('catalog/product');
+
+			$results = $this->model_catalog_product->getSpecials();
+
+			foreach ($results as $result) {
+				$special = $result['price'];
+				$special *= (100 - $result['discount_percent_1']) / 100;
+				$special *= (100 - $result['discount_percent_2']) / 100;
+				$special = max(0, $special - $result['discount_fixed']);
+
+				$json['products'][] = [
+					'model'			=> $result['model'],
+					'price'			=> $result['price'],
+					'special'		=> $special,
+					'date_start'	=> $result['date_start'],
+					'date_end'		=> $result['date_end']
+				];
+			}
+
+			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
+		}
+		
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
 			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
@@ -653,7 +724,7 @@ class ControllerApiProduct extends Controller
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function list()
+	public function discounts()
 	{
 		$this->load->language('api/product');
 
@@ -662,15 +733,29 @@ class ControllerApiProduct extends Controller
 		if (!isset($this->session->data['api_id'])) {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		} else {
-			$status = isset($this->request->get['status']) && !is_null($this->request->get['status']) ? $this->request->get['status'] : 1;
-
 			$this->load->model('catalog/product');
 
-			$json['products'] = $this->model_catalog_product->getProductsModel($status);
+			$results = $this->model_catalog_product->getDiscounts();
+
+			foreach ($results as $result) {
+				$discount = $result['price'];
+				$discount *= (100 - $result['discount_percent_1']) / 100;
+				$discount *= (100 - $result['discount_percent_2']) / 100;
+				$discount = max(0, $discount - $result['discount_fixed']);
+
+				$json['products'][] = [
+					'model'			=> $result['model'],
+					'quantity'		=> $result['quantity'],
+					'price'			=> $result['price'],
+					'special'		=> $discount,
+					'date_start'	=> $result['date_start'],
+					'date_end'		=> $result['date_end']
+				];
+			}
 
 			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
 		}
-
+				
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
 			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');

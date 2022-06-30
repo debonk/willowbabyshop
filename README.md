@@ -1,4 +1,7 @@
 # willowbabyshop software
+3.0.6	30/06/2022
+Api > Product: Add getSpecial/Discount API request.
+Bug Fixed: Catalog > Product List: Special/Discount price not shown when event in last day.
 
 3.0.5	23/06/2022
 Modify: Catalog > Tools: Add variant image field

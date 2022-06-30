@@ -561,7 +561,7 @@ class ControllerCatalogProduct extends Controller
 			$product_specials = $this->model_catalog_product->getProductSpecials($result['product_id']);
 
 			foreach ($product_specials  as $product_special) {
-				if (($product_special['date_start'] == '0000-00-00' || strtotime($product_special['date_start']) < time()) && ($product_special['date_end'] == '0000-00-00' || strtotime($product_special['date_end']) > time())) {
+				if (($product_special['date_start'] == '0000-00-00' || strtotime($product_special['date_start']) < time()) && ($product_special['date_end'] == '0000-00-00' || strtotime($product_special['date_end']) >= strtotime('today'))) {
 					$special = $result['price'];
 					$special *= (100 - $product_special['discount_percent_1']) / 100;
 					$special *= (100 - $product_special['discount_percent_2']) / 100;
@@ -576,7 +576,7 @@ class ControllerCatalogProduct extends Controller
 			$product_discounts = $this->model_catalog_product->getProductDiscounts($result['product_id']);
 
 			foreach ($product_discounts  as $product_discount) {
-				if (($product_discount['date_start'] == '0000-00-00' || strtotime($product_discount['date_start']) < time()) && ($product_discount['date_end'] == '0000-00-00' || strtotime($product_discount['date_end']) > time())) {
+				if (($product_discount['date_start'] == '0000-00-00' || strtotime($product_discount['date_start']) < time()) && ($product_discount['date_end'] == '0000-00-00' || strtotime($product_discount['date_end']) >= strtotime('today'))) {
 					$discount = $special ? $special : $result['price'];
 					$discount *= (100 - $product_discount['discount_percent_1']) / 100;
 					$discount *= (100 - $product_discount['discount_percent_2']) / 100;

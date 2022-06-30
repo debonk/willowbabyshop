@@ -752,4 +752,21 @@ class ModelCatalogProduct extends Model
 
 		return $query->row;
 	}
+
+	public function getSpecials()
+	{
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (ps.product_id = pov.product_id) WHERE ((ps.date_start = '0000-00-00' OR ps.date_start <= CURDATE()) AND (ps.date_end = '0000-00-00' OR ps.date_end >= CURDATE())) ORDER BY pov.model ASC";	
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	public function getDiscounts()
+	{
+		$sql = "SELECT *, pd.quantity AS quantity FROM " . DB_PREFIX . "product_discount pd LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pd.product_id = pov.product_id) WHERE ((pd.date_start = '0000-00-00' OR pd.date_start <= CURDATE()) AND (pd.date_end = '0000-00-00' OR pd.date_end >= CURDATE())) ORDER BY pov.model ASC";
+		
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
 }
