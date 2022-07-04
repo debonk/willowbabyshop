@@ -175,14 +175,16 @@ $(document).ready(function() {
 			$('.popover').remove();
 		});
 
-		var element = this;
+		let element = this;
+		let target = $(element).parent().find('input:last').attr('id');
 
 		$(element).popover({
 			html: true,
 			placement: 'right',
 			trigger: 'manual',
 			content: function() {
-				return '<button type="button" id="button-image" class="btn btn-primary"><i class="fa fa-pencil"></i></button> <button type="button" id="button-clear" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>';
+				return '<div class="pull-left"><button type="button" id="button-image" class="btn btn-primary" data-toggle="tooltip" title="Select"><i class="fa fa-pencil"></i></button> <button type="button" id="button-clear" class="btn btn-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-trash-o"></i></button>&nbsp;</div> <div class="input-group" data-toggle="tooltip" title="Get from External URL"><input type="text" name="image_url" value="" placeholder="URL" id="input-image-url" class="form-control"> <span class="input-group-btn"><button class="btn btn-success" type="button" id="button-image-url"><i class="fa fa-check"></i></button></span></div>';
+				// return '<button type="button" id="button-image" class="btn btn-primary"><i class="fa fa-pencil"></i></button> <button type="button" id="button-clear" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>';
 			}
 		});
 
@@ -192,7 +194,7 @@ $(document).ready(function() {
 			$('#modal-image').remove();
 
 			$.ajax({
-				url: 'index.php?route=common/filemanager&token=' + getURLVar('token') + '&target=' + $(element).parent().find('input').attr('id') + '&thumb=' + $(element).attr('id'),
+				url: 'index.php?route=common/filemanager&token=' + getURLVar('token') + '&target=' + target + '&thumb=' + $(element).attr('id'),
 				dataType: 'html',
 				beforeSend: function() {
 					$('#button-image i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -216,9 +218,51 @@ $(document).ready(function() {
 
 		$('#button-clear').on('click', function() {
 			$(element).find('img').attr('src', $(element).find('img').attr('data-placeholder'));
+			console.log('#' + target);
 
-			$(element).parent().find('input').attr('value', '');
+			$('#' + target).val('');
 
+			$(element).popover('hide', function() {
+				$('.popover').remove();
+			});
+		});
+
+		$('#button-image-url').on('click', function() {
+			function testImage(url, timeoutT) {
+				return new Promise(function(resolve, reject) {
+				  var timeout = timeoutT || 5000;
+				  var timer, img = new Image();
+
+				  img.onerror = img.onabort = function() {
+					clearTimeout(timer);
+					reject("error");
+				  };
+
+				  img.onload = function() {
+					clearTimeout(timer);
+					resolve("success");
+				  };
+
+				  timer = setTimeout(function() {
+					// reset .src to invalid URL so it stops previous loading, but doens't trigger new load
+					img.src = "//!!!!/noexist.jpg";
+					reject("timeout");
+				  }, timeout);
+
+				  img.src = url;
+				});
+			}
+
+			function runImage(url) {
+				testImage(url).then(function() {
+					$(element).find('img').attr({'src':url, 'width':'100px'});
+
+					$('#' + target).val(url);
+				});
+			}
+
+			runImage($('#input-image-url').val());
+			  
 			$(element).popover('hide', function() {
 				$('.popover').remove();
 			});

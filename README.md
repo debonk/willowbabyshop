@@ -1,4 +1,12 @@
 # willowbabyshop software
+3.0.8
+Modify: Extend expiration time
+
+3.0.7	04/07/2022
+Filemanager: Add image from external url
+Catalog > Tools: Repair import image from external url
+Catalog > Product List: Image will show variant image first, then main image
+
 3.0.6	30/06/2022
 Api > Product: Add getSpecial/Discount API request.
 Bug Fixed: Catalog > Product List: Special/Discount price not shown when event in last day.

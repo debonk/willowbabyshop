@@ -463,7 +463,7 @@ class ModelCatalogProduct extends Model
 
 	public function getProducts($data = array())
 	{
-		$sql = "SELECT p.*, pd.*, pov.*, pov.image AS main_image, p2c.category_id, m.name AS manufacturer_name, u.username FROM oc_product p LEFT JOIN `oc_product_option_value` pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "user u ON (p.user_id = u.user_id) ";
+		$sql = "SELECT p.*, pd.*, pov.*, p.image AS main_image, pov.image AS variant_image,  p2c.category_id, m.name AS manufacturer_name, u.username FROM oc_product p LEFT JOIN `oc_product_option_value` pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "user u ON (p.user_id = u.user_id) ";
 
 		$filter_data = [];
 		$join_data = [];
@@ -590,7 +590,6 @@ class ModelCatalogProduct extends Model
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-		// print_r($sql);//die('---breakpoint---');
 
 		$query = $this->db->query($sql);
 
@@ -988,7 +987,6 @@ class ModelCatalogProduct extends Model
 		if ($filter_data) {
 			$sql .= " AND " . implode(' AND ', $filter_data);
 		}
-		// print_r($sql);//die('---breakpoint---');
 
 		$query = $this->db->query($sql);
 

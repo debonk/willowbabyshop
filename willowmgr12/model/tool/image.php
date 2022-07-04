@@ -1,6 +1,8 @@
 <?php
-class ModelToolImage extends Model {
-	public function resize($filename, $width, $height) {
+class ModelToolImage extends Model
+{
+	public function resize($filename, $width, $height, $new_image = '')
+	{
 		if (!is_file(DIR_IMAGE . $filename)) {
 			if (is_file(DIR_IMAGE . 'no_image.png')) {
 				$filename = 'no_image.png';
@@ -45,26 +47,60 @@ class ModelToolImage extends Model {
 		}
 	}
 
-	public function getImage($url_source, $new_image)
+	public function getImage($url_source, $new_image = '', $width = 0, $height = 0)
 	{
-		$url_source = filter_var($url_source, FILTER_SANITIZE_URL);
-
 		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
-			$url_destination = DIR_IMAGE . $new_image;
+			$path = '';
 
-			$ch = curl_init($url_source);
-			$fp = fopen($url_destination, 'wb');
-			curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-			curl_setopt($ch, CURLOPT_FILE, $fp);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_exec($ch);
-			curl_close($ch);
-			fclose($fp);
+			$directories = explode('/', dirname(str_replace('../', '', $new_image)));
+
+			foreach ($directories as $directory) {
+				$path = $path . '/' . $directory;
+
+				if (!is_dir(DIR_IMAGE . $path)) {
+					@mkdir(DIR_IMAGE . $path, 0777);
+				}
+			}
+
+			list($width_orig, $height_orig) = getimagesize($url_source);
+
+			if ($width_orig > $width || $height_orig > $height) {
+				$image = new Image($url_source);
+				$image->resize($width, $height);
+				$image->save(DIR_IMAGE . $new_image);
+			} else {
+				copy($url_source, DIR_IMAGE . $new_image);
+			}
 
 			return $new_image;
 		} else {
 			return;
 		}
+	}
+
+	# This function is not used. Use this in case getImage function does not work.
+	public function getImageByCurl($url_source, $new_image)
+	{
+		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
+			$headers = get_headers($url_source, 1);
+
+			if (strpos($headers['Content-Type'], 'image/') !== false) {
+				$url_destination = DIR_IMAGE . $new_image;
+
+				$ch = curl_init($url_source);
+				$fp = fopen($url_destination, 'wb');
+				curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_exec($ch);
+				curl_close($ch);
+				fclose($fp);
+
+				return $new_image;
+			}
+		}
+
+		return;
 	}
 }

@@ -23,6 +23,50 @@ class ControllerCatalogProduct extends Controller
 		$this->load->model('catalog/product');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
+
+			if (filter_var($this->request->post['image'], FILTER_VALIDATE_URL)) {
+				$headers = get_headers($this->request->post['image'], 1);
+
+				if (strpos($headers['Content-Type'], 'image/') !== false) {
+					$extension = str_replace('image/', '', $headers['Content-Type']);
+
+					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
+
+					$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
+				}
+			}
+
+			foreach ($this->request->post['product_image'] as $key => $product_image) {
+				if (filter_var($product_image['image'], FILTER_VALIDATE_URL)) {
+					$headers = get_headers($product_image['image'], 1);
+
+					if (strpos($headers['Content-Type'], 'image/') !== false) {
+						$extension = str_replace('image/', '', $headers['Content-Type']);
+						$new_image = $filename . '_' . ($key + 2);
+
+						$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image . '.' . $extension;
+
+						$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
+					}
+				}
+			}
+
+			foreach ($this->request->post['product_variant']['variant'] as $key => $product_variant) {
+				if (filter_var($product_variant['image'], FILTER_VALIDATE_URL)) {
+					$headers = get_headers($product_variant['image'], 1);
+
+					if (strpos($headers['Content-Type'], 'image/') !== false) {
+						$extension = str_replace('image/', '', $headers['Content-Type']);
+						$filename = str_replace('.', '', $product_variant['model']) . '_v';
+
+						$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
+
+						$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
+					}
+				}
+			}
+
 			$this->model_catalog_product->addProduct($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -72,8 +116,8 @@ class ControllerCatalogProduct extends Controller
 			if (isset($this->request->get['filter_special'])) {
 				$url .= '&filter_special=' . $this->request->get['filter_special'];
 			}
-	
-				if (isset($this->request->get['sort'])) {
+
+			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
 
@@ -98,8 +142,53 @@ class ControllerCatalogProduct extends Controller
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/product');
+		$this->load->model('tool/image');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
+
+			if (filter_var($this->request->post['image'], FILTER_VALIDATE_URL)) {
+				$headers = get_headers($this->request->post['image'], 1);
+
+				if (strpos($headers['Content-Type'], 'image/') !== false) {
+					$extension = str_replace('image/', '', $headers['Content-Type']);
+
+					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
+
+					$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
+				}
+			}
+
+			foreach ($this->request->post['product_image'] as $key => $product_image) {
+				if (filter_var($product_image['image'], FILTER_VALIDATE_URL)) {
+					$headers = get_headers($product_image['image'], 1);
+
+					if (strpos($headers['Content-Type'], 'image/') !== false) {
+						$extension = str_replace('image/', '', $headers['Content-Type']);
+						$new_image = $filename . '_' . ($key + 2);
+
+						$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image . '.' . $extension;
+
+						$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
+					}
+				}
+			}
+
+			foreach ($this->request->post['product_variant']['variant'] as $key => $product_variant) {
+				if (filter_var($product_variant['image'], FILTER_VALIDATE_URL)) {
+					$headers = get_headers($product_variant['image'], 1);
+
+					if (strpos($headers['Content-Type'], 'image/') !== false) {
+						$extension = str_replace('image/', '', $headers['Content-Type']);
+						$filename = str_replace('.', '', $product_variant['model']) . '_v';
+
+						$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
+
+						$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
+					}
+				}
+			}
+
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -149,8 +238,8 @@ class ControllerCatalogProduct extends Controller
 			if (isset($this->request->get['filter_special'])) {
 				$url .= '&filter_special=' . $this->request->get['filter_special'];
 			}
-	
-				if (isset($this->request->get['sort'])) {
+
+			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
 
@@ -228,8 +317,8 @@ class ControllerCatalogProduct extends Controller
 			if (isset($this->request->get['filter_special'])) {
 				$url .= '&filter_special=' . $this->request->get['filter_special'];
 			}
-	
-				if (isset($this->request->get['sort'])) {
+
+			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
 
@@ -308,8 +397,8 @@ class ControllerCatalogProduct extends Controller
 			if (isset($this->request->get['filter_special'])) {
 				$url .= '&filter_special=' . $this->request->get['filter_special'];
 			}
-	
-				if (isset($this->request->get['sort'])) {
+
+			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
 
@@ -507,8 +596,6 @@ class ControllerCatalogProduct extends Controller
 			'limit'           		=> $this->config->get('config_limit_admin')
 		);
 
-		$this->load->model('tool/image');
-
 		$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
 
 		$results = $this->model_catalog_product->getProducts($filter_data);
@@ -545,11 +632,13 @@ class ControllerCatalogProduct extends Controller
 
 		array_unshift($data['manufacturers'], ['manufacturer_id' => 0, 'name' => $this->language->get('text_none')]);
 
+		$this->load->model('tool/image');
+
 		foreach ($results as $result) {
-			if (is_file(DIR_IMAGE . $result['main_image'])) {
-				$main_image = $result['main_image'];
+			if (is_file(DIR_IMAGE . $result['variant_image'])) {
+				$main_image = $result['variant_image'];
 			} else {
-				$main_image = $result['image'];
+				$main_image = $result['main_image'];
 			}
 
 			$image = $this->model_tool_image->resize($main_image, 40, 40);
@@ -1679,7 +1768,7 @@ class ControllerCatalogProduct extends Controller
 			if (!empty($product_variant['option'])) {
 				foreach ($product_variant['option'] as $idx => $option) {
 					$option_value_data = [];
-					
+
 					$option_value_data = $this->model_catalog_option->getOptionValues($option['option_id']);
 
 					$sort_order = array();

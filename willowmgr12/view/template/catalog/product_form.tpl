@@ -1107,7 +1107,7 @@
 									<tbody>
 										<tr>
 											<td class="text-left"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img
-														src="<?= $thumb; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" /></a><input
+														src="<?= $thumb; ?>" alt="" title="" data-placeholder="<?= $placeholder; ?>" width="100px" /></a><input
 													type="hidden" name="image" value="<?= $image; ?>" id="input-image" /></td>
 										</tr>
 									</tbody>

@@ -8,7 +8,17 @@ class Image {
 	private $mime;
 
 	public function __construct($file) {
-		if (file_exists($file)) {
+		if (filter_var($file, FILTER_VALIDATE_URL)) {
+			$headers = get_headers($file, 1);
+
+			if (strpos($headers['Content-Type'], 'image/') !== false) {
+				$external_source = true;
+			} else {
+				$external_source = false;
+			}
+		}
+
+		if (file_exists($file) || $external_source) {
 			$this->file = $file;
 
 			$info = getimagesize($file);
