@@ -5,6 +5,7 @@
 ### OpenCart ###
 *.bak
 .htaccess
+php.ini
 /config.php
 willowmgr12/config.php
 

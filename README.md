@@ -2,6 +2,10 @@
 3.0.8
 Modify: Extend expiration time
 
+3.0.7_b
+Catalog > Option: Sort option value by sort_order and name
+Bug Fixed: Error on charset "UTF-8;"
+
 3.0.7	04/07/2022
 Filemanager: Add image from external url
 Catalog > Tools: Repair import image from external url
