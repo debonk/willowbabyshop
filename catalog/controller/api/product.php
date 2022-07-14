@@ -323,7 +323,7 @@ class ControllerApiProduct extends Controller
 
 			if (!$json) {
 				$failed_data = [];
-				$update_data = [];
+				$update_count = 0;
 
 				$this->load->model('catalog/product');
 
@@ -340,12 +340,6 @@ class ControllerApiProduct extends Controller
 						continue;
 					}
 
-					if (isset($update_data[$product_variant_info['product_id']])) {
-						$failed_data[] = sprintf($this->language->get('error_skipped'), $product_data['model'], 'special');
-
-						continue;
-					}
-
 					if ($product_variant_info['price'] != $product_data['price']) {
 						$failed_data[] = sprintf($this->language->get('error_price'), $product_data['model']);
 
@@ -356,6 +350,14 @@ class ControllerApiProduct extends Controller
 
 					if (!$product_check) {
 						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data['model']);
+
+						continue;
+					}
+
+					$product_special = $this->model_catalog_product->getProductSpecial($product_variant_info['product_id'], $product_variant_info['model'], $product_variant_info['price']);
+
+					if ($product_special && $product_special['price'] == $product_data['special_price'] && $product_special['date_end'] == $product_data['date_end']) {
+						$failed_data[] = sprintf($this->language->get('error_skipped'), $product_data['model'], 'special');
 
 						continue;
 					}
@@ -379,12 +381,15 @@ class ControllerApiProduct extends Controller
 						'date_end'				=> $product_data['date_end']
 					];
 
-					$update_data[$product_variant_info['product_id']] = $this->model_catalog_product->addProductSpecial($product_variant_info['product_id'], $special_data);
+					$this->model_catalog_product->addProductSpecial($product_variant_info['product_id'], $product_variant_info['model'], $special_data);
 
 					$this->model_catalog_product->updateModified($product_variant_info['product_id']);
+
+					$update_count++;
 				}
 
 				$json['success'] = $this->language->get('text_success');
+				$json['summary'] = sprintf($this->language->get('text_summary'), $update_count, count($failed_data));
 
 				if ($failed_data) {
 					$json['failed_data'] = $failed_data;
@@ -426,7 +431,7 @@ class ControllerApiProduct extends Controller
 
 			if (!$json) {
 				$failed_data = [];
-				$update_data = [];
+				$update_count = 0;
 
 				$this->load->model('catalog/product');
 
@@ -441,26 +446,31 @@ class ControllerApiProduct extends Controller
 						continue;
 					}
 
-					if (isset($update_data[$product_variant_info['product_id']])) {
-						$failed_data[] = sprintf($this->language->get('error_skip_deleted'), $product_data, 'special');
-
-						continue;
-					}
-
 					$product_check = $this->model_catalog_product->checkProduct($product_variant_info['product_id']);
 
 					if (!$product_check) {
-						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data['model']);
+						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data);
 
 						continue;
 					}
 
-					$update_data[$product_variant_info['product_id']] = $this->model_catalog_product->deleteProductSpecial($product_variant_info['product_id']);
+					$product_special = $this->model_catalog_product->getProductSpecial($product_variant_info['product_id'], $product_variant_info['model']);
+					
+					if (!$product_special) {
+						$failed_data[] = sprintf($this->language->get('error_skipped_deleted'), $product_data, 'special');
+
+						continue;
+					}
+					
+					$this->model_catalog_product->deleteProductSpecial($product_variant_info['product_id'], $product_data);
 
 					$this->model_catalog_product->updateModified($product_variant_info['product_id']);
+
+					$update_count++;
 				}
 
 				$json['success'] = $this->language->get('text_success');
+				$json['summary'] = sprintf($this->language->get('text_summary'), $update_count, count($failed_data));
 
 				if ($failed_data) {
 					$json['failed_data'] = $failed_data;
@@ -509,7 +519,7 @@ class ControllerApiProduct extends Controller
 
 			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
 		}
-		
+
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
 			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
@@ -539,7 +549,7 @@ class ControllerApiProduct extends Controller
 					'model',
 					'quantity',
 					'price',
-					'special_price',
+					'discount_price',
 					'date_start',
 					'date_end'
 				];
@@ -563,12 +573,12 @@ class ControllerApiProduct extends Controller
 
 			if (!$json) {
 				$failed_data = [];
-				$update_data = [];
+				$update_count = 0;
 
 				$this->load->model('catalog/product');
 
 				$products_data = array_slice($products_data, 1);
-				
+
 				foreach ($products_data as $product_data) {
 					$product_data = array_combine($column_data, $product_data);
 
@@ -576,12 +586,6 @@ class ControllerApiProduct extends Controller
 
 					if (!$product_variant_info) {
 						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data['model']);
-
-						continue;
-					}
-
-					if (isset($update_data[$product_variant_info['product_id']][$product_data['quantity']])) {
-						$failed_data[] = sprintf($this->language->get('error_skipped'), $product_data['model'], 'discount');
 
 						continue;
 					}
@@ -600,12 +604,22 @@ class ControllerApiProduct extends Controller
 						continue;
 					}
 
-					$discount_percent_1 = 100 - ($product_data['special_price'] /  $product_data['price'] * 100);
+					$product_discounts = $this->model_catalog_product->getProductDiscounts($product_variant_info['product_id'], $product_variant_info['model'], $product_variant_info['price']);
+
+					foreach ($product_discounts as $product_discount) {
+						if ($product_discount['quantity'] == $product_data['quantity'] && $product_discount['price'] == $product_data['discount_price'] && $product_discount['date_end'] == $product_data['date_end']) {
+							$failed_data[] = sprintf($this->language->get('error_skipped'), $product_data['model'], 'discount');
+
+							continue 2;
+						}
+					}
+
+					$discount_percent_1 = 100 - ($product_data['discount_price'] /  $product_data['price'] * 100);
 
 					if ($discount_percent_1 == (int)$discount_percent_1) {
 						$discount_fixed = 0;
 					} else {
-						$discount_fixed = $product_data['price'] - $product_data['special_price'];
+						$discount_fixed = $product_data['price'] - $product_data['discount_price'];
 						$discount_percent_1 = 0;
 					}
 
@@ -620,16 +634,16 @@ class ControllerApiProduct extends Controller
 						'date_end'				=> $product_data['date_end']
 					];
 
-					if (!isset($update_data[$product_variant_info['product_id']])) {
-						$this->model_catalog_product->deleteProductDiscount($product_variant_info['product_id']);
-					}
-
-					$update_data[$product_variant_info['product_id']][$product_data['quantity']] = $this->model_catalog_product->addProductDiscount($product_variant_info['product_id'], $discount_data);
+					$this->model_catalog_product->addProductDiscount($product_variant_info['product_id'], $product_variant_info['model'], $discount_data);
 
 					$this->model_catalog_product->updateModified($product_variant_info['product_id']);
+
+					$update_count++;
 				}
 
 				$json['success'] = $this->language->get('text_success');
+
+				$json['summary'] = sprintf($this->language->get('text_summary'), $update_count, count($failed_data));
 
 				if ($failed_data) {
 					$json['failed_data'] = $failed_data;
@@ -671,7 +685,7 @@ class ControllerApiProduct extends Controller
 
 			if (!$json) {
 				$failed_data = [];
-				$update_data = [];
+				$update_count = 0;
 
 				$this->load->model('catalog/product');
 
@@ -686,26 +700,31 @@ class ControllerApiProduct extends Controller
 						continue;
 					}
 
-					if (isset($update_data[$product_variant_info['product_id']])) {
-						$failed_data[] = sprintf($this->language->get('error_skip_deleted'), $product_data, 'special');
-
-						continue;
-					}
-
 					$product_check = $this->model_catalog_product->checkProduct($product_variant_info['product_id']);
 
 					if (!$product_check) {
-						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data['model']);
+						$failed_data[] = sprintf($this->language->get('error_not_found'), $product_data);
 
 						continue;
 					}
 
-					$update_data[$product_variant_info['product_id']] = $this->model_catalog_product->deleteProductDiscount($product_variant_info['product_id']);
+					$product_discounts = $this->model_catalog_product->getProductDiscounts($product_variant_info['product_id'], $product_variant_info['model']);
+
+					if (!$product_discounts) {
+						$failed_data[] = sprintf($this->language->get('error_skipped_deleted'), $product_data, 'discount');
+
+						continue;
+					}
+					
+					$this->model_catalog_product->deleteProductDiscount($product_variant_info['product_id'], $product_data);
 
 					$this->model_catalog_product->updateModified($product_variant_info['product_id']);
+
+					$update_count++;
 				}
 
 				$json['success'] = $this->language->get('text_success');
+				$json['summary'] = sprintf($this->language->get('text_summary'), $update_count, count($failed_data));
 
 				if ($failed_data) {
 					$json['failed_data'] = $failed_data;
@@ -747,7 +766,7 @@ class ControllerApiProduct extends Controller
 					'model'			=> $result['model'],
 					'quantity'		=> $result['quantity'],
 					'price'			=> $result['price'],
-					'special'		=> $discount,
+					'discount'		=> $discount,
 					'date_start'	=> $result['date_start'],
 					'date_end'		=> $result['date_end']
 				];
@@ -755,7 +774,7 @@ class ControllerApiProduct extends Controller
 
 			$json['success'] = sprintf($this->language->get('text_success_info'), count($json['products']));
 		}
-				
+
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
 			$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');

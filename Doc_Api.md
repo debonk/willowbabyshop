@@ -112,9 +112,7 @@ CAMPAIGN: ADD SPECIAL (MASS) > Untuk membuat single promo/harga diskon/harga cor
 	Response:
 		{
 			"success": "Success: Your request has been processed!",
-			"failed_data": [
-				"06.02.00910: Skipped as main product special price has been set."
-			]
+			"summary": "3 success, 0 failed"
 		}
 
 ================================
@@ -131,6 +129,11 @@ CAMPAIGN: DELETE SPECIAL (MASS) > Untuk menghapus single promo/harga diskon/harg
 	Response:
 		{
 			"success": "Success: Your request has been processed!",
+			"summary": "1 success, 2 failed",
+			"failed_data": [
+				"06.02.00910: Skipped as there is no special price active.",
+				"05.03.01326: Skipped as there is no special price active."
+			]
 		}
 
 ================================
@@ -148,7 +151,7 @@ CAMPAIGN: GET DISCOUNT (MASS) > Untuk menarik data produk yang aktif harga grosi
             "model": "06.02.00909",
             "quantity": "3",
             "price": "81900.00",
-            "special": 73710,
+            "discount": 73710,
             "date_start": "2022-06-15",
             "date_end": "2022-07-15"
         }
@@ -163,14 +166,15 @@ CAMPAIGN: ADD DISCOUNT (MASS) > Untuk membuat promo berdasarkan quantity/harga g
 	Url: https://www.willowbabyshop.com/index.php?route=api/product/addDiscounts&token={{API token}}
 	{{API token}}: b7IM7fgNrwqGdNjHsrxko2KVXDvZaBdz (token yang diperoleh saat login)
 
-	Body: 'data' = [["model","quantity","price","special_price","date_start","date_end"],["06.02.00910",2,81900,75000,"2022-06-15","2022-07-15"],["06.02.00909",3,81900,73710,"2022-06-15","2022-07-15"],["05.03.01326",2,2499900,2249910,"2022-06-15","2022-07-15"]]
+	Body: 'data' = [["model","quantity","price","discount_price","date_start","date_end"],["06.02.00910",2,81900,75000,"2022-06-15","2022-07-15"],["06.02.00909",3,81900,73710,"2022-06-15","2022-07-15"],["05.03.01326",2,2499900,2249910,"2022-06-15","2022-07-15"]]
 	(Multiple array diencode ke bentuk JSON)
 
 	Response:
 		{
 			"success": "Success: Your request has been processed!",
+			"summary": "3 success, 1 failed",
 			"failed_data": [
-				"06.02.00910: Skipped as main product discount price has been set."
+				"06.02.00909: Skipped as discount price has been set."
 			]
 		}
 
@@ -188,6 +192,6 @@ CAMPAIGN: DELETE DISCOUNT (MASS) > Untuk menghapus promo berdasarkan quantity/ha
 	Response:
 		{
 			"success": "Success: Your request has been processed!",
+			"summary": "3 success, 0 failed"
 		}
-
 ================================

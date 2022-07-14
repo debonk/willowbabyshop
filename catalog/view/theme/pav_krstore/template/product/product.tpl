@@ -88,24 +88,26 @@
 					</div>
 					<?php } ?>
 					<?php if ($price) { ?>
-					<?php if (!$special) { ?>
-					<h3 class="price-olds" id="price">
-						<?= $price; ?>
-					</h3>
-					<?php } else { ?>
-					<div class="price clearfix">
-						<span class="price-old" id="price">
+					<div id="price">
+						<?php if (!$special) { ?>
+						<h3 class="price-olds">
 							<?= $price; ?>
-						</span>&nbsp;
-						<span class="label label-danger special-percentage-big">
-							<?= $special_text; ?>
-						</span>
-						<!--Bonk-->
-						<div class="price-new" id="special">
-							<?= $special; ?>
+						</h3>
+						<?php } else { ?>
+						<div class="price clearfix">
+							<span class="price-old">
+								<?= $price; ?>
+							</span>&nbsp;
+							<span class="label label-danger special-percentage-big">
+								<?= $special_text; ?>
+							</span>
+							<!--Bonk-->
+							<div class="price-new">
+								<?= $special; ?>
+							</div>
 						</div>
+						<?php } ?>
 					</div>
-					<?php } ?>
 					<ul class="list-unstyled">
 						<?php if ($tax) { ?>
 						<li><span class="type">
@@ -122,13 +124,13 @@
 							</span></li>
 						<?php } ?>
 						<?php if ($discounts) { ?>
-						<?php foreach ($discounts as $discount) { ?>
-						<li>
-							<?= $discount['quantity'] . $text_discount; ?>
-							<span id="discount<?= $discount['quantity']; ?>"><?= $discount['price']; ?></span>
-							<?= ' (' . $discount['text'] . ')'; ?>
-						</li>
-						<?php } ?>
+						<div id="discount">
+							<?php foreach ($discounts as $discount) { ?>
+							<li>
+								<?= $discount['text']; ?>
+							</li>
+							<?php } ?>
+						</div>
 						<?php } ?>
 					</ul>
 					<?php } ?>
@@ -585,7 +587,7 @@
 	});
 </script>
 <script type="text/javascript">
-	$('[name^=\'variant\']').on('change', function() {
+	$('[name^=\'variant\']').on('change', function () {
 		$.ajax({
 			url: 'index.php?route=product/product/variant&product_id=<?= $product_id; ?>',
 			type: 'post',
@@ -593,17 +595,34 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['detail']) {
+					let html = '';
+
 					if (json['detail']['special']) {
-						$('#special').html(json['detail']['special']);
+						html = '<div class="price clearfix">';
+						html += '  <span class="price-old">' + json['detail']['price'] + ' </span>&nbsp;';
+						html += '  <span class="label label-danger special-percentage-big">' + json['detail']['special_text'] + '</span>';
+						html += '  <div class="price-new">' + json['detail']['special'] + '</div>';
+						html += '</div>';
+
+						$('.product-label').show();
+					} else {
+						html = '<h3 class="price-olds" id="price">' + json['detail']['price'] + '</h3>';
+
+						$('.product-label').hide();
 					}
+
+					$('#price').html(html);
+
+					html = '';
 
 					if (json['detail']['discount']) {
 						for (const i in json['detail']['discount']) {
-							$('#discount' + json['detail']['discount'][i]['quantity']).html(json['detail']['discount'][i]['price']);
+							html += '<li>' + json['detail']['discount'][i]['text'] + '</li>';
 						}
 					}
 
-					$('#price').html(json['detail']['price']);
+					$('#discount').html(html);
+
 					$('#model').html(json['detail']['model']);
 					$('#title').html(json['detail']['name']);
 					$('#stock').html(json['detail']['stock']);
@@ -614,7 +633,7 @@
 			}
 		});
 	});
-		
+
 	$('#button-cart').on('click', function () {
 		$.ajax({
 			url: 'index.php?route=checkout/cart/add',
@@ -635,7 +654,7 @@
 					if (json['error']['variant']) {
 						if (json['error']['variant']['warning']) {
 							$('#notification').html('<div class="alert alert-danger">' + json['error']['variant']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>').fadeIn();
-							setTimeout(function() {$('#notification').fadeOut(1000);}, 3000);
+							setTimeout(function () { $('#notification').fadeOut(1000); }, 3000);
 
 						} else {
 							for (i in json['error']['variant']) {
@@ -672,7 +691,7 @@
 
 				if (json['success']) {
 					$('#notification').html('<div class="alert alert-success">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>').fadeIn();
-					setTimeout(function() {$('#notification').fadeOut(1000);}, 3000);
+					setTimeout(function () { $('#notification').fadeOut(1000); }, 3000);
 
 					res = json['total'].split("-");
 					$('#text-items').html(res[1]);
@@ -829,14 +848,14 @@
 	}
 
 	$(zoomCollection).elevateZoom({
-		zoomType						: zoomType,
-		lensShape						: "<?= $productConfig['product_zoomlensshape'];?>",
-		lensSize						: "<?= (int)$productConfig['product_zoomlenssize'];?>",
-		easing							: true,
-		gallery							: 'image-additional-carousel',
-		cursor							: 'pointer',
-		galleryActiveClass	: "active"
-  });
+		zoomType: zoomType,
+		lensShape: "<?= $productConfig['product_zoomlensshape'];?>",
+		lensSize: "<?= (int)$productConfig['product_zoomlenssize'];?>",
+		easing: true,
+		gallery: 'image-additional-carousel',
+		cursor: 'pointer',
+		galleryActiveClass: "active"
+	});
 
 </script>
 <?php } else { ?>

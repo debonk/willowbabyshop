@@ -53,7 +53,7 @@ class Cart
 				$price = $variant_query->row['price'];
 
 				// Product Specials
-				$special_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$cart['product_id'] . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY priority ASC, discount_fixed DESC LIMIT 1");
+				$special_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$cart['product_id'] . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND model = '" . $this->db->escape($cart['model']) . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY priority ASC, (discount_percent_1 + discount_percent_2 * (100 - discount_percent_1) / 100) DESC, discount_fixed DESC LIMIT 1");
 
 				if ($special_query->num_rows) {
 					$price *= (100 - $special_query->row['discount_percent_1']) / 100;
@@ -70,7 +70,7 @@ class Cart
 					}
 				}
 
-				$discount_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$cart['product_id'] . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity <= '" . (int)$discount_quantity . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY quantity ASC, priority ASC LIMIT 1");
+				$discount_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$cart['product_id'] . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND model = '" . $this->db->escape($cart['model']) . "' AND quantity <= '" . (int)$discount_quantity . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY quantity DESC, priority ASC, (discount_percent_1 + discount_percent_2 * (100 - discount_percent_1) / 100) DESC, discount_fixed DESC LIMIT 1");
 
 				if ($discount_query->num_rows) {
 					$price *= (100 - $discount_query->row['discount_percent_1']) / 100;

@@ -1,8 +1,27 @@
 # willowbabyshop software
-3.0.8
 Modify: Extend expiration time
 
-3.0.7_b
+3.1.0	14/07/2022
+Modify: Change base of Special/Discount to model instead of product_id
+	Api > Product
+	Checkout > Cart
+	Common > Cart
+	APP > Product
+	Product List
+	Product Form
+
+	Table: product_special
+		ALTER TABLE `oc_product_special` ADD `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `product_id`;
+		ALTER TABLE `oc_product_special` ADD INDEX( `model`);
+	Table: product_discount
+		ALTER TABLE `oc_product_discount` ADD `model` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `product_id`;
+		ALTER TABLE `oc_product_discount` ADD INDEX( `model`);
+
+3.0.8
+Bug Fixed: Product > Highlight: array_multisort(): Array sizes are inconsistent
+Bug Fixed: PHP Notice:  Undefined variable: model in /home/willowba/public_html/willowmgr12/view/template/catalog/product_form.tpl
+
+3.0.7_b	08/07/2022
 Catalog > Option: Sort option value by sort_order and name
 Bug Fixed: Error on charset "UTF-8;"
 

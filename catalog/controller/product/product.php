@@ -337,11 +337,10 @@ class ControllerProductProduct extends Controller
 				$data['price'] = false;
 			}
 
-			$special_info = $this->model_catalog_product->getProductSpecial($product_id, $product_info['price']);
 
-			if ($special_info) {
-				$data['special'] = $this->currency->format($this->tax->calculate($special_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-				$data['special_text'] = $special_info['text'];
+			if ($product_info['special']) {
+				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$data['special_text'] = $product_info['special_text'];
 			} else {
 				$data['special'] = false;
 			}
@@ -352,33 +351,13 @@ class ControllerProductProduct extends Controller
 				$data['tax'] = false;
 			}
 
-			$discounts = $this->model_catalog_product->getProductDiscounts($product_id);
+			$discounts = $this->model_catalog_product->getProductDiscounts($product_id, '', $product_info['special'] ? $product_info['special'] : $product_info['price']);
 
 			$data['discounts'] = array();
 
 			foreach ($discounts as $discount) {
-				$discount_price = isset($product_info['special']) ? $product_info['special'] : $product_info['price'];
-				$discount_text = [];
-
-				if ($discount['discount_percent_1']) {
-					$discount_price *= (100 - $discount['discount_percent_1']) / 100;
-					$discount_text[] = $discount['discount_percent_1'] . '%';
-				}
-
-				if ($discount['discount_percent_2']) {
-					$discount_price *= (100 - $discount['discount_percent_2']) / 100;
-					$discount_text[] = $discount['discount_percent_2'] . '%';
-				}
-
-				if ($discount['discount_fixed']) {
-					$discount_price = max(0, $discount_price - $discount['discount_fixed']);
-					$discount_text[] = round($discount['discount_fixed'] / 1000, 0) . 'K';
-				}
-
 				$data['discounts'][] = array(
-					'quantity' 		=> $discount['quantity'],
-					'price'    		=> $this->currency->format($this->tax->calculate($discount_price, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
-					'text' 			=> implode(' + ', $discount_text)
+					'text' 			=> sprintf($this->language->get('text_discount'), $discount['quantity'], $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $discount['text'])
 				);
 			}
 
@@ -533,8 +512,8 @@ class ControllerProductProduct extends Controller
 			$data['mark_up_breadcrumb'] = $mark_up_breadcrumb;
 
 			//Bonk02:Markup Data - Product //should be: "price": "' . $mark_up_product_price . '",
-			if ($special_info) {
-				$mark_up_product_price = $special_info['price'];
+			if ($product_info['special']) {
+				$mark_up_product_price = $product_info['special'];
 			} else {
 				$mark_up_product_price = $product_info['price'];
 			}
@@ -681,12 +660,10 @@ class ControllerProductProduct extends Controller
 			if (isset($this->request->post['variant'])) {
 				$variant = array_filter($this->request->post['variant']);
 			} else {
-				$variant = array();
+				$variant = [];
 			}
 
 			$product_variants = $this->model_catalog_product->getProductVariants($product_id);
-
-			$product_detail = [];
 
 			foreach ($product_variants['variant'] as $variant_value) {
 				if ($variant_value['option_value_id'] == $variant['variant_id']) {
@@ -700,52 +677,32 @@ class ControllerProductProduct extends Controller
 						$product_stock = $this->language->get('text_instock');
 					}
 
-					$specials = $this->model_catalog_product->getProductSpecial($product_id, $variant_value['price']);
+					$specials = $this->model_catalog_product->getProductSpecial($product_id, $variant_value['model'], $variant_value['price']);
 
-					if ($specials) {
-						$special = $specials['price'];
-
-						// $special = $variant_value['price'];
-
-						// $special *= (100 - $specials['discount_percent_1']) / 100;
-						// $special *= (100 - $specials['discount_percent_2']) / 100;
-						// $special = max(0, $special - $specials['discount_fixed']);
-					}
-
-					$discounts = $this->model_catalog_product->getProductDiscounts($product_id);
+					$discounts = $this->model_catalog_product->getProductDiscounts($product_id, $variant_value['model'], $specials ? $specials['price'] : $variant_value['price']);
 
 					$discount_data = [];
 
 					foreach ($discounts as $discount) {
-						$discount_price = isset($special) ? $special :  $variant_value['price'];
-		
-						$discount_price *= (100 - $discount['discount_percent_1']) / 100;
-						$discount_price *= (100 - $discount['discount_percent_2']) / 100;
-						$discount_price = max(0, $discount_price - $discount['discount_fixed']);
-
 						$discount_data[] = [
-							'quantity' 		=> $discount['quantity'],
-							'price'    		=> $this->currency->format($this->tax->calculate($discount_price, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
+							'text' 			=> sprintf($this->language->get('text_discount'), $discount['quantity'], $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $discount['text'])
 						];
-					}	
-	
-					$product_detail = [
-						'model'		=> $product_model,
-						'name'		=> $product_info['name'] . ' - ' . $this->model_catalog_product->getProductVariantName($variant_value['option_value_id']),
-						'price'		=> $this->currency->format($this->tax->calculate($variant_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
-						'special'	=> isset($special) ? $this->currency->format($this->tax->calculate($special, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) : null,
-						'discount'	=> $discount_data,
-						'points'	=> $variant_value['points'],
-						'idx'		=> $variant_value['product_option_value_id'],
-						'stock'		=> $product_stock
+					}
+
+					$json['detail'] = [
+						'model'			=> $product_model,
+						'name'			=> $product_info['name'] . ' - ' . $this->model_catalog_product->getProductVariantName($variant_value['option_value_id']),
+						'price'			=> $this->currency->format($this->tax->calculate($variant_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
+						'special'		=> $specials ? $this->currency->format($this->tax->calculate($specials['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) : null,
+						'special_text'	=> $specials ? $specials['text'] : '',
+						'discount'		=> $discount_data,
+						'points'		=> $variant_value['points'],
+						'idx'			=> $variant_value['product_option_value_id'],
+						'stock'			=> $product_stock
 					];
 
 					break;
 				}
-			}
-
-			if ($variant) {
-				$json['detail'] = $product_detail;
 			}
 		}
 

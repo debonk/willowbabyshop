@@ -139,6 +139,10 @@ class ControllerProductHighlight extends Controller
 
 		$sort_col = (array_column($results, $sort));
 
+		// $a = $this->model_catalog_product->getProduct(2870);
+		// var_dump($results);
+		// die('---breakpoint---');
+		
 		if (isset($this->request->get['sort'])) {
 			if ($order == 'DESC') {
 				array_multisort($sort_col, SORT_DESC, $results);

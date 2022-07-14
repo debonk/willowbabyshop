@@ -647,7 +647,7 @@ class ControllerCatalogProduct extends Controller
 
 			$special = false;
 
-			$product_specials = $this->model_catalog_product->getProductSpecials($result['product_id']);
+			$product_specials = $this->model_catalog_product->getProductSpecials($result['product_id'], $result['model']);
 
 			foreach ($product_specials  as $product_special) {
 				if (($product_special['date_start'] == '0000-00-00' || strtotime($product_special['date_start']) < time()) && ($product_special['date_end'] == '0000-00-00' || strtotime($product_special['date_end']) >= strtotime('today'))) {
@@ -662,7 +662,7 @@ class ControllerCatalogProduct extends Controller
 
 			$discount = false;
 
-			$product_discounts = $this->model_catalog_product->getProductDiscounts($result['product_id']);
+			$product_discounts = $this->model_catalog_product->getProductDiscounts($result['product_id'], $result['model']);
 
 			foreach ($product_discounts  as $product_discount) {
 				if (($product_discount['date_start'] == '0000-00-00' || strtotime($product_discount['date_start']) < time()) && ($product_discount['date_end'] == '0000-00-00' || strtotime($product_discount['date_end']) >= strtotime('today'))) {
@@ -1091,12 +1091,6 @@ class ControllerCatalogProduct extends Controller
 		} else {
 			$data['error_sku'] = '';
 		}
-
-		// if (isset($this->error['option_model'])) {
-		// 	$data['error_option_model'] = $this->error['option_model'];
-		// } else {
-		// 	$data['error_option_model'] = '';
-		// }
 
 		if (isset($this->error['variant'])) {
 			$data['error_variant'] = $this->error['variant'];
@@ -1559,6 +1553,7 @@ class ControllerCatalogProduct extends Controller
 				'customer_group_id' 	=> $product_discount['customer_group_id'],
 				'quantity'          	=> $product_discount['quantity'],
 				'priority'          	=> $product_discount['priority'],
+				'model'          		=> $product_discount['model'],
 				'discount_percent_1'	=> $product_discount['discount_percent_1'],
 				'discount_percent_2'	=> $product_discount['discount_percent_2'],
 				'discount_fixed'		=> $product_discount['discount_fixed'],
@@ -1583,6 +1578,7 @@ class ControllerCatalogProduct extends Controller
 			$data['product_specials'][] = array(
 				'customer_group_id' 	=> $product_special['customer_group_id'],
 				'priority'          	=> $product_special['priority'],
+				'model'          		=> $product_special['model'],
 				'discount_percent_1'	=> $product_special['discount_percent_1'],
 				'discount_percent_2'	=> $product_special['discount_percent_2'],
 				'discount_fixed'		=> $product_special['discount_fixed'],
@@ -1704,6 +1700,14 @@ class ControllerCatalogProduct extends Controller
 
 		$data['form_variant'] = $this->getFormVariant();
 
+		$data['models'] = isset($this->request->get['product_id']) ? $this->model_catalog_product->getProductVariantsModel($this->request->get['product_id']) : [];
+
+		if (!$data['models']) {
+			$data['info_campaign'] = $this->language->get('text_campaign_info');
+		} else {
+			$data['info_campaign'] = '';
+		}
+		
 		$this->load->model('design/layout');
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();

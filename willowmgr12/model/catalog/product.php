@@ -56,13 +56,13 @@ class ModelCatalogProduct extends Model
 
 		if (isset($data['product_discount'])) {
 			foreach ($data['product_discount'] as $product_discount) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', discount_percent_1 = '" . (int)$product_discount['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_discount['discount_percent_2'] . "', discount_fixed = '" . (int)$product_discount['discount_fixed'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', model = '" . $this->db->escape($product_discount['model']) . "', discount_percent_1 = '" . (int)$product_discount['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_discount['discount_percent_2'] . "', discount_fixed = '" . (int)$product_discount['discount_fixed'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
 			}
 		}
 
 		if (isset($data['product_special'])) {
 			foreach ($data['product_special'] as $product_special) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', discount_percent_1 = '" . (int)$product_special['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_special['discount_percent_2'] . "', discount_fixed = '" . (int)$product_special['discount_fixed'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', model = '" . $this->db->escape($product_special['model']) . "', discount_percent_1 = '" . (int)$product_special['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_special['discount_percent_2'] . "', discount_fixed = '" . (int)$product_special['discount_fixed'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
 			}
 		}
 
@@ -193,7 +193,7 @@ class ModelCatalogProduct extends Model
 
 		if (isset($data['product_discount'])) {
 			foreach ($data['product_discount'] as $product_discount) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', discount_percent_1 = '" . (int)$product_discount['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_discount['discount_percent_2'] . "', discount_fixed = '" . (int)$product_discount['discount_fixed'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', model = '" . $this->db->escape($product_discount['model']) . "', discount_percent_1 = '" . (int)$product_discount['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_discount['discount_percent_2'] . "', discount_fixed = '" . (int)$product_discount['discount_fixed'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
 			}
 		}
 
@@ -201,7 +201,7 @@ class ModelCatalogProduct extends Model
 
 		if (isset($data['product_special'])) {
 			foreach ($data['product_special'] as $product_special) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', discount_percent_1 = '" . (int)$product_special['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_special['discount_percent_2'] . "', discount_fixed = '" . (int)$product_special['discount_fixed'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', model = '" . $this->db->escape($product_special['model']) . "', discount_percent_1 = '" . (int)$product_special['discount_percent_1'] . "', discount_percent_2 = '" . (int)$product_special['discount_percent_2'] . "', discount_fixed = '" . (int)$product_special['discount_fixed'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
 			}
 		}
 
@@ -284,33 +284,6 @@ class ModelCatalogProduct extends Model
 
 		$this->cache->delete('product');
 	}
-
-	// public function editProductPartially($product_id, $data)
-	// {
-	// 	$sql = "UPDATE " . DB_PREFIX . "product SET date_modified = NOW()";
-
-	// 	$implode = [];
-
-	// 	if (isset($data['quantity'])) {
-	// 		$implode[] = "quantity = '" . (int)$data['quantity'] . "'";
-	// 	}
-
-	// 	if (isset($data['price'])) {
-	// 		$implode[] = "price = '" . (int)$data['price'] . "'";
-	// 	}
-
-	// 	$sql .= ", " . implode(', ', $implode);
-
-	// 	$sql .= " WHERE product_id = " . (int)$product_id;
-
-	// 	$this->db->query($sql);
-
-	// 	if (isset($data['product_image'])) {
-	// 		foreach ($data['product_image'] as $product_image) {
-	// 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "'");
-	// 		}
-	// 	}
-	// }
 
 	public function copyProduct($product_id)
 	{
@@ -726,6 +699,19 @@ class ModelCatalogProduct extends Model
 		return implode(', ', $variant_name);
 	}
 
+	public function getProductVariantsModel($product_id)
+	{
+		$product_variants_model_data = [];
+
+		$product_variants_query = $this->db->query("SELECT model FROM " . DB_PREFIX . "product_option_value WHERE product_id = '" . (int)$product_id . "' ORDER BY model ASC");
+
+		foreach ($product_variants_query->rows as $product_variants_value) {
+			$product_variants_model_data[] = $product_variants_value['model'];
+		}
+
+		return $product_variants_model_data;
+	}
+
 	public function getProductVariants($product_id)
 	{
 		$product_variants_data = [];
@@ -801,20 +787,6 @@ class ModelCatalogProduct extends Model
 		return $product_option_query->rows;
 	}
 
-	public function getProductOptionValue($product_id, $product_option_value_id)
-	{
-		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.model, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_id = '" . (int)$product_id . "' AND pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-
-		return $query->row;
-	}
-
-	public function getProductOptionsValue($product_id)
-	{
-		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.model, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_id = '" . (int)$product_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-
-		return $query->rows;
-	}
-
 	public function getProductVariantByModel($model)
 	{
 		$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "product_option_value WHERE model = '" . $this->db->escape($model) . "'";
@@ -831,16 +803,32 @@ class ModelCatalogProduct extends Model
 		return $query->rows;
 	}
 
-	public function getProductDiscounts($product_id)
+	public function getProductDiscounts($product_id, $model = '')
 	{
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' ORDER BY quantity, priority, date_end");
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "'";
+
+		if (!empty($model)) {
+			$sql .= " AND model = '" . $this->db->escape($model) . "'";
+		}
+
+		$sql .= " ORDER BY date_end DESC, quantity ASC, priority ASC";
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}
 
-	public function getProductSpecials($product_id)
+	public function getProductSpecials($product_id, $model = '')
 	{
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' ORDER BY priority, date_end");
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "'";
+
+		if (!empty($model)) {
+			$sql .= " AND model = '" . $this->db->escape($model) . "'";
+		}
+
+		$sql .= " ORDER BY date_end DESC, priority ASC";
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}

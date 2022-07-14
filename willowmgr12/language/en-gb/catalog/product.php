@@ -3,21 +3,22 @@
 $_['heading_title']          = 'Products';
 
 // Text
-$_['text_success']     	= 'Success: You have modified products!';
-$_['text_list']        	= 'Product List';
-$_['text_add']         	= 'Add Product';
-$_['text_discount']    	= '[%d+:&nbsp;%d]';
-$_['text_edit']        	= 'Edit Product';
-$_['text_plus']        	= '+';
-$_['text_minus']       	= '-';
-$_['text_default']     	= 'Default';
-$_['text_option']      	= 'Option';
-$_['text_option_value']	= 'Option Value';
-$_['text_percent']     	= 'Percentage';
-$_['text_amount']      	= 'Fixed Amount';
-$_['text_system']      	= 'system';
-$_['text_has_special']	= 'Special';
-$_['text_has_discount']	= 'Discount';
+$_['text_success']     		= 'Success: You have modified products!';
+$_['text_list']        		= 'Product List';
+$_['text_add']         		= 'Add Product';
+$_['text_campaign_info'] 	= 'Please save the form before add campaigns.';
+$_['text_discount']    		= '[%d+:&nbsp;%d]';
+$_['text_edit']        		= 'Edit Product';
+$_['text_plus']        		= '+';
+$_['text_minus']       		= '-';
+$_['text_default']     		= 'Default';
+$_['text_option']      		= 'Option';
+$_['text_option_value']		= 'Option Value';
+$_['text_percent']     		= 'Percentage';
+$_['text_amount']      		= 'Fixed Amount';
+$_['text_system']      		= 'system';
+$_['text_has_special']		= 'Special';
+$_['text_has_discount']		= 'Discount';
 
 // Column
 $_['column_action']       	= 'Action';

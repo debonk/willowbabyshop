@@ -26,7 +26,7 @@ class ModelCatalogProduct extends Model
 		$query = $this->db->query("SELECT DISTINCT pov.*, p.*, pd.*, pd.name AS name, p.image AS main_image, m.name AS manufacturer, m.image AS manufacturer_image, (SELECT points FROM " . DB_PREFIX . "product_reward pr WHERE pr.product_id = p.product_id AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT lcd.unit FROM " . DB_PREFIX . "length_class_description lcd WHERE p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS length_class, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.product_id = p.product_id AND r2.status = '1' GROUP BY r2.product_id) AS reviews FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND pov.quantity > 0 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' GROUP BY p.product_id");
 
 		if ($query->num_rows) {
-			$product_special = $this->getProductSpecial($product_id, $query->row['price']);
+			$product_special = $this->getProductSpecial($product_id, '', $query->row['price']);
 
 			return array(
 				'product_id'       		=> $query->row['product_id'],
@@ -83,7 +83,7 @@ class ModelCatalogProduct extends Model
 		$query = $this->db->query("SELECT DISTINCT pov.*, pov.image AS variant_image, p.*, pd.*, pd.name AS name, m.name AS manufacturer, m.image AS manufacturer_image, (SELECT points FROM " . DB_PREFIX . "product_reward pr WHERE pr.product_id = p.product_id AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT lcd.unit FROM " . DB_PREFIX . "length_class_description lcd WHERE p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS length_class, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.product_id = p.product_id AND r2.status = '1' GROUP BY r2.product_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pov.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE pov.model = '" . $this->db->escape($model) . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 		if ($query->num_rows) {
-			$product_special = $this->getProductSpecial($query->row['product_id'], $query->row['price']);
+			$product_special = $this->getProductSpecial($query->row['product_id'], '', $query->row['price']);
 
 			return array(
 				'product_id'       		=> $query->row['product_id'],
@@ -346,29 +346,31 @@ class ModelCatalogProduct extends Model
 		return $product_variants_data;
 	}
 
-	public function deleteProductSpecial($product_id)
+	public function deleteProductSpecial($product_id, $model)
 	{
-		$this->db->query("DELETE FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND date_end < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)");
 
-		return $product_id;
+		$this->db->query("UPDATE " . DB_PREFIX . "product_special SET date_end = DATE_SUB(CURDATE(), INTERVAL 1 DAY) WHERE product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "'");
 	}
 
-	public function addProductSpecial($product_id, $data)
+	public function addProductSpecial($product_id, $model, $data)
 	{
-		$this->deleteProductSpecial($product_id);
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', priority = '" . (int)$data['priority'] . "', discount_percent_1 = '" . (int)$data['discount_percent_1'] . "', discount_percent_2 = '" . (int)$data['discount_percent_2'] . "', discount_fixed = '" . (int)$data['discount_fixed'] . "', date_start = '" . $this->db->escape($data['date_start']) . "', date_end = '" . $this->db->escape($data['date_end']) . "'");
-
-		return $product_id;
+		$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', model = '" . $this->db->escape($model) . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', priority = '" . (int)$data['priority'] . "', discount_percent_1 = '" . (int)$data['discount_percent_1'] . "', discount_percent_2 = '" . (int)$data['discount_percent_2'] . "', discount_fixed = '" . (int)$data['discount_fixed'] . "', date_start = '" . $this->db->escape($data['date_start']) . "', date_end = '" . $this->db->escape($data['date_end']) . "'");
 	}
 
-	public function getProductSpecial($product_id, $price = 0)
+	public function getProductSpecial($product_id, $model, $price = 0)
 	{
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY priority ASC, discount_fixed DESC LIMIT 1");
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE()))";
 
-		$special_data = $query->row;
+		if (!empty($model)) {
+			$sql .= " AND model = '" . $this->db->escape($model) . "'";
+		}
 
-		if ($special_data && $price) {
+		$sql .= " ORDER BY priority ASC, (discount_percent_1 + discount_percent_2 * (100 - discount_percent_1) / 100) DESC, discount_fixed DESC LIMIT 1";
+
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows && $price) {
 			$text = [];
 
 			if ($query->row['discount_percent_1']) {
@@ -386,11 +388,11 @@ class ModelCatalogProduct extends Model
 				$text[] = round($query->row['discount_fixed'] / 1000, 0) . 'K';
 			}
 
-			$special_data['price'] = $price;
-			$special_data['text'] = implode(' + ', $text);
+			$query->row['price'] = $price;
+			$query->row['text'] = implode(' + ', $text);
 		}
 
-		return $special_data;
+		return $query->row;
 	}
 
 	public function getProductSpecials($data = array())
@@ -454,7 +456,11 @@ class ModelCatalogProduct extends Model
 			$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND pov.quantity > 0 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' GROUP BY p.product_id ORDER BY p.date_added DESC LIMIT " . (int)$limit);
 
 			foreach ($query->rows as $result) {
-				$product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+				$product_info = $this->getProduct($result['product_id']);
+
+				if ($product_info) {
+					$product_data[$result['product_id']] = $product_info;
+				}
 			}
 
 			$this->cache->set('product.latest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
@@ -470,7 +476,11 @@ class ModelCatalogProduct extends Model
 		$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
 
 		foreach ($query->rows as $result) {
-			$product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+			$product_info = $this->getProduct($result['product_id']);
+
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
 		}
 
 		return $product_data;
@@ -531,27 +541,58 @@ class ModelCatalogProduct extends Model
 		return $product_option_query->rows;
 	}
 
-	public function deleteProductDiscount($product_id)
+	public function deleteProductDiscount($product_id, $model)
 	{
-		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "' AND date_end < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)");
 
-		return $product_id;
+		$this->db->query("UPDATE " . DB_PREFIX . "product_discount SET date_end = DATE_SUB(CURDATE(), INTERVAL 1 DAY) WHERE product_id = '" . (int)$product_id . "' AND model = '" . $this->db->escape($model) . "'");
 	}
 
-	public function addProductDiscount($product_id, $data)
+	public function addProductDiscount($product_id, $model, $data)
 	{
-		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND quantity = '" . (int)$data['quantity'] . "'");
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', quantity = '" . (int)$data['quantity'] . "', priority = '" . (int)$data['priority'] . "', discount_percent_1 = '" . (int)$data['discount_percent_1'] . "', discount_percent_2 = '" . (int)$data['discount_percent_2'] . "', discount_fixed = '" . (int)$data['discount_fixed'] . "', date_start = '" . $this->db->escape($data['date_start']) . "', date_end = '" . $this->db->escape($data['date_end']) . "'");
-
-		return $product_id;
+		$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', model = '" . $this->db->escape($model) . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', quantity = '" . (int)$data['quantity'] . "', priority = '" . (int)$data['priority'] . "', discount_percent_1 = '" . (int)$data['discount_percent_1'] . "', discount_percent_2 = '" . (int)$data['discount_percent_2'] . "', discount_fixed = '" . (int)$data['discount_fixed'] . "', date_start = '" . $this->db->escape($data['date_start']) . "', date_end = '" . $this->db->escape($data['date_end']) . "'");
 	}
 
-	public function getProductDiscounts($product_id)
+	public function getProductDiscounts($product_id, $model = '', $price = 0)
 	{
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE())) ORDER BY quantity ASC, priority ASC, discount_fixed DESC");
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start <= CURDATE()) AND (date_end = '0000-00-00' OR date_end >= CURDATE()))";
 
-		return $query->rows;
+		if (!empty($model)) {
+			$sql .= " AND model = '" . $this->db->escape($model) . "'";
+		}
+
+		$sql .= " GROUP BY quantity ORDER BY quantity ASC, priority ASC, (discount_percent_1 + discount_percent_2 * (100 - discount_percent_1) / 100) DESC, discount_fixed DESC";
+
+		$query = $this->db->query($sql);
+
+		$discount_data = $query->rows;
+		
+		if ($query->num_rows && $price) {
+			foreach ($discount_data as $key => $discount) {
+				$discount_price = $price;
+				$text = [];
+
+				if ($discount['discount_percent_1']) {
+					$discount_price *= (100 - $discount['discount_percent_1']) / 100;
+					$text[] = $discount['discount_percent_1'] . '%';
+				}
+
+				if ($discount['discount_percent_2']) {
+					$discount_price *= (100 - $discount['discount_percent_2']) / 100;
+					$text[] = $discount['discount_percent_2'] . '%';
+				}
+
+				if ($discount['discount_fixed']) {
+					$discount_price = max(0, $discount_price - $discount['discount_fixed']);
+					$text[] = round($discount['discount_fixed'] / 1000, 0) . 'K';
+				}
+
+				$discount_data[$key]['price'] = $discount_price;
+				$discount_data[$key]['text'] = implode(' + ', $text);
+			}
+		}
+
+		return $discount_data;
 	}
 
 	public function getProductImages($product_id)
@@ -755,7 +796,7 @@ class ModelCatalogProduct extends Model
 
 	public function getSpecials()
 	{
-		$sql = "SELECT * FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (ps.product_id = pov.product_id) WHERE ((ps.date_start = '0000-00-00' OR ps.date_start <= CURDATE()) AND (ps.date_end = '0000-00-00' OR ps.date_end >= CURDATE())) ORDER BY pov.model ASC";	
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (ps.product_id = pov.product_id) WHERE ((ps.date_start = '0000-00-00' OR ps.date_start <= CURDATE()) AND (ps.date_end = '0000-00-00' OR ps.date_end >= CURDATE())) ORDER BY pov.model ASC";
 		$query = $this->db->query($sql);
 
 		return $query->rows;
@@ -764,7 +805,7 @@ class ModelCatalogProduct extends Model
 	public function getDiscounts()
 	{
 		$sql = "SELECT *, pd.quantity AS quantity FROM " . DB_PREFIX . "product_discount pd LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pd.product_id = pov.product_id) WHERE ((pd.date_start = '0000-00-00' OR pd.date_start <= CURDATE()) AND (pd.date_end = '0000-00-00' OR pd.date_end >= CURDATE())) ORDER BY pov.model ASC";
-		
+
 		$query = $this->db->query($sql);
 
 		return $query->rows;
