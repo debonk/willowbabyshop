@@ -33,9 +33,10 @@ class ControllerStartupError extends Controller {
 		if ($this->config->get('config_error_display')) {
 			echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
 		}
-	
+
 		if ($this->config->get('config_error_log')) {
-			$this->log->write('PHP ' . $error . ':  ' . $message . ' in ' . $file . ' on line ' . $line);
+			$this->log->write('PHP ' . $error . ':  ' . $message . ' in ' . $file . ' on line ' . $line . ' at ' . $this->request->server['QUERY_STRING']);
+			// $this->log->write('PHP ' . $error . ':  ' . $message . ' in ' . $file . ' on line ' . $line);
 		}
 	
 		return true;

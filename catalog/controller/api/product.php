@@ -500,6 +500,8 @@ class ControllerApiProduct extends Controller
 		} else {
 			$this->load->model('catalog/product');
 
+			$json['products'] = [];
+
 			$results = $this->model_catalog_product->getSpecials();
 
 			foreach ($results as $result) {
@@ -754,6 +756,8 @@ class ControllerApiProduct extends Controller
 		} else {
 			$this->load->model('catalog/product');
 
+			$json['products'] = [];
+			
 			$results = $this->model_catalog_product->getDiscounts();
 
 			foreach ($results as $result) {

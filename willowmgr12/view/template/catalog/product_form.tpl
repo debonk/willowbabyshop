@@ -994,12 +994,12 @@
 						</div>
 						<div class="tab-pane" id="tab-special">
 							<?php if ($info_campaign) { ?>
-								<div class="alert alert-info"><i class="fa fa-info-circle"></i>
-									<?= $info_campaign; ?>
-									<button type="button" class="close" data-dismiss="alert">&times;</button>
-								</div>
-								<?php } ?>
-								<div class="table-responsive">
+							<div class="alert alert-info"><i class="fa fa-info-circle"></i>
+								<?= $info_campaign; ?>
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+							</div>
+							<?php } ?>
+							<div class="table-responsive">
 								<table id="special" class="table table-striped table-bordered table-hover text-left">
 									<thead>
 										<tr>
@@ -1410,16 +1410,19 @@
 		});
 	</script>
 	<script type="text/javascript">
-		var attribute_row = '<?= $attribute_row; ?>';
+		let attribute_row = '<?= $attribute_row; ?>';
+		let languages = JSON.parse('<?= $json_languages; ?>');
 
 		function addAttribute() {
 			html = '<tr id="attribute-row' + attribute_row + '">';
 			html += '  <td class="text-left" style="width: 20%;"><input type="text" name="product_attribute[' + attribute_row + '][name]" value="" placeholder="<?= $entry_attribute; ?>" class="form-control" /><input type="hidden" name="product_attribute[' + attribute_row + '][attribute_id]" value="" /></td>';
 			html += '  <td class="text-left">';
-	<? php foreach($languages as $language) { ?>
-				html += '<div class="input-group"><span class="input-group-addon"><img src="language/<?= $language['code']; ?>/<?= $language['code']; ?>.png" title="<?= $language['name']; ?>" /></span><textarea name="product_attribute[' + attribute_row + '][product_attribute_description][<?= $language['language_id']; ?>][text]" rows="5" placeholder="<?= $entry_text; ?>" class="form-control"></textarea></div>';
-    <? php } ?>
-				html += '  </td>';
+
+			for (let i in languages) {
+				html += '<div class="input-group"><span class="input-group-addon"><img src="language/' + languages[i]['code'] + '/' + languages[i]['code'] + '.png" title="' + languages[i]['name'] + '" /></span><textarea name="product_attribute[' + attribute_row + '][product_attribute_description][' + languages[i]['language_id'] + '][text]" rows="5" placeholder="<?= $entry_text; ?>" class="form-control"></textarea></div>';
+			}
+
+			html += '  </td>';
 			html += '  <td class="text-left"><button type="button" onclick="$(\'#attribute-row' + attribute_row + '\').remove();" data-toggle="tooltip" title="<?= $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 			html += '</tr>';
 
@@ -1648,7 +1651,8 @@
 		}
 	</script>
 	<script type="text/javascript">
-		var recurring_row = '<?= $product_recurring_count; ?>';
+		let recurring_row = '<?= $product_recurring_count; ?>';
+		let recurrings = JSON.parse('<?= $json_recurrings; ?>');
 
 		function addRecurring() {
 			recurring_row++;
@@ -1657,10 +1661,12 @@
 			html += '<tr id="recurring-row' + recurring_row + '">';
 			html += '  <td class="text-left">';
 			html += '    <select name="product_recurring[' + recurring_row + '][recurring_id]" class="form-control">>';
-	<? php foreach($recurrings as $recurring) { ?>
-				html += '      <option value="<?= $recurring['recurring_id']; ?>"><?= $recurring['name']; ?></option>';
-	<? php } ?>
-				html += '    </select>';
+
+			for (let i in recurrings) {
+				html += '      <option value="' + recurrings[i]['recurring_id'] + '">' + recurrings[i]['name'] + '</option>';
+			}
+
+			html += '    </select>';
 			html += '  </td>';
 			html += '  <td class="text-left">';
 			html += '    <select name="product_recurring[' + recurring_row + '][customer_group_id]" class="form-control">>';

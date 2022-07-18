@@ -374,7 +374,7 @@ class ModelCatalogProduct extends Model
 				unlink($file);
 			}
 
-			unlink(DIR_IMAGE . $image);
+			@unlink(DIR_IMAGE . $image);
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");

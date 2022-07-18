@@ -1,6 +1,12 @@
 # willowbabyshop software
 Modify: Extend expiration time
 
+3.1.1	18/07/2022
+System > Error: Get route when logging error
+System > db: Trim $value before escape 
+Bug Fixed: Catalog > Product Form: Error php in script
+Bug Fixed: Api > Product: Minor Bugs
+
 3.1.0	14/07/2022
 Modify: Change base of Special/Discount to model instead of product_id
 	Api > Product

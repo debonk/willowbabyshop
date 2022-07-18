@@ -1189,7 +1189,7 @@ class ControllerCatalogProduct extends Controller
 		$this->load->model('localisation/language');
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
-
+		
 		if (isset($this->request->post['product_description'])) {
 			$data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($this->request->get['product_id'])) {
@@ -1712,6 +1712,9 @@ class ControllerCatalogProduct extends Controller
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();
 
+		$data['json_languages'] = json_encode($data['languages']);
+		$data['json_recurrings'] = json_encode($data['recurrings']);
+				
 		$data['token'] = $this->session->data['token'];
 
 		$data['header'] = $this->load->controller('common/header');
@@ -1883,6 +1886,8 @@ class ControllerCatalogProduct extends Controller
 			$this->error['variant'] = $this->language->get('error_option');
 		} else {
 			foreach ($variant_models as $model) {
+				$model = trim($model);
+				
 				if ((utf8_strlen($model) < 1) || (utf8_strlen($model) > 32)) {
 					$this->error['variant'] = $this->language->get('error_model');
 

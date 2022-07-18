@@ -22,7 +22,7 @@
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
         <fieldset id="account">
           <legend><?php echo $text_your_details; ?></legend>
-          <div class="form-group required" style="display: <?php echo (count($customer_groups) > 1 ? 'block' : 'none'); ?>;">
+          <div class="form-group required" <?php echo (count($customer_groups) > 1 ? 'style="display: block"' : 'style="display: none"'); ?>>
             <label class="col-sm-2 control-label"><?php echo $entry_customer_group; ?></label>
             <div class="col-sm-10">
               <?php foreach ($customer_groups as $customer_group) { ?>
