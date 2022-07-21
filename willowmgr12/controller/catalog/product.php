@@ -683,7 +683,7 @@ class ControllerCatalogProduct extends Controller
 
 			if (is_array($option_value_ids)) {
 				foreach ($option_value_ids as $option_value_id) {
-					$variant_name[] = $option_values_data[$option_value_id];
+					$variant_name[] = isset($option_values_data[$option_value_id]) ? $option_values_data[$option_value_id] : '?';
 				}
 			}
 

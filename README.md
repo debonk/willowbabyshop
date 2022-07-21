@@ -1,6 +1,12 @@
 # willowbabyshop software
 Modify: Extend expiration time
 
+3.1.2	21/07/2022
+Catalog > Tools: Add Log Feature.
+	Set DIR_LOG to system/logs in config
+Catalog > Tools: Create looping process for big data import.
+Bug Fixed: Catalog > Product List: Error variant name set to '?'
+
 3.1.1	18/07/2022
 System > Error: Get route when logging error
 System > db: Trim $value before escape 

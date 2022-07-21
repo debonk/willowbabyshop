@@ -4,10 +4,11 @@
 	<div class="page-header">
 		<div class="container-fluid">
 			<div class="pull-right">
-				<button type="submit" form="form-backup" data-toggle="tooltip" title="<?= $button_export; ?>"
-					class="btn btn-default"><i class="fa fa-upload"></i></button>
-				<button type="submit" form="form-restore" data-toggle="tooltip" title="<?= $button_import; ?>"
-					class="btn btn-default"><i class="fa fa-download"></i></button>
+				<button type="submit" form="form-import" data-toggle="tooltip" title="<?= $button_import; ?>"
+					class="btn btn-primary"><i class="fa fa-download"></i></button>
+				<a onclick="confirm('<?= $text_confirm; ?>') ? location.href='<?= $clear; ?>' : false;"
+					data-toggle="tooltip" title="<?php echo $button_clear; ?>" class="btn btn-danger"><i
+						class="fa fa-eraser"></i></a>
 			</div>
 			<h1>
 				<?= $heading_title; ?>
@@ -29,19 +30,19 @@
 		</div>
 		<?php } ?>
 		<?php if ($error_warning) { ?>
-			<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
-				<?= $error_warning; ?>
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-			</div>
-			<?php } ?>
-			<div class="panel panel-default">
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+			<?= $error_warning; ?>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		<?php } ?>
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"><i class="fa fa-exchange"></i>
 					<?= $heading_title; ?>
 				</h3>
 			</div>
 			<div class="panel-body">
-				<form action="<?= $import; ?>" method="post" enctype="multipart/form-data" id="form-restore"
+				<form action="<?= $import; ?>" method="post" enctype="multipart/form-data" id="form-import"
 					class="form-horizontal">
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="input-new-product">
@@ -52,21 +53,9 @@
 						</div>
 					</div>
 				</form>
-				<form action="<?= $backup; ?>" method="post" enctype="multipart/form-data" id="form-backup"
-					class="form-horizontal">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">
-							<?= $entry_export; ?>
-						</label>
-						<div class="col-sm-10 checkbox">
-							<label for="export1"><input type="checkbox" name="export1" value="export1" id="export1"
-									checked="checked" />
-								<?= $text_export1; ?>
-							</label>
-						</div>
-					</div>
-
-				</form>
+				<div class="panel-body">
+					<textarea wrap="off" rows="15" readonly class="form-control"><?= $log; ?></textarea>
+				</div>
 			</div>
 		</div>
 	</div>
