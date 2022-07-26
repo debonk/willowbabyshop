@@ -11,10 +11,8 @@ class ControllerCatalogTool extends Controller
 
 		$language_items = [
 			'heading_title',
-			// 'text_export1',
 			'text_confirm',
 			'entry_new_product',
-			// 'entry_export',
 			'button_export',
 			'button_import',
 			'button_clear'
@@ -173,7 +171,7 @@ class ControllerCatalogTool extends Controller
 	{
 		$this->load->language('catalog/tool');
 
-		$limit = 2;
+		$limit = 40;
 
 		$field = $this->session->data['product_data']['field'];
 		$products = $this->session->data['product_data']['products'];
@@ -191,6 +189,8 @@ class ControllerCatalogTool extends Controller
 		$this->load->model('catalog/url_alias');
 
 		if ($page < $pages) {
+			sleep(3);
+
 			$page++;
 
 			$this->log(sprintf($this->language->get('text_process_part'), $start_row + 1, $end_row + 1, $product_count));
@@ -277,8 +277,7 @@ class ControllerCatalogTool extends Controller
 		$url_source = $products[$field['variant_image']];
 		$variant_image = '';
 
-		// if ($url_source) {
-		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
+		if ($products[$field['main_image']] !== $url_source && filter_var($url_source, FILTER_VALIDATE_URL)) {
 			$headers = get_headers($url_source, 1);
 
 			if (strpos($headers['Content-Type'], 'image/') !== false) {
@@ -394,6 +393,7 @@ class ControllerCatalogTool extends Controller
 					$path_destination = 'catalog/product/' . substr($new_image, 0, 2);
 
 					$product_data['image'] = $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '.' . $extension, 800, 800);
+					// $product_data['image'] = $path_destination . '/' . $new_image . '.' . $extension;
 				}
 			}
 
@@ -410,6 +410,7 @@ class ControllerCatalogTool extends Controller
 					if (in_array(strtolower($extension), $image_types)) {
 						$product_data['product_image'][] = [
 							'image'			=> $this->model_tool_image->getImage($url_source, $path_destination . '/' . $new_image . '_' . $j . '.' . $extension, 800, 800),
+							// 'image'			=> $path_destination . '/' . $new_image . '.' . $extension,
 							'sort_order'	=> $j
 						];
 					} else {
@@ -575,7 +576,6 @@ class ControllerCatalogTool extends Controller
 					$url_source = $sheet_data[$i][$field_data['variant_image']];
 					$variant_image = '';
 
-					// if ($url_source) {
 					if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 						$headers = get_headers($url_source, 1);
 

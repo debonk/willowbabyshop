@@ -6,14 +6,12 @@ $_['heading_title']    = 'Catalog Tools';
 $_['text_success']     		= 'Success: Your request have been processed!';
 $_['text_importing']     	= 'Importing process started...';
 $_['text_process_part']     = 'Processing data %d - %d of %d';
-$_['text_success_product']	= '%s: Uploaded.';
+$_['text_success_product']	= '%s: Uploaded OK.';
 $_['text_meta_title']  		= 'JUAL %s | Willowbabyshop';
 $_['text_success_clear']	= 'Success: You have successfully cleared your log!';
-$_['text_export1']     		= 'Reserved for template';//Bonk
 
 // Entry
 $_['entry_new_product']= 'New Products';
-$_['entry_export']     = 'Export';
 
 // Error
 $_['error_permission']	= 'Warning: You do not have permission to modify Catalog Tools!';

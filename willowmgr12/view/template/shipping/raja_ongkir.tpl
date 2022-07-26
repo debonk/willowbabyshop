@@ -157,7 +157,7 @@
 									<option value="0">
 										<?= $text_select; ?>
 									</option>
-									<?php foreach ($origin_cities as $city) { ?>
+									<?php foreach ($cities as $city) { ?>
 									<?php if ($city['city_id'] == $raja_ongkir_city_id) { ?>
 									<option value="<?= $city['city_id']; ?>" selected="selected">
 										<?= $city['city_name']; ?>

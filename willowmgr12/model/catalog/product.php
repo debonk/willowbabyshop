@@ -371,11 +371,20 @@ class ModelCatalogProduct extends Model
 			$cache_files = str_replace('.' . $extension, '*', DIR_IMAGE . 'cache/' . $image);
 
 			foreach (glob($cache_files) as $file) {
-				unlink($file);
+				if (file_exists($file)) {
+					unlink($file);
+					var_dump($image);
+				}
 			}
 
-			@unlink(DIR_IMAGE . $image);
+			if (file_exists(DIR_IMAGE . $image)) {
+				unlink(DIR_IMAGE . $image);
+				var_dump($image);
+			}
 		}
+
+		clearstatcache();
+		die('---breakpoint---');
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_attribute WHERE product_id = '" . (int)$product_id . "'");

@@ -1,6 +1,10 @@
 # willowbabyshop software
 Modify: Extend expiration time
 
+3.1.3	26/07/2022
+Catalog > Tool: Do not generate variant image if variant image = main image.
+Bug Fixed: Shipping > Raja Ongkir: origin_cities undefined
+
 3.1.2	21/07/2022
 Catalog > Tools: Add Log Feature.
 	Set DIR_LOG to system/logs in config
