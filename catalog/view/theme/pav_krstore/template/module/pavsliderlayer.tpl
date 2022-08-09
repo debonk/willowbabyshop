@@ -158,6 +158,7 @@
 							hideAllCaptionAtLilmit:0,				
 							hideSliderAtLimit:0,			
 							fullWidth:"<?php echo $fullwidth; ?>",
+							autoHeight:"on",
 							shadow:<?php echo (int)$sliderParams['shadow_type'];?>	 
 							 				 
 

@@ -27,6 +27,7 @@ class Modelpavsliderlayerslider extends Model {
 			'delay' => '9000',
 			'height' => '350',
 			'width'  => '960',
+			// 'auto_height'  => 'on', // Keep preserve ratio of image as default. Set 'off' to have fix height of image
 			
 			'touch_mobile' => 1,
 			'stop_on_hover' => 1,

@@ -1,5 +1,16 @@
 # willowbabyshop software
-Modify: Extend expiration time
+
+3.1.4	08/09/2022
+Extend Customer expiration time (Hard Code: 7 days)
+	Modify Table: Customer
+		ALTER TABLE `oc_customer` ADD `cookie` VARCHAR(32) NOT NULL AFTER `code`;
+Extend Admin expiration time (Hard Code: 2 hours)
+	Modify Table: User
+		ALTER TABLE `oc_user` ADD `cookie` VARCHAR(32) NOT NULL AFTER `code`;
+
+APP > Startup > Startup: Replace header(Setcookie:) to setcookie
+APP > Slideshow: Keep preserve ration of image for multiple devices
+APP > Footer Image: Keep preserve ration of image for multiple devices
 
 3.1.3	26/07/2022
 Catalog > Tool: Do not generate variant image if variant image = main image.
@@ -35,7 +46,7 @@ Modify: Change base of Special/Discount to model instead of product_id
 
 3.0.8
 Bug Fixed: Product > Highlight: array_multisort(): Array sizes are inconsistent
-Bug Fixed: PHP Notice:  Undefined variable: model in /home/willowba/public_html/willowmgr12/view/template/catalog/product_form.tpl
+Bug Fixed: PHP Notice:  Undefined variable: model in product_form.tpl
 
 3.0.7_b	08/07/2022
 Catalog > Option: Sort option value by sort_order and name
