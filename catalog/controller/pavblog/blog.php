@@ -11,7 +11,7 @@
  * class ControllerpavblogBlog 
  */
 class ControllerpavblogBlog extends Controller {
-		private $mparams = '';
+		private $mparams = [];
 		private $mdata = array();
 
 		public function preload(){
@@ -80,7 +80,6 @@ class ControllerpavblogBlog extends Controller {
 			$category_id = 0;
 			$this->load->model('tool/image'); 
 			
-			
 			$this->mdata['breadcrumbs'] = array();
 			
 			$this->mdata['breadcrumbs'][] = array(
@@ -89,16 +88,14 @@ class ControllerpavblogBlog extends Controller {
 				'separator' => false
 			);
 		
-			$this->request->get['blog_id'] = isset($this->request->get['blog_id'])?$this->request->get['blog_id']:0;
+			$this->request->get['blog_id'] = isset($this->request->get['blog_id']) ? $this->request->get['blog_id'] : 0;
 			$blog_id = $this->request->get['blog_id'];
 			$blog = $this->getModel()->getInfo( $blog_id );
 			$this->load->model('pavblog/category');
 			
 			$users = $this->model_pavblog_category->getUsers();
 
-			
-
-			if (version_compare(VERSION, '2.1.0.1') >= 0) {
+			if (version_compare(FRAMEWORK_VERSION, '2.1.0.1') >= 0) {
 			 	$config	 = $this->mparams;
 
 				$this->mdata['blog_show_author'] = $config->get('blog_show_author');
@@ -191,7 +188,7 @@ class ControllerpavblogBlog extends Controller {
 				$blog['thumb'] = $blog[$imageType];
 				
 				$blog['description'] = html_entity_decode( $blog['description'] );
-				$blog['author'] = isset($users[$blog['user_id']])?$users[$blog['user_id']]:$this->language->get('text_none_author');
+				$blog['author'] = isset($users[$blog['user_id']]) ? $users[$blog['user_id']] : $this->language->get('text_none_author');
 				$blog['category_link'] =  $this->url->link( 'pavblog/category', "blogcategory_id=".$blog['category_id'] );
 				$blog['comment_count'] =  $this->getModel('comment')->countComment( $blog['blog_id'] );
 				$blog['link'] =  $this->url->link( 'pavblog/blog','blog_id='.$blog['blog_id'] );
@@ -201,7 +198,6 @@ class ControllerpavblogBlog extends Controller {
 				} else {
 					$this->mdata['captcha'] = '';
 				}	
-
 				
 				$this->mdata['comment_action'] = $this->url->link( 'pavblog/blog/comment','blog_id='.$blog['blog_id'] );
 				$this->mdata['blog'] = $blog;
@@ -218,7 +214,6 @@ class ControllerpavblogBlog extends Controller {
 				);
 
 				$related = $this->getModel('blog')->getListBlogs(  $data );
-			
 				
 				$this->mdata['related'] = $related;
 				
@@ -269,7 +264,23 @@ class ControllerpavblogBlog extends Controller {
 								
 				$this->getModel( 'blog' )->updateHits( $blog_id ); 
 
+				$open_graph_data = [
+					'og:title'					=> $blog['title'],
+					'og:type'					=> 'article',
+					'article:published_time'	=> $blog['created'],
+					'article:publisher'			=> $blog['author'],
+					'og:image'					=> $blog['thumb_large'],
+					'og:image:width'			=> 600,
+					'og:image:height'			=> 315,
+					'og:image:alt'				=> 'Image about ' . $blog['title'],
+					'og:url'					=> $blog['link'],
+					'og:description'			=> $blog['description']
+				];
 
+				foreach ($open_graph_data as $key => $value) {
+					$this->document->addMeta($key, $value, 'property');
+				}
+					
 				$this->mdata['column_left'] = $this->load->controller('common/column_left');
 				$this->mdata['column_right'] = $this->load->controller('common/column_right');
 				$this->mdata['content_top'] = $this->load->controller('common/content_top');

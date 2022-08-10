@@ -258,7 +258,7 @@ class ControllerPavblogBlogs extends Controller {
 				$secondary_blogs 	 = array_splice( $blogs, $limit_leading_blogs, count($blogs) );
 		
 
-			 	if (version_compare(VERSION, '2.1.0.1') >= 0) {
+			 	if (version_compare(FRAMEWORK_VERSION, '2.1.0.1') >= 0) {
 				 	$config	 = $this->mparams;
 					$this->mdata['cat_columns_leading_blogs'] = $config->get('cat_columns_leading_blogs');
 					$this->mdata['cat_columns_secondary_blogs'] = $config->get('cat_columns_secondary_blogs');

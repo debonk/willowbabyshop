@@ -1,6 +1,10 @@
 # willowbabyshop software
 
-3.1.4	08/09/2022
+3.1.5	10/08/2022
+APP > Product, Blog: Apply Open Graph meta data
+APP > Product: Refactoring
+
+3.1.4	09/08/2022
 Extend Customer expiration time (Hard Code: 7 days)
 	Modify Table: Customer
 		ALTER TABLE `oc_customer` ADD `cookie` VARCHAR(32) NOT NULL AFTER `code`;

@@ -1,6 +1,6 @@
 <?php
 	$module_row=0;
-	if (version_compare(VERSION, '2.1.0.1') >= 0) {
+	if (version_compare(FRAMEWORK_VERSION, '2.1.0.1') >= 0) {
 	    $style = "view/stylesheet/bootstrap.css";
 	} else {
 		$style = "view/javascript/bootstrap/css/bootstrap.css";

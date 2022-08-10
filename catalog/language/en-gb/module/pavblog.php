@@ -6,6 +6,7 @@ $_['text_hits'] = 'Hits: ';
 $_['text_comment_count'] = 'Comment: ';
 $_['text_readmore'] = 'Read More';
 $_['text_leave_a_comment'] = 'Leave A Comment';
+$_['text_none_author'] = 'N/A';
 
 
  $_['error_captcha'] = 'Captcha Code is not correct';
@@ -29,12 +30,9 @@ $_['text_leave_a_comment'] = 'Leave A Comment';
  $_['text_tags'] = 'Tags: ';
  
  $_['text_like_this'] = 'Like This:';
-  $_['entry_captcha'] = 'Captcha';
- /**
-  *
-  */
-  $_['filter_blog_header_title'] = 'Filter Blogs By %s';
-  $_['blogs_latest_header_title'] = 'Latest Blogs';
+ $_['entry_captcha'] = 'Captcha';
+ $_['filter_blog_header_title'] = 'Filter Blogs By %s';
+ $_['blogs_latest_header_title'] = 'Latest Blogs';
 
   /*blogcategory module*/
   // Heading 

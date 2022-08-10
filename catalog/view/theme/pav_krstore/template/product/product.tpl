@@ -1,6 +1,5 @@
 <?php
-  $config = $sconfig;
-  $themeConfig = (array)$config->get('themecontrol');
+  $themeConfig = $themecontrol;
   $productConfig = array(
       'product_enablezoom'         	=> 1,
       'product_zoommode'           	=> 'basic',
@@ -11,23 +10,23 @@
       'enable_product_customtab'   	=> 0,
       'product_customtab_name'     	=> '',
       'product_customtab_content'  	=> '',
-      'product_related_column'     	=> 0,
+      'product_related_column'     	=> 0
     );
     $listingConfig = array(   
-      'category_pzoom'				=> 1,
-      'quickview'					=> 0,
-      'show_swap_image'				=> 0,
-      'catalog_mode'                => 1
+      'category_pzoom'	=> 1,
+      'quickview'				=> 0,
+      'show_swap_image'	=> 0,
+      'catalog_mode'		=> 1
     ); 
-    $listingConfig					= array_merge($listingConfig, $themeConfig );
-    $categoryPzoom					= $listingConfig['category_pzoom']; 
-    $quickview						= $listingConfig['quickview'];
-    $swapimg						= ($listingConfig['show_swap_image'])?'swap':'';
-    $productConfig					= array_merge( $productConfig, $themeConfig );  
-    $languageID						= $config->get('config_language_id');   
+    $listingConfig = array_merge($listingConfig, $themeConfig);
+    $categoryPzoom = $listingConfig['category_pzoom']; 
+    $quickview = $listingConfig['quickview'];
+    $swapimg = ($listingConfig['show_swap_image']) ? 'swap' : '';
+    $productConfig = array_merge($productConfig, $themeConfig);  
+    $languageID = $language_id;   
 
 ?>
-<!--Bonk: tp231 -->
+
 <?= $header; ?>
 
 <div class="container">
@@ -40,7 +39,7 @@
 		<?php } else { ?>
 		<?php $class = 'col-sm-12'; ?>
 		<?php } ?>
-		<!--Bonk: tp231-c -->
+
 		<div id="content" class="<?= $class; ?>">
 			<?= $content_top; ?>
 			<ul class="breadcrumb detail">

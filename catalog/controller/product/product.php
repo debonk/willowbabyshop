@@ -1,20 +1,20 @@
 <?php
 class ControllerProductProduct extends Controller
 {
-	private $error = array();
-
 	public function index()
 	{
-
 		// pavo version 2.2
-		$this->load->language('module/themecontrol');
-		$data['objlang'] = $this->registry->get('language');
-		$data['ourl'] = $this->registry->get('url');
-
-		$config = $this->registry->get("config");
-		$data['sconfig'] = $config;
-		$data['themename'] = $config->get("theme_default_directory");
+		// $this->load->language('module/themecontrol');
+		// $data['objlang'] = $this->registry->get('language');
+		// $data['ourl'] = $this->registry->get('url');
+		
+		// $config = $this->registry->get("config");
+		// $data['sconfig'] = $config;
+		// $data['themename'] = $config->get("theme_default_directory");
 		// end edit
+
+		$data['themecontrol'] = (array)$this->config->get('themecontrol');
+		$data['language_id'] = $this->config->get('config_language_id');
 
 		$this->load->language('product/product');
 
@@ -337,7 +337,6 @@ class ControllerProductProduct extends Controller
 				$data['price'] = false;
 			}
 
-
 			if ($product_info['special']) {
 				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				$data['special_text'] = $product_info['special_text'];
@@ -475,6 +474,22 @@ class ControllerProductProduct extends Controller
 
 			$this->model_catalog_product->updateViewed($product_id);
 
+			# Markup Data for Open Graph
+			$open_graph_data = [
+				'og:title'			=> $product_info['name'],
+				'og:type'			=> 'website',
+				'og:image'			=> $data['popup'],
+				'og:image:width'	=> 600,
+				'og:image:height'	=> 315,
+				'og:image:alt'		=> 'Image of ' . $product_info['name'],
+				'og:url'			=> $this->url->link('product/product', 'product_id=' . $product_id, true),
+				'og:description'	=> $product_info['meta_description']
+			];
+
+			foreach ($open_graph_data as $key => $value) {
+				$this->document->addMeta($key, $value, 'property');
+			}
+
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -482,7 +497,7 @@ class ControllerProductProduct extends Controller
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-			//Bonk02:Markup Data - Breadcrumb
+			# Markup Data - Breadcrumb
 			$mark_up_breadcrumb = '{"@context": "http://schema.org", "@type": "BreadcrumbList", "itemListElement": [';
 			$i = 1;
 			foreach ($data['breadcrumbs'] as $breadcrumb) {
