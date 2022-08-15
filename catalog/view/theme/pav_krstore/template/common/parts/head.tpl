@@ -14,7 +14,7 @@ $themeConfig = array_merge( array('header' => ''), $sconfig->get('themecontrol')
 
 /* Add scripts files */
 $helper->addScript( 'catalog/view/javascript/jquery/jquery-2.1.1.min.js' );
-//$helper->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
+$helper->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
 $helper->addScript( 'catalog/view/javascript/bootstrap/js/bootstrap.min.js' );
 $helper->addScript( 'catalog/view/javascript/common.js' );
 $helper->addScript( 'catalog/view/theme/'.$themeName.'/javascript/common.js' );
@@ -54,7 +54,7 @@ if(file_exists('catalog/view/javascript/willow_css.min.css')) {
 } else {
 //	$helper->addCss('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
 	$helper->addCss('catalog/view/javascript/font-awesome/css/font-awesome.min.css' );
-//	$helper->addCss('catalog/view/javascript/jquery/magnific/magnific-popup.css');
+	$helper->addCss('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 	$helper->addCss('catalog/view/javascript/jquery/owl-carousel/owl.carousel.css');
 }
 

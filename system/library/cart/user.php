@@ -101,7 +101,8 @@ class User {
 				$this->session->data['user_id'] = $user_query->row['user_id'];
 				$this->session->data['token'] = $this->request->get['token'];
 			} else {
-				$this->logout();
+				# Uncomment below for more protection
+				// $this->logout();
 			}
 		}
 	}

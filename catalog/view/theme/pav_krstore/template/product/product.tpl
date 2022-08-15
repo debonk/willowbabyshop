@@ -1,5 +1,7 @@
 <?php
-  $themeConfig = $themecontrol;
+$config = $sconfig;
+
+$themeConfig = (array)$config->get('themecontrol');
   $productConfig = array(
       'product_enablezoom'         	=> 1,
       'product_zoommode'           	=> 'basic',
@@ -23,7 +25,7 @@
     $quickview = $listingConfig['quickview'];
     $swapimg = ($listingConfig['show_swap_image']) ? 'swap' : '';
     $productConfig = array_merge($productConfig, $themeConfig);  
-    $languageID = $language_id;   
+    $languageID = $config->get('config_language_id'); 
 
 ?>
 
