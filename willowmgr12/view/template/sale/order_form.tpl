@@ -236,7 +236,7 @@
                 <button type="button" id="button-customer" data-loading-text="<?= $text_loading; ?>" class="btn btn-primary"><i class="fa fa-arrow-right"></i> <?= $button_continue; ?></button>
               </div>
             </div>
-            <div class="tab-pane active" id="tab-cart">
+            <div class="tab-pane" id="tab-cart">
               <div class="table-responsive">
                 <table class="table table-bordered">
                   <thead>
@@ -826,7 +826,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane active" id="tab-total">
+            <div class="tab-pane" id="tab-total">
               <div class="table-responsive">
                 <table class="table table-bordered">
                   <thead>

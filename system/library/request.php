@@ -5,6 +5,7 @@ class Request {
 	public $cookie = array();
 	public $files = array();
 	public $server = array();
+	public $request = array();
 
 	public function __construct() {
 		$this->get = $this->clean($_GET);

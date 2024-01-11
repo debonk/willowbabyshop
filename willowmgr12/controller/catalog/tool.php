@@ -457,7 +457,7 @@ class ControllerCatalogTool extends Controller
 		$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
 	}
 
-	public function importToDel()
+/* 	public function importToDel()
 	{
 		$this->load->language('catalog/tool');
 
@@ -740,5 +740,5 @@ class ControllerCatalogTool extends Controller
 		}
 
 		$this->response->redirect($this->url->link('catalog/tool', 'token=' . $this->session->data['token'], true));
-	}
+	} */
 }

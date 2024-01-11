@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+3.1.6	11/01/2024
+Bug Fixed: Penyesuaian PHP 8
+Bug Fixed: Customer Security Phrase not work
+
 3.1.5	10/08/2022
 APP > Product, Blog: Apply Open Graph meta data
 

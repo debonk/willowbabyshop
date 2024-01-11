@@ -40,6 +40,7 @@ class ControllerCommonMenu extends Controller {
 			'marketing'		=> ['marketing/marketing', 'marketing/affiliate', 'marketing/coupon', 'marketing/contact', 'marketing/collection'],
 			'themecontrol'	=> ['module/themecontrol', 'module/pavmegamenu', 'module/pavblog', 'module/pavnewsletter'],
 			'localisation'	=> [
+				'localisation/location',
 				'localisation/language',
 				'localisation/currency',
 				'localisation/stock_status',

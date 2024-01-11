@@ -64,7 +64,7 @@ class ModelCatalogProduct extends Model
 				'height'           		=> $query->row['height'],
 				'length_class_id'  		=> $query->row['length_class_id'],
 				'subtract'         		=> $query->row['subtract'],
-				'rating'           		=> round($query->row['rating']),
+				'rating'           		=> round((float)$query->row['rating']),
 				'reviews'          		=> $query->row['reviews'] ? $query->row['reviews'] : 0,
 				'minimum'          		=> $query->row['minimum'],
 				'sort_order'       		=> $query->row['sort_order'],
@@ -458,7 +458,7 @@ class ModelCatalogProduct extends Model
 			foreach ($query->rows as $result) {
 				$product_info = $this->getProduct($result['product_id']);
 
-				if ($product_info) {
+				if (!empty($product_info)) {
 					$product_data[$result['product_id']] = $product_info;
 				}
 			}

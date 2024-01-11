@@ -84,7 +84,8 @@ class ModelPavblogcategory extends Model {
        
         return $output;
     }
-    public function genTree( $parent, $level , $class="", $category_id ){
+    // public function genTree( $parent, $level , $class="", $category_id ){
+    public function genTree( $parent, $level , $class="" ){
         if( $this->hasChild($parent) ){
             $data = $this->getNodes( $parent );
             $t = $class;
@@ -116,7 +117,7 @@ class ModelPavblogcategory extends Model {
         $output = $this->genTreeAccordion( $parent, 1, 'pav-category', $category_id );
         return $output;
     }
-    public function genTreeAccordion( $parent, $level , $class="", $category_id){
+    public function genTreeAccordion( $parent, $level , $class="", $category_id = 0){
         if( $this->hasChild($parent) ){
             $data = $this->getNodes( $parent );
             $t = $class;
@@ -148,7 +149,7 @@ class ModelPavblogcategory extends Model {
         $output = $this->genTreeVertical( $parent, 1, '', $category_id );
         return $output;
     }
-    public function genTreeVertical( $parent, $level , $class="", $category_id){
+    public function genTreeVertical( $parent, $level , $class="", $category_id = 0){
         if( $this->hasChild($parent) ){
             $data = $this->getNodes( $parent );
             $output = '<div class="level'.$level.' '.$class.'"><ul class="nav navbar-nav vertical">';

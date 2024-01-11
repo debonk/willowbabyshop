@@ -1,5 +1,6 @@
 <?php
 namespace Cart;
+#[\AllowDynamicProperties]
 class Customer {
 	private $customer_id;
 	private $firstname;
@@ -10,6 +11,7 @@ class Customer {
 	private $fax;
 	private $newsletter;
 	private $address_id;
+	private $security_phrase = 'IUPwr4JDSeYvBKta6FRrtwSvRMNsdx33';
 
 	public function __construct($registry) {
 		$this->db = $registry->get('db');

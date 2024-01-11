@@ -164,7 +164,7 @@
 									</option>
 									<?php } else { ?>
 									<option value="<?= $city['city_id']; ?>">
-										<?= $city['type'] . ' ' . city['city_name']; ?>
+										<?= $city['type'] . ' ' . $city['city_name']; ?>
 									</option>
 									<?php } ?>
 									<?php } ?>

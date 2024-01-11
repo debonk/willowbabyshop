@@ -3,7 +3,7 @@
 $_['heading_title']    = 'Catalog Tools';
 
 // Text
-$_['text_success']     		= 'Success: Your request have been processed!';
+$_['text_success']     		= 'Success: Your request has been processed!';
 $_['text_importing']     	= 'Importing process started...';
 $_['text_process_part']     = 'Processing data %d - %d of %d';
 $_['text_success_product']	= '%s: Uploaded OK.';

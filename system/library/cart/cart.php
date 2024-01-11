@@ -1,7 +1,6 @@
 <?php
-
 namespace Cart;
-
+#[\AllowDynamicProperties]
 class Cart
 {
 	private $data = array();
