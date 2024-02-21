@@ -21,6 +21,7 @@ class ControllerCatalogProduct extends Controller
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/product');
+		$this->load->model('tool/image');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
