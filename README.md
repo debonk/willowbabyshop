@@ -1,5 +1,8 @@
 # willowbabyshop software
 
+3.1.7	21/02/2024
+Bug Fixed: Get header pada tool image, Tidak bisa add new product
+
 3.1.6	11/01/2024
 Bug Fixed: Penyesuaian PHP 8
 Bug Fixed: Customer Security Phrase not work

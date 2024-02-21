@@ -280,6 +280,10 @@ class ControllerCatalogTool extends Controller
 		if ($products[$field['main_image']] !== $url_source && filter_var($url_source, FILTER_VALIDATE_URL)) {
 			$headers = get_headers($url_source, 1);
 
+			if (isset($headers['content-type'])) {
+				$headers['Content-Type'] = $headers['content-type'];
+			}
+
 			if (strpos($headers['Content-Type'], 'image/') !== false) {
 				$extension = str_replace('image/', '', $headers['Content-Type']);
 			}
@@ -383,6 +387,10 @@ class ControllerCatalogTool extends Controller
 			if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 				$headers = get_headers($url_source, 1);
 
+				if (isset($headers['content-type'])) {
+					$headers['Content-Type'] = $headers['content-type'];
+				}
+
 				if (strpos($headers['Content-Type'], 'image/') !== false) {
 					$extension = str_replace('image/', '', $headers['Content-Type']);
 				}
@@ -402,6 +410,10 @@ class ControllerCatalogTool extends Controller
 
 				if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 					$headers = get_headers($url_source, 1);
+
+					if (isset($headers['content-type'])) {
+						$headers['Content-Type'] = $headers['content-type'];
+					}
 
 					if (strpos($headers['Content-Type'], 'image/') !== false) {
 						$extension = str_replace('image/', '', $headers['Content-Type']);
@@ -579,6 +591,10 @@ class ControllerCatalogTool extends Controller
 					if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 						$headers = get_headers($url_source, 1);
 
+						if (isset($headers['content-type'])) {
+							$headers['Content-Type'] = $headers['content-type'];
+						}
+
 						if (strpos($headers['Content-Type'], 'image/') !== false) {
 							$extension = str_replace('image/', '', $headers['Content-Type']);
 						}
@@ -682,6 +698,10 @@ class ControllerCatalogTool extends Controller
 						if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 							$headers = get_headers($url_source, 1);
 
+							if (isset($headers['content-type'])) {
+								$headers['Content-Type'] = $headers['content-type'];
+							}
+
 							if (strpos($headers['Content-Type'], 'image/') !== false) {
 								$extension = str_replace('image/', '', $headers['Content-Type']);
 							}
@@ -700,6 +720,10 @@ class ControllerCatalogTool extends Controller
 
 							if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 								$headers = get_headers($url_source, 1);
+
+								if (isset($headers['content-type'])) {
+									$headers['Content-Type'] = $headers['content-type'];
+								}
 
 								if (strpos($headers['Content-Type'], 'image/') !== false) {
 									$extension = str_replace('image/', '', $headers['Content-Type']);

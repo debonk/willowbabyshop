@@ -133,6 +133,7 @@ $_['error_model_unique']		= 'Model must unique!';
 $_['error_model_used']			= 'Model already in use!';
 $_['error_option']				= 'Use only one Model for product with no option/variant!';
 $_['error_sku_used']       	 	= 'SKU already in use!';
+$_['error_variant']       	 	= 'At least 1 variant must be set!';
 
 // Tab
 $_['tab_variant']       	 	= 'Variant';

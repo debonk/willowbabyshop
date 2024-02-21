@@ -1,5 +1,6 @@
 <?php
-class Image {
+class Image
+{
 	private $file;
 	private $image;
 	private $width;
@@ -7,9 +8,14 @@ class Image {
 	private $bits;
 	private $mime;
 
-	public function __construct($file) {
+	public function __construct($file)
+	{
 		if (filter_var($file, FILTER_VALIDATE_URL)) {
 			$headers = get_headers($file, 1);
+
+			if (isset($headers['content-type'])) {
+				$headers['Content-Type'] = $headers['content-type'];
+			}
 
 			if (strpos($headers['Content-Type'], 'image/') !== false) {
 				$external_source = true;
@@ -40,36 +46,43 @@ class Image {
 		}
 	}
 
-	public function getFile() {
+	public function getFile()
+	{
 		return $this->file;
 	}
 
-	public function getImage() {
+	public function getImage()
+	{
 		return $this->image;
 	}
 
-	public function getWidth() {
+	public function getWidth()
+	{
 		return $this->width;
 	}
 
-	public function getHeight() {
+	public function getHeight()
+	{
 		return $this->height;
 	}
 
-	public function getBits() {
+	public function getBits()
+	{
 		return $this->bits;
 	}
 
-	public function getMime() {
+	public function getMime()
+	{
 		return $this->mime;
 	}
 
-	public function save($file, $quality = 90) {
+	public function save($file, $quality = 90)
+	{
 		$info = pathinfo($file);
 
 		$extension = strtolower($info['extension']);
 
-		if (is_resource($this->image)) {
+		if (is_resource($this->image) || get_class($this->image) == 'GdImage') {
 			if ($extension == 'jpeg' || $extension == 'jpg') {
 				imagejpeg($this->image, $file, $quality);
 			} elseif ($extension == 'png') {
@@ -82,7 +95,8 @@ class Image {
 		}
 	}
 
-	public function resize($width = 0, $height = 0, $default = '') {
+	public function resize($width = 0, $height = 0, $default = '')
+	{
 		if (!$this->width || !$this->height) {
 			return;
 		}
@@ -132,8 +146,9 @@ class Image {
 		$this->height = $height;
 	}
 
-	public function watermark($watermark, $position = 'bottomright') {
-		switch($position) {
+	public function watermark($watermark, $position = 'bottomright')
+	{
+		switch ($position) {
 			case 'topleft':
 				$watermark_pos_x = 0;
 				$watermark_pos_y = 0;
@@ -157,7 +172,8 @@ class Image {
 		imagedestroy($watermark->getImage());
 	}
 
-	public function crop($top_x, $top_y, $bottom_x, $bottom_y) {
+	public function crop($top_x, $top_y, $bottom_x, $bottom_y)
+	{
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
 
@@ -168,7 +184,8 @@ class Image {
 		$this->height = $bottom_y - $top_y;
 	}
 
-	public function rotate($degree, $color = 'FFFFFF') {
+	public function rotate($degree, $color = 'FFFFFF')
+	{
 		$rgb = $this->html2rgb($color);
 
 		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
@@ -177,23 +194,27 @@ class Image {
 		$this->height = imagesy($this->image);
 	}
 
-	private function filter() {
-        $args = func_get_args();
+	private function filter()
+	{
+		$args = func_get_args();
 
-        call_user_func_array('imagefilter', $args);
+		call_user_func_array('imagefilter', $args);
 	}
 
-	private function text($text, $x = 0, $y = 0, $size = 5, $color = '000000') {
+	private function text($text, $x = 0, $y = 0, $size = 5, $color = '000000')
+	{
 		$rgb = $this->html2rgb($color);
 
 		imagestring($this->image, $size, $x, $y, $text, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
 	}
 
-	private function merge($merge, $x = 0, $y = 0, $opacity = 100) {
+	private function merge($merge, $x = 0, $y = 0, $opacity = 100)
+	{
 		imagecopymerge($this->image, $merge->getImage(), $x, $y, 0, 0, $merge->getWidth(), $merge->getHeight(), $opacity);
 	}
 
-	private function html2rgb($color) {
+	private function html2rgb($color)
+	{
 		if ($color[0] == '#') {
 			$color = substr($color, 1);
 		}

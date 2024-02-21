@@ -83,7 +83,7 @@ class ModelCatalogManufacturer extends Model
 			$sql = "SELECT m.*, COUNT(p.product_id) AS product_total FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "product p ON (p.manufacturer_id = m.manufacturer_id)";
 
 			if (!empty($data['filter_name'])) {
-				$sql .= " WHERE m.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+				$sql .= " WHERE m.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 			}
 
 			$sql .= " GROUP BY m.manufacturer_id";

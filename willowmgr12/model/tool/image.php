@@ -84,6 +84,10 @@ class ModelToolImage extends Model
 		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
 			$headers = get_headers($url_source, 1);
 
+			if (isset($headers['content-type'])) {
+				$headers['Content-Type'] = $headers['content-type'];
+			}
+
 			if (strpos($headers['Content-Type'], 'image/') !== false) {
 				$url_destination = DIR_IMAGE . $new_image;
 
