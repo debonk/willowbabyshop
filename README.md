@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+3.1.8	22/02/2024
+Bug Fixed: Magnific Popup tidak berfungsi benar
+Bug Fixed: Common login dicatat sebagai google login
+
 3.1.7	21/02/2024
 Bug Fixed: Get header pada tool image, Tidak bisa add new product
 

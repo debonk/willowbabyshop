@@ -67,7 +67,7 @@ class ControllerAccountLogin extends Controller
 			} else {
 				$data['google_button'] = '';
 			}
-	
+
 			# Login by Google
 			//Make object of Google API Client for call Google API
 			$google_client = new Google_Client();
@@ -82,60 +82,62 @@ class ControllerAccountLogin extends Controller
 			$google_client->addScope('profile');
 
 			$data['login'] = $google_client->createAuthUrl();
+			
+			if (!isset($this->request->get['common'])) {
+				if (isset($this->request->get['code'])) {
+					$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
 
-			if (isset($this->request->get['code'])) {
-				$token = $google_client->fetchAccessTokenWithAuthCode($this->request->get['code']);
+					if (!isset($token['error'])) {
+						$google_client->setAccessToken($token['access_token']);
+						$google_service = new Google_Service_Oauth2($google_client);
+						$client_data = $google_service->userinfo->get();
 
-				if (!isset($token['error'])) {
-					$google_client->setAccessToken($token['access_token']);
-					$google_service = new Google_Service_Oauth2($google_client);
-					$client_data = $google_service->userinfo->get();
-
-					$google_client->revokeToken();
-				}
-			}
-
-			if (isset($client_data)) {
-				$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
-
-				if ($customer_info) {
-					$this->request->post['email'] = $client_data['email'];
-					$this->request->post['google_login'] = true;
-
-					if ($this->validate()) {
-						$validated = true;
+						$google_client->revokeToken();
 					}
-				} else {
-					$customer_data = [
-						'firstname'	=> $client_data['givenName'],
-						'lastname'	=> $client_data['familyName'],
-						'email' => $client_data['email'],
-						'telephone' => '',
-						'fax' => '',
-						'password' => token(20),
-						'newsletter' => '1'
-					];
+				}
 
-					$customer_id = $this->model_account_customer->addCustomer($customer_data);
+				if (isset($client_data)) {
+					$customer_info = $this->model_account_customer->getCustomerByEmail($client_data['email']);
 
-					// Clear any previous login attempts for unregistered accounts.
-					$this->model_account_customer->deleteLoginAttempts($client_data['email']);
+					if ($customer_info) {
+						$this->request->post['email'] = $client_data['email'];
+						$this->request->post['google_login'] = true;
 
-					$this->customer->login($client_data['email'], '', true);
+						if ($this->validate()) {
+							$validated = true;
+						}
+					} else {
+						$customer_data = [
+							'firstname'	=> $client_data['givenName'],
+							'lastname'	=> $client_data['familyName'],
+							'email' => $client_data['email'],
+							'telephone' => '',
+							'fax' => '',
+							'password' => token(20),
+							'newsletter' => '1'
+						];
 
-					unset($this->session->data['guest']);
+						$customer_id = $this->model_account_customer->addCustomer($customer_data);
 
-					// Add to activity log
-					$this->load->model('account/activity');
+						// Clear any previous login attempts for unregistered accounts.
+						$this->model_account_customer->deleteLoginAttempts($client_data['email']);
 
-					$activity_data = array(
-						'customer_id' => $customer_id,
-						'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
-					);
+						$this->customer->login($client_data['email'], '', true);
 
-					$this->model_account_activity->addActivity('google_register', $activity_data);
+						unset($this->session->data['guest']);
 
-					$this->response->redirect($this->url->link('account/success'));
+						// Add to activity log
+						$this->load->model('account/activity');
+
+						$activity_data = array(
+							'customer_id' => $customer_id,
+							'name'        => $customer_data['firstname'] . ' ' . $customer_data['lastname']
+						);
+
+						$this->model_account_activity->addActivity('google_register', $activity_data);
+
+						$this->response->redirect($this->url->link('account/success'));
+					}
 				}
 			}
 		}
@@ -178,7 +180,11 @@ class ControllerAccountLogin extends Controller
 				'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
 			);
 
-			$this->model_account_activity->addActivity('google_login', $activity_data);
+			if (!isset($this->request->post['google_login'])) {
+				$this->model_account_activity->addActivity('login', $activity_data);
+			} else {
+				$this->model_account_activity->addActivity('google_login', $activity_data);
+			}
 
 			// Added strpos check to pass McAfee PCI compliance test (http://forum.opencart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
 			if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {
@@ -231,7 +237,7 @@ class ControllerAccountLogin extends Controller
 			$data['error_warning'] = '';
 		}
 
-		$data['action'] = $this->url->link('account/login', '', true);
+		$data['action'] = $this->url->link('account/login', 'common=1', true);
 		$data['register'] = $this->url->link('account/register', '', true);
 		$data['forgotten'] = $this->url->link('account/forgotten', '', true);
 
