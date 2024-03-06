@@ -364,7 +364,6 @@ class ModelCatalogProduct extends Model
 		$product_variant = $this->getProductVariants($product_id);
 
 		$images = array_merge($images, array_column($product_variant['variant'], 'image'));
-		var_dump($images);
 
 		foreach ($images as $image) {
 			if (!empty($image)) {
@@ -375,7 +374,6 @@ class ModelCatalogProduct extends Model
 				foreach (glob($cache_files) as $file) {
 					if (file_exists($file)) {
 						unlink($file);
-						var_dump($image);
 					}
 				}
 

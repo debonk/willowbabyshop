@@ -479,11 +479,11 @@ class ControllerProductProduct extends Controller
 				'og:title'			=> $product_info['name'],
 				'og:type'			=> 'website',
 				'og:image'			=> $data['popup'],
-				'og:image:width'	=> 600,
-				'og:image:height'	=> 315,
+				'og:image:width'	=> $this->config->get($this->config->get('config_theme') . '_image_popup_width'),
+				'og:image:height'	=> $this->config->get($this->config->get('config_theme') . '_image_popup_height'),
 				'og:image:alt'		=> 'Image of ' . $product_info['name'],
 				'og:url'			=> $this->url->link('product/product', 'product_id=' . $product_id, true),
-				'og:description'	=> $product_info['meta_description']
+				'og:description'	=> !$product_info['meta_description'] ? $product_info['description'] : $product_info['meta_description']
 			];
 
 			foreach ($open_graph_data as $key => $value) {
@@ -541,8 +541,8 @@ class ControllerProductProduct extends Controller
 
 			$mark_up_product = '{"@context": "http://schema.org", "@type": "Product",
 			"name": "' . $product_info['name'] . '",
-			"image": "' . $server . $product_info['image'] . '",
-			"description": "' . $product_info['description'] . '",
+			"image": "' . $server . 'image/' . $product_info['image'] . '",
+			"description": "' . (!$product_info['meta_description'] ? $product_info['description'] : $product_info['meta_description']) . '",
 			"model": "' . $product_info['model'] . '",
 			"brand": {
 				"@type": "Thing",

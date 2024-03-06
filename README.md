@@ -1,5 +1,9 @@
 # willowbabyshop software
 
+3.1.9	03/06/2024
+APP > Product: Perbaikan schema.org mark_up
+Products: Hapus 263 produk yang sudah discontinue
+
 3.1.8	22/02/2024
 Bug Fixed: Magnific Popup tidak berfungsi benar
 Bug Fixed: Common login dicatat sebagai google login
@@ -23,8 +27,8 @@ Extend Admin expiration time (Hard Code: 2 hours)
 		ALTER TABLE `oc_user` ADD `cookie` VARCHAR(32) NOT NULL AFTER `code`;
 
 APP > Startup > Startup: Replace header(Setcookie:) to setcookie
-APP > Slideshow: Keep preserve ration of image for multiple devices
-APP > Footer Image: Keep preserve ration of image for multiple devices
+APP > Slideshow: Keep preserve ratio of image for multiple devices
+APP > Footer Image: Keep preserve ratio of image for multiple devices
 
 3.1.3	26/07/2022
 Catalog > Tool: Do not generate variant image if variant image = main image.
