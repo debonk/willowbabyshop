@@ -24,63 +24,35 @@ class ControllerCatalogProduct extends Controller
 		$this->load->model('tool/image');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
+		/* 	$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
 
 			if (filter_var($this->request->post['image'], FILTER_VALIDATE_URL)) {
-				$headers = get_headers($this->request->post['image'], 1);
+				$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
 
-				if (isset($headers['content-type'])) {
-					$headers['Content-Type'] = $headers['content-type'];
-				}
-
-				if (strpos($headers['Content-Type'], 'image/') !== false) {
-					$extension = str_replace('image/', '', $headers['Content-Type']);
-
-					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
-
-					$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
-				}
+				$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
 			}
 
 			if (isset($this->request->post['product_image'])) {
 				foreach ($this->request->post['product_image'] as $key => $product_image) {
 					if (filter_var($product_image['image'], FILTER_VALIDATE_URL)) {
-						$headers = get_headers($product_image['image'], 1);
+						$new_image = $filename . '_' . ($key + 2);
 
-						if (isset($headers['content-type'])) {
-							$headers['Content-Type'] = $headers['content-type'];
-						}
+						$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image;
 
-						if (strpos($headers['Content-Type'], 'image/') !== false) {
-							$extension = str_replace('image/', '', $headers['Content-Type']);
-							$new_image = $filename . '_' . ($key + 2);
-
-							$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image . '.' . $extension;
-
-							$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
-						}
+						$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
 					}
 				}
 			}
 
 			foreach ($this->request->post['product_variant']['variant'] as $key => $product_variant) {
 				if (filter_var($product_variant['image'], FILTER_VALIDATE_URL)) {
-					$headers = get_headers($product_variant['image'], 1);
+					$filename = str_replace('.', '', $product_variant['model']) . '_v';
 
-					if (isset($headers['content-type'])) {
-						$headers['Content-Type'] = $headers['content-type'];
-					}
+					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
 
-					if (strpos($headers['Content-Type'], 'image/') !== false) {
-						$extension = str_replace('image/', '', $headers['Content-Type']);
-						$filename = str_replace('.', '', $product_variant['model']) . '_v';
-
-						$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
-
-						$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
-					}
+					$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
 				}
-			}
+			} */
 
 			$this->model_catalog_product->addProduct($this->request->post);
 
@@ -160,64 +132,36 @@ class ControllerCatalogProduct extends Controller
 		$this->load->model('tool/image');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
+			/* $filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
 
 			if (filter_var($this->request->post['image'], FILTER_VALIDATE_URL)) {
-				$headers = get_headers($this->request->post['image'], 1);
+				$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
 
-				if (isset($headers['content-type'])) {
-					$headers['Content-Type'] = $headers['content-type'];
-				}
-
-				if (strpos($headers['Content-Type'], 'image/') !== false) {
-					$extension = str_replace('image/', '', $headers['Content-Type']);
-
-					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
-
-					$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
-				}
+				$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
 			}
 
 			if (isset($this->request->post['product_image'])) {
 				foreach ($this->request->post['product_image'] as $key => $product_image) {
 					if (filter_var($product_image['image'], FILTER_VALIDATE_URL)) {
-						$headers = get_headers($product_image['image'], 1);
+						$new_image = $filename . '_' . ($key + 2);
 
-						if (isset($headers['content-type'])) {
-							$headers['Content-Type'] = $headers['content-type'];
-						}
+						$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image;
 
-						if (strpos($headers['Content-Type'], 'image/') !== false) {
-							$extension = str_replace('image/', '', $headers['Content-Type']);
-							$new_image = $filename . '_' . ($key + 2);
-
-							$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image . '.' . $extension;
-
-							$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
-						}
+						$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
 					}
 				}
 			}
 
 			foreach ($this->request->post['product_variant']['variant'] as $key => $product_variant) {
 				if (filter_var($product_variant['image'], FILTER_VALIDATE_URL)) {
-					$headers = get_headers($product_variant['image'], 1);
+					$filename = str_replace('.', '', $product_variant['model']) . '_v';
 
-					if (isset($headers['content-type'])) {
-						$headers['Content-Type'] = $headers['content-type'];
-					}
+					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
 
-					if (strpos($headers['Content-Type'], 'image/') !== false) {
-						$extension = str_replace('image/', '', $headers['Content-Type']);
-						$filename = str_replace('.', '', $product_variant['model']) . '_v';
-
-						$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename . '.' . $extension;
-
-						$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
-					}
+					$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
 				}
-			}
-
+			} */
+			
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -1807,13 +1751,13 @@ class ControllerCatalogProduct extends Controller
 
 					$option_value_data = $this->model_catalog_option->getOptionValues($option['option_id']);
 
-					$sort_order = array();
+					// $sort_order = array();
 
-					foreach ($option_value_data as $key => $value) {
-						$sort_order[$key] = $value['name'];
-					}
+					// foreach ($option_value_data as $key => $value) {
+					// 	$sort_order[$key] = $value['name'];
+					// }
 
-					array_multisort($sort_order, SORT_ASC, $option_value_data);
+					// array_multisort($sort_order, SORT_ASC, $option_value_data);
 
 					if (!isset($option['name'])) {
 						$option_name = $this->model_catalog_option->getOption($option['option_id'])['name'];
@@ -1953,6 +1897,56 @@ class ControllerCatalogProduct extends Controller
 
 				if ($url_alias_info && !isset($this->request->get['product_id'])) {
 					$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+				}
+			}
+		}
+
+		if (!$this->error) {
+			$filename = str_replace('.', '', $this->request->post['product_variant']['variant'][0]['model']);
+
+			if (filter_var($this->request->post['image'], FILTER_VALIDATE_URL)) {
+				$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
+
+				$this->request->post['image'] = $this->model_tool_image->getImage($this->request->post['image'], $new_image, 800, 800);
+
+				if (!$this->request->post['image']) {
+					$this->error['warning'] = sprintf($this->language->get('error_image'));
+
+					return !$this->error;
+				}
+			}
+
+			if (isset($this->request->post['product_image'])) {
+				foreach ($this->request->post['product_image'] as $key => $product_image) {
+					if (filter_var($product_image['image'], FILTER_VALIDATE_URL)) {
+						$new_image = $filename . '_' . ($key + 2);
+
+						$new_image = 'catalog/product/' . substr($new_image, 0, 2) . '/' . $new_image;
+
+						$this->request->post['product_image'][$key]['image'] = $this->model_tool_image->getImage($product_image['image'], $new_image, 800, 800);
+
+						if (!$this->request->post['product_image'][$key]['image']) {
+							$this->error['warning'] = sprintf($this->language->get('error_image'));
+
+							return !$this->error;
+						}
+					}
+				}
+			}
+
+			foreach ($this->request->post['product_variant']['variant'] as $key => $product_variant) {
+				if (filter_var($product_variant['image'], FILTER_VALIDATE_URL)) {
+					$filename = str_replace('.', '', $product_variant['model']) . '_v';
+
+					$new_image = 'catalog/product/' . substr($filename, 0, 2) . '/' . $filename;
+
+					$this->request->post['product_variant']['variant'][$key]['image'] = $this->model_tool_image->getImage($product_variant['image'], $new_image, 800, 800);
+
+					if (!$this->request->post['product_variant']['variant'][$key]['image']) {
+						$this->error['warning'] = sprintf($this->language->get('error_image'));
+
+						return !$this->error;
+					}
 				}
 			}
 		}

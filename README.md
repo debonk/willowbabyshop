@@ -1,5 +1,10 @@
 # willowbabyshop software
 
+3.1.10	19/03/2024
+Catalog > Tools: Upload massal
+System > Image: Repair get image function
+Sysinfo > Deprecated Function Updated 
+
 3.1.9	03/06/2024
 APP > Product: Perbaikan schema.org mark_up
 Products: Hapus 263 produk yang sudah discontinue

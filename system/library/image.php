@@ -7,28 +7,25 @@ class Image
 	private $height;
 	private $bits;
 	private $mime;
+	private $extension;
+	private $image_types = [
+		'jpg',
+		'jpeg',
+		'png',
+		'gif'
+	];
+
 
 	public function __construct($file)
 	{
 		if (filter_var($file, FILTER_VALIDATE_URL)) {
-			$headers = get_headers($file, 1);
-
-			if (isset($headers['content-type'])) {
-				$headers['Content-Type'] = $headers['content-type'];
-			}
-
-			if (strpos($headers['Content-Type'], 'image/') !== false) {
-				$external_source = true;
-			} else {
-				$external_source = false;
-			}
+			$file = $this->getImageByCurl($file, 'catalog/product_image_temp');
 		}
-
-		if (file_exists($file) || $external_source) {
+		
+		if (!empty($file) && file_exists($file)) {
 			$this->file = $file;
 
 			$info = getimagesize($file);
-
 			$this->width  = $info[0];
 			$this->height = $info[1];
 			$this->bits = isset($info['bits']) ? $info['bits'] : '';
@@ -41,8 +38,12 @@ class Image
 			} elseif ($this->mime == 'image/jpeg') {
 				$this->image = imagecreatefromjpeg($file);
 			}
+
+			// unlink($file);
+
 		} else {
-			exit('Error: Could not load image ' . $file . '!');
+			return;
+			// exit('Error: Could not load image ' . $file . '!');
 		}
 	}
 
@@ -74,6 +75,11 @@ class Image
 	public function getMime()
 	{
 		return $this->mime;
+	}
+
+	public function getExtension()
+	{
+		return $this->extension;
 	}
 
 	public function save($file, $quality = 90)
@@ -233,4 +239,59 @@ class Image
 
 		return array($r, $g, $b);
 	}
+
+	public function getImageByCurl($url_source, $new_image)
+	{
+		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
+			$url_destination = DIR_IMAGE . $new_image;
+
+			$ch = curl_init($url_source);
+			$fp = fopen($url_destination, 'wb');
+
+			$options = array(
+				CURLOPT_FILE => $fp,
+				CURLOPT_HEADER => 0,
+				CURLOPT_FOLLOWLOCATION => 1,
+				CURLOPT_TIMEOUT => 20
+			); // 1 minute timeout (should be enough)
+			curl_setopt_array($ch, $options);
+
+			curl_exec($ch);
+
+			$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+			curl_close($ch);
+			fclose($fp);
+
+			if (strpos($content_type, 'image/') !== false) {
+				$content_type = explode(';', $content_type)[0];
+				$extension = str_replace('image/', '', $content_type);
+
+			} else {
+				// unlink($url_destination);
+
+				$extension = pathinfo($url_source, PATHINFO_EXTENSION);
+			}
+
+			if (in_array($extension, $this->image_types)) {
+				$this->extension = $extension;
+
+				rename($url_destination, $url_destination . '.' . $this->extension);
+	
+				return  $url_destination . '.' . $this->extension;
+			}
+		}
+
+		return;
+	}
+
+	// public function getContentType($url)
+	// {
+	// 	$ch = curl_init($url);
+	// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	// 	curl_exec($ch);
+	// 	$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+	// 	curl_close($ch);
+
+	// 	return $content_type;
+	// }
 }

@@ -62,59 +62,21 @@ class ModelToolImage extends Model
 				}
 			}
 
-			list($width_orig, $height_orig) = getimagesize($url_source);
+			$image = new Image($url_source);
 
-			if ($width_orig > $width || $height_orig > $height) {
-				$image = new Image($url_source);
-				$image->resize($width, $height);
+			if (!empty($image->getFile())) {
+				$new_image .=  '.' . $image->getExtension();
+
+				if ($image->getWidth() > $width || $image->getHeight() > $height) {
+					$image->resize($width, $height);
+				}
+
 				$image->save(DIR_IMAGE . $new_image);
-			} else {
-				copy($url_source, DIR_IMAGE . $new_image);
-			}
-
-			return $new_image;
-		} else {
-			return;
-		}
-	}
-
-	# This function is not used. Use this in case getImage function does not work.
-	public function getImageByCurl($url_source, $new_image)
-	{
-		if (filter_var($url_source, FILTER_VALIDATE_URL)) {
-			$headers = get_headers($url_source, 1);
-
-			if (isset($headers['content-type'])) {
-				$headers['Content-Type'] = $headers['content-type'];
-			}
-
-			if (strpos($headers['Content-Type'], 'image/') !== false) {
-				$url_destination = DIR_IMAGE . $new_image;
-
-				$ch = curl_init($url_source);
-				$fp = fopen($url_destination, 'wb');
-
-				$options = array(
-					CURLOPT_FILE => $fp,
-					CURLOPT_HEADER => 0,
-					CURLOPT_FOLLOWLOCATION => 1,
-					CURLOPT_TIMEOUT => 20
-				); // 1 minute timeout (should be enough)
-				curl_setopt_array($ch, $options);
-
-				// curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-				// curl_setopt($ch, CURLOPT_FILE, $fp);
-				// curl_setopt($ch, CURLOPT_HEADER, 0);
-				// curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-				
-				curl_exec($ch);
-				curl_close($ch);
-				fclose($fp);
 
 				return $new_image;
 			}
+		} else {
+			return;
 		}
-
-		return;
 	}
 }

@@ -156,7 +156,7 @@ class ModelCatalogOption extends Model
 			$sql .= " AND ov.option_value_id IN (" . $this->db->escape(implode(', ', $option_value_ids)) . ")";
 		}
 
-		$sql .= " ORDER BY ov.sort_order, ovd.name";
+		$sql .= " ORDER BY ov.sort_order ASC, ovd.name ASC";
 		
 		$option_value_query = $this->db->query($sql);
 

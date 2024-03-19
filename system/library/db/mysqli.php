@@ -12,9 +12,6 @@ final class MySQLi {
 
 		$this->connection->set_charset("utf8");
 		$this->connection->query("SET SQL_MODE = ''");
-		
-		$dt = new \DateTime();
-		$this->connection->query("SET time_zone='" . $dt->format('P') . "';");
 	}
 
 	public function query($sql) {
@@ -52,20 +49,33 @@ final class MySQLi {
 		return $this->connection->affected_rows;
 	}
 
-	public function getServerInfo() {
-		return $this->connection->server_info;
-	}
-	
-	public function getHostInfo() {
-		return $this->connection->host_info;
-	}
-
 	public function getLastId() {
 		return $this->connection->insert_id;
 	}
 	
 	public function connected() {
 		return $this->connection->connected();
+	}
+	
+	public function beginTransaction() {
+		$this->connection->begin_transaction();
+		$this->connection->autocommit(false);
+	}
+	
+	public function commit() {
+		$this->connection->commit();
+	}
+	
+	public function rollback() {
+		$this->connection->rollback();
+	}
+	
+	public function getServerInfo() {
+		return $this->connection->server_info;
+	}
+	
+	public function getHostInfo() {
+		return $this->connection->host_info;
 	}
 	
 	public function __destruct() {

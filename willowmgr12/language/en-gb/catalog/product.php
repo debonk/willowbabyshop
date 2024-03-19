@@ -134,6 +134,7 @@ $_['error_model_used']			= 'Model already in use!';
 $_['error_option']				= 'Use only one Model for product with no option/variant!';
 $_['error_sku_used']       	 	= 'SKU already in use!';
 $_['error_variant']       	 	= 'At least 1 variant must be set!';
+$_['error_image']       	 	= 'Warning: Couldn\'t load image or image type not supported!';
 
 // Tab
 $_['tab_variant']       	 	= 'Variant';

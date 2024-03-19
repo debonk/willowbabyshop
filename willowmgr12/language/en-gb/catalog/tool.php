@@ -16,9 +16,11 @@ $_['entry_new_product']= 'New Products';
 // Error
 $_['error_permission']	= 'Warning: You do not have permission to modify Catalog Tools!';
 $_['error_empty']		= 'Warning: The file you uploaded was empty!';
-$_['error_model_name']	= 'Model or name not found.';
-$_['error_registered']	= '%s: Product has been registered before.';
+$_['error_header']		= 'Warning: The file you uploaded was corrupted. Please redownload file template.';
+$_['error_required']	= '%s: Required data not found.';
+// $_['error_model_name']	= 'Model or name not found.';
+$_['error_registered']	= '%s: Product exist.';
 $_['error_option']		= '%s: Option data not found.';
-$_['error_image_type']	= '%s: Image type not supported.';
+$_['error_image_type']	= '%s: Couldn\'t load image or image type not supported.';
 $_['error_image']		= '%s: Main image not found.';
 $_['error_warning']		= 'Warning: Your log file %s is %s!';

@@ -224,8 +224,8 @@
             <tr>
                 <td class="uk-text-left"><?php echo $text_magic_quotes;?></td>
                 <td><?php echo $text_off; ?></td>
-                <td><?php echo (ini_get('magic_quotes_gpc') || get_magic_quotes_gpc()) ? '<span class="uk-badge uk-badge-danger">'.$text_on.'</span>' : $text_off; ?></td>
-                <td><?php echo (!ini_get('magic_quotes_gpc') || !get_magic_quotes_gpc()) ? '<i class="uk-icon-check uk-icon-small uk-text-success"></i>' : '<i class="uk-icon-times uk-icon-small uk-text-danger"></i>'; ?></td>
+                <td><?php echo (ini_get('magic_quotes_gpc') || function_exists('get_magic_quotes_gpc')) ? '<span class="uk-badge uk-badge-danger">'.$text_on.'</span>' : $text_off; ?></td>
+                <td><?php echo (!ini_get('magic_quotes_gpc') || !function_exists('get_magic_quotes_gpc')) ? '<i class="uk-icon-check uk-icon-small uk-text-success"></i>' : '<i class="uk-icon-times uk-icon-small uk-text-danger"></i>'; ?></td>
             </tr>
             <tr>
                 <td class="uk-text-left"><?php echo $text_session_start;?></td>
