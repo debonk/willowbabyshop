@@ -18,7 +18,7 @@
 		require( ThemeControlHelper::getLayoutPath( 'common/block-footcols.tpl' ) );
 		if( count($modules) <=0 ){
 			$footer_layout = $helper->getConfig('footer_layout','theme');
-			if($footer_layout == "default") {
+			if(!$footer_layout == "default") {
 				require( ThemeControlHelper::getLayoutPath( 'common/footer/default.tpl' ) );
 			} 
 			else {

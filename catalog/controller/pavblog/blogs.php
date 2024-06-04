@@ -294,7 +294,7 @@ class ControllerPavblogBlogs extends Controller {
 				$pagination->total = $total;
 				$pagination->page = $page;
 				$pagination->limit =  $limit;
-				$pagination->text = $this->language->get('text_pagination');
+				// $pagination->text = $this->language->get('text_pagination');
 				$pagination->url = $this->url->link('pavblog/blogs',  $url . '&page={page}');
 
 				$this->mdata['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($total - $limit)) ? $total : ((($page - 1) * $limit) + $limit), $total, ceil($total / $limit));

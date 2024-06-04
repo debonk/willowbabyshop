@@ -60,6 +60,7 @@ class ControllerInformationContact extends Controller {
 		$data['text_address'] = $this->language->get('text_address');
 		$data['text_telephone'] = $this->language->get('text_telephone');
 		$data['text_fax'] = $this->language->get('text_fax');
+		$data['text_email'] = $this->language->get('text_email');
 		$data['text_wa'] = $this->language->get('text_wa');
 		$data['text_open'] = $this->language->get('text_open');
 		$data['text_comment'] = $this->language->get('text_comment');
@@ -107,6 +108,7 @@ class ControllerInformationContact extends Controller {
 		$data['telephone'] = $this->config->get('config_telephone');
 		$data['fax'] = $this->config->get('config_fax');
 		$data['wa'] = $this->config->get('config_wa');
+		$data['service_email'] = $this->config->get('config_email');
 		$data['bbm'] = $this->config->get('config_bbm');
 		$data['line'] = $this->config->get('config_line');
 		$data['open'] = nl2br($this->config->get('config_open'));

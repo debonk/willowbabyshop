@@ -1204,7 +1204,8 @@ class ControllerSettingSetting extends Controller {
 			}
 		}
 
-		if ((utf8_strlen($this->request->post['config_telephone']) < 3) || (utf8_strlen($this->request->post['config_telephone']) > 32)) {
+		// if ((utf8_strlen($this->request->post['config_telephone']) < 3) || (utf8_strlen($this->request->post['config_telephone']) > 32)) {
+		if (utf8_strlen($this->request->post['config_telephone']) > 32) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 

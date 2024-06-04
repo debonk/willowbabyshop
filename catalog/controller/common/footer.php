@@ -101,6 +101,19 @@ class ControllerCommonFooter extends Controller {
 		$data['blogs'] = $this->url->link('pavblog/blogs', '', true);//Bonk
 		// $data['career'] = $this->url->link('information/career');//Bonk
 
+		$data['services'] = [];
+
+		$services_items = [
+			'telephone',
+			'wa',
+			'email'
+		];
+		foreach ($services_items as $item) {
+			if ($this->config->get('config_' . $item)) {
+				$data['services'][] = sprintf($this->language->get('text_service_' . $item), $this->config->get('config_' . $item));
+			}
+		}
+
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
 		// Whos Online

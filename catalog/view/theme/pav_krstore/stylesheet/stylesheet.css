@@ -7663,7 +7663,7 @@ footer .footer-bottom .col-right {
   padding: 0 10px 0 40px;
 }
 footer h4.panel-title {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: normal;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -7677,10 +7677,10 @@ footer ul li {
   padding: 0 !important;
   font-family: "Proxima Nova";
   font-size: 13px;
-  color: #aaaaaa;
+  color: #7d3b1c;
 }
 footer ul li a {
-  color: #aaaaaa;
+  color: #89c765;
   text-transform: capitalize;
   font-family: "Proxima Nova";
   font-size: 13px;
@@ -8348,7 +8348,7 @@ footer ul li a:hover {
   color: #ea5959;
 }
 .product-block .price-old {
-  color: #bbbbbb;
+  color: #7d3b1c;
   font-size: 12px;
   margin-left: 0;
   text-decoration: line-through;

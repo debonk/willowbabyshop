@@ -91,7 +91,7 @@ $logoType = $helper->getConfig('logo_type','logo-theme'); ?>
     <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
     <?php } ?>
     <?php foreach ($helper->getCssLinks() as $link) { ?>
-    <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
+    <link href="<?php echo $link['href'] . '?v=' . VERSION; ?>" rel="<?php echo $link['rel']; ?>" />
     <?php } ?>
     <?php foreach( $helper->getScriptFiles() as $script )  { ?>
     <script type="text/javascript" src="<?php echo $script; ?>"></script>

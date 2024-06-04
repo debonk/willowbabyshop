@@ -22,23 +22,40 @@
 					<div class="column col-lg-3 col-md-3 col-sm-6 col-xs-12 space-15 space-top-15">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<?= $text_extra; ?>
+								<?= $text_service; ?>
 							</h4>
 						</div>
 						<ul class="list-unstyled">
-							<li><a href="<?= $manufacturer; ?>">
-									<?= $text_manufacturer; ?>
+							<?php foreach ($services as $service) { ?>
+								<li><?= $service; ?>
+								</li>
+								<?php } ?>
+							<li><a href="<?= $contact; ?>">
+									<?= $text_contact; ?>
 								</a></li>
-							<li><a href="<?= $voucher; ?>">
-									<?= $text_voucher; ?>
-								</a></li>
-							<!--						  <li><a href="<?= $affiliate; ?>"><?= $text_affiliate; ?></a></li>
+							<!--							<li><a href="<?= $return; ?>"><?= $text_return; ?></a></li>
 -->
-							<li><a href="<?= $special; ?>">
-									<?= $text_special; ?>
-								</a></li>
 						</ul>
 					</div>
+					<?php if ($informations) { ?>
+						<div class="column col-lg-3 col-md-3 col-sm-6 col-xs-12 space-15 space-top-15">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<?= $text_information; ?>
+								</h4>
+							</div>
+							<ul class="list-unstyled">
+								<?php foreach ($informations as $information) { ?>
+								<li><a href="<?= $information['href']; ?>">
+										<?= $information['title']; ?>
+									</a></li>
+								<?php } ?>
+								<li><a href="<?= $blogs; ?>">
+										<?= $text_blogs; ?>
+									</a></li>
+							</ul>
+						</div>
+						<?php } ?>
 					<div class="column col-lg-3 col-md-3 col-sm-6 col-xs-12 space-15 space-top-15">
 						<div class="panel-heading">
 							<h4 class="panel-title">
@@ -60,38 +77,25 @@
 -->
 						</ul>
 					</div>
-					<?php if ($informations) { ?>
 					<div class="column col-lg-3 col-md-3 col-sm-6 col-xs-12 space-15 space-top-15">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<?= $text_information; ?>
+								<?= $text_extra; ?>
 							</h4>
 						</div>
 						<ul class="list-unstyled">
-							<?php foreach ($informations as $information) { ?>
-							<li><a href="<?= $information['href']; ?>">
-									<?= $information['title']; ?>
+							<li><a href="<?= $manufacturer; ?>">
+									<?= $text_manufacturer; ?>
 								</a></li>
-							<?php } ?>
-							<li><a href="<?= $blogs; ?>">
-									<?= $text_blogs; ?>
+							<li><a href="<?= $voucher; ?>">
+									<?= $text_voucher; ?>
 								</a></li>
-						</ul>
-					</div>
-					<?php } ?>
-					<div class="column col-lg-3 col-md-3 col-sm-6 col-xs-12 space-15 space-top-15">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<?= $text_service; ?>
-							</h4>
-						</div>
-						<ul class="list-unstyled">
-							<li><a href="<?= $contact; ?>">
-									<?= $text_contact; ?>
-								</a></li>
-							<!--							<li><a href="<?= $return; ?>"><?= $text_return; ?></a></li>
+							<!--						  <li><a href="<?= $affiliate; ?>"><?= $text_affiliate; ?></a></li>
 -->
-							<li><a href="<?= $sitemap; ?>">
+							<li><a href="<?= $special; ?>">
+									<?= $text_special; ?>
+								</a></li>
+								<li><a href="<?= $sitemap; ?>">
 									<?= $text_sitemap; ?>
 								</a></li>
 						</ul>

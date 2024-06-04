@@ -1,5 +1,21 @@
 # willowbabyshop software
 
+3.1.11	04/06/2024
+Footer, Contact: Perbaikan template
+Location: Nama bisa hingga 54 karakter
+
+MODIFY TABLE
+ALTER TABLE oc_location MODIFY COLUMN name varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+SET GLOBAL sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION'; SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION';	--JIKA DIBUTUHKAN
+ALTER TABLE oc_product ENGINE=InnoDB;
+ALTER TABLE oc_product_discount ENGINE=InnoDB;
+ALTER TABLE oc_product_special ENGINE=InnoDB;
+ALTER TABLE oc_return ENGINE=InnoDB;
+ALTER TABLE oc_coupon ENGINE=InnoDB;
+ALTER TABLE oc_geo_zone ENGINE=InnoDB;
+ALTER TABLE oc_zone_to_geo_zone ENGINE=InnoDB;
+
 3.1.10	19/03/2024
 Catalog > Tools: Upload massal
 System > Image: Repair get image function

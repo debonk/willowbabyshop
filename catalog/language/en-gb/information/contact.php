@@ -10,8 +10,9 @@ $_['text_contact']   = 'Contact Form';
 $_['text_address']   = 'Address';
 $_['text_telephone'] = 'Telephone';
 $_['text_fax']       = 'Fax';
+$_['text_email']     = 'Email';
 $_['text_wa']        = 'Whatsapp';
-$_['text_open']      = 'Opening Times';
+$_['text_open']      = 'Opening Hours';
 $_['text_comment']   = 'Comments';
 $_['text_success']   = '<p>Your enquiry has been successfully sent!</p>';
 
